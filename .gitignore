@@ -11,7 +11,7 @@ wp-content/wp-cache-config.php
 wp-content/plugins/hello.php
 
 plugins/decomments/
-plugins/drag0drop-featured-image/
+plugins/drag-drop-featured-image/
 plugins/regenerate-thumbnails/
 plugins/taxonomy-switcher/
 plugins/term-management-tools/
@@ -28,8 +28,9 @@ plugins\theme-my-login\
 plugins\wordpress-social-login\
 plugins\wp-smushit\
 
-\themes\Dailies\js\jquery.dfp.js
+themes\Dailies\js\jquery.dfp.js
 uploads\
+uploads/
 upgrade\
 
 wp-content/themes/Dailies/js/jquery.dfp.js
