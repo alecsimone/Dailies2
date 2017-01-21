@@ -1,0 +1,1259 @@
+/*
+ Theme Name:   Dailies
+ Theme URI:    http://therocketdailies.com/wp-content/themes/Dailies
+ Description:  The base Dailies theme. This is the parent theme, and each individual site will have its own child theme that adds styling, etc
+ Author:       Alec Simone
+ Version:      1.0.0 
+ Text Domain:  dailies
+
+ ---------------- Theme customization starts here -------------------------------------------------------------- */
+/*-------- Universal Declarations -----------*/
+html, body {
+  height: 100%;
+  /* This and min-height help the background work on mobile */
+  min-height: 100%;
+  font-family: proxima-nova, sans-serif;
+  color: rgba(255, 253, 249, 0.8);
+  margin: 0px;
+  padding: 0px;
+  text-align: center;
+  transition: all .25s ease-out; }
+
+body:before {
+  /* Background hack to play a little nicer on mobile */
+  content: "";
+  display: block;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -10;
+  background: #424242; }
+
+a, a:visited {
+  color: rgba(58, 122, 195, 0.9); }
+
+h3 {
+  font-size: 24px;
+  line-height: 1.1em;
+  margin: 0px; }
+  @media screen and (min-width: 687px) {
+    h3 {
+      font-size: 30px; } }
+
+/*---------------------------------------------------------
+1. Fundamental Structure
+This is for the broad architectural stuff. This includes:
+	A- the header, which exists on the top of every page and retracts on scrolling using headroom.js
+	B- The tagbar, which goes right below the header
+	C- The wrapper, which is below the tagbar and has two parts of its own
+		i- The contentContainer, which holds the page's content
+			a- Section Heads
+		ii- The sidebar, which holds the userboxes and a topposts list. For now. I plan to add more things to it but most likely will forget to update this description.
+The site uses infinite scroll and thus has no footer
+	D- Return to Top
+---------------------------------------------------------*/
+/*----------- 1A: header ----------- */
+#menu-links-wrapper {
+  background: url("http://therocketdailies.com/wp-content/uploads/2016/10/LeatherBG.jpg");
+  opacity: .9;
+  z-index: 3;
+  position: relative;
+  width: 100%;
+  top: 0px; }
+
+.headroom {
+  will-change: transform;
+  transition: transform 200ms linear; }
+
+.headroom--pinned {
+  -webkit-transform: translateY(0%);
+  -ms-transform: translateY(0%);
+  transform: translateY(0%); }
+
+.headroom--unpinned {
+  -webkit-transform: translateY(-100%);
+  -ms-transform: translateY(-100%);
+  transform: translateY(-100%); }
+
+#menu-links-placeholder {
+  display: block;
+  height: 48px;
+  margin-bottom: 12px; }
+
+#menu-links {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  width: 100%;
+  height: auto;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 0px;
+  margin: 0px auto;
+  color: rgba(255, 253, 249, 0.8);
+  font-size: 24px;
+  line-height: 24px;
+  text-align: left;
+  font-family: "proxima-nova-condensed", sans-serif; }
+  #menu-links a {
+    padding: 12px 0px;
+    display: inline-block;
+    color: rgba(255, 253, 249, 0.8);
+    width: 16%;
+    text-align: center;
+    text-decoration: none;
+    flex-grow: 1;
+    transition: max-width .3s; }
+    #menu-links a:hover {
+      background: rgba(0, 0, 0, 0.6);
+      text-decoration: underline; }
+
+.mobileHide {
+  max-width: 0px;
+  overflow: hidden; }
+  @media screen and (min-width: 687px) {
+    .mobileHide {
+      max-width: none; } }
+
+a#medal {
+  flex-basis: 30px;
+  padding: 6px 0px;
+  line-height: 0px; }
+
+img.headermedal {
+  width: 32px; }
+
+a#search {
+  flex-basis: 80px;
+  cursor: pointer; }
+
+#searchbox {
+  width: 400px;
+  max-width: 0px;
+  height: 46px;
+  overflow: hidden;
+  position: relative;
+  transition: all .3s; }
+
+input.search-submit {
+  position: absolute;
+  right: 4px;
+  top: 10px;
+  opacity: .8; }
+
+input#searchform {
+  width: 400px;
+  height: 32px;
+  margin: 7px 0px; }
+
+a#winners {
+  color: rgba(215, 176, 82, 0.95);
+  flex-basis: 90px;
+  font-weight: bold; }
+
+#menu-links a.hamburger {
+  padding: 7px 0px;
+  flex-basis: 40px;
+  line-height: 0px; }
+  @media screen and (min-width: 687px) {
+    #menu-links a.hamburger {
+      display: none; } }
+
+.hamburger-icon {
+  width: 30px;
+  height: auto;
+  line-height: 0px; }
+
+a#best {
+  flex-basis: 60px; }
+
+a#underdogs {
+  color: rgba(64, 162, 78, 0.9);
+  flex-basis: 110px;
+  font-weight: bold; }
+
+a#stars {
+  flex-basis: 80px; }
+
+a#source {
+  flex-basis: 110px; }
+
+a#skills {
+  flex-basis: 80px; }
+
+a#rules {
+  flex-basis: 80px; }
+
+a#enter {
+  flex-basis: 100px; }
+
+a#twitter, a#youtube, a#twitch {
+  flex-basis: 40px;
+  padding: 7px 0px;
+  line-height: 0px; }
+
+.socialimg {
+  width: 34px;
+  height: auto;
+  line-height: 0px; }
+
+/*----------- 1B: tagbar ----------- */
+#tagbar {
+  width: 100%;
+  height: auto;
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 2px;
+  white-space: nowrap;
+  padding: 12px 0px;
+  margin: 0px auto;
+  color: rgba(255, 253, 249, 0.8);
+  text-align: left; }
+  @media screen and (min-width: 687px) {
+    #tagbar {
+      font-size: 20px; } }
+  @media screen and (min-width: 850px) {
+    #tagbar {
+      margin: 0px auto 24px; } }
+  @media screen and (min-width: 941px) {
+    #tagbar {
+      margin: 0px auto 18px; } }
+
+#taglist {
+  height: 75px;
+  width: 100%;
+  font-size: 0px;
+  margin: auto;
+  position: relative;
+  overflow: hidden; }
+  @media screen and (min-width: 687px) {
+    #taglist {
+      height: 150px; } }
+  @media screen and (min-width: 850px) {
+    #taglist {
+      width: calc(100% - 100px); } }
+
+.scrollWrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%; }
+
+.scrollableArea {
+  position: relative;
+  width: auto;
+  height: 100%; }
+
+.barItem {
+  height: 75px;
+  width: 133.33333px;
+  margin: 0px 2px;
+  display: inline-block;
+  position: relative; }
+  @media screen and (min-width: 687px) {
+    .barItem {
+      height: 150px;
+      width: 266.66667px; } }
+  @media screen and (min-width: 850px) {
+    .barItem {
+      width: calc(100% / 4 - 6px);
+      margin: 0px 3px; } }
+  @media screen and (min-width: 1280px) {
+    .barItem {
+      width: calc(100% / 5 - 6px); } }
+
+a.barItemLink {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  left: 0px;
+  top: 0px;
+  background: rgba(45, 29, 18, 0.5);
+  color: rgba(0, 0, 0, 0.6);
+  text-decoration: none;
+  text-shadow: 0 0px 6px rgba(0, 0, 0, 0.8);
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 75px;
+  transition: all .2s; }
+  a.barItemLink:hover {
+    text-decoration: underline;
+    background: rgba(0, 0, 0, 0.8);
+    color: rgba(255, 253, 249, 0.8);
+    text-shadow: none; }
+  a.barItemLink.skills {
+    color: rgba(58, 122, 195, 0.9); }
+  a.barItemLink.stars {
+    color: rgba(215, 176, 82, 0.95); }
+  a.barItemLink.source {
+    color: rgba(64, 162, 78, 0.9); }
+  @media screen and (min-width: 687px) {
+    a.barItemLink {
+      line-height: 150px;
+      font-size: 24px; } }
+
+a.barButton {
+  display: none;
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  padding: 0;
+  width: 30px;
+  text-align: center;
+  text-decoration: none;
+  color: rgba(255, 253, 249, 0.5);
+  background: rgba(0, 0, 0, 0.6);
+  line-height: 75px;
+  font-size: 21px;
+  font-weight: bold;
+  z-index: 2;
+  transition: color .2s; }
+  @media screen and (min-width: 687px) {
+    a.barButton {
+      line-height: 150px;
+      font-size: 30px;
+      width: 50px; } }
+  @media screen and (min-width: 850px) {
+    a.barButton {
+      display: block; } }
+
+a#morebar {
+  right: 0px; }
+
+a#lessbar {
+  left: 0px;
+  color: transparent; }
+
+/*----------- 1C: wrapper ----------- */
+@media screen and (min-width: 850px) {
+  .wrapper {
+    width: calc(100% - 24px);
+    max-width: 1710px;
+    margin: auto;
+    position: relative; } }
+
+/*----------- 1Ci: contentContainer ----------- */
+.contentContainer {
+  padding-bottom: 150px;
+  overflow: hidden; }
+  @media screen and (min-width: 850px) {
+    .contentContainer {
+      position: absolute;
+      left: 0px;
+      width: calc(75% - 6px);
+      max-width: 1280px;
+      display: inline-block; } }
+
+@media screen and (min-width: 850px) {
+  .contentContainer header#repHeader, .contentContainer #userbox {
+    display: none; } }
+
+.loop-ad {
+  padding: 12px 0;
+  background: url("http://therocketdailies.com/wp-content/uploads/2016/10/Dark-Blue-Gradient.jpg") center/contain;
+  border-bottom: 1px solid #000; }
+
+/*----------- 1Cia: Section Heads ----------- */
+.section-head {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0px auto;
+  font-size: 32px;
+  font-weight: bold;
+  line-height: 0px;
+  padding: 0px;
+  border-radius: 2px 2px 0px 0px; }
+  .section-head img {
+    width: 100%;
+    height: auto; }
+  @media screen and (min-width: 941px) {
+    .section-head {
+      max-width: 1280px; } }
+
+/*----------- 1Cii: sidebar ----------- */
+#sidebar {
+  display: none; }
+  @media screen and (min-width: 850px) {
+    #sidebar {
+      width: calc(25% - 6px);
+      right: 0px;
+      display: inline-block;
+      position: absolute;
+      vertical-align: top;
+      border-radius: 2px;
+      box-shadow: 0 1px 1px rgba(173, 168, 168, 0.1); } }
+
+.sideHeader {
+  font-size: 24px;
+  line-height: 1em;
+  font-weight: bold;
+  background: url("http://therocketdailies.com/wp-content/uploads/2017/01/Chocolate.png") center/cover;
+  padding: 24px 0px;
+  font-weight: bold;
+  color: rgba(255, 253, 249, 0.8);
+  border-radius: 2px 2px 0px 0px; }
+  @media screen and (min-width: 850px) {
+    .sideHeader {
+      border-radius: 2px; } }
+
+.goldBG, #repHeader, #repFooter {
+  background: url("http://therocketdailies.com/wp-content/uploads/2016/12/repHeader.jpg") center/contain;
+  color: #262626; }
+
+#repFooter {
+  margin-top: 12px;
+  border-radius: 2px;
+  width: calc( (100% + 6px) * 4 - 48px - 24px - (100% + 6px) * 3 ); }
+  @media screen and (min-width: 1750px) {
+    #repFooter {
+      width: 84%; } }
+  @media screen and (min-width: 1864px) {
+    #repFooter {
+      width: 100%; } }
+
+.repScore {
+  display: inline-block; }
+
+#userbox {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: auto;
+  margin-bottom: 12px; }
+  @media screen and (min-width: 687px) {
+    #userbox {
+      margin-bottom: 18px; } }
+  @media screen and (min-width: 850px) {
+    #userbox {
+      margin-bottom: 12px; } }
+  @media screen and (min-width: 1280px) {
+    #userbox {
+      justify-content: space-around; } }
+
+p.userbox {
+  margin: 0px;
+  padding: 12px 15px;
+  font-size: 18px;
+  text-align: center; }
+  p.userbox a {
+    color: rgba(255, 253, 249, 0.8); }
+
+.wp-social-login-connect-with {
+  font-size: 18px; }
+
+a.wp-social-login-provider {
+  color: transparent;
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  display: inline-block;
+  margin: 0px 6px; }
+
+.wp-social-login-provider-list {
+  padding: 12px 0; }
+
+.wp-social-login-provider-facebook {
+  background: url("http://therocketdailies.com/wp-content/uploads/2016/09/FB.png") center/cover; }
+
+.wp-social-login-provider-google {
+  background: url("http://therocketdailies.com/wp-content/uploads/2016/12/G.png") center/cover; }
+
+.wp-social-login-provider-twitter {
+  background: url("http://therocketdailies.com/wp-content/uploads/2016/09/TWT.png") center/cover; }
+
+.wp-social-login-provider-steam {
+  background: url("http://therocketdailies.com/wp-content/uploads/2016/12/St.png") center/cover; }
+
+.wp-social-login-provider-twitchtv {
+  background: url("http://therocketdailies.com/wp-content/uploads/2016/09/TW.png") center/cover; }
+
+.sidebarSectionTitle {
+  font-size: 18px;
+  background: url("http://therocketdailies.com/wp-content/uploads/2016/10/Dark-Blue-Gradient.jpg") center/contain;
+  padding: 6px; }
+
+.topPost {
+  width: 100%;
+  margin: auto;
+  padding: 10px 3.5%;
+  background: rgba(255, 253, 249, 0.5);
+  box-sizing: border-box; }
+
+.pic-count {
+  position: relative; }
+
+.topPic {
+  position: relative;
+  line-height: 0px;
+  height: 150px;
+  overflow: hidden;
+  opacity: .6;
+  transition: all .2s; }
+
+.topPic:hover {
+  opacity: 1; }
+
+.count {
+  position: absolute;
+  bottom: 0em;
+  left: 0px;
+  padding: .5em 1em;
+  background: rgba(0, 0, 0, 0.9);
+  box-sizing: border-box;
+  line-height: 1em;
+  font-size: 12px; }
+
+a .count, a:visited .count {
+  color: rgba(255, 253, 249, 0.8); }
+  a .count:hover, a:visited .count:hover {
+    color: rgba(215, 176, 82, 0.95); }
+
+h3.sidebar {
+  font-size: 18px;
+  text-align: left;
+  line-height: 1.4em;
+  padding: .35em 0px 0px; }
+  h3.sidebar a {
+    color: rgba(0, 0, 0, 0.9);
+    text-shadow: 0 0 6px rgba(255, 253, 249, 0.8);
+    text-decoration: none; }
+    h3.sidebar a:hover {
+      text-decoration: underline; }
+
+/*----------- 1D: Return to Top ----------- */
+#return-to-top {
+  position: fixed;
+  bottom: 24px;
+  right: 12px;
+  width: 48px;
+  height: 48px;
+  display: block;
+  display: none;
+  transition: none;
+  opacity: .75;
+  z-index: 2; }
+  #return-to-top img {
+    width: 48px;
+    height: 48px; }
+  #return-to-top:hover {
+    opacity: 1; }
+
+a.earlier.nomore {
+  width: 100%;
+  height: 100px;
+  display: block;
+  line-height: 100px;
+  font-size: 18px;
+  color: rgba(255, 253, 249, 0.8);
+  background: url("http://therocketdailies.com/wp-content/uploads/2016/10/Dark-Blue-Gradient.jpg") center/contain; }
+
+/*---------------------------------------------------------
+2. Things
+	A- Topbar
+		i- votecount
+		ii- titlebox
+		iii- votebox
+	B- contentbox
+	C- storybox
+	D- commentbox
+	E- tagbox
+---------------------------------------------------------*/
+.thing {
+  width: 100%;
+  max-width: 1280px;
+  box-sizing: border-box;
+  margin: 10px auto;
+  border-radius: 2px;
+  color: #262626;
+  text-align: left;
+  background: #fff;
+  box-shadow: 0 1px 1px rgba(173, 168, 168, 0.1);
+  padding: 12px; }
+  @media screen and (min-width: 687px) {
+    .thing {
+      font-size: 20px; } }
+  @media screen and (min-width: 941px) {
+    .thing {
+      padding: 0px 12px 12px; } }
+
+@media screen and (min-width: 941px) {
+  .topbar, .storybox, .commentbox, .tagbar {
+    padding: 0px; } }
+
+/*----------- 3A: Topbar ----------- */
+.winnerbanner {
+  width: 100%;
+  line-height: 0px;
+  background: #2d2d2d;
+  border-radius: 2px 2px 0px 0px;
+  opacity: 1; }
+  .winnerbanner img {
+    width: 100%;
+    height: auto;
+    border-radius: 2px 2px 0px 0px; }
+  @media screen and (min-width: 941px) {
+    .winnerbanner {
+      width: calc(100% + 24px);
+      margin-left: -12px; } }
+
+.topbar {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  height: 60px;
+  border-radius: 2px 2px 0px 0px;
+  padding: 6px 0; }
+
+/*----------- 3Ai: votecount ----------- */
+.votecount {
+  font-size: 36px;
+  font-weight: bold; }
+
+/*----------- 3Aii: votebox ----------- */
+.votebox {
+  display: block;
+  position: relative;
+  height: 60px;
+  line-height: 0px;
+  margin: auto; }
+
+.socialIcon {
+  width: 48px;
+  height: auto;
+  margin-top: 6px;
+  left: 6px; }
+  @media screen and (min-width: 941px) {
+    .socialIcon {
+      left: 12px; } }
+
+a.share-button {
+  text-decoration: none; }
+
+.voteIcon {
+  cursor: pointer;
+  width: 60px; }
+  @media screen and (min-width: 941px) {
+    .voteIcon {
+      right: 12px; } }
+
+.explainer {
+  display: none; }
+  @media screen and (min-width: 687px) {
+    .explainer {
+      display: inline-block;
+      position: absolute;
+      right: 72px; } }
+
+img.explainer-arrow {
+  margin-left: 3px; }
+
+.onboardbox {
+  text-align: right;
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height .5s; }
+
+p.onboardText {
+  margin: 0px;
+  line-height: 1.5em; }
+
+/*----------- 3B: contentbox ----------- */
+.contentbox {
+  position: relative;
+  height: auto;
+  text-align: center;
+  background: #000;
+  color: rgba(255, 253, 249, 0.8);
+  line-height: 0px;
+  z-index: 0; }
+  .contentbox img {
+    max-width: 100%;
+    height: auto; }
+
+img.thumb {
+  width: 100%; }
+
+.loadingicon {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  width: 100px;
+  margin: auto;
+  z-index: -1; }
+
+.playbutton {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  margin: auto;
+  width: 48px;
+  pointer-events: none; }
+  @media screen and (min-width: 687px) {
+    .playbutton {
+      width: 60px; } }
+  @media screen and (min-width: 850px) {
+    .playbutton {
+      width: 72px; } }
+
+.embed-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  max-width: 100%; }
+
+.embed-container iframe, .embed-container object, .embed-container embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; }
+
+/*----------- 3C: storybox ----------- */
+.storybox {
+  height: auto;
+  padding: 6px 0px;
+  line-height: 1.5em; }
+  .storybox p, .storybox ol {
+    margin: 0px;
+    padding: .5em 0px;
+    max-width: 100%;
+    line-height: 1.5em; }
+  .storybox ol {
+    padding-bottom: 1em;
+    margin: auto; }
+  .storybox h5 {
+    max-width: 820px;
+    margin: 0px auto;
+    font-size: 1.3em;
+    font-weight: normal; }
+  .storybox li {
+    margin: .5em 0px; }
+
+.titlebox {
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 0px 0px 6px; }
+  .titlebox a {
+    color: #262626;
+    text-decoration: none; }
+    .titlebox a:hover {
+      text-decoration: underline; }
+
+p.attribution {
+  font-size: 15px;
+  line-height: 1.4em;
+  padding: 0px;
+  max-width: none; }
+
+p.attribution a, p.attribution a:visited {
+  color: rgba(215, 176, 82, 0.95); }
+
+.datebox {
+  padding: 6px 0;
+  margin-top: -12px;
+  font-size: 15px;
+  color: rgba(215, 176, 82, 0.95);
+  margin-left: 0; }
+
+/*----------- 3D: commentbox ----------- */
+.commentbox {
+  position: relative;
+  height: auto;
+  color: rgba(255, 253, 249, 0.8);
+  padding: 18px 6px;
+  font-size: 18px; }
+
+.comments-header {
+  font-weight: bold;
+  font-size: 1.2em;
+  padding-bottom: .1em; }
+
+.comments-header a {
+  color: rgba(58, 122, 195, 0.9); }
+
+.comment-preview-author {
+  display: inline; }
+  .comment-preview-author a {
+    color: rgba(58, 122, 195, 0.9);
+    text-decoration: none; }
+    .comment-preview-author a:hover {
+      text-decoration: underline; }
+
+.comment-form-container {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .5s ease; }
+
+p.logged-in-as {
+  font-size: 15px;
+  margin: 0; }
+
+p.members-only {
+  margin: 12px 0px;
+  font-size: 24px;
+  font-weight: bold;
+  color: rgba(64, 162, 78, 0.9); }
+
+a.userlink {
+  color: rgba(215, 176, 82, 0.95); }
+
+p.comment-form-comment {
+  margin: 12px 0px 3px; }
+
+textarea#comment {
+  width: 100%;
+  max-width: 700px;
+  height: 50px; }
+
+p.form-submit {
+  display: inline-block;
+  margin: 0px; }
+
+input#comment-submit {
+  border-radius: 2px; }
+
+/*----------- 3e: tagbox ----------- */
+.tagbox {
+  padding: 12px 6px;
+  font-size: 15px;
+  text-align: center; }
+  .tagbox a {
+    color: rgba(64, 162, 78, 0.9); }
+    .tagbox a:visited {
+      color: rgba(58, 122, 195, 0.9); }
+
+/*---------------------------------------------------------
+3. Specific Pages
+	A- Home page stuff
+		i- propbox, the box at the top of the homepage where we put our propaganda
+		ii- daytitles, identifiers for each new day, preceeding the day's nominees
+	B- Single Page stuff
+	C- Archive/Search Page stuff
+	D- Stars page stuff
+	E- Taxonomy page stuff
+	F- Rules page stuff
+	G- Rep page stuff
+---------------------------------------------------------*/
+/*----------- 3A: Home page stuff ----------- */
+a.earlier.nomore.thing {
+  padding: 20px; }
+
+.loadingIMG {
+  -webkit-animation: spin 2s linear infinite;
+  -moz-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite; }
+
+@-moz-keyframes spin {
+  100% {
+    -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg); } }
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg); } }
+/*----------- 3Ai: propbox ----------- */
+#propbox {
+  width: 100%;
+  height: 150px;
+  position: relative;
+  background: url("http://therocketdailies.com/wp-content/uploads/2017/01/Choose-Excellence.jpg") center/cover;
+  margin: 0px auto 12px; }
+  @media screen and (min-width: 687px) {
+    #propbox {
+      margin: 0px auto 18px; } }
+  @media screen and (min-width: 850px) {
+    #propbox {
+      border-radius: 2px;
+      height: 240px;
+      margin: 0px auto 12px; } }
+
+.propaganda {
+  position: absolute;
+  font-size: 12px;
+  color: rgba(64, 162, 78, 0.9);
+  bottom: 6px;
+  height: auto;
+  max-width: 50%;
+  font-weight: bold; }
+  @media screen and (min-width: 380px) {
+    .propaganda {
+      font-size: 18px; } }
+  @media screen and (min-width: 687px) {
+    .propaganda {
+      font-size: 24px; } }
+
+#propLeft {
+  left: 12px;
+  text-align: left; }
+
+#propRight {
+  right: 12px;
+  text-align: right; }
+
+/*----------- 3Aii: daytitles ----------- */
+.daytitle {
+  padding: 1.2em;
+  box-sizing: border-box;
+  text-align: center;
+  background: #262626;
+  color: rgba(255, 253, 249, 0.8);
+  display: inline-block;
+  width: 100%;
+  margin: 0px auto;
+  font-size: 22px; }
+
+/*----------- 3B: Single Page stuff ----------- */
+.thing.recapSingle, .single-comments.recapSingle {
+  max-width: 1200px;
+  width: 80%;
+  padding: 1em 2em;
+  background: rgba(255, 253, 249, 0.8);
+  color: #262626; }
+
+.thing.recapSingle .topbar, .thing.recapSingle .storybox, .thing.recapSingle .commentbox, .thing.recapSingle .tagbox {
+  background: rgba(255, 253, 249, 0.5); }
+
+.thing.recapSingle .titlebox a {
+  color: #262626; }
+
+h4.recap {
+  font-size: 2em;
+  text-decoration: underline;
+  text-align: center; }
+
+.single-comments {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0px auto 100px;
+  background: url("http://therocketdailies.com/wp-content/uploads/2016/10/Dark-Blue-Gradient.jpg") center/contain;
+  padding: 1em;
+  box-sizing: border-box; }
+
+#decomments-comment-section.decomments-comment-section.decomments-comment-section .decomments-text-holder {
+  font-size: 18px !important;
+  line-height: 28px !important; }
+
+@media screen and (min-width: 941px) {
+  #decomments-comment-section.decomments-comment-section.decomments-comment-section {
+    max-width: 1280px !important; } }
+
+#decomments-comment-section.decomments-comment-section.decomments-comment-section .decomments-comment-list .comment {
+  background: url("http://therocketdailies.com/wp-content/uploads/2016/10/Dark-Blue-Gradient.jpg") center/contain; }
+
+#decomments-comment-section.decomments-comment-section.decomments-comment-section .decomments-text-holder, #decomments-comment-section.decomments-comment-section.decomments-comment-section .decomments-title-block .decomments-autor-name {
+  color: rgba(255, 253, 249, 0.8); }
+
+#decomments-comment-section.decomments-comment-section.decomments-comment-section .decomments-number {
+  color: rgba(255, 253, 249, 0.8);
+  background: #262626; }
+
+/*----------- 3C: Archive/Search Page stuff ----------- */
+.section-head.archive, #team-header, #player-header, #archive-header {
+  box-sizing: border-box;
+  background: url("http://therocketdailies.com/wp-content/uploads/2016/10/LeatherBG.jpg") center/cover;
+  padding: 0;
+  border-radius: 2px 2px 0px 0px; }
+  .section-head.archive h2, #team-header h2, #player-header h2, #archive-header h2 {
+    display: inline-block;
+    font-size: 30px;
+    line-height: 36px;
+    margin: 3px 12px; }
+    @media screen and (min-width: 687px) {
+      .section-head.archive h2, #team-header h2, #player-header h2, #archive-header h2 {
+        font-size: 36px;
+        line-height: 1.2em; } }
+  .section-head.archive a, #team-header a, #player-header a, #archive-header a {
+    color: rgba(255, 253, 249, 0.8); }
+    .section-head.archive a:hover, #team-header a:hover, #player-header a:hover, #archive-header a:hover {
+      color: rgba(45, 109, 166, 0.85); }
+
+#source-header, #archive-header {
+  text-align: center;
+  white-space: normal; }
+  @media screen and (min-width: 687px) {
+    #source-header, #archive-header {
+      text-align: left; } }
+
+.source-logo, #archive-logo {
+  display: inline-block; }
+  .source-logo img, #archive-logo img {
+    max-width: 300px;
+    width: 100%; }
+
+@media screen and (min-width: 687px) {
+  #archive-children {
+    margin-bottom: 12px; } }
+#archive-children a {
+  padding: 0 12px;
+  font-size: 15px; }
+  @media screen and (min-width: 687px) {
+    #archive-children a {
+      font-size: 18px; } }
+
+#archive-left {
+  width: 25%;
+  padding: 0;
+  line-height: 0; }
+
+#archive-right {
+  width: 75%;
+  padding: 0; }
+  @media screen and (min-width: 687px) {
+    #archive-right {
+      padding: 0 12px; } }
+
+#archive-right, #archive-left {
+  display: table-cell;
+  vertical-align: middle; }
+
+#order-selector {
+  background: url("http://therocketdailies.com/wp-content/uploads/2017/01/Chocolate.png") center/cover;
+  font-size: 18px;
+  padding: 12px;
+  border-bottom: 1px solid #000; }
+
+a.orderLink {
+  color: rgba(255, 253, 249, 0.8); }
+  a.orderLink:hover {
+    color: rgba(58, 122, 195, 0.9); }
+
+a.orderLink.currentOrder {
+  color: rgba(58, 122, 195, 0.9); }
+
+/*----------- 3D: Stars page stuff ----------- */
+#team-header, #player-header {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  width: 100%;
+  max-width: 1280px;
+  min-height: 250px;
+  position: relative;
+  margin: 0px auto;
+  justify-content: space-around;
+  align-items: center; }
+
+#team-page-image-wrapper, #player-page-image-wrapper {
+  width: 25%;
+  display: inline-block; }
+
+img.team-page-logo, img.player-page-img {
+  width: 100%;
+  max-width: 250px;
+  height: auto; }
+
+#team-header-info, #player-header-info {
+  display: inline-block;
+  width: 70%; }
+
+h2.team-page-name, h2.player-page-name {
+  display: inline-block;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  margin: 0px;
+  padding: 15px 0px;
+  font-size: 2em;
+  border-bottom: 1px solid rgba(50, 153, 187, 0.8); }
+
+a.player-team-link {
+  color: #fff; }
+
+.team-player-button, .player-link-button, .archive-data-button {
+  display: inline-block;
+  padding: 10px 0px;
+  margin: 0 12px;
+  font-size: 19px;
+  line-height: 21px;
+  color: #262626;
+  font-weight: bold; }
+  .team-player-button img, .player-link-button img, .archive-data-button img {
+    width: 36px; }
+    @media screen and (min-width: 687px) {
+      .team-player-button img, .player-link-button img, .archive-data-button img {
+        width: 48px; } }
+
+#teams {
+  width: 85%;
+  max-width: 1280px;
+  margin: auto; }
+
+.league-column {
+  display: inline-block;
+  max-width: 47%;
+  width: 100%; }
+  .league-column a {
+    text-decoration: none; }
+    .league-column a:hover {
+      text-decoration: underline; }
+
+.league-column a, .league-column a:visited {
+  color: #262626; }
+
+#north-america {
+  float: left; }
+
+#europe {
+  float: right; }
+
+h3.league-header {
+  font-size: 2em;
+  background: rgba(0, 0, 0, 0.6);
+  padding: .4em; }
+
+.team-logo {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: relative;
+  background: rgba(255, 253, 249, 0.8);
+  width: 100%;
+  max-width: 100%;
+  min-height: 100px;
+  margin: 20px auto;
+  line-height: 0px;
+  transition: all .2s; }
+  .team-logo:hover {
+    transform: scale(1.05, 1.05);
+    transition: all .2s; }
+
+img.team-logo-img {
+  width: 100px;
+  height: auto;
+  display: inline-block; }
+
+.team-logo a, .team-logo a:visited {
+  color: #262626; }
+
+.team-name {
+  min-width: 100px;
+  font-size: 1.2em;
+  font-weight: bold;
+  line-height: 1.2em;
+  padding: .5em 0px;
+  word-wrap: break-word;
+  display: inline-block;
+  width: calc(100% - 100px);
+  color: #262626; }
+  @media screen and (min-width: 687px) {
+    .team-name {
+      line-height: 1.8em;
+      font-size: 1.8em; } }
+
+/*----------- 3E: Taxonomy page stuff ----------- */
+h2#taxHeader {
+  margin: 0;
+  padding: 24px;
+  background: url("http://therocketdailies.com/wp-content/uploads/2016/10/LeatherBG.jpg") center/cover;
+  border-bottom: 2px solid rgba(45, 109, 166, 0.85);
+  font-size: 60px; }
+
+.string {
+  text-align: left;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  margin-bottom: 12px; }
+
+h3.stringName {
+  font-size: 48px;
+  padding: 12px;
+  background: url("http://therocketdailies.com/wp-content/uploads/2016/10/Dark-Blue-Gradient.jpg") center/contain;
+  white-space: normal; }
+
+.pearls {
+  width: 100%;
+  overflow: hidden;
+  position: relative; }
+
+.pearl {
+  height: 150px;
+  width: 266.66667px;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  margin: 6px 3px;
+  text-align: center; }
+
+.pearlLink {
+  display: inline-block; }
+
+.pearlOverlay {
+  background: rgba(45, 29, 18, 0.5);
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.pearlLinkText {
+  color: rgba(255, 253, 249, 0.8);
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.9);
+  text-decoration: none;
+  display: inline-block;
+  font-size: 18px;
+  white-space: normal;
+  position: absolute;
+  width: 100%;
+  padding: 6px;
+  box-sizing: border-box; }
+
+/*----------- 3F: Rules page stuff ----------- */
+#rulespage {
+  background: url("http://therocketdailies.com/wp-content/uploads/2016/10/LeatherBG.jpg") center/cover;
+  width: 100%;
+  max-width: 80%;
+  margin: auto;
+  text-align: left;
+  padding: 1em 2em;
+  font-size: 18px; }
+
+p.rules.privacy {
+  font-size: 15px; }
+
+/*----------- 3G: Your Votes / Rep page stuff ----------- */
+#archive-header.your-votes-header {
+  padding: 24px; }
+
+.thing.your-votes-error {
+  text-align: center;
+  padding: 24px 0px; }
+
+p.onboardText.your-votes-error {
+  margin: 12px 0px; }
+
+/*# sourceMappingURL=style.css.map */
