@@ -1,0 +1,1442 @@
+/*
+ Theme Name:   Dailies
+ Theme URI:    http://therocketdailies.com/wp-content/themes/Dailies
+ Description:  The base Dailies theme. This is the parent theme, and each individual site will have its own child theme that adds styling, etc
+ Author:       Alec Simone
+ Version:      1.0.0 
+ Text Domain:  dailies
+
+ ---------------- Theme customization starts here -------------------------------------------------------------- */
+
+//Color Variables
+$gold: rgba(215, 176, 82, 0.95);
+//$gold: rgba(253,202,60,.8);
+
+$blue: rgba(58, 122, 195, 0.9);
+//$blue: #3b8fd9;
+$blueTrans: rgba(45,109,166,.85);
+
+$green: rgba(64, 162, 78, 0.9);
+//$green: rgba(67, 191, 67, .8);
+$orange: rgba(255,153,0,.8);
+
+$light: rgba(255,253,249,.8);
+$transLight: rgba(255,253,249,.5);
+$transLight3: rgba(255,253,249, .25);
+
+$black: #262626;
+$blackTrans: rgba(0,0,0,.6);
+$blackTrans2: rgba(0,0,0,.8);
+$blackTrans3: rgba(0,0,0,.9);
+
+$darkBlue: url('http://therocketdailies.com/wp-content/uploads/2016/10/Dark-Blue-Gradient.jpg') center/contain;
+$leather: url('http://therocketdailies.com/wp-content/uploads/2016/10/LeatherBG.jpg');
+$goldBG: url('http://therocketdailies.com/wp-content/uploads/2016/12/repHeader.jpg') center/contain;
+
+$chocolate: url('http://therocketdailies.com/wp-content/uploads/2016/12/Chocolate.jpg') center/cover;
+$chocolateRGBA: rgba(45, 29, 18, 0.5);
+$chocolateTrans: url('http://therocketdailies.com/wp-content/uploads/2017/01/Chocolate.png') center/cover;
+$darkChocolate: url('http://therocketdailies.com/wp-content/uploads/2016/12/dark-chocolate.jpg');
+
+//Breakpoints. Remember to use the "interpolation braces" when calling these variables. e.g. #{$bpSmall}
+$bpxs: "screen and (min-width: 287px)";
+$bpSmall: "screen and (min-width: 330px)";
+$bpSmall2: "screen and (min-width: 380px)";
+$bpMedium: "screen and (min-width: 687px)"; //was 610
+$bpMedium2: "screen and (min-width: 728px)";
+$bpLarge: "screen and (min-width: 850px)"; //Sidebar starts
+$bpXL: "screen and (min-width: 941px)";
+$bpXXL: "screen and (min-width: 1280px)";
+$bpXXXL: "screen and (min-width: 1750px)";
+$bpStupidLarge: "screen and (min-width: 1864px)";
+
+//Sizers
+$baseline: 12px;
+$half: $baseline / 2; // 6
+$quarter: $baseline /4; // 3
+$plusHalf: $baseline + $baseline / 2; // 18
+$plusQuarter: $baseline + $baseline /4; // 15
+$double: 2 * $baseline; // 24
+$doublePlusHalf: 2 * $baseline + $baseline / 2; //30
+$triple: 3 * $baseline;
+$quad: 4 * $baseline;
+$sept: 5 * $baseline;
+$sex: 6 * $baseline;
+
+//Other Variables
+$rounded: 2px;
+$roundedTop: 2px 2px 0px 0px;
+$roundedBot: 0px 0px 2px 2px;
+$shadow: 0 1px 1px rgba(173,168,168,0.1);
+$smallTagbarHeight: 75px;
+$mediumTagbarHeight: 150px;
+$mediumFontSize: 20px;
+$maxestWidth: 1280px;
+
+//Mixins
+@mixin flexbox() {
+	display: -webkit-box;      // OLD - iOS 6-, Safari 3.1-6
+	display: -moz-box;         // OLD - Firefox 19- (buggy but mostly works)
+	display: -ms-flexbox;      // TWEENER - IE 10
+	display: -webkit-flex;     // NEW - Chrome
+	display: flex;             // NEW, Spec - Opera 12.1, Firefox 20+
+}
+
+@mixin flex($flex) {
+	-webkit-box-flex: $flex;      // OLD - iOS 6-, Safari 3.1-6
+	-moz-box-flex: $flex;         // OLD - Firefox 19-
+	-webkit-flex: $flex;          // Chrome
+	-ms-flex: $flex;              // IE 10
+	flex: $flex;                  // NEW, Spec - Opera 12.1, Firefox 20+
+}
+
+@mixin transform($trans) {
+	-webkit-transform: $trans; // Ch <36, Saf 5.1+, iOS < 9.2, An =<4.4.4
+	-ms-transform: $trans; // IE 9
+	transform: $trans; // IE 10, Fx 16+, Op 12.1+
+}
+@mixin byWidth() {
+	width: 100%;
+	height: auto;
+}
+@mixin byHeight() {
+	height: 100%;
+	width: auto;
+}
+@mixin fourCorners() {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+}
+
+//      Table of Contents
+//
+// 1. Fundamental Structure
+// --A. Header
+// --B. Tagbar
+// --C. Wrapper
+// ----i contentContainer
+// --------a Section Heads
+// ----ii- The sidebar
+// --D. Return to Top
+//
+// 2. Things
+// --A. Topbar
+// ----i votecount
+// ----ii titlebox
+// ----iii votebox
+// --B. contentbox
+// --C. storybox
+// --D. commentbox
+// --E. tagbox
+//
+//3. Specific Pages
+// --A. Home page stuff
+// ----i propbox
+// ----ii daytitles
+// --B- Single Page stuff
+// --C. Archive/Search Page stuff
+// --D. Stars page stuff
+// --E. Taxonomy page stuff
+// --F. Rules page stuff
+// --G. Your Votes / Rep page stuff
+
+/*-------- Universal Declarations -----------*/
+
+html, body {
+	height: 100%; /* This and min-height help the background work on mobile */
+ 	min-height: 100%;
+	font-family: proxima-nova, sans-serif;
+	color: $light;
+	margin: 0px;
+	padding: 0px;
+	text-align: center;
+	transition: all .25s ease-out;
+}
+body:before { /* Background hack to play a little nicer on mobile */
+	  	content: "";
+	  	display: block;
+	  	position: fixed;
+	  	left: 0;
+	  	top: 0;
+	  	width: 100%;
+	  	height: 100%;
+	  	z-index: -10;
+	  	background: #424242;
+}
+a, a:visited {
+    color: $blue;
+}
+
+h3 {
+    font-size: $double;
+    line-height: 1.1em;
+    margin: 0px;
+    @media #{$bpMedium} {
+    	font-size: $doublePlusHalf;
+    }
+}
+
+/*---------------------------------------------------------
+1. Fundamental Structure
+This is for the broad architectural stuff. This includes:
+	A- the header, which exists on the top of every page and retracts on scrolling using headroom.js
+	B- The tagbar, which goes right below the header
+	C- The wrapper, which is below the tagbar and has two parts of its own
+		i- The contentContainer, which holds the page's content
+			a- Section Heads
+		ii- The sidebar, which holds the userboxes and a topposts list. For now. I plan to add more things to it but most likely will forget to update this description.
+The site uses infinite scroll and thus has no footer
+	D- Return to Top
+---------------------------------------------------------*/
+
+/*----------- 1A: header ----------- */
+#menu-links-wrapper {
+	background: $leather;
+	opacity: .9;
+	z-index: 3;
+	position: relative;
+	width: 100%;
+	top: 0px;
+}
+.headroom {
+    will-change: transform;
+    transition: transform 200ms linear;
+}
+.headroom--pinned {
+    @include transform(translateY(0%));
+}
+.headroom--unpinned {
+    @include transform(translateY(-100%));
+}
+#menu-links-placeholder {
+	display: block;
+	height: 48px;
+	margin-bottom: $baseline;
+}
+#menu-links {
+	@include flexbox();
+	@include byWidth();
+	flex-wrap: wrap;
+	justify-content: space-around;
+    padding: 0px;
+    margin: 0px auto;
+    color: $light;
+    font-size: $double;
+    line-height: $double;
+    text-align: left;
+	font-family: "proxima-nova-condensed", sans-serif;
+
+	a {
+		padding: $baseline 0px;
+		display: inline-block;
+		color: $light;
+		width: 16%;
+		text-align: center;
+		text-decoration: none;
+		flex-grow: 1;
+		transition: max-width .3s;
+
+		&:hover {
+			background: $blackTrans;
+			text-decoration: underline;
+		}
+
+	}
+}
+
+.mobileHide {
+	max-width: 0px;
+	overflow: hidden;
+	@media #{$bpMedium} {
+		max-width: none;
+	}
+}
+
+a#medal {
+    flex-basis: 30px;
+    padding: $half 0px;
+    line-height: 0px;
+}
+img.headermedal {
+	width: 32px;
+}
+a#search {
+	flex-basis: 80px;
+	cursor: pointer;
+}
+#searchbox {
+	width: 400px;
+	max-width: 0px;
+	height: 46px;
+	overflow: hidden;
+	position: relative;
+	transition: all .3s;
+}
+input.search-submit {
+    position: absolute;
+    right: 4px;
+    top: 10px;
+	opacity: .8;
+}
+input#searchform {
+	width: 400px;
+    height: 32px;
+    margin: 7px 0px;
+}
+a#winners {
+	color: $gold;
+	flex-basis: 90px;
+	font-weight: bold;
+}
+#menu-links a.hamburger {
+	padding: 7px 0px;
+	flex-basis: 40px;
+	line-height: 0px;
+	@media #{$bpMedium} {
+		display: none;
+	}
+}
+.hamburger-icon {
+	width: 30px;
+	height: auto;
+	line-height: 0px;
+}
+a#best {flex-basis: 60px;}
+a#underdogs {
+	color: $green;
+	flex-basis: 110px;
+	font-weight: bold;
+}
+a#stars {flex-basis: 80px;}
+a#source {flex-basis: 110px;}
+a#skills {flex-basis: 80px;}
+a#rules {flex-basis: 80px;}
+a#enter {flex-basis: 100px;}
+a#twitter, a#youtube, a#twitch {
+	flex-basis: 40px;
+    padding: 7px 0px;
+    line-height: 0px;
+}
+.socialimg {
+	width: 34px;
+	height: auto;
+	line-height: 0px;
+}
+
+/*----------- 1B: tagbar ----------- */
+#tagbar {
+	@include byWidth();
+	position: relative;
+	box-sizing: border-box;
+	border-radius: $rounded;
+	white-space: nowrap;
+	padding: $baseline 0px;
+    margin: 0px auto;
+   	color: $light;
+	text-align: left;
+	@media #{$bpMedium} {
+		font-size: $mediumFontSize;
+	}
+	@media #{$bpLarge} {
+		margin: 0px auto $double;
+	}
+	@media #{$bpXL} {
+		margin: 0px auto $plusHalf;
+	}
+}
+#taglist {
+	height: $smallTagbarHeight;
+	width: 100%;
+	font-size: 0px;
+	margin: auto;
+	position: relative;
+	overflow: hidden;
+	@media #{$bpMedium} {
+		height: $mediumTagbarHeight;
+	}
+	@media #{$bpLarge} {
+		width: calc(100% - 100px);
+	}
+}
+.scrollWrapper {
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+}
+
+.scrollableArea {
+	position: relative;
+	width: auto;
+	height: 100%;
+}
+
+.barItem {
+	height: $smallTagbarHeight;
+	width: $smallTagbarHeight / 9 * 16;
+	margin: 0px 2px;
+	display: inline-block;
+	position: relative;
+	@media #{$bpMedium} {
+		height: $mediumTagbarHeight;
+		width: $mediumTagbarHeight / 9 * 16;
+	}
+	@media #{$bpLarge} {
+		width: calc(100% / 4 - #{$half});
+		margin: 0px $quarter;
+	}
+	@media #{$bpXXL} {
+		width: calc(100% / 5 - #{$half});
+	}
+}
+a.barItemLink {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    left: 0px;
+    top: 0px;
+    background: $chocolateRGBA;
+    color: $blackTrans;
+    text-decoration: none;
+    text-shadow: 0 0px $half $blackTrans2;
+    font-size: $plusHalf;
+    font-weight: bold;
+	line-height: 75px;
+	transition: all .2s;
+	&:hover {
+		text-decoration: underline;
+    	background: $blackTrans2;
+    	color: $light;
+    	text-shadow: none;
+    }
+    &.skills {
+    	color: $blue;
+    }
+    &.stars {
+    	color: $gold;
+    }
+    &.source {
+    	color: $green;
+    }
+    @media #{$bpMedium} {
+    	line-height: $mediumTagbarHeight;
+    	font-size: $double;
+    }
+}
+a.barButton {
+	display: none;
+   	position: absolute;
+   	top: $baseline;
+    bottom: $baseline;
+    padding: 0;
+    width: 30px;
+    text-align: center;
+	text-decoration: none;
+    color: $transLight;
+    background: $blackTrans;
+    line-height: 75px;
+    font-size: 21px;
+    font-weight: bold;
+	z-index: 2;
+	transition: color .2s;
+	@media #{$bpMedium} {
+    	line-height: $mediumTagbarHeight;
+    	font-size: 30px; 
+    	width: 50px;
+    }
+    @media #{$bpLarge} {
+    	display: block;
+    }
+}
+a#morebar {
+    right: 0px;
+}
+a#lessbar {
+    left: 0px;
+    color: transparent;
+}
+
+/*----------- 1C: wrapper ----------- */
+.wrapper {
+	@media #{$bpLarge} {
+		width: calc(100% - #{$double});
+		max-width: 1710px;
+		margin: auto;
+		position: relative;
+	}
+}
+
+/*----------- 1Ci: contentContainer ----------- */
+.contentContainer {
+	padding-bottom: 150px;
+	overflow: hidden;
+	@media #{$bpLarge} {
+		position: absolute;
+		left: 0px;
+		width: calc(75% - #{$half});
+		max-width: $maxestWidth;
+		display: inline-block;
+	}
+}
+.contentContainer header#repHeader, .contentContainer #userbox {
+	@media #{$bpLarge} {
+    	display: none;
+    }
+}
+
+.loop-ad {
+    padding: $baseline 0;
+    background: $darkBlue;
+    border-bottom: 1px solid #000;
+}
+
+/*----------- 1Cia: Section Heads ----------- */
+.section-head {
+    position: relative;
+	width: 100%;
+	max-width: 800px;
+    margin: 0px auto;
+    font-size: 32px;
+    font-weight: bold;
+	line-height: 0px;
+	padding: 0px;
+	border-radius: $roundedTop;
+	img {
+		@include byWidth();
+	}
+	@media #{$bpXL} {
+		max-width: $maxestWidth;
+	}
+}
+
+/*----------- 1Cii: sidebar ----------- */
+#sidebar {
+	display: none;
+	@media #{$bpLarge} {
+		width: calc(25% - #{$half});
+		right: 0px;
+		display: inline-block;
+		position: absolute;
+		vertical-align: top;
+		border-radius: 2px;
+		box-shadow: $shadow;
+	}
+}
+
+.sideHeader {
+	font-size: $double;
+	line-height: 1em;
+	font-weight: bold;
+	background: $chocolateTrans;
+	padding: $double 0px;
+	font-weight: bold;
+	color: $light;
+	border-radius: $roundedTop;
+	@media #{$bpLarge} {
+		border-radius: $rounded;
+	}
+}
+.goldBG {
+	background: $goldBG;
+	color: $black;
+}
+#repHeader {
+	@extend .goldBG;
+}
+#repFooter {
+	@extend .goldBG;
+	margin-top: $baseline;
+	border-radius: 2px;
+	width: calc( (100% + 6px) * 4 - #{$quad} - #{$double} - (100% + 6px) * 3 );
+	@media #{$bpXXXL} {
+		width: 84%;
+	}
+	@media #{$bpStupidLarge} {
+		width: 100%;
+	}
+}
+.repScore {
+	display: inline-block;
+}
+#userbox {
+	@include flexbox();
+	flex-direction: column;
+	justify-content: center;
+	height: auto;
+	margin-bottom: $baseline;
+	@media #{$bpMedium} {
+		margin-bottom: $plusHalf;
+	}
+	@media #{$bpLarge} {
+		margin-bottom: $baseline;
+	}
+	@media #{$bpXXL} {
+		justify-content: space-around;
+	}
+}
+p.userbox {
+	margin: 0px;
+	padding: $baseline $plusQuarter;
+	font-size: $plusHalf;
+	text-align: center;
+	& a {
+		color: $light;
+	}
+}
+.wp-social-login-connect-with {
+    font-size: $plusHalf;
+}
+a.wp-social-login-provider {
+	color: transparent;
+	width: $doublePlusHalf;
+	height: $doublePlusHalf;
+	overflow: hidden;
+	display: inline-block;
+	margin: 0px $half;
+}
+.wp-social-login-provider-list {
+	padding: $baseline 0;
+}
+.wp-social-login-provider-facebook {
+	background: url('http://therocketdailies.com/wp-content/uploads/2016/09/FB.png') center/cover;
+}
+.wp-social-login-provider-google {
+	background: url('http://therocketdailies.com/wp-content/uploads/2016/12/G.png') center/cover;
+}
+.wp-social-login-provider-twitter {
+	background: url('http://therocketdailies.com/wp-content/uploads/2016/09/TWT.png') center/cover;
+}
+.wp-social-login-provider-steam {
+	background: url('http://therocketdailies.com/wp-content/uploads/2016/12/St.png') center/cover;
+}
+.wp-social-login-provider-twitchtv {
+	background: url('http://therocketdailies.com/wp-content/uploads/2016/09/TW.png') center/cover;
+}
+.sidebarSectionTitle {
+    font-size: 18px;
+    background: $darkBlue;
+    padding: 6px;
+}
+.topPost {
+	width: 100%;
+	margin: auto;
+	padding: 10px 3.5%;
+	background: $transLight; 		
+	box-sizing: border-box;
+}
+.pic-count {
+	position: relative;
+}
+.topPic {
+	position: relative;
+	line-height: 0px;
+	height: 150px;
+	overflow: hidden;
+	opacity: .6;
+	transition: all .2s;
+}
+.topPic:hover {
+	opacity: 1;
+}
+.count {
+	position: absolute;
+	bottom: 0em;
+	left: 0px;
+	padding: .5em 1em;
+	background: $blackTrans3;
+	box-sizing: border-box;
+	line-height: 1em;
+	font-size: $baseline;
+}
+a .count, a:visited .count {
+	color: $light;
+	&:hover {
+		color: $gold;
+	}
+}
+h3.sidebar {
+	font-size: $plusHalf;
+	text-align: left;
+	line-height: 1.4em;
+	padding: .35em 0px 0px;
+	a {
+		color: $blackTrans3;
+		text-shadow: 0 0 6px $light;
+		text-decoration: none;
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+/*----------- 1D: Return to Top ----------- */
+#return-to-top {
+	position: fixed;
+	bottom: $double;
+	right: $baseline;
+	width: $quad;
+	height: $quad;
+	display: block;
+	display: none;
+   	transition: none;
+	opacity: .75;
+	z-index: 2;
+	img {
+		width: $quad;
+		height: $quad;
+	}
+	&:hover {
+		opacity: 1;
+	}
+}
+
+a.earlier.nomore {
+	width: 100%;
+	height: 100px;
+	display: block;
+	line-height: 100px;
+	font-size: $plusHalf;
+	color: $light;
+	background: $darkBlue;
+}
+
+/*---------------------------------------------------------
+2. Things
+	A- Topbar
+		i- votecount
+		ii- titlebox
+		iii- votebox
+	B- contentbox
+	C- storybox
+	D- commentbox
+	E- tagbox
+---------------------------------------------------------*/
+.thing {
+	width: 100%;
+	max-width: $maxestWidth;
+	box-sizing: border-box;
+	margin: 10px auto;
+	border-radius: $rounded;
+	color: $black;
+	text-align: left;
+	background: #fff;
+	box-shadow: $shadow;
+	padding: $baseline;
+	@media #{$bpMedium} {
+		font-size: $mediumFontSize;
+	}
+	@media #{$bpXL} {
+		padding: 0px $baseline $baseline;
+	}
+}
+
+.topbar, .storybox, .commentbox, .tagbar {
+	@media #{$bpXL} {
+		padding: 0px;
+	}
+}
+
+/*----------- 3A: Topbar ----------- */
+.winnerbanner {
+	width: 100%;
+	line-height: 0px;
+	background: #2d2d2d;
+	border-radius: $roundedTop;
+	opacity: 1;
+	img {
+		@include byWidth();
+		border-radius: $roundedTop;
+	}
+	@media #{$bpXL} {
+		width: calc(100% + #{$double});
+		margin-left: -$baseline;
+	}
+}
+
+.topbar {
+	@include flexbox();
+	justify-content: space-between;
+	align-items: center;
+	position: relative;
+	height: $sept;
+	border-radius: $roundedTop;
+	padding: $half 0;
+}
+
+/*----------- 3Ai: votecount ----------- */
+.votecount {
+	font-size: $triple;
+	font-weight: bold;
+}
+
+/*----------- 3Aii: votebox ----------- */
+.votebox {
+	display: block;
+	position: relative;
+	height: $sept;
+	line-height: 0px;
+	margin: auto;
+}
+.socialIcon {
+	width: $quad;
+	height: auto;
+	margin-top: $half;
+	left: $half;
+	@media #{$bpXL} {
+		left: $baseline;
+	}
+}
+a.share-button {
+	text-decoration: none;
+}
+.voteIcon {
+	cursor: pointer;
+	width: $sept;
+	@media #{$bpXL} {
+		right: $baseline;
+	}
+}
+.explainer {
+	display: none;
+	@media #{$bpMedium} {
+		display: inline-block;
+		position: absolute;
+		right: $sex;
+	}
+}
+img.explainer-arrow {
+    margin-left: $quarter;
+}
+
+.onboardbox {
+	text-align: right;
+	max-height: 0px;
+	overflow: hidden;
+	transition: max-height .5s;
+}
+p.onboardText {
+	margin: 0px;
+	line-height: 1.5em;
+}
+
+/*----------- 3B: contentbox ----------- */
+.contentbox {
+	position: relative;
+	height: auto;
+	text-align: center;
+	background: #000;
+	color: $light;
+	line-height: 0px;
+	z-index: 0;
+	img {
+    	max-width: 100%;
+    	height: auto;
+    }
+}
+
+img.thumb {
+	width: 100%;
+}
+
+.loadingicon {
+	@include fourCorners();
+	width: 100px;
+	margin: auto;
+	z-index: -1;
+}
+
+.playbutton {
+	@include fourCorners();
+	margin: auto;
+	width: $quad;
+	pointer-events: none;
+	@media #{$bpMedium} {
+		width: $sept;
+	}
+	@media #{$bpLarge} {
+		width: $sex;
+	}
+}
+.embed-container {
+	position: relative; 
+	padding-bottom: 56.25%; 
+	height: 0; 
+	overflow: hidden; 
+	max-width: 100%;
+}
+.embed-container iframe, .embed-container object, .embed-container embed { 
+	position: absolute; 
+	top: 0; 
+	left: 0; 
+	width: 100%; 
+	height: 100%; 
+}
+
+/*----------- 3C: storybox ----------- */
+.storybox {
+	height: auto;
+	padding: $half 0px;
+	line-height: 1.5em;
+	p, ol {
+		margin: 0px;
+		padding: .5em 0px;
+		max-width: 100%;
+		line-height: 1.5em;
+	}
+	ol {
+		padding-bottom: 1em;
+		margin: auto;
+	}
+	h5 {
+		max-width: 820px;
+		margin: 0px auto;
+		font-size: 1.3em;
+		font-weight: normal;
+	}
+	li {
+		margin: .5em 0px;
+	}
+}
+
+.titlebox {
+	display: inline-block;
+	box-sizing: border-box;
+	padding: 0px 0px $half;
+	a {
+    	color: $black;
+    	text-decoration: none;
+    	&:hover {
+    		text-decoration: underline;
+    	}
+    }
+}
+
+p.attribution {
+	font-size: $plusQuarter;
+	line-height: 1.4em;
+	padding: 0px;
+	max-width: none;
+}
+p.attribution a, p.attribution a:visited {
+	color: $gold;
+}
+
+.datebox {
+	padding: $half 0;
+	margin-top: -$baseline;
+	font-size: $plusQuarter;
+	color: $gold;
+	margin-left: 0;
+}
+
+/*----------- 3D: commentbox ----------- */
+.commentbox {
+	position: relative;
+	height: auto;
+	color: $light;
+	padding: $plusHalf $half;
+	font-size: $plusHalf;
+}
+.comments-header {
+	font-weight: bold;
+	font-size: 1.2em;
+	padding-bottom: .1em;
+}
+.comments-header a {
+	color: $blue;
+}
+.comment-preview-author {
+	display: inline;
+	a {
+		color: $blue;
+		text-decoration: none;
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+.comment-form-container {
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height .5s ease;
+}
+
+p.logged-in-as {
+	font-size: $plusQuarter;
+	margin: 0;
+}
+p.members-only {
+	margin: $baseline 0px;
+	font-size: $double;
+	font-weight: bold;
+	color: $green;
+}
+a.userlink {
+	color: $gold;
+}
+p.comment-form-comment {
+	margin: $baseline 0px $quarter;
+}
+textarea#comment {
+	width: 100%;
+	max-width: 700px;
+	height: 50px;
+}
+p.form-submit {
+	display: inline-block;
+	margin: 0px;
+}
+input#comment-submit {
+	border-radius: 2px;
+}
+
+/*----------- 3e: tagbox ----------- */
+.tagbox {
+	padding: $baseline $half;
+	font-size: $plusQuarter;
+	text-align: center;
+	a {
+    	color: $green;
+    	&:visited {
+			color: $blue;
+		}
+    }
+}
+
+/*---------------------------------------------------------
+3. Specific Pages
+	A- Home page stuff
+		i- propbox, the box at the top of the homepage where we put our propaganda
+		ii- daytitles, identifiers for each new day, preceeding the day's nominees
+	B- Single Page stuff
+	C- Archive/Search Page stuff
+	D- Stars page stuff
+	E- Taxonomy page stuff
+	F- Rules page stuff
+	G- Rep page stuff
+---------------------------------------------------------*/
+
+/*----------- 3A: Home page stuff ----------- */
+a.earlier.nomore.thing {
+	padding: 20px;
+}
+.loadingIMG {
+	-webkit-animation:spin 2s linear infinite;
+    	-moz-animation:spin 2s linear infinite;
+    	animation:spin 2s linear infinite;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+/*----------- 3Ai: propbox ----------- */
+#propbox {
+	width: 100%;
+	height: 150px;
+	position: relative;
+	background: url('http://therocketdailies.com/wp-content/uploads/2017/01/Choose-Excellence.jpg') center/cover;
+	margin: 0px auto $baseline;
+	@media #{$bpMedium} {
+		margin: 0px auto $plusHalf;
+	}
+	@media #{$bpLarge} {
+		border-radius: $rounded;
+		height: 240px;
+		margin: 0px auto $baseline;
+	}
+}
+
+.propaganda {
+	position: absolute;
+	font-size: $baseline;
+	color: $green;
+	bottom: $half;
+	height: auto;
+	max-width: 50%;
+	font-weight: bold;
+	@media #{$bpSmall2} {
+		font-size: $plusHalf;
+	}
+	@media #{$bpMedium} {
+		font-size: $double;
+	}
+}
+
+#propLeft {
+	left: $baseline;
+	text-align: left;
+}
+
+#propRight {
+	right: $baseline;
+	text-align: right;
+}
+
+/*----------- 3Aii: daytitles ----------- */
+.daytitle {
+	padding: 1.2em;
+	box-sizing: border-box;
+	text-align: center;
+	background: $black;
+	color: $light;
+	display: inline-block;
+	width: 100%;
+	margin: 0px auto;
+	font-size: 22px;
+}
+
+/*----------- 3B: Single Page stuff ----------- */
+.thing.recapSingle, .single-comments.recapSingle {
+    	max-width: 1200px;
+    	width: 80%;
+    	padding: 1em 2em;
+    	background: $light;
+    	color: $black;
+}
+
+.thing.recapSingle .topbar, .thing.recapSingle .storybox, .thing.recapSingle .commentbox, .thing.recapSingle .tagbox {
+    background: $transLight;
+}
+
+.thing.recapSingle .titlebox a {
+    	color: $black;
+}
+
+h4.recap {
+	font-size: 2em;
+	text-decoration: underline;
+	text-align: center;
+}
+
+.single-comments {
+	width: 100%;
+	max-width: $maxestWidth;
+	margin: 0px auto 100px;
+	background: $darkBlue;
+	padding: 1em;
+	box-sizing: border-box;
+}
+
+#decomments-comment-section.decomments-comment-section.decomments-comment-section .decomments-text-holder {
+	font-size: $plusHalf !important;
+	line-height: 28px !important;
+}
+#decomments-comment-section.decomments-comment-section.decomments-comment-section {
+	@media #{$bpXL} {
+		max-width: $maxestWidth !important;
+	}
+}
+#decomments-comment-section.decomments-comment-section.decomments-comment-section .decomments-comment-list .comment {
+	background: $darkBlue;
+}
+#decomments-comment-section.decomments-comment-section.decomments-comment-section .decomments-text-holder, #decomments-comment-section.decomments-comment-section.decomments-comment-section .decomments-title-block .decomments-autor-name {
+	color: $light;
+}
+#decomments-comment-section.decomments-comment-section.decomments-comment-section .decomments-number {
+	color: $light;
+	background: $black;
+}
+
+/*----------- 3C: Archive/Search Page stuff ----------- */
+.section-head.archive, #team-header, #player-header, #archive-header {
+	box-sizing: border-box;
+	background: $leather center/cover;
+	padding: $baseline;
+	border-radius: $roundedTop;
+	h2 {
+		display: inline-block;
+		font-size: $doublePlusHalf;
+		line-height: $triple;
+		margin: $quarter $baseline;
+		@media #{$bpMedium} {
+			font-size: $triple;
+			line-height: 1.2em;
+		}
+	}
+	a {
+		color: $light;
+		&:hover {
+			color: $blueTrans;
+		}
+	}
+}
+#source-header, #archive-header {
+	text-align: center;
+	white-space: normal;
+	@media #{$bpMedium} {
+		text-align: left;
+	}
+
+}
+.source-logo, #archive-logo {
+	display: inline-block;
+	img {
+		max-width: 300px;
+		width: 100%;
+	}
+}
+#archive-children {
+	@media #{$bpMedium} {
+		margin-bottom: $baseline;
+	}
+	a {
+    	padding: 0 $baseline;
+    	font-size: $plusQuarter;
+		@media #{$bpMedium} {
+    		font-size: $plusHalf;
+    	}
+    }
+}
+#archive-left {
+	width: 25%;
+	padding: 0;
+	line-height: 0;
+}
+#archive-right {
+	width: 75%;
+	padding: 0;
+	@media #{$bpMedium} {
+		padding: 0 $baseline;
+	}
+}
+#archive-right, #archive-left {
+	display: table-cell;
+	vertical-align: middle;
+}
+#order-selector {
+    background: $chocolateTrans;
+    font-size: $plusHalf;
+    padding: $baseline;
+    border-bottom: 1px solid #000;
+}
+a.orderLink {
+	color: $light;
+	&:hover {
+		color: $blue;
+	}
+}
+a.orderLink.currentOrder {
+	color: $blue;
+}
+/*----------- 3D: Stars page stuff ----------- */
+#team-header, #player-header {
+	@include flexbox();
+	width: 100%;
+	max-width: $maxestWidth;
+	min-height: 250px;
+	position: relative;
+	margin: 0px auto;
+	justify-content: space-around;
+	align-items: center;
+}
+#team-page-image-wrapper, #player-page-image-wrapper {
+	width: 25%;
+	display: inline-block;
+}
+img.team-page-logo, img.player-page-img {
+	width: 100%;
+	max-width: 250px;
+	height: auto;
+}
+#team-header-info, #player-header-info {
+	display: inline-block;
+	width: 70%;
+}
+h2.team-page-name, h2.player-page-name {
+	display: inline-block;
+	width: 100%;
+	background: rgba(0,0,0,.3);
+	margin: 0px;
+	padding: $plusQuarter 0px;
+	font-size: 2em;
+	border-bottom: 1px solid rgba(50,153,187,.8);
+
+}
+a.player-team-link {
+	color: #fff;
+}
+.team-player-button, .player-link-button, .archive-data-button {
+	display: inline-block;
+	padding: 10px 0px;
+	margin: 0 $baseline;
+	font-size: 19px;
+	line-height: 21px;
+	color: $black;
+	font-weight: bold;
+	& img {
+		width: $triple;
+		@media #{$bpMedium} {
+			width: $quad;		
+		}
+	}
+}
+
+
+#teams {
+	width: 85%;
+	max-width: $maxestWidth;
+	margin: auto;
+}
+.league-column {
+	display: inline-block;
+	max-width: 47%;
+	width: 100%;
+	a {
+		text-decoration: none;
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+.league-column a, .league-column a:visited {
+	color: $black;
+}
+#north-america {
+	float: left;
+}
+#europe {
+   	float: right;
+}
+h3.league-header {
+	font-size: 2em;
+	background: $blackTrans;
+	padding: .4em;
+}
+
+.team-logo {
+	@include flexbox();
+	justify-content: space-around;
+	align-items: center;
+	position: relative;
+	background: $light;
+	width: 100%;
+	max-width: 100%;
+	min-height: 100px;
+	margin: 20px auto;
+	line-height: 0px;
+	transition: all .2s;
+	&:hover {
+		transform: scale(1.05,1.05);
+		transition: all .2s;
+	}
+}
+img.team-logo-img {
+	width: 100px;
+	height: auto;
+	display: inline-block;
+}
+
+.team-logo a, .team-logo a:visited {
+	color: $black;
+}
+
+.team-name {
+	min-width: 100px;
+	font-size: 1.2em;
+	font-weight: bold;
+	line-height: 1.2em;
+	padding: .5em 0px;
+	word-wrap: break-word;
+	display: inline-block;
+	width: calc(100% - 100px);
+	color: $black;
+	@media #{$bpMedium} {
+		line-height: 1.8em;
+		font-size: 1.8em;
+	}
+}
+
+/*----------- 3E: Taxonomy page stuff ----------- */
+#strings {
+}
+h2#taxHeader {
+    margin: 0;
+    padding: $double;
+    background: $leather center/cover;
+    border-bottom: 2px solid $blueTrans;
+    font-size: $sept;
+}
+.string {
+	text-align: left;
+	white-space: nowrap;
+	max-width: 100%;
+	overflow: hidden;
+	margin-bottom: $baseline;
+}
+h3.stringName {
+    font-size: $quad;
+    padding: $baseline;
+    background: $darkBlue;
+    white-space: normal;
+}
+a.stringNameLink {
+}
+.pearls {
+	width: 100%;
+	overflow: hidden;
+	position: relative;
+}
+.pearl {
+	height: 150px;
+	width: 150px * 16 / 9;
+	display: inline-block;
+	position: relative;
+	overflow: hidden;
+	margin: $half $quarter;
+	text-align: center;
+}
+
+.pearlLink {
+	display: inline-block;
+}
+.pearlOverlay {
+	background: $chocolateRGBA;
+	@include fourCorners();
+	@include flexbox();
+	justify-content: center;
+	align-items: center;
+}
+.pearlLinkText {
+	color: $light;
+	text-shadow: 0 0 $half $blackTrans3;
+	text-decoration: none;
+	display: inline-block;
+	font-size: $plusHalf;
+	white-space: normal;
+	position: absolute;
+	width: 100%;
+	padding: 6px;
+	box-sizing: border-box;
+}
+
+
+/*----------- 3F: Rules page stuff ----------- */
+#rulespage {
+    	background: $leather center/cover;
+    	width: 100%;
+    	max-width: 80%;
+    	margin: auto;
+    	text-align: left;
+    	padding: 1em 2em;
+    	font-size: $plusHalf;
+}
+p.rules.privacy {
+    	font-size: $plusQuarter;
+}
+
+/*----------- 3G: Your Votes / Rep page stuff ----------- */
+#archive-header.your-votes-header {
+	padding: $double;
+}
+.thing.your-votes-error {
+	text-align: center;
+	padding: $double 0px;
+}
+p.onboardText.your-votes-error {
+	margin: $baseline 0px;
+}

@@ -1,0 +1,152 @@
+/*
+Theme Name: Dailies Rocket Child
+Theme URI: http://therocketdailies.com/wp-content/themes/Dailies-rocket-child
+Description: The Rocket Dailies child of the generic Dailies theme
+Author: Alec Simone
+Author URI: http://alecsimone.com
+Template: Dailies
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Tags: mobile, stream, responsive, dark
+Text Domain: dailies-rocket-child
+*/
+
+//Color Variables
+$gold: rgba(253,202,60,.8);
+
+$blue: #3b8fd9;
+$blueTrans: rgba(45,109,166,.85);
+
+$orange: rgba(255,153,0,.8);
+
+$light: rgba(255,253,249,.8);
+$transLight: rgba(255,253,249,.5);
+$transLight3: rgba(255,253,249, .25);
+
+$black: #262626;
+$blackTrans: rgba(0,0,0,.6);
+$blackTrans2: rgba(0,0,0,.8);
+$blackTrans3: rgba(0,0,0,.9);
+
+$darkBlue: url('http://therocketdailies.com/wp-content/uploads/2016/10/Dark-Blue-Gradient.jpg') center/contain;
+$darkBlueRight: url('http://therocketdailies.com/wp-content/uploads/2017/01/Dark-Blue-Gradient-right-adjust.jpg') center/contain;
+$leather: url('http://therocketdailies.com/wp-content/uploads/2016/10/LeatherBG.jpg');
+$goldBG: url('http://therocketdailies.com/wp-content/uploads/2016/12/repHeader.jpg') center/contain;
+
+$chocolate: url('http://therocketdailies.com/wp-content/uploads/2016/12/Chocolate.jpg') center/cover;
+$chocolateTrans: url('http://therocketdailies.com/wp-content/uploads/2017/01/Chocolate.png') center/cover;
+$darkChocolate: url('http://therocketdailies.com/wp-content/uploads/2016/12/dark-chocolate.jpg');
+
+//Breakpoints. Remember to use the "interpolation braces" when calling these variables. e.g. #{$bpSmall}
+$bpxs: "screen and (min-width: 287px)";
+$bpSmall: "screen and (min-width: 330px)";
+$bpSmall2: "screen and (min-width: 380px)";
+$bpMedium: "screen and (min-width: 687px)"; //was 610
+$bpMedium2: "screen and (min-width: 728px)";
+$bpLarge: "screen and (min-width: 850px)"; //Sidebar starts
+$bpXL: "screen and (min-width: 941px)";
+$bpXXL: "screen and (min-width: 1280px)";
+$bpXXXL: "screen and (min-width: 1750px)";
+$bpStupidLarge: "screen and (min-width: 1864px)";
+
+//Sizers
+$baseline: 12px;
+$half: $baseline / 2; // 6
+$quarter: $baseline /4; // 3
+$plusHalf: $baseline + $baseline / 2; // 18
+$plusQuarter: $baseline + $baseline /4; // 15
+$double: 2 * $baseline; // 24
+$doublePlusHalf: 2 * $baseline + $baseline / 2; //30
+$triple: 3 * $baseline;
+$quad: 4 * $baseline;
+$sept: 5 * $baseline;
+
+//Other Variables
+$rounded: 2px;
+$roundedTop: 2px 2px 0px 0px;
+$roundedBot: 0px 0px 2px 2px;
+$shadow: 0 1px 1px rgba(173,168,168,0.1);
+$smallTagbarHeight: 75px;
+$mediumTagbarHeight: 150px;
+$mediumFontSize: 20px;
+$maxestWidth: 1280px;
+
+//Mixins
+@mixin flexbox() {
+	display: -webkit-box;      // OLD - iOS 6-, Safari 3.1-6
+	display: -moz-box;         // OLD - Firefox 19- (buggy but mostly works)
+	display: -ms-flexbox;      // TWEENER - IE 10
+	display: -webkit-flex;     // NEW - Chrome
+	display: flex;             // NEW, Spec - Opera 12.1, Firefox 20+
+}
+
+@mixin flex($flex) {
+	-webkit-box-flex: $flex;      // OLD - iOS 6-, Safari 3.1-6
+	-moz-box-flex: $flex;         // OLD - Firefox 19-
+	-webkit-flex: $flex;          // Chrome
+	-ms-flex: $flex;              // IE 10
+	flex: $flex;                  // NEW, Spec - Opera 12.1, Firefox 20+
+}
+
+@mixin transform($trans) {
+	-webkit-transform: $trans; // Ch <36, Saf 5.1+, iOS < 9.2, An =<4.4.4
+	-ms-transform: $trans; // IE 9
+	transform: $trans; // IE 10, Fx 16+, Op 12.1+
+}
+@mixin byWidth() {
+	width: 100%;
+	height: auto;
+}
+@mixin byHeight() {
+	height: 100%;
+	width: auto;
+}
+@mixin fourCorners() {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+}
+
+.thing {
+	margin: 0px auto;
+	color: $light;
+	border-bottom: 1px solid #000;
+	border-radius: 0px;
+}
+.thing, #userbox {
+	background: $darkBlueRight;
+	@media #{$bpLarge} {
+		background: $darkBlue;
+	}
+}
+.titlebox a, .comments-header a, .thing.winner .comments-header a, #onboard .comments-header a, p.userbox {
+	color: $light;
+}
+p.attribution a, p.attribution a:visited, a#winners, .datebox, #onboard .titlebox a, #onboard a, .score, .votecount {
+	color: $gold;
+	text-shadow: 0px 0px $half $blackTrans;
+} 
+.daytitle {
+	background: $chocolateTrans;
+	color: $light;
+}
+
+#tagbar {
+	background: url('http://therocketdailies.com/wp-content/uploads/2017/01/Tagbar-Mobile-BG.jpg') center/cover;
+	@media #{$bpLarge} {
+		background: none;
+	}
+}
+
+body:before {
+	@media #{$bpLarge} {
+		background: url('http://therocketdailies.com/wp-content/uploads/2016/12/Utopia-ublur.jpg') no-repeat center center;
+		-webkit-background-size: cover;
+		-moz-background-size: cover;
+		-o-background-size: cover;
+		background-size: cover;
+	}
+}

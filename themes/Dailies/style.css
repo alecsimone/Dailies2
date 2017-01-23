@@ -973,7 +973,7 @@ h4.recap {
 .section-head.archive, #team-header, #player-header, #archive-header {
   box-sizing: border-box;
   background: url("http://therocketdailies.com/wp-content/uploads/2016/10/LeatherBG.jpg") center/cover;
-  padding: 0;
+  padding: 12px;
   border-radius: 2px 2px 0px 0px; }
   .section-head.archive h2, #team-header h2, #player-header h2, #archive-header h2 {
     display: inline-block;
