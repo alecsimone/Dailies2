@@ -154,8 +154,29 @@ function update_source_meta( $term_id, $tt_id) {
 	};
 };
 
+add_action('set_object_terms', 'update_winners', 10, 6);
+function update_winners($object_id, $terms, $tt_ids, $taxonomy, $append, $old_tt_ids) {
+	if ( in_array(29, $tt_ids) && !in_array(29, $old_tt_ids) ) {
+		$updatedPostStars = get_the_terms($object_id, 'stars');
+		foreach ($updatedPostStars as $winningStar) {
+			$winnerID = $winningStar->term_id;
+			$oldWinCount = get_term_meta($winnerID, 'wins', true);
+			$newWinCount = $oldWinCount + 1;
+			update_term_meta( $winnerID, 'wins', $newWinCount );
+		}
+	} elseif ( !in_array(29, $tt_ids) && in_array(29, $old_tt_ids) ) {
+		$updatedPostStars = get_the_terms($object_id, 'stars');
+		foreach ($updatedPostStars as $winningStar) {
+			$winnerID = $winningStar->term_id;
+			$oldWinCount = get_term_meta($winnerID, 'wins', true);
+			$newWinCount = $oldWinCount - 1;
+			update_term_meta( $winnerID, 'wins', $newWinCount );
+		}
+	}
+}
+
 add_action('post_updated', 'update_win_counts', 10, 2 );
-function update_win_counts() {
+/*function update_win_counts() {
 	$termArgsEU = array(
 		'taxonomy' => 'stars',
 		'parent' => 374 //EU
@@ -218,4 +239,4 @@ function update_win_counts() {
 		}
 		update_term_meta( $starID, 'wins', $starWinCount);
 	}
-}
+} */
