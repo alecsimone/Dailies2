@@ -391,6 +391,9 @@ a#twitter, a#youtube, a#twitch {
 	@media #{$bpXXL} {
 		width: calc(100% / 5 - #{$half});
 	}
+	@media #{$bpStupidLarge} {
+		width: calc(100% / 6 - #{$half});
+	}
 }
 a.barItemLink {
     position: absolute;

@@ -1,4 +1,4 @@
-<?php global $thisDomain; 
+<?php global $thisDomain;
 $isChild = false;
 $theTag = single_tag_title("", false); // get the title of the current tag with no prefix and don't display it
 $thisTerm = get_queried_object(); // Get the thing this page is for
@@ -33,7 +33,8 @@ $max = $wp_query->max_num_pages; // Figure out how many pages there are for this
 
 if ( is_tax('stars') ) { 
 	$thisTax = 'stars';
-	$these_children = get_term_children($thisTermID, $thisTax);  
+	$these_children = get_term_children($thisTermID, $thisTax); 
+	$winCount = get_term_meta($thisTermID, 'wins', true); 
 }
 elseif ( is_tax('skills') ) { $thisTax = 'skills';}
 elseif ( is_tax('source') ) { 
@@ -43,6 +44,7 @@ elseif ( is_tax('source') ) {
 	$thisTax = $taxSlug;
 	if ($thisTax == 'stars') {
 		$these_children = get_term_children($thisTermID, $thisTax); 
+		$winCount = get_term_meta($thisTermID, 'wins', true);
 	};
 } else { $thisTax = 'tag';};
 
@@ -97,7 +99,10 @@ if ($underdogs) {
 				<a href="<?php echo $thisDomain; ?>/<?php echo $thisTax; ?>/<?php echo $thisSlug; ?>"><?php echo $thisTermName; ?></a>
 				<?php if ($isChild && $thisTax == 'stars') { ?>
 					(<a href="<?php echo $thisDomain; ?>/<?php echo $thisTax; ?>/<?php echo $this_parent_slug; ?>"><?php echo $this_parent_title; ?></a>)
-				<?php }; ?>
+				<?php }; 
+				if ($thisTax == 'stars') {
+					echo " - "; print_r($winCount); echo " Wins"; 
+				}; ?>
 			</h2>
 		</div>
 		<?php if ($has_data) { ?>

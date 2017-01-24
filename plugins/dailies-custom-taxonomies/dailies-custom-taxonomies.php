@@ -80,7 +80,7 @@ function create_source_taxonomy() {
 	);
 }
 
-$stars_metas = ['logo', 'twitter', 'twitch', 'youtube'];
+$stars_metas = ['logo', 'twitter', 'twitch', 'youtube', 'wins'];
 add_action( 'stars_edit_form_fields', 'edit_star_form_fields', 10, 2 );
 function edit_star_form_fields($term, $taxonomy) {
 	global $stars_metas;
@@ -153,3 +153,69 @@ function update_source_meta( $term_id, $tt_id) {
 		};
 	};
 };
+
+add_action('post_updated', 'update_win_counts', 10, 2 );
+function update_win_counts() {
+	$termArgsEU = array(
+		'taxonomy' => 'stars',
+		'parent' => 374 //EU
+	);
+	$termArgsNA = array(
+		'taxonomy' => 'stars',
+		'parent' => 373 //NA
+	);
+	$NAStars = get_terms($termArgsNA);
+	$EUStars = get_terms($termArgsEU);
+	$allStars = array_merge($NAStars, $EUStars);
+
+	foreach ($allStars as $star) { //For every child of the Regions, here's what we're going to do
+		$starWinCount = 0; // Start off with a count of 0
+		$starID = $star->term_id; //Get the ID of this team/player
+		$starchildren = get_term_children( $starID, 'stars' ); // Then use that to get all its children (will return array of IDs)
+		$childCount = count($starchildren); // Count that array
+		if ($childCount > 0) { // And if there's anything in it, (ie, if we were dealing with a team, not a player)
+			foreach ($starchildren as $childID) { //Take each player individually
+				$childWinQueryArgs = array( //Args for a query that will return all of this child's wins
+					'posts_per_page' => -1,
+					'tax_query' => array(
+						'relation' => 'AND',
+						array(
+							'taxonomy' => 'post_tag',
+							'field' => 'slug',
+							'terms' => 'winners'
+						),
+						array(
+							'taxonomy' => 'stars',
+							'field' => 'id',
+							'terms' => $childID
+						)
+					)
+				);
+				$childWins = get_posts($childWinQueryArgs); //Run that query
+				$starChildCount = count($childWins);//And count how many posts it returns
+				update_term_meta( $childID, 'wins', $starChildCount);
+				$starWinCount += $starChildCount; // Add that count to our total win count for the parent term
+			}
+		} else {
+			$starWinQueryArgs = array( //Args for a query that will return all of this star's wins
+					'posts_per_page' => -1,
+					'tax_query' => array(
+						'relation' => 'AND',
+						array(
+							'taxonomy' => 'post_tag',
+							'field' => 'slug',
+							'terms' => 'winners'
+						),
+						array(
+							'taxonomy' => 'stars',
+							'field' => 'id',
+							'terms' => $starID
+						)
+					)
+				);
+			$starWins = get_posts($starWinQueryArgs);//Run that query
+			$starWinCount = count($starWins);//And count how many posts it returns
+		}
+		update_term_meta( $starID, 'wins', $starWinCount);
+	}
+}

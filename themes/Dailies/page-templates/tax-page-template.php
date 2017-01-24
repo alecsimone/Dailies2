@@ -7,40 +7,27 @@ $pageNo = get_query_var('paged', 1 );
 if ($pageNo == '0') { $pageNo = 1; };
 $nextPage = $pageNo + 1;
 if ($taxSlug == 'stars') {
-	$termArgsEU = array(
+	$termsArgsNA = array(
 		'taxonomy' => 'stars',
-		'parent' => 374 //EU
+		'parent' => 373
 	);
-	$termArgsNA = array(
+	$termsArgsEU = array(
 		'taxonomy' => 'stars',
-		'parent' => 373 //NA
+		'parent' => 374
 	);
-	$NAStars = get_terms($termArgsNA);
-	$EUStars = get_terms($termArgsEU);
-	$allStars = array_merge($NAStars, $EUStars);
-
-	foreach ($allStars as $star) { //For every child of the Regions, here's what we're going to do
-		$starPostCount = 0; // Start off with a count of 0
-		$starID = $star->term_id; //Get the ID of this team/player
-		$starchildren = get_term_children( $starID, 'stars' ); // Then use that to get all its children (will return array of IDs)
-		$childCount = count($starchildren); // Count that array
-		if ($childCount > 0) { // And if there's anything in it, (ie, if we were dealing with a team)
-			foreach ($starchildren as $childID) { //Take each player individually
-				$starchildObj = get_term_by('id', $childID, 'stars'); // Turn the IDs into term objects
-				$starchildCount = $starchildObj->count; // get the post counts for each player
-				$starPostCount += $starchildCount; // Add that count to our total post count for the parent term
-			}
-		} else {
-			$starCount = $star->count; //Get the count for the player
-			$starPostCount = $starCount; //Add it to the postcount
-		}
-		$allStarsCounted[$starID] = $starPostCount;
+	$theseTermsNA = get_terms($termsArgsNA); 
+	$theseTermsEU = get_terms($termsArgsEU);
+	$allStars = array_merge($theseTermsNA, $theseTermsEU);
+	foreach ($allStars as $star) {
+		$starID = $star->term_id;
+		$starWins = get_term_meta($starID, 'wins', true);
+		$allStarIDs[$starID] = $starWins;
 	}
-	arsort($allStarsCounted);
-	foreach ($allStarsCounted as $starryID => $starryCount) {
-		$theseTerms[] = get_term_by('id', $starryID, 'stars');
+	arsort($allStarIDs);
+	foreach ($allStarIDs as $starryID => $starryWins) {
+		$theseTerms[] = get_term($starryID, 'stars');
 	}
-	$termsCount = count($theseTerms);
+	$termsCount = count($theseTerms); //and count it so we know how many pages to show
 } elseif ($taxSlug == 'source') {
 	$tournamentArgs = array(
 		'taxonomy' => 'source',
