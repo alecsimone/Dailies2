@@ -17,6 +17,10 @@
 	$guestlist = get_post_meta($thisID, 'guestlist', true);
 	$voteledger = get_post_meta($thisID, 'voteledger', true);
 	$user_id = get_current_user_id(); // Get the user's ID
+	$voteContribution = $voteledger[$user_id];
+	if ($voteContribution == '') {
+		$voteContribution = 0;
+	};
 	global $thisDomain;
 ?>
 <article id="thing<?php echo $thisID; ?>" class="thing <?php if (!$winnerSection) { echo "pull ";}; if ( is_single() ) { echo 'singlething '; }; if ( has_tag("winners") ) { echo "winner ";}; ?>">
@@ -31,13 +35,13 @@
 			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/09/TWT.png" class="socialIcon" id="twitter-share">
 		</a>
 		<div id="thing<?php echo $thisID; ?>-votecount" class="votecount">
-			<div id="thingScore<?php echo $thisID; ?>" onclick="vote(<?php echo $thisID; ?>)">+<?php echo $score; ?></div>
+			<div id="thingScore<?php echo $thisID; ?>" data-score="<?php echo $score; ?>" data-contribution="<?php echo $voteContribution; ?>">+<?php echo $score; ?></div>
 		</div>
 		<?php include_once('explainer.php'); ?>
 		<?php if ( ( $user_id == 0 && !in_array($client_ip, $guestlist) ) || ( $user_id != 0 && !array_key_exists($user_id, $voteledger) ) ) { ?>
-			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Vote-Icon-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon" data-id="<?php echo $thisID; ?>" onclick="vote(<?php echo $thisID; ?>)">
+			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Vote-Icon-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon" data-id="<?php echo $thisID; ?>" data-vote="up" onclick="vote(<?php echo $thisID; ?>)">
 		<?php } elseif ( ( $user_id == 0 && in_array($client_ip, $guestlist) ) || ( $user_id != 0 && array_key_exists($user_id, $voteledger) ) ) { ?>
-			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Medal-small-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon" data-id="<?php echo $thisID; ?>" onclick="vote(<?php echo $thisID; ?>)">
+			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Medal-small-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon" data-id="<?php echo $thisID; ?>" data-vote="down" onclick="vote(<?php echo $thisID; ?>)">
 		<?php }; ?>
 	</section>
 	<div class="onboardbox" id="thing<?php echo $thisID; ?>-onboardbox">
