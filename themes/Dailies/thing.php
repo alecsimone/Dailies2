@@ -20,7 +20,7 @@
 	$voteContribution = $voteledger[$user_id];
 	if ($voteContribution == '' && !in_array($client_ip, $guestlist)) {
 		$voteContribution = 0;
-	} elseif ( in_array($client_ip, $guestlist) ) {
+	} elseif ( $voteContribution == '' && in_array($client_ip, $guestlist) ) {
 		$voteContribution = 0.1;
 	};
 	global $thisDomain;
