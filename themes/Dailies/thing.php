@@ -18,8 +18,10 @@
 	$voteledger = get_post_meta($thisID, 'voteledger', true);
 	$user_id = get_current_user_id(); // Get the user's ID
 	$voteContribution = $voteledger[$user_id];
-	if ($voteContribution == '') {
+	if ($voteContribution == '' && !in_array($client_ip, $guestlist)) {
 		$voteContribution = 0;
+	} elseif ( in_array($client_ip, $guestlist) ) {
+		$voteContribution = 0.1;
 	};
 	global $thisDomain;
 ?>

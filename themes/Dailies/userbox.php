@@ -1,14 +1,13 @@
 <?php //the rep box at the top of the sidebar, or beneath the propbox on small screens
 $user_id = get_current_user_id();
 $myrep = get_user_meta($user_id, 'rep', true);
+if ( $user_id == 0 ) {
+	$myrep = 0.1;
+}
 ?>
 
 <header id="repHeader" class="sideHeader">Your Rep: <div class="repScore" data-rep="<?php echo $myrep; ?>"><?php 
-	if ( $user_id == 0 ) {
-		echo "0.1";
-	} else {
-		echo $myrep; 
-	};
+	echo $myrep; 
 ?></div></header>
 <div id="userbox">
 	<?php if ( $user_id == 0 ) { ?>

@@ -11,7 +11,6 @@ function vote(ID) {
 	thisRep = thisRepElement.attr('data-rep');
 	thisRep = parseFloat(thisRep);
 	thisVoteDirection = thisVoteButton.attr('data-vote');
-	console.log(thisVoteDirection);
 	if (thisVoteDirection === "up") {
 		newScore = (thisScore + thisRep).toFixed(1);
 		thisScoreElement.attr('data-contribution', thisRep);
@@ -19,8 +18,9 @@ function vote(ID) {
 		newScore = (thisScore - thisContribution).toFixed(1);
 		thisScoreElement.attr('data-contribution', 0);
 	}
-	thisScoreElement.fadeOut(200, scoreFadeBack(ID));
-	thisVoteButton.fadeOut(200);
+	thisScoreElement.html('+' + newScore);
+	console.log(newScore);
+	thisScoreElement.attr('data-score', newScore);
 	thisOnboardbox.css("maxHeight", 300);
 	jQuery.ajax({
 		type: "POST",
@@ -56,9 +56,7 @@ function vote(ID) {
 function scoreFadeBack(ID) {
 	return function() {
 		var thisScoreElement = jQuery(`#thingScore${ID}`);
-		thisScoreElement.html('+' + newScore);
-		console.log(newScore);
-		thisScoreElement.attr('data-score', newScore);
+		
 		thisScoreElement.fadeIn(200);
 	};
 }
