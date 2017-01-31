@@ -16,7 +16,7 @@ function enqueue_ajax_vote() {
 	$daily_vote_data = array(
 		'ajaxurl' => admin_url( 'admin-ajax.php' ),
 		'nonce' => $nonce,
-		'voteIcon' => 'http://therocketdailies.com/wp-content/uploads/2016/12/Medal-small-100.png',
+		'medal' => 'http://therocketdailies.com/wp-content/uploads/2016/12/Medal-small-100.png',
 		'emptyVoteIcon' => 'http://therocketdailies.com/wp-content/uploads/2016/12/Vote-Icon-100.png'
 	);
 	wp_localize_script( 'ajax-vote', 'daily_vote', $daily_vote_data );

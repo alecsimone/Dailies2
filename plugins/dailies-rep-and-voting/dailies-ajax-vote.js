@@ -14,9 +14,11 @@ function vote(ID) {
 	if (thisVoteDirection === "up") {
 		newScore = (thisScore + thisRep).toFixed(1);
 		thisScoreElement.attr('data-contribution', thisRep);
+		thisVoteButton.replaceWith(`<img src="${daily_vote.medal}" id="voteIcon${ID}" class="voteIcon" data-id="${ID}" data-vote="down" onclick="vote(${ID})">`).fadeIn(200);
 	} else {
 		newScore = (thisScore - thisContribution).toFixed(1);
 		thisScoreElement.attr('data-contribution', 0);
+		thisVoteButton.replaceWith(`<img src="${daily_vote.emptyVoteIcon}" id="voteIcon${ID}" class="voteIcon" data-id="${ID}" data-vote="up" onclick="vote(${ID})">`).fadeIn(200);
 	}
 	thisScoreElement.html('+' + newScore);
 	console.log(newScore);
@@ -38,16 +40,11 @@ function vote(ID) {
 		},
 		success: function(data) {
 			if (data) {
-				if (data.voted) {
-					thisVoteButton.replaceWith(`<img src="${daily_vote.voteIcon}" id="voteIcon${ID}" class="voteIcon" data-id="${ID}" data-vote="down" onclick="vote(${ID})">`).fadeIn(200);
-				} else {
-					thisVoteButton.replaceWith(`<img src="${daily_vote.emptyVoteIcon}" id="voteIcon${ID}" class="voteIcon" data-id="${ID}" data-vote="up" onclick="vote(${ID})">`).fadeIn(200);
-				}
-					thisRepElement.html(data.new_rep);
-					thisRepElement.attr('data-rep', data.new_rep);
-					window._loq = window._loq || []; // ensure queue available
-					window._loq.push(["tag","Voted", true]); //Tag recordings in lucky orange
-					console.log(data.log);
+				thisRepElement.html(data.new_rep);
+				thisRepElement.attr('data-rep', data.new_rep);
+				window._loq = window._loq || []; // ensure queue available
+				window._loq.push(["tag","Voted", true]); //Tag recordings in lucky orange
+				console.log(data.log);
 			};
 		}
 	});
