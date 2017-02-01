@@ -63,7 +63,7 @@ function daily_ajax_vote() { // Our function for voting
 			$rep_votes_count = count($rep_votes_keys); // Count that array
 
 			if ($rep_votes_count >= 1) { // If the user has gotten rep for 3 or more posts
-				$target_count = $rep_votes_count; //We need the last element in the array
+				$target_count = $rep_votes_count - 1; //We need the last element in the array
 				$target_key = $rep_votes_keys[$target_count]; // Get the post ID for the 3rd most recent vote
 				$third_time = $rep_votes[$target_key]; // This will return the timestamp of the third to last post
 			} else { $third_time = 0; }; 
