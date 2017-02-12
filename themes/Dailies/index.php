@@ -3,7 +3,7 @@
 <div class="contentContainer">
 
 	<div id="propbox">
-		<div class="propaganda" id="propLeft">Current Daily Prize: $0.00</div>
+		<div class="propaganda" id="propLeft">Current Daily Prize: $25.00</div>
 		<div class="propaganda" id="propRight">More Coming Soon...</div>
 	</div>
 

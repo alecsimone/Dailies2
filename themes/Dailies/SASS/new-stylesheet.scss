@@ -200,6 +200,7 @@ The site uses infinite scroll and thus has no footer
 	position: relative;
 	width: 100%;
 	top: 0px;
+	margin-bottom: $plusHalf;
 }
 .headroom {
     will-change: transform;

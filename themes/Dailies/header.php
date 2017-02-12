@@ -66,6 +66,6 @@
 	</nav>
 </div>
 
-<?php include(locate_template('tagbar.php')); ?>
+<?php //include(locate_template('tagbar.php')); ?>
 
 <a href="javascript:" id="return-to-top"><img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/11/up-arrow.png"></a>

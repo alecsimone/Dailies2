@@ -53,10 +53,6 @@ function daily_ajax_vote() { // Our function for voting
 			$voteledger[$user_id] = $user_rep; // Add a new element to our array with the User ID as the Key and their current rep as the value. We'll use this to make sure we take away the right amount of points when they unvote
 			$ledger_update_success = update_post_meta($vote_post_id, 'voteledger', $voteledger); // Update the ledger, store the success
 
-			$current_count = get_post_meta( $vote_post_id, 'votecount', true); // Get the current score
-			$new_count = $current_count + $user_rep; // Add the user's rep to it
-			$update_success = update_post_meta( $vote_post_id, 'votecount', $new_count); // Update, store
-
 			$current_time = time(); // Get the current time
 			$rep_votes = get_user_meta($user_id, 'repVotes', true); // Get the array of posts for which the user got rep
 			$rep_votes_keys = array_keys($rep_votes); // get an array of the post IDs for which the user got rep
@@ -78,6 +74,10 @@ function daily_ajax_vote() { // Our function for voting
 				$rep_votes_success = update_user_meta($user_id, 'repVotes', $rep_votes); //update, store
 
 			} else { $new_rep = $user_rep; };
+
+			$current_count = get_post_meta( $vote_post_id, 'votecount', true); // Get the current score
+			$new_count = $current_count + $new_rep; // Add the user's rep to it
+			$update_success = update_post_meta( $vote_post_id, 'votecount', $new_count); // Update, store
 
 			$old_vote_history = get_user_meta($user_id, 'voteHistory', true); // get the user's vote history
 			$new_vote_history = $old_vote_history; // Make a new array, fill it with the vote history
@@ -202,5 +202,5 @@ function my_save_extra_profile_fields( $user_id ) {
 add_action('publish_post', 'set_default_custom_fields');
 function set_default_custom_fields($ID){
 	global $wpdb;
-    if( !wp_is_post_revision($post_ID) ) {add_post_meta($ID, 'votecount', 0, true);};
+    if( !wp_is_post_revision($ID) ) {add_post_meta($ID, 'votecount', 0, true);};
 };
