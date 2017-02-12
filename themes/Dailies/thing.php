@@ -32,24 +32,10 @@
 		</section>
 	<?php } else {
 	}; ?>
-	<section id="thing<?php echo $thisID; //to give each thing a unique ID so they can be told apart ?>-topbar" class="topbar">
-		<div id="thing<?php echo $thisID; ?>-votecount" class="votecount">
-			<div id="thingScore<?php echo $thisID; ?>" data-score="<?php echo $score; ?>" data-contribution="<?php echo $voteContribution; ?>">+<?php echo $score; ?></div>
-		</div>
-		<?php if ( ( $user_id == 0 && !in_array($client_ip, $guestlist) ) || ( $user_id != 0 && !array_key_exists($user_id, $voteledger) ) ) { ?>
-			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Vote-Icon-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon" data-id="<?php echo $thisID; ?>" data-vote="up" onclick="vote(<?php echo $thisID; ?>)">
-		<?php } elseif ( ( $user_id == 0 && in_array($client_ip, $guestlist) ) || ( $user_id != 0 && array_key_exists($user_id, $voteledger) ) ) { ?>
-			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Medal-small-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon" data-id="<?php echo $thisID; ?>" data-vote="down" onclick="vote(<?php echo $thisID; ?>)">
-		<?php }; ?>
-	</section>
-	<div class="onboardbox" id="thing<?php echo $thisID; ?>-onboardbox">
-		<?php if ( !is_user_logged_in() ) { ?>
-			<p class="onboardText">Members' votes count 10x more. Build Rep and your multiplier grows.</p>
-			<?php do_action( 'wordpress_social_login' );
-		}; ?>
-	</div>
 	<header id="thing<?php echo $thisID; ?>-titlebox" class="titlebox">
-		<h3><a href="<?php the_permalink(); ?>"><?php the_title();?></a></h3>
+		<div id="thing<?php echo $thisID; ?>-votecount" class="votecount">
+			<div id="thingScore<?php echo $thisID; ?>" data-score="<?php echo $score; ?>" data-contribution="<?php echo $voteContribution; ?>">(+<?php echo $score; ?>)</div>
+		</div> <h3><a href="<?php the_permalink(); ?>"><?php the_title();?></a></h3>
 	</header>
 	</section>
 	<section id="thing<?php echo $thisID; ?>-contentbox" class="contentbox">
@@ -104,6 +90,19 @@
 			the_content();
 		} ?>
 	</section>
+	<section id="thing<?php echo $thisID; //to give each thing a unique ID so they can be told apart ?>-votebar" class="votebar">
+		<?php if ( ( $user_id == 0 && !in_array($client_ip, $guestlist) ) || ( $user_id != 0 && !array_key_exists($user_id, $voteledger) ) ) { ?>
+			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Vote-Icon-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon" data-id="<?php echo $thisID; ?>" data-vote="up" onclick="vote(<?php echo $thisID; ?>)">
+		<?php } elseif ( ( $user_id == 0 && in_array($client_ip, $guestlist) ) || ( $user_id != 0 && array_key_exists($user_id, $voteledger) ) ) { ?>
+			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Medal-small-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon" data-id="<?php echo $thisID; ?>" data-vote="down" onclick="vote(<?php echo $thisID; ?>)">
+		<?php }; ?>
+	</section>
+	<div class="onboardbox" id="thing<?php echo $thisID; ?>-onboardbox">
+		<?php if ( !is_user_logged_in() ) { ?>
+			<p class="onboardText">Members' votes count 10x more. Build Rep and your multiplier grows.</p>
+			<?php do_action( 'wordpress_social_login' );
+		}; ?>
+	</div>
 	<?php if ( !is_single() ) { ?>
 	<section id="thing<?php echo $thisID; ?>-commentbox" class="commentbox">
 		<?php $commentArgs = array(

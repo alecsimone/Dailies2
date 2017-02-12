@@ -26,6 +26,7 @@ $transLight3: rgba(255,253,249, .25);
 $lightBlue: #f5f6f7;
 $lightOrange: #e5e4e3;
 $lightGreen: #f5f7f5;
+$lightRed: #f7f6f5;
 
 $black: #262626;
 $blackTrans: rgba(0,0,0,.6);
@@ -65,6 +66,7 @@ $triple: 3 * $baseline;
 $quad: 4 * $baseline;
 $sept: 5 * $baseline;
 $sex: 6 * $baseline;
+$oct: 8 * $baseline;
 
 //Other Variables
 $rounded: 2px;
@@ -173,7 +175,7 @@ body:before { /* Background hack to play a little nicer on mobile */
 	  	width: 100%;
 	  	height: 100%;
 	  	z-index: -10;
-	  	background: $lightGreen;
+	  	background: $lightRed;
 }
 a, a:visited {
     color: $blue;
@@ -680,8 +682,9 @@ a .count, a:visited .count {
 }
 h3.sidebar {
 	font-size: $plusHalf;
+	font-weight: normal;
 	text-align: left;
-	line-height: 1.4em;
+	line-height: 1.25em;
 	padding: .35em 0px 0px;
 	a {
 		color: $blackTrans3;
@@ -758,7 +761,7 @@ a.earlier.nomore {
 	}
 }
 
-.topbar, .storybox, .commentbox, .tagbar {
+.votebar, .storybox, .commentbox, .tagbar {
 	@media #{$bpXL} {
 		padding: 0px;
 	}
@@ -783,20 +786,22 @@ a.earlier.nomore {
 	}
 }
 
-.topbar {
+.votebar {
 	@include flexbox();
-	justify-content: space-between;
+	justify-content: center;
 	align-items: center;
 	position: relative;
-	height: $sept;
+	height: $oct;
 	border-radius: $roundedTop;
 	padding: $half 0;
 }
 
 /*----------- 3Ai: votecount ----------- */
 .votecount {
-	font-size: $triple;
+	font-size: $doublePlusHalf;
 	font-weight: bold;
+	display: inline-block;
+	padding-right: $half;
 }
 
 /*----------- 3Aii: votebox ----------- */
@@ -821,7 +826,7 @@ a.share-button {
 }
 .voteIcon {
 	cursor: pointer;
-	width: $sept;
+	width: $oct;
 	@media #{$bpXL} {
 		right: $baseline;
 	}
@@ -839,7 +844,7 @@ img.explainer-arrow {
 }
 
 .onboardbox {
-	text-align: right;
+	text-align: center;
 	max-height: 0px;
 	overflow: hidden;
 	transition: max-height .5s;
@@ -931,13 +936,16 @@ img.thumb {
 .titlebox {
 	display: inline-block;
 	box-sizing: border-box;
-	padding: 0px 0px $half;
+	padding: $double 0 $plusQuarter;
 	a {
     	color: $black;
     	text-decoration: none;
     	&:hover {
     		text-decoration: underline;
     	}
+    }
+    h3 {
+    	display: inline;
     }
 }
 
@@ -964,7 +972,6 @@ p.attribution a, p.attribution a:visited {
 	position: relative;
 	height: auto;
 	color: $light;
-	padding: $plusHalf $half;
 	font-size: $plusHalf;
 }
 .comments-header {
@@ -1027,7 +1034,7 @@ input#comment-submit {
 	font-size: $plusQuarter;
 	text-align: center;
 	a {
-    	color: $green;
+    	color: $blue;
     	&:visited {
 			color: $blue;
 		}
@@ -1065,7 +1072,7 @@ a.earlier.nomore.thing {
 	width: 100%;
 	height: 150px;
 	position: relative;
-	background: url('http://therocketdailies.com/wp-content/uploads/2017/02/Faceoff-trans.jpg') center/cover;
+	background: url('http://therocketdailies.com/wp-content/uploads/2017/01/Choose-Excellence.jpg') center/cover;
 	margin: 0px auto $baseline;
 	@media #{$bpMedium} {
 		margin: 0px auto $plusHalf;
@@ -1079,7 +1086,7 @@ a.earlier.nomore.thing {
 .propaganda {
 	position: absolute;
 	font-size: $baseline;
-	color: $green;
+	color: $light;
 	bottom: $half;
 	height: auto;
 	max-width: 50%;
