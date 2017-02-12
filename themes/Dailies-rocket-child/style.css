@@ -11,41 +11,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: mobile, stream, responsive, dark
 Text Domain: dailies-rocket-child
 */
-.thing {
-  margin: 0px auto;
-  color: rgba(255, 253, 249, 0.8);
-  border-bottom: 1px solid #000;
-  border-radius: 0px; }
-
-.thing, #userbox {
-  background: url("http://therocketdailies.com/wp-content/uploads/2017/01/Dark-Blue-Gradient-right-adjust.jpg") center/contain; }
-  @media screen and (min-width: 850px) {
-    .thing, #userbox {
-      background: url("http://therocketdailies.com/wp-content/uploads/2016/10/Dark-Blue-Gradient.jpg") center/contain; } }
-
-.titlebox a, .comments-header a, .thing.winner .comments-header a, #onboard .comments-header a, p.userbox {
-  color: rgba(255, 253, 249, 0.8); }
-
 p.attribution a, p.attribution a:visited, a#winners, .datebox, #onboard .titlebox a, #onboard a, .score, .votecount {
-  color: rgba(253, 202, 60, 0.8);
-  text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.6); }
-
-.daytitle {
-  background: url("http://therocketdailies.com/wp-content/uploads/2017/01/Chocolate.png") center/cover;
-  color: rgba(255, 253, 249, 0.8); }
-
-#tagbar {
-  background: url("http://therocketdailies.com/wp-content/uploads/2017/01/Tagbar-Mobile-BG.jpg") center/cover; }
-  @media screen and (min-width: 850px) {
-    #tagbar {
-      background: none; } }
-
-@media screen and (min-width: 850px) {
-  body:before {
-    background: url("http://therocketdailies.com/wp-content/uploads/2016/12/Utopia-ublur.jpg") no-repeat center center;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover; } }
+  color: rgba(58, 122, 195, 0.9); }
 
 /*# sourceMappingURL=style.css.map */

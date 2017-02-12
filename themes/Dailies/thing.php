@@ -28,18 +28,14 @@
 <article id="thing<?php echo $thisID; ?>" class="thing <?php if (!$winnerSection) { echo "pull ";}; if ( is_single() ) { echo 'singlething '; }; if ( has_tag("winners") ) { echo "winner ";}; ?>">
 	<?php if ( has_tag("winners") && $winnerBanner ) { ?>
 		<section id="winnerbanner<?php echo $thisID; ?>" class="winnerbanner">
-			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/10/Winner-banner-leather.png" class="winnerbannerIMG">
+			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/02/Winner-banner-trans-blue.png" class="winnerbannerIMG">
 		</section>
 	<?php } else {
 	}; ?>
 	<section id="thing<?php echo $thisID; //to give each thing a unique ID so they can be told apart ?>-topbar" class="topbar">
-		<a class="share-button" href="https://twitter.com/home?status=Holy%20crap%20check%20out%20this%20play%3A%20<?php echo urlencode(get_permalink($thisID)); ?>%20via%20%40rocket_dialies" target="_blank">
-			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/09/TWT.png" class="socialIcon" id="twitter-share">
-		</a>
 		<div id="thing<?php echo $thisID; ?>-votecount" class="votecount">
 			<div id="thingScore<?php echo $thisID; ?>" data-score="<?php echo $score; ?>" data-contribution="<?php echo $voteContribution; ?>">+<?php echo $score; ?></div>
 		</div>
-		<?php include_once('explainer.php'); ?>
 		<?php if ( ( $user_id == 0 && !in_array($client_ip, $guestlist) ) || ( $user_id != 0 && !array_key_exists($user_id, $voteledger) ) ) { ?>
 			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Vote-Icon-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon" data-id="<?php echo $thisID; ?>" data-vote="up" onclick="vote(<?php echo $thisID; ?>)">
 		<?php } elseif ( ( $user_id == 0 && in_array($client_ip, $guestlist) ) || ( $user_id != 0 && array_key_exists($user_id, $voteledger) ) ) { ?>
@@ -153,7 +149,7 @@
 		<?php $tag_list = get_the_tag_list( 'More: ', ',  ', '', $thisID);
 		$skill_list = get_the_terms($thisID, 'skills');
 		echo $tag_list;
-		foreach ($skill_list as $skill) { ?>, <a href="http://www.therocketdailies.com/skills/<?php echo $skill->slug; ?>" ><?php echo $skill->name; ?></a><?php }; ?>
+		foreach ($skill_list as $skill) { ?>, <a href="<?php echo $thisDomain; ?>/skills/<?php echo $skill->slug; ?>" ><?php echo $skill->name; ?></a><?php }; ?>
 	</section>
 	<?php }; 
 	$firstPost = false; ?>

@@ -10,19 +10,22 @@
 
 //Color Variables
 $gold: rgba(215, 176, 82, 0.95);
-//$gold: rgba(253,202,60,.8);
+$lightGold: rgba(253,202,60,.6);
 
 $blue: rgba(58, 122, 195, 0.9);
 //$blue: #3b8fd9;
 $blueTrans: rgba(45,109,166,.85);
 
-$green: rgba(64, 162, 78, 0.9);
+$green: #40a24e;
 //$green: rgba(67, 191, 67, .8);
 $orange: rgba(255,153,0,.8);
 
 $light: rgba(255,253,249,.8);
 $transLight: rgba(255,253,249,.5);
 $transLight3: rgba(255,253,249, .25);
+$lightBlue: #f5f6f7;
+$lightOrange: #e5e4e3;
+$lightGreen: #f5f7f5;
 
 $black: #262626;
 $blackTrans: rgba(0,0,0,.6);
@@ -111,6 +114,12 @@ $maxestWidth: 1280px;
 	bottom: 0px;
 }
 
+@mixin card() {
+	background: #fff;
+	box-shadow: $shadow;
+	border: 1px solid rgba(0,0,0,.1);
+}
+
 //      Table of Contents
 //
 // 1. Fundamental Structure
@@ -149,7 +158,7 @@ html, body {
 	height: 100%; /* This and min-height help the background work on mobile */
  	min-height: 100%;
 	font-family: proxima-nova, sans-serif;
-	color: $light;
+	color: $black;
 	margin: 0px;
 	padding: 0px;
 	text-align: center;
@@ -164,7 +173,7 @@ body:before { /* Background hack to play a little nicer on mobile */
 	  	width: 100%;
 	  	height: 100%;
 	  	z-index: -10;
-	  	background: #424242;
+	  	background: $lightGreen;
 }
 a, a:visited {
     color: $blue;
@@ -494,8 +503,6 @@ a#lessbar {
 
 .loop-ad {
     padding: $baseline 0;
-    background: $darkBlue;
-    border-bottom: 1px solid #000;
 }
 
 /*----------- 1Cia: Section Heads ----------- */
@@ -535,21 +542,23 @@ a#lessbar {
 	font-size: $double;
 	line-height: 1em;
 	font-weight: bold;
-	background: $chocolateTrans;
 	padding: $double 0px;
 	font-weight: bold;
-	color: $light;
+	color: $black;
 	border-radius: $roundedTop;
 	@media #{$bpLarge} {
 		border-radius: $rounded;
 	}
 }
 .goldBG {
-	background: $goldBG;
+	background: $lightGold;
 	color: $black;
 }
 #repHeader {
 	@extend .goldBG;
+	border-left: 1px solid rgba(0,0,0,.1);
+	border-right: 1px solid rgba(0,0,0,.1);
+	border-top: 1px solid rgba(0,0,0,.1);
 }
 #repFooter {
 	@extend .goldBG;
@@ -568,10 +577,15 @@ a#lessbar {
 }
 #userbox {
 	@include flexbox();
+	background: #fff;
 	flex-direction: column;
 	justify-content: center;
 	height: auto;
 	margin-bottom: $baseline;
+	box-shadow: $shadow;
+	border-right: 1px solid rgba(0,0,0,.1);
+	border-bottom: 1px solid rgba(0,0,0,.1);
+	border-left: 1px solid rgba(0,0,0,.1);
 	@media #{$bpMedium} {
 		margin-bottom: $plusHalf;
 	}
@@ -588,7 +602,7 @@ p.userbox {
 	font-size: $plusHalf;
 	text-align: center;
 	& a {
-		color: $light;
+		color: $black;
 	}
 }
 .wp-social-login-connect-with {
@@ -622,14 +636,16 @@ a.wp-social-login-provider {
 }
 .sidebarSectionTitle {
     font-size: 18px;
-    background: $darkBlue;
+    color: $black;
     padding: 6px;
+}
+#topHeader {
+	padding: $plusQuarter 0 $quarter;
 }
 .topPost {
 	width: 100%;
 	margin: auto;
-	padding: 10px 3.5%;
-	background: $transLight; 		
+	padding: $baseline 0px;	
 	box-sizing: border-box;
 }
 .pic-count {
@@ -669,7 +685,6 @@ h3.sidebar {
 	padding: .35em 0px 0px;
 	a {
 		color: $blackTrans3;
-		text-shadow: 0 0 6px $light;
 		text-decoration: none;
 		&:hover {
 			text-decoration: underline;
@@ -720,21 +735,26 @@ a.earlier.nomore {
 	E- tagbox
 ---------------------------------------------------------*/
 .thing {
+	@include card();
+	border-left: none;
+	border-right: none;
 	width: 100%;
 	max-width: $maxestWidth;
 	box-sizing: border-box;
-	margin: 10px auto;
+	margin: $plusQuarter auto;
 	border-radius: $rounded;
 	color: $black;
 	text-align: left;
-	background: #fff;
-	box-shadow: $shadow;
 	padding: $baseline;
 	@media #{$bpMedium} {
 		font-size: $mediumFontSize;
 	}
+	@media #{$bpLarge} {
+		border-left: 1px solid rgba(0,0,0,.1);
+		border-right: 1px solid rgba(0,0,0,.1);
+	}
 	@media #{$bpXL} {
-		padding: 0px $baseline $baseline;
+		padding: 0px $plusQuarter $plusQuarter;
 	}
 }
 
@@ -746,18 +766,20 @@ a.earlier.nomore {
 
 /*----------- 3A: Topbar ----------- */
 .winnerbanner {
-	width: 100%;
+	width: calc(100% + #{$double});
 	line-height: 0px;
-	background: #2d2d2d;
 	border-radius: $roundedTop;
 	opacity: 1;
+	margin-left: -$baseline;
+	margin-top: -$baseline;
 	img {
 		@include byWidth();
 		border-radius: $roundedTop;
 	}
 	@media #{$bpXL} {
-		width: calc(100% + #{$double});
-		margin-left: -$baseline;
+		width: calc(100% + #{$doublePlusHalf});
+		margin-left: -$plusQuarter;
+		margin-top: 0;
 	}
 }
 
@@ -1043,13 +1065,12 @@ a.earlier.nomore.thing {
 	width: 100%;
 	height: 150px;
 	position: relative;
-	background: url('http://therocketdailies.com/wp-content/uploads/2017/01/Choose-Excellence.jpg') center/cover;
+	background: url('http://therocketdailies.com/wp-content/uploads/2017/02/Faceoff-trans.jpg') center/cover;
 	margin: 0px auto $baseline;
 	@media #{$bpMedium} {
 		margin: 0px auto $plusHalf;
 	}
 	@media #{$bpLarge} {
-		border-radius: $rounded;
 		height: 240px;
 		margin: 0px auto $baseline;
 	}
@@ -1063,6 +1084,7 @@ a.earlier.nomore.thing {
 	height: auto;
 	max-width: 50%;
 	font-weight: bold;
+	text-shadow: 0 0 $baseline $blackTrans3;
 	@media #{$bpSmall2} {
 		font-size: $plusHalf;
 	}
@@ -1086,8 +1108,7 @@ a.earlier.nomore.thing {
 	padding: 1.2em;
 	box-sizing: border-box;
 	text-align: center;
-	background: $black;
-	color: $light;
+	color: $black;
 	display: inline-block;
 	width: 100%;
 	margin: 0px auto;
@@ -1111,6 +1132,10 @@ a.earlier.nomore.thing {
     	color: $black;
 }
 
+.thing.singlething {
+	margin: 0 auto $plusQuarter;
+}
+
 h4.recap {
 	font-size: 2em;
 	text-decoration: underline;
@@ -1121,7 +1146,6 @@ h4.recap {
 	width: 100%;
 	max-width: $maxestWidth;
 	margin: 0px auto 100px;
-	background: $darkBlue;
 	padding: 1em;
 	box-sizing: border-box;
 }
@@ -1148,8 +1172,8 @@ h4.recap {
 
 /*----------- 3C: Archive/Search Page stuff ----------- */
 .section-head.archive, #team-header, #player-header, #archive-header {
+	@include card();
 	box-sizing: border-box;
-	background: $leather center/cover;
 	padding: $baseline;
 	border-radius: $roundedTop;
 	h2 {
@@ -1163,7 +1187,7 @@ h4.recap {
 		}
 	}
 	a {
-		color: $light;
+		color: $black;
 		&:hover {
 			color: $blueTrans;
 		}
@@ -1213,13 +1237,13 @@ h4.recap {
 	vertical-align: middle;
 }
 #order-selector {
-    background: $chocolateTrans;
+    background: $lightOrange;
     font-size: $plusHalf;
     padding: $baseline;
-    border-bottom: 1px solid #000;
+	margin: $baseline 0;
 }
 a.orderLink {
-	color: $light;
+	color: $black;
 	&:hover {
 		color: $blue;
 	}
@@ -1359,10 +1383,8 @@ img.team-logo-img {
 #strings {
 }
 h2#taxHeader {
-    margin: 0;
+    margin: 0 0 12px;
     padding: $double;
-    background: $leather center/cover;
-    border-bottom: 2px solid $blueTrans;
     font-size: $sept;
 }
 .string {
