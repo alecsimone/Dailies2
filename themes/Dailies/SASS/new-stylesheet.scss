@@ -9,34 +9,27 @@
  ---------------- Theme customization starts here -------------------------------------------------------------- */
 
 //Color Variables
-$gold: rgba(215, 176, 82, 0.95);
-//$gold: rgba(253,202,60,.8);
+$gold: rgba(236, 193, 91, 1);
+$lightGold: rgba(236, 193, 91, 0.8);
 
-$blue: rgba(58, 122, 195, 0.9);
-//$blue: #3b8fd9;
-$blueTrans: rgba(45,109,166,.85);
+$blue: rgba(16, 80, 143, 1);
+$lighterblue: #3b8fd9;
+$blueTrans: rgba(16,80,143,.85);
 
-$green: rgba(64, 162, 78, 0.9);
-//$green: rgba(67, 191, 67, .8);
-$orange: rgba(255,153,0,.8);
+$orange: rgba(255, 153, 0, .8);
+$transOrange: rgba(255, 153, 0, .2);
 
-$light: rgba(255,253,249,.8);
+$light: rgba(255,253,249,.9);
 $transLight: rgba(255,253,249,.5);
 $transLight3: rgba(255,253,249, .25);
+$lightOrange: #e6ded8;
+$lightGreen: #e6ebe8;
 
-$black: #262626;
-$blackTrans: rgba(0,0,0,.6);
-$blackTrans2: rgba(0,0,0,.8);
-$blackTrans3: rgba(0,0,0,.9);
-
-$darkBlue: url('http://therocketdailies.com/wp-content/uploads/2016/10/Dark-Blue-Gradient.jpg') center/contain;
-$leather: url('http://therocketdailies.com/wp-content/uploads/2016/10/LeatherBG.jpg');
-$goldBG: url('http://therocketdailies.com/wp-content/uploads/2016/12/repHeader.jpg') center/contain;
-
-$chocolate: url('http://therocketdailies.com/wp-content/uploads/2016/12/Chocolate.jpg') center/cover;
-$chocolateRGBA: rgba(45, 29, 18, 0.5);
-$chocolateTrans: url('http://therocketdailies.com/wp-content/uploads/2017/01/Chocolate.png') center/cover;
-$darkChocolate: url('http://therocketdailies.com/wp-content/uploads/2016/12/dark-chocolate.jpg');
+$black: #121212;
+$blackTrans: rgba(12,12,12,.6);
+$blackTrans2: rgba(12,12,12,.8);
+$blackTrans3: rgba(12,12,12,.9);
+$blackTrans4: rgba(12,12,12,.6);
 
 //Breakpoints. Remember to use the "interpolation braces" when calling these variables. e.g. #{$bpSmall}
 $bpxs: "screen and (min-width: 287px)";
@@ -62,6 +55,7 @@ $triple: 3 * $baseline;
 $quad: 4 * $baseline;
 $sept: 5 * $baseline;
 $sex: 6 * $baseline;
+$oct: 8 * $baseline;
 
 //Other Variables
 $rounded: 2px;
@@ -111,6 +105,12 @@ $maxestWidth: 1280px;
 	bottom: 0px;
 }
 
+@mixin card() {
+	background: #fff;
+	box-shadow: $shadow;
+	border: 1px solid rgba(0,0,0,.1);
+}
+
 //      Table of Contents
 //
 // 1. Fundamental Structure
@@ -149,7 +149,7 @@ html, body {
 	height: 100%; /* This and min-height help the background work on mobile */
  	min-height: 100%;
 	font-family: proxima-nova, sans-serif;
-	color: $light;
+	color: $black;
 	margin: 0px;
 	padding: 0px;
 	text-align: center;
@@ -164,7 +164,7 @@ body:before { /* Background hack to play a little nicer on mobile */
 	  	width: 100%;
 	  	height: 100%;
 	  	z-index: -10;
-	  	background: #424242;
+	  	background: $lightGreen;
 }
 a, a:visited {
     color: $blue;
@@ -194,7 +194,7 @@ The site uses infinite scroll and thus has no footer
 
 /*----------- 1A: header ----------- */
 #menu-links-wrapper {
-	background: $leather;
+	background: $black;
 	opacity: .9;
 	z-index: 3;
 	position: relative;
@@ -307,7 +307,7 @@ a#winners {
 }
 a#best {flex-basis: 60px;}
 a#underdogs {
-	color: $green;
+	color: $lighterblue;
 	flex-basis: 110px;
 	font-weight: bold;
 }
@@ -327,7 +327,7 @@ a#twitter, a#youtube, a#twitch {
 	line-height: 0px;
 }
 
-/*----------- 1B: tagbar ----------- */
+/*----------- 1B: tagbar -----------
 #tagbar {
 	@include byWidth();
 	position: relative;
@@ -424,7 +424,7 @@ a.barItemLink {
     	color: $gold;
     }
     &.source {
-    	color: $green;
+    //	color: $green;
     }
     @media #{$bpMedium} {
     	line-height: $mediumTagbarHeight;
@@ -494,8 +494,6 @@ a#lessbar {
 
 .loop-ad {
     padding: $baseline 0;
-    background: $darkBlue;
-    border-bottom: 1px solid #000;
 }
 
 /*----------- 1Cia: Section Heads ----------- */
@@ -535,21 +533,23 @@ a#lessbar {
 	font-size: $double;
 	line-height: 1em;
 	font-weight: bold;
-	background: $chocolateTrans;
 	padding: $double 0px;
 	font-weight: bold;
-	color: $light;
+	color: $black;
 	border-radius: $roundedTop;
 	@media #{$bpLarge} {
 		border-radius: $rounded;
 	}
 }
 .goldBG {
-	background: $goldBG;
+	background: $lightGold;
 	color: $black;
 }
 #repHeader {
 	@extend .goldBG;
+	border-left: 1px solid rgba(0,0,0,.1);
+	border-right: 1px solid rgba(0,0,0,.1);
+	border-top: 1px solid rgba(0,0,0,.1);
 }
 #repFooter {
 	@extend .goldBG;
@@ -568,10 +568,15 @@ a#lessbar {
 }
 #userbox {
 	@include flexbox();
+	background: #fff;
 	flex-direction: column;
 	justify-content: center;
 	height: auto;
 	margin-bottom: $baseline;
+	box-shadow: $shadow;
+	border-right: 1px solid rgba(0,0,0,.1);
+	border-bottom: 1px solid rgba(0,0,0,.1);
+	border-left: 1px solid rgba(0,0,0,.1);
 	@media #{$bpMedium} {
 		margin-bottom: $plusHalf;
 	}
@@ -588,7 +593,7 @@ p.userbox {
 	font-size: $plusHalf;
 	text-align: center;
 	& a {
-		color: $light;
+		color: $black;
 	}
 }
 .wp-social-login-connect-with {
@@ -622,14 +627,16 @@ a.wp-social-login-provider {
 }
 .sidebarSectionTitle {
     font-size: 18px;
-    background: $darkBlue;
+    color: $black;
     padding: 6px;
+}
+#topHeader {
+	padding: $plusQuarter 0 $quarter;
 }
 .topPost {
 	width: 100%;
 	margin: auto;
-	padding: 10px 3.5%;
-	background: $transLight; 		
+	padding: $baseline 0px;	
 	box-sizing: border-box;
 }
 .pic-count {
@@ -640,7 +647,7 @@ a.wp-social-login-provider {
 	line-height: 0px;
 	height: 150px;
 	overflow: hidden;
-	opacity: .6;
+	opacity: .9;
 	transition: all .2s;
 }
 .topPic:hover {
@@ -664,12 +671,12 @@ a .count, a:visited .count {
 }
 h3.sidebar {
 	font-size: $plusHalf;
+	font-weight: normal;
 	text-align: left;
-	line-height: 1.4em;
+	line-height: 1.25em;
 	padding: .35em 0px 0px;
 	a {
 		color: $blackTrans3;
-		text-shadow: 0 0 6px $light;
 		text-decoration: none;
 		&:hover {
 			text-decoration: underline;
@@ -705,7 +712,7 @@ a.earlier.nomore {
 	line-height: 100px;
 	font-size: $plusHalf;
 	color: $light;
-	background: $darkBlue;
+	background: #fff;
 }
 
 /*---------------------------------------------------------
@@ -720,25 +727,30 @@ a.earlier.nomore {
 	E- tagbox
 ---------------------------------------------------------*/
 .thing {
+	@include card();
+	border-left: none;
+	border-right: none;
 	width: 100%;
 	max-width: $maxestWidth;
 	box-sizing: border-box;
-	margin: 10px auto;
+	margin: $plusQuarter auto;
 	border-radius: $rounded;
 	color: $black;
 	text-align: left;
-	background: #fff;
-	box-shadow: $shadow;
 	padding: $baseline;
 	@media #{$bpMedium} {
 		font-size: $mediumFontSize;
 	}
+	@media #{$bpLarge} {
+		border-left: 1px solid rgba(0,0,0,.1);
+		border-right: 1px solid rgba(0,0,0,.1);
+	}
 	@media #{$bpXL} {
-		padding: 0px $baseline $baseline;
+		padding: 0px $plusQuarter $plusQuarter;
 	}
 }
 
-.topbar, .storybox, .commentbox, .tagbar {
+.votebar, .storybox, .commentbox, .tagbar {
 	@media #{$bpXL} {
 		padding: 0px;
 	}
@@ -746,35 +758,41 @@ a.earlier.nomore {
 
 /*----------- 3A: Topbar ----------- */
 .winnerbanner {
-	width: 100%;
+	width: calc(100% + #{$double});
 	line-height: 0px;
-	background: #2d2d2d;
 	border-radius: $roundedTop;
 	opacity: 1;
+	margin-left: -$baseline;
+	margin-top: -$baseline;
 	img {
 		@include byWidth();
 		border-radius: $roundedTop;
 	}
 	@media #{$bpXL} {
-		width: calc(100% + #{$double});
-		margin-left: -$baseline;
+		width: calc(100% + #{$doublePlusHalf});
+		margin-left: -$plusQuarter;
+		margin-top: 0;
 	}
 }
 
-.topbar {
-	@include flexbox();
-	justify-content: space-between;
-	align-items: center;
+.votebar {
+	clear: both;
+	text-align: center;
 	position: relative;
-	height: $sept;
+	height: $oct;
 	border-radius: $roundedTop;
 	padding: $half 0;
 }
 
 /*----------- 3Ai: votecount ----------- */
 .votecount {
-	font-size: $triple;
+	font-size: $double;
 	font-weight: bold;
+	display: inline-block;
+	padding-right: $half;
+	@media #{$bpMedium} {
+		font-size: $doublePlusHalf;
+	}
 }
 
 /*----------- 3Aii: votebox ----------- */
@@ -799,10 +817,7 @@ a.share-button {
 }
 .voteIcon {
 	cursor: pointer;
-	width: $sept;
-	@media #{$bpXL} {
-		right: $baseline;
-	}
+	width: $oct;
 }
 .explainer {
 	display: none;
@@ -817,7 +832,7 @@ img.explainer-arrow {
 }
 
 .onboardbox {
-	text-align: right;
+	text-align: center;
 	max-height: 0px;
 	overflow: hidden;
 	transition: max-height .5s;
@@ -909,13 +924,19 @@ img.thumb {
 .titlebox {
 	display: inline-block;
 	box-sizing: border-box;
-	padding: 0px 0px $half;
+	padding: 0 0 $half;
 	a {
     	color: $black;
     	text-decoration: none;
     	&:hover {
     		text-decoration: underline;
     	}
+    }
+    h3 {
+    	display: inline;
+    }
+    @media #{$bpLarge} {
+		padding: $double 0 $plusQuarter;
     }
 }
 
@@ -925,6 +946,11 @@ p.attribution {
 	padding: 0px;
 	max-width: none;
 }
+p.attribution.starsource {
+	float: left;
+}p.attribution.full-clip {
+	float: right;
+}
 p.attribution a, p.attribution a:visited {
 	color: $gold;
 }
@@ -933,16 +959,17 @@ p.attribution a, p.attribution a:visited {
 	padding: $half 0;
 	margin-top: -$baseline;
 	font-size: $plusQuarter;
+	line-height: 1em;
 	color: $gold;
 	margin-left: 0;
+	clear: both;
 }
 
 /*----------- 3D: commentbox ----------- */
 .commentbox {
 	position: relative;
 	height: auto;
-	color: $light;
-	padding: $plusHalf $half;
+	color: $black;
 	font-size: $plusHalf;
 }
 .comments-header {
@@ -978,7 +1005,7 @@ p.members-only {
 	margin: $baseline 0px;
 	font-size: $double;
 	font-weight: bold;
-	color: $green;
+	color: $black;
 }
 a.userlink {
 	color: $gold;
@@ -1005,7 +1032,7 @@ input#comment-submit {
 	font-size: $plusQuarter;
 	text-align: center;
 	a {
-    	color: $green;
+    	color: $blue;
     	&:visited {
 			color: $blue;
 		}
@@ -1043,13 +1070,12 @@ a.earlier.nomore.thing {
 	width: 100%;
 	height: 150px;
 	position: relative;
-	background: url('http://therocketdailies.com/wp-content/uploads/2017/01/Choose-Excellence.jpg') center/cover;
+	background: url('http://therocketdailies.com/wp-content/uploads/2017/02/Faceoff-black.jpg') center/cover;
 	margin: 0px auto $baseline;
 	@media #{$bpMedium} {
 		margin: 0px auto $plusHalf;
 	}
 	@media #{$bpLarge} {
-		border-radius: $rounded;
 		height: 240px;
 		margin: 0px auto $baseline;
 	}
@@ -1058,11 +1084,12 @@ a.earlier.nomore.thing {
 .propaganda {
 	position: absolute;
 	font-size: $baseline;
-	color: $green;
+	color: $light;
 	bottom: $half;
 	height: auto;
 	max-width: 50%;
 	font-weight: bold;
+	text-shadow: 0 0 $baseline $blackTrans3;
 	@media #{$bpSmall2} {
 		font-size: $plusHalf;
 	}
@@ -1086,8 +1113,7 @@ a.earlier.nomore.thing {
 	padding: 1.2em;
 	box-sizing: border-box;
 	text-align: center;
-	background: $black;
-	color: $light;
+	color: $black;
 	display: inline-block;
 	width: 100%;
 	margin: 0px auto;
@@ -1111,6 +1137,10 @@ a.earlier.nomore.thing {
     	color: $black;
 }
 
+.thing.singlething {
+	margin: 0 auto $plusQuarter;
+}
+
 h4.recap {
 	font-size: 2em;
 	text-decoration: underline;
@@ -1121,7 +1151,6 @@ h4.recap {
 	width: 100%;
 	max-width: $maxestWidth;
 	margin: 0px auto 100px;
-	background: $darkBlue;
 	padding: 1em;
 	box-sizing: border-box;
 }
@@ -1136,7 +1165,7 @@ h4.recap {
 	}
 }
 #decomments-comment-section.decomments-comment-section.decomments-comment-section .decomments-comment-list .comment {
-	background: $darkBlue;
+	background: #fff;
 }
 #decomments-comment-section.decomments-comment-section.decomments-comment-section .decomments-text-holder, #decomments-comment-section.decomments-comment-section.decomments-comment-section .decomments-title-block .decomments-autor-name {
 	color: $light;
@@ -1148,8 +1177,9 @@ h4.recap {
 
 /*----------- 3C: Archive/Search Page stuff ----------- */
 .section-head.archive, #team-header, #player-header, #archive-header {
+	@include card();
 	box-sizing: border-box;
-	background: $leather center/cover;
+	background: $black;
 	padding: $baseline;
 	border-radius: $roundedTop;
 	h2 {
@@ -1184,6 +1214,9 @@ h4.recap {
 		width: 100%;
 	}
 }
+#archive-title {
+	color: $light;
+}
 #archive-children {
 	@media #{$bpMedium} {
 		margin-bottom: $baseline;
@@ -1213,13 +1246,13 @@ h4.recap {
 	vertical-align: middle;
 }
 #order-selector {
-    background: $chocolateTrans;
+    background: $lightOrange;
     font-size: $plusHalf;
     padding: $baseline;
-    border-bottom: 1px solid #000;
+	margin: $baseline 0;
 }
 a.orderLink {
-	color: $light;
+	color: $black;
 	&:hover {
 		color: $blue;
 	}
@@ -1359,10 +1392,8 @@ img.team-logo-img {
 #strings {
 }
 h2#taxHeader {
-    margin: 0;
+    margin: 0 0 12px;
     padding: $double;
-    background: $leather center/cover;
-    border-bottom: 2px solid $blueTrans;
     font-size: $sept;
 }
 .string {
@@ -1370,12 +1401,12 @@ h2#taxHeader {
 	white-space: nowrap;
 	max-width: 100%;
 	overflow: hidden;
-	margin-bottom: $baseline;
+	margin-bottom: $triple;
 }
 h3.stringName {
     font-size: $quad;
     padding: $baseline;
-    background: $darkBlue;
+    background: #fff;
     white-space: normal;
 }
 a.stringNameLink {
@@ -1399,7 +1430,7 @@ a.stringNameLink {
 	display: inline-block;
 }
 .pearlOverlay {
-	background: $chocolateRGBA;
+	background: $blackTrans4;
 	@include fourCorners();
 	@include flexbox();
 	justify-content: center;
@@ -1421,7 +1452,7 @@ a.stringNameLink {
 
 /*----------- 3F: Rules page stuff ----------- */
 #rulespage {
-    	background: $leather center/cover;
+    	background: $black;
     	width: 100%;
     	max-width: 80%;
     	margin: auto;

@@ -105,6 +105,20 @@ function twitchReplacer(ID, UID) {
 	jQuery(playButton).remove();
 };
 
+jQuery('.contentContainer').on('click', '.fullClipLink', function(event) {
+	event.preventDefault();
+	var thisClipURL = jQuery(this).attr("href");
+	var thisClipKeyCodeStart = thisClipURL.indexOf('.tv') + 4;
+	var thisClipKeyCode = thisClipURL.substring(thisClipKeyCodeStart);
+	var replacementCodeStart = "<div class=\"embed-container\"><iframe src=\"https://clips.twitch.tv/embed?clip=";
+	var replacementCodeEnd = "&autoplay=true\" width=\"640\" height=\"360\" frameborder=\"0\" scrolling=\"no\" allowfullscreen=\"true\"></iframe></div>";
+	var replacementCode = replacementCodeStart + thisClipKeyCode + replacementCodeEnd;
+	var thisThing = jQuery(this).parent().parent().parent();
+	var thisContent = thisThing.find('.contentbox');
+	thisContent.html(replacementCode);
+	console.log(replacementCode);
+});
+
 /*** Show Comment Form **/
 function showCommentForm(ID, UID) {
 	var thisFormID = '#comment-form-container-' + UID;

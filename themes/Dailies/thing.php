@@ -28,32 +28,14 @@
 <article id="thing<?php echo $thisID; ?>" class="thing <?php if (!$winnerSection) { echo "pull ";}; if ( is_single() ) { echo 'singlething '; }; if ( has_tag("winners") ) { echo "winner ";}; ?>">
 	<?php if ( has_tag("winners") && $winnerBanner ) { ?>
 		<section id="winnerbanner<?php echo $thisID; ?>" class="winnerbanner">
-			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/10/Winner-banner-leather.png" class="winnerbannerIMG">
+			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/02/Winner-banner-black.jpg" class="winnerbannerIMG">
 		</section>
 	<?php } else {
 	}; ?>
-	<section id="thing<?php echo $thisID; //to give each thing a unique ID so they can be told apart ?>-topbar" class="topbar">
-		<a class="share-button" href="https://twitter.com/home?status=Holy%20crap%20check%20out%20this%20play%3A%20<?php echo urlencode(get_permalink($thisID)); ?>%20via%20%40rocket_dialies" target="_blank">
-			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/09/TWT.png" class="socialIcon" id="twitter-share">
-		</a>
-		<div id="thing<?php echo $thisID; ?>-votecount" class="votecount">
-			<div id="thingScore<?php echo $thisID; ?>" data-score="<?php echo $score; ?>" data-contribution="<?php echo $voteContribution; ?>">+<?php echo $score; ?></div>
-		</div>
-		<?php include_once('explainer.php'); ?>
-		<?php if ( ( $user_id == 0 && !in_array($client_ip, $guestlist) ) || ( $user_id != 0 && !array_key_exists($user_id, $voteledger) ) ) { ?>
-			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Vote-Icon-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon" data-id="<?php echo $thisID; ?>" data-vote="up" onclick="vote(<?php echo $thisID; ?>)">
-		<?php } elseif ( ( $user_id == 0 && in_array($client_ip, $guestlist) ) || ( $user_id != 0 && array_key_exists($user_id, $voteledger) ) ) { ?>
-			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Medal-small-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon" data-id="<?php echo $thisID; ?>" data-vote="down" onclick="vote(<?php echo $thisID; ?>)">
-		<?php }; ?>
-	</section>
-	<div class="onboardbox" id="thing<?php echo $thisID; ?>-onboardbox">
-		<?php if ( !is_user_logged_in() ) { ?>
-			<p class="onboardText">Members' votes count 10x more. Build Rep and your multiplier grows.</p>
-			<?php do_action( 'wordpress_social_login' );
-		}; ?>
-	</div>
 	<header id="thing<?php echo $thisID; ?>-titlebox" class="titlebox">
-		<h3><a href="<?php the_permalink(); ?>"><?php the_title();?></a></h3>
+		<div id="thing<?php echo $thisID; ?>-votecount" class="votecount">
+			<div id="thingScore<?php echo $thisID; ?>" data-score="<?php echo $score; ?>" data-contribution="<?php echo $voteContribution; ?>">(+<?php echo $score; ?>)</div>
+		</div> <h3><a href="<?php the_permalink(); ?>"><?php the_title();?></a></h3>
 	</header>
 	</section>
 	<section id="thing<?php echo $thisID; ?>-contentbox" class="contentbox">
@@ -75,7 +57,7 @@
 		<?php } ?>
 	</section>
 	<section id="thing<?php echo $thisID; ?>-storybox" class="storybox">
-		<p class="attribution">
+		<p class="attribution starsource">
 		<?php $stars = get_the_terms( $post->ID, 'stars' );
 		if ( !empty($attribution) ) { ?>
 			<?php echo $attribution; // edit_post_link( 'this', ' Edit ', '.' ); That last thing is the "edit this" link for the thing. First thing is the attribution for the post, from the custom field ?>
@@ -92,9 +74,11 @@
 						<?php $starCounter++;
 					} ?> and <a href="<?php echo $thisDomain; ?>/stars/<?php echo $stars[$starCounter]->slug; ?>"><?php echo $stars[$starCounter]->name; ?></a>.
 				<?php } ?> 
-			<?php the_terms( $post->ID, 'source', 'From ', ', ' ); 
-			if ( !empty($fullClip) ) { ?>
-				- See the <a href="<?php echo $fullClip; ?>" target="_blank">full clip</a>
+			<?php the_terms( $post->ID, 'source', 'From ', ', ' ); ?>
+		</p>
+		<p class="attribution full-clip">
+			<?php if ( !empty($fullClip) ) { ?>
+				See the <a href="<?php echo $fullClip; ?>" target="_blank" class="fullClipLink">full clip</a>
 			<?php }
 		}
 			edit_post_link( 'this', ' Edit ' ); ?>
@@ -108,6 +92,19 @@
 			the_content();
 		} ?>
 	</section>
+	<section id="thing<?php echo $thisID; //to give each thing a unique ID so they can be told apart ?>-votebar" class="votebar">
+		<?php if ( ( $user_id == 0 && !in_array($client_ip, $guestlist) ) || ( $user_id != 0 && !array_key_exists($user_id, $voteledger) ) ) { ?>
+			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Vote-Icon-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon" data-id="<?php echo $thisID; ?>" data-vote="up" onclick="vote(<?php echo $thisID; ?>)">
+		<?php } elseif ( ( $user_id == 0 && in_array($client_ip, $guestlist) ) || ( $user_id != 0 && array_key_exists($user_id, $voteledger) ) ) { ?>
+			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Medal-small-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon" data-id="<?php echo $thisID; ?>" data-vote="down" onclick="vote(<?php echo $thisID; ?>)">
+		<?php }; ?>
+	</section>
+	<div class="onboardbox" id="thing<?php echo $thisID; ?>-onboardbox">
+		<?php if ( !is_user_logged_in() ) { ?>
+			<p class="onboardText">Members' votes count 10x more. Build Rep and your multiplier grows.</p>
+			<?php do_action( 'wordpress_social_login' );
+		}; ?>
+	</div>
 	<?php if ( !is_single() ) { ?>
 	<section id="thing<?php echo $thisID; ?>-commentbox" class="commentbox">
 		<?php $commentArgs = array(
@@ -153,7 +150,7 @@
 		<?php $tag_list = get_the_tag_list( 'More: ', ',  ', '', $thisID);
 		$skill_list = get_the_terms($thisID, 'skills');
 		echo $tag_list;
-		foreach ($skill_list as $skill) { ?>, <a href="http://www.therocketdailies.com/skills/<?php echo $skill->slug; ?>" ><?php echo $skill->name; ?></a><?php }; ?>
+		foreach ($skill_list as $skill) { ?>, <a href="<?php echo $thisDomain; ?>/skills/<?php echo $skill->slug; ?>" ><?php echo $skill->name; ?></a><?php }; ?>
 	</section>
 	<?php }; 
 	$firstPost = false; ?>
