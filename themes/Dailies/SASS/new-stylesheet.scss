@@ -9,38 +9,27 @@
  ---------------- Theme customization starts here -------------------------------------------------------------- */
 
 //Color Variables
-$gold: rgba(215, 176, 82, 0.95);
-$lightGold: rgba(253,202,60,.6);
+$gold: rgba(236, 193, 91, 1);
+$lightGold: rgba(236, 193, 91, 0.8);
 
-$blue: rgba(58, 122, 195, 0.9);
-//$blue: #3b8fd9;
-$blueTrans: rgba(45,109,166,.85);
+$blue: rgba(16, 80, 143, 1);
+$lighterblue: #3b8fd9;
+$blueTrans: rgba(16,80,143,.85);
 
-$green: #40a24e;
-//$green: rgba(67, 191, 67, .8);
-$orange: rgba(255,153,0,.8);
+$orange: rgba(255, 153, 0, .8);
+$transOrange: rgba(255, 153, 0, .2);
 
-$light: rgba(255,253,249,.8);
+$light: rgba(255,253,249,.9);
 $transLight: rgba(255,253,249,.5);
 $transLight3: rgba(255,253,249, .25);
-$lightBlue: #f5f6f7;
-$lightOrange: #e5e4e3;
-$lightGreen: #f5f7f5;
-$lightRed: #f7f6f5;
+$lightOrange: #e6ded8;
+$lightGreen: #e6ebe8;
 
-$black: #262626;
-$blackTrans: rgba(0,0,0,.6);
-$blackTrans2: rgba(0,0,0,.8);
-$blackTrans3: rgba(0,0,0,.9);
-
-$darkBlue: url('http://therocketdailies.com/wp-content/uploads/2016/10/Dark-Blue-Gradient.jpg') center/contain;
-$leather: url('http://therocketdailies.com/wp-content/uploads/2016/10/LeatherBG.jpg');
-$goldBG: url('http://therocketdailies.com/wp-content/uploads/2016/12/repHeader.jpg') center/contain;
-
-$chocolate: url('http://therocketdailies.com/wp-content/uploads/2016/12/Chocolate.jpg') center/cover;
-$chocolateRGBA: rgba(45, 29, 18, 0.5);
-$chocolateTrans: url('http://therocketdailies.com/wp-content/uploads/2017/01/Chocolate.png') center/cover;
-$darkChocolate: url('http://therocketdailies.com/wp-content/uploads/2016/12/dark-chocolate.jpg');
+$black: #121212;
+$blackTrans: rgba(12,12,12,.6);
+$blackTrans2: rgba(12,12,12,.8);
+$blackTrans3: rgba(12,12,12,.9);
+$blackTrans4: rgba(12,12,12,.6);
 
 //Breakpoints. Remember to use the "interpolation braces" when calling these variables. e.g. #{$bpSmall}
 $bpxs: "screen and (min-width: 287px)";
@@ -175,7 +164,7 @@ body:before { /* Background hack to play a little nicer on mobile */
 	  	width: 100%;
 	  	height: 100%;
 	  	z-index: -10;
-	  	background: $lightRed;
+	  	background: $lightGreen;
 }
 a, a:visited {
     color: $blue;
@@ -205,7 +194,7 @@ The site uses infinite scroll and thus has no footer
 
 /*----------- 1A: header ----------- */
 #menu-links-wrapper {
-	background: $leather;
+	background: $black;
 	opacity: .9;
 	z-index: 3;
 	position: relative;
@@ -318,7 +307,7 @@ a#winners {
 }
 a#best {flex-basis: 60px;}
 a#underdogs {
-	color: $green;
+	color: $lighterblue;
 	flex-basis: 110px;
 	font-weight: bold;
 }
@@ -338,7 +327,7 @@ a#twitter, a#youtube, a#twitch {
 	line-height: 0px;
 }
 
-/*----------- 1B: tagbar ----------- */
+/*----------- 1B: tagbar -----------
 #tagbar {
 	@include byWidth();
 	position: relative;
@@ -435,7 +424,7 @@ a.barItemLink {
     	color: $gold;
     }
     &.source {
-    	color: $green;
+    //	color: $green;
     }
     @media #{$bpMedium} {
     	line-height: $mediumTagbarHeight;
@@ -658,7 +647,7 @@ a.wp-social-login-provider {
 	line-height: 0px;
 	height: 150px;
 	overflow: hidden;
-	opacity: .6;
+	opacity: .9;
 	transition: all .2s;
 }
 .topPic:hover {
@@ -723,7 +712,7 @@ a.earlier.nomore {
 	line-height: 100px;
 	font-size: $plusHalf;
 	color: $light;
-	background: $darkBlue;
+	background: #fff;
 }
 
 /*---------------------------------------------------------
@@ -787,9 +776,8 @@ a.earlier.nomore {
 }
 
 .votebar {
-	@include flexbox();
-	justify-content: center;
-	align-items: center;
+	clear: both;
+	text-align: center;
 	position: relative;
 	height: $oct;
 	border-radius: $roundedTop;
@@ -798,10 +786,13 @@ a.earlier.nomore {
 
 /*----------- 3Ai: votecount ----------- */
 .votecount {
-	font-size: $doublePlusHalf;
+	font-size: $double;
 	font-weight: bold;
 	display: inline-block;
 	padding-right: $half;
+	@media #{$bpMedium} {
+		font-size: $doublePlusHalf;
+	}
 }
 
 /*----------- 3Aii: votebox ----------- */
@@ -827,9 +818,6 @@ a.share-button {
 .voteIcon {
 	cursor: pointer;
 	width: $oct;
-	@media #{$bpXL} {
-		right: $baseline;
-	}
 }
 .explainer {
 	display: none;
@@ -936,7 +924,7 @@ img.thumb {
 .titlebox {
 	display: inline-block;
 	box-sizing: border-box;
-	padding: $double 0 $plusQuarter;
+	padding: 0 0 $half;
 	a {
     	color: $black;
     	text-decoration: none;
@@ -947,6 +935,9 @@ img.thumb {
     h3 {
     	display: inline;
     }
+    @media #{$bpLarge} {
+		padding: $double 0 $plusQuarter;
+    }
 }
 
 p.attribution {
@@ -954,6 +945,11 @@ p.attribution {
 	line-height: 1.4em;
 	padding: 0px;
 	max-width: none;
+}
+p.attribution.starsource {
+	float: left;
+}p.attribution.full-clip {
+	float: right;
 }
 p.attribution a, p.attribution a:visited {
 	color: $gold;
@@ -963,15 +959,17 @@ p.attribution a, p.attribution a:visited {
 	padding: $half 0;
 	margin-top: -$baseline;
 	font-size: $plusQuarter;
+	line-height: 1em;
 	color: $gold;
 	margin-left: 0;
+	clear: both;
 }
 
 /*----------- 3D: commentbox ----------- */
 .commentbox {
 	position: relative;
 	height: auto;
-	color: $light;
+	color: $black;
 	font-size: $plusHalf;
 }
 .comments-header {
@@ -1007,7 +1005,7 @@ p.members-only {
 	margin: $baseline 0px;
 	font-size: $double;
 	font-weight: bold;
-	color: $green;
+	color: $black;
 }
 a.userlink {
 	color: $gold;
@@ -1072,7 +1070,7 @@ a.earlier.nomore.thing {
 	width: 100%;
 	height: 150px;
 	position: relative;
-	background: url('http://therocketdailies.com/wp-content/uploads/2017/01/Choose-Excellence.jpg') center/cover;
+	background: url('http://therocketdailies.com/wp-content/uploads/2017/02/Faceoff-black.jpg') center/cover;
 	margin: 0px auto $baseline;
 	@media #{$bpMedium} {
 		margin: 0px auto $plusHalf;
@@ -1167,7 +1165,7 @@ h4.recap {
 	}
 }
 #decomments-comment-section.decomments-comment-section.decomments-comment-section .decomments-comment-list .comment {
-	background: $darkBlue;
+	background: #fff;
 }
 #decomments-comment-section.decomments-comment-section.decomments-comment-section .decomments-text-holder, #decomments-comment-section.decomments-comment-section.decomments-comment-section .decomments-title-block .decomments-autor-name {
 	color: $light;
@@ -1181,6 +1179,7 @@ h4.recap {
 .section-head.archive, #team-header, #player-header, #archive-header {
 	@include card();
 	box-sizing: border-box;
+	background: $black;
 	padding: $baseline;
 	border-radius: $roundedTop;
 	h2 {
@@ -1194,7 +1193,7 @@ h4.recap {
 		}
 	}
 	a {
-		color: $black;
+		color: $light;
 		&:hover {
 			color: $blueTrans;
 		}
@@ -1214,6 +1213,9 @@ h4.recap {
 		max-width: 300px;
 		width: 100%;
 	}
+}
+#archive-title {
+	color: $light;
 }
 #archive-children {
 	@media #{$bpMedium} {
@@ -1399,12 +1401,12 @@ h2#taxHeader {
 	white-space: nowrap;
 	max-width: 100%;
 	overflow: hidden;
-	margin-bottom: $baseline;
+	margin-bottom: $triple;
 }
 h3.stringName {
     font-size: $quad;
     padding: $baseline;
-    background: $darkBlue;
+    background: #fff;
     white-space: normal;
 }
 a.stringNameLink {
@@ -1428,7 +1430,7 @@ a.stringNameLink {
 	display: inline-block;
 }
 .pearlOverlay {
-	background: $chocolateRGBA;
+	background: $blackTrans4;
 	@include fourCorners();
 	@include flexbox();
 	justify-content: center;
@@ -1450,7 +1452,7 @@ a.stringNameLink {
 
 /*----------- 3F: Rules page stuff ----------- */
 #rulespage {
-    	background: $leather center/cover;
+    	background: $black;
     	width: 100%;
     	max-width: 80%;
     	margin: auto;

@@ -11,7 +11,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: mobile, stream, responsive, dark
 Text Domain: dailies-rocket-child
 */
-p.attribution a, p.attribution a:visited, a#winners, .datebox, #onboard .titlebox a, #onboard a, .score, .votecount {
-  color: rgba(58, 122, 195, 0.9); }
+p.attribution a, p.attribution a:visited, .datebox, #onboard .titlebox a, #onboard a, .score, .votecount {
+  color: #10508f; }
 
 /*# sourceMappingURL=style.css.map */

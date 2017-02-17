@@ -15,7 +15,7 @@ Text Domain: dailies-rocket-child
 //Color Variables
 $gold: rgba(253,202,60,.8);
 
-$blue: rgba(58, 122, 195, 0.9);
+$blue: #10508f;
 $blueTrans: rgba(45,109,166,.85);
 
 $green: #306b39;
@@ -115,6 +115,6 @@ $maxestWidth: 1280px;
 .titlebox a, .comments-header a, .thing.winner .comments-header a, #onboard .comments-header a, p.userbox {
 	//color: $black;
 }
-p.attribution a, p.attribution a:visited, a#winners, .datebox, #onboard .titlebox a, #onboard a, .score, .votecount {
+p.attribution a, p.attribution a:visited, .datebox, #onboard .titlebox a, #onboard a, .score, .votecount {
 	color: $blue;
 }

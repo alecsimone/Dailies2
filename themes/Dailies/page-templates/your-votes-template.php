@@ -16,8 +16,8 @@ if ( is_user_logged_in() ) {
 }; ?>
 <div class="wrapper">
 	<div class="contentContainer">
-		<header id="archive-header" class="your-votes-header">
-			<h2>Your Votes</h2>
+		<header id="your-votes-header">
+			<h2 id="taxHeader">Your Votes</h2>
 		</header>
 		<?php if ( !is_user_logged_in() ) { ?>
 			<div class="thing your-votes-error">

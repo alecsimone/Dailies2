@@ -28,7 +28,7 @@
 <article id="thing<?php echo $thisID; ?>" class="thing <?php if (!$winnerSection) { echo "pull ";}; if ( is_single() ) { echo 'singlething '; }; if ( has_tag("winners") ) { echo "winner ";}; ?>">
 	<?php if ( has_tag("winners") && $winnerBanner ) { ?>
 		<section id="winnerbanner<?php echo $thisID; ?>" class="winnerbanner">
-			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/02/Winner-banner-trans-blue.png" class="winnerbannerIMG">
+			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/02/Winner-banner-black.jpg" class="winnerbannerIMG">
 		</section>
 	<?php } else {
 	}; ?>
@@ -57,7 +57,7 @@
 		<?php } ?>
 	</section>
 	<section id="thing<?php echo $thisID; ?>-storybox" class="storybox">
-		<p class="attribution">
+		<p class="attribution starsource">
 		<?php $stars = get_the_terms( $post->ID, 'stars' );
 		if ( !empty($attribution) ) { ?>
 			<?php echo $attribution; // edit_post_link( 'this', ' Edit ', '.' ); That last thing is the "edit this" link for the thing. First thing is the attribution for the post, from the custom field ?>
@@ -74,9 +74,11 @@
 						<?php $starCounter++;
 					} ?> and <a href="<?php echo $thisDomain; ?>/stars/<?php echo $stars[$starCounter]->slug; ?>"><?php echo $stars[$starCounter]->name; ?></a>.
 				<?php } ?> 
-			<?php the_terms( $post->ID, 'source', 'From ', ', ' ); 
-			if ( !empty($fullClip) ) { ?>
-				- See the <a href="<?php echo $fullClip; ?>" target="_blank">full clip</a>
+			<?php the_terms( $post->ID, 'source', 'From ', ', ' ); ?>
+		</p>
+		<p class="attribution full-clip">
+			<?php if ( !empty($fullClip) ) { ?>
+				See the <a href="<?php echo $fullClip; ?>" target="_blank" class="fullClipLink">full clip</a>
 			<?php }
 		}
 			edit_post_link( 'this', ' Edit ' ); ?>

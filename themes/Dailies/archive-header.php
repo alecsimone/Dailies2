@@ -87,7 +87,7 @@ if ($underdogs) {
 			<?php if ($logo_url != '') { ?>
 				<img src="<?php echo $logo_url; ?>" class="archive-logo-img">
 			<?php } else { ?>
-				<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/01/rl_trans.png" class="archive-logo-img">
+				<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/02/rl-logo.png" class="archive-logo-img">
 			<?php } ?>
 		</div>
 	</div><div id="archive-right">
