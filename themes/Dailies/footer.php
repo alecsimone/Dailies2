@@ -61,6 +61,18 @@ jQuery(document).mouseup(function (e)
     }
 });
 
+/*** Vote Icon Replacer ***/
+jQuery('.contentContainer').on('hover', '.voteIcon', function() {
+	thisVoteIcon = jQuery(this);
+	thisIconSrc = thisVoteIcon.attr("src")
+	MedalSrc = 'http://therocketdailies.com/wp-content/uploads/2016/12/Medal-small-100.png';
+	VoteIconSrc = 'http://therocketdailies.com/wp-content/uploads/2016/12/Vote-Icon-100.png';
+	if ( thisIconSrc.includes(MedalSrc) ) {
+		thisVoteIcon.attr("src", VoteIconSrc);
+	} else if ( thisIconSrc.includes(VoteIconSrc) ) {
+		thisVoteIcon.attr("src", MedalSrc);
+	};
+});
 
 /*** heightLocker Function to keep gfys from collapsing and re-expanding when the image is swapped for the video ***/
 function heightLocker() {
@@ -105,18 +117,33 @@ function twitchReplacer(ID, UID) {
 	jQuery(playButton).remove();
 };
 
-jQuery('.contentContainer').on('click', '.fullClipLink', function(event) {
-	event.preventDefault();
-	var thisClipURL = jQuery(this).attr("href");
-	var thisClipKeyCodeStart = thisClipURL.indexOf('.tv') + 4;
-	var thisClipKeyCode = thisClipURL.substring(thisClipKeyCodeStart);
-	var replacementCodeStart = "<div class=\"embed-container\"><iframe src=\"https://clips.twitch.tv/embed?clip=";
-	var replacementCodeEnd = "&autoplay=true\" width=\"640\" height=\"360\" frameborder=\"0\" scrolling=\"no\" allowfullscreen=\"true\"></iframe></div>";
-	var replacementCode = replacementCodeStart + thisClipKeyCode + replacementCodeEnd;
-	var thisThing = jQuery(this).parent().parent().parent();
+function doesTheReplacing(thisLink) {
+	var thisThing = thisLink.parent().parent().parent();
 	var thisContent = thisThing.find('.contentbox');
-	thisContent.html(replacementCode);
-	console.log(replacementCode);
+	var thisEmbedContainer = thisContent.find('.embed-container');
+	if (!thisEmbedContainer.length) {
+		var thisClipURL = thisLink.attr("href");
+		var thisClipKeyCodeStart = thisClipURL.indexOf('.tv') + 4;
+		var thisClipKeyCode = thisClipURL.substring(thisClipKeyCodeStart);
+		var replacementCodeStart = "<div class=\"embed-container\"><iframe src=\"https://clips.twitch.tv/embed?clip=";
+		var replacementCodeEnd = "&autoplay=true\" width=\"640\" height=\"360\" frameborder=\"0\" scrolling=\"no\" allowfullscreen=\"true\"></iframe></div>";
+		var replacementCode = replacementCodeStart + thisClipKeyCode + replacementCodeEnd;
+		thisContent.html(replacementCode);
+	};
+	var thisEmbed = jQuery('.embed-container');
+	var embedHeight = thisEmbed.outerHeight();
+	var thisContentBox = thisEmbed.parent();
+	thisContentBox.height(embedHeight);
+
+}
+
+ jQuery('.contentContainer').on('click', '.fullClipLink', function(event) {
+	event.preventDefault();
+});
+
+jQuery('.contentContainer').on('click', 'p.attribution.full-clip', function() {
+	var thisLink = jQuery(this).children('.fullClipLink');
+	doesTheReplacing(thisLink);
 });
 
 /*** Show Comment Form **/
@@ -252,17 +279,6 @@ jQuery(document).ready(function() {
 	};
 });
 
-/*** Parent Page Thing Loader
-jQuery('.pearl').click(function() {
-	var parentSlug = this.dataset.parentslug;
-	var perma = this.dataset.perma;
-	var appendTarget = jQuery(`#${parentSlug}-landing`)
-	jQuery.get(perma, function(data) {
-		var pearlThing = jQuery(data).find('.thing');
-		appendTarget.empty();
-		jQuery(pearlThing).appendTo(appendTarget);
-	});
-}); ***/
 
 /*** Sticky Sidebar ***/
 jQuery(window).load(function() {

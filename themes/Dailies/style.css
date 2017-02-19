@@ -29,7 +29,7 @@ body:before {
   width: 100%;
   height: 100%;
   z-index: -10;
-  background: #e6ebe8; }
+  background: #dce1e5; }
 
 a, a:visited {
   color: #10508f; }
@@ -38,9 +38,6 @@ h3 {
   font-size: 24px;
   line-height: 1.1em;
   margin: 0px; }
-  @media screen and (min-width: 687px) {
-    h3 {
-      font-size: 30px; } }
 
 /*---------------------------------------------------------
 1. Fundamental Structure
@@ -465,6 +462,10 @@ p.userbox {
   p.userbox a {
     color: #121212; }
 
+a.invite-request {
+  font-weight: bold;
+  font-size: 1.1em; }
+
 .wp-social-login-connect-with {
   font-size: 18px; }
 
@@ -508,6 +509,9 @@ a.wp-social-login-provider {
   padding: 12px 0px;
   box-sizing: border-box; }
 
+.topTitle {
+  padding: 0 3px; }
+
 .pic-count {
   position: relative; }
 
@@ -538,7 +542,7 @@ a .count, a:visited .count {
     color: #ecc15b; }
 
 h3.sidebar {
-  font-size: 18px;
+  font-size: 15px;
   font-weight: normal;
   text-align: left;
   line-height: 1.25em;
@@ -648,9 +652,6 @@ a.earlier.nomore {
   font-weight: bold;
   display: inline-block;
   padding-right: 6px; }
-  @media screen and (min-width: 687px) {
-    .votecount {
-      font-size: 30px; } }
 
 /*----------- 3Aii: votebox ----------- */
 .votebox {
@@ -696,6 +697,9 @@ img.explainer-arrow {
 p.onboardText {
   margin: 0px;
   line-height: 1.5em; }
+
+.addScoreBox {
+  margin-bottom: 18px; }
 
 /*----------- 3B: contentbox ----------- */
 .contentbox {
@@ -787,7 +791,7 @@ img.thumb {
     display: inline; }
   @media screen and (min-width: 850px) {
     .titlebox {
-      padding: 24px 0 15px; } }
+      padding: 15px 0 12px; } }
 
 p.attribution {
   font-size: 15px;
@@ -799,7 +803,19 @@ p.attribution.starsource {
   float: left; }
 
 p.attribution.full-clip {
-  float: right; }
+  float: right;
+  clear: right;
+  background: #10508f;
+  color: #fff;
+  padding: 6px 6px;
+  border-radius: 6px;
+  border: 1px solid rgba(12, 12, 12, 0.1); }
+  p.attribution.full-clip:hover {
+    background: #0a3259; }
+
+p.attribution.full-clip a.fullClipLink {
+  color: #fff;
+  text-decoration: none; }
 
 p.attribution a, p.attribution a:visited {
   color: #ecc15b; }
@@ -823,10 +839,17 @@ p.attribution a, p.attribution a:visited {
 .comments-header {
   font-weight: bold;
   font-size: 1.2em;
-  padding-bottom: .1em; }
-
-.comments-header a {
-  color: #10508f; }
+  padding-bottom: .1em;
+  margin-bottom: 12px; }
+  .comments-header a {
+    color: #fff;
+    background: #10508f;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(12, 12, 12, 0.1);
+    text-decoration: none; }
+    .comments-header a:hover {
+      background: #0a3259; }
 
 .comment-preview-author {
   display: inline; }
@@ -1073,7 +1096,7 @@ h4.recap {
   vertical-align: middle; }
 
 #order-selector {
-  background: #e6ded8;
+  background: #FFF;
   font-size: 18px;
   padding: 12px;
   margin: 12px 0; }
@@ -1276,7 +1299,7 @@ h3.stringName {
 
 /*----------- 3F: Rules page stuff ----------- */
 #rulespage {
-  background: #121212;
+  background: none;
   width: 100%;
   max-width: 80%;
   margin: auto;

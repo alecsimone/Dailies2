@@ -75,13 +75,13 @@
 					} ?> and <a href="<?php echo $thisDomain; ?>/stars/<?php echo $stars[$starCounter]->slug; ?>"><?php echo $stars[$starCounter]->name; ?></a>.
 				<?php } ?> 
 			<?php the_terms( $post->ID, 'source', 'From ', ', ' ); ?>
+			<?php edit_post_link( 'this', ' Edit ' ); ?>
 		</p>
 		<p class="attribution full-clip">
 			<?php if ( !empty($fullClip) ) { ?>
-				See the <a href="<?php echo $fullClip; ?>" target="_blank" class="fullClipLink">full clip</a>
+				<a href="<?php echo $fullClip; ?>" target="_blank" class="fullClipLink">Full Clip</a>
 			<?php }
-		}
-			edit_post_link( 'this', ' Edit ' ); ?>
+		} ?>
 		</p>
 		<?php if ( !$tournament && (!is_home() || $underdogs) ) { ?>
 			<div id="thing<?php echo $thisID; ?>-datebox" class="datebox">
