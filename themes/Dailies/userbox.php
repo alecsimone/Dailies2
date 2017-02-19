@@ -11,8 +11,8 @@ if ( $user_id == 0 ) {
 ?></div></header>
 <div id="userbox">
 	<?php if ( $user_id == 0 ) { ?>
-		<p class="userbox">Members' votes count 10x more.</p>
-		<p class="userbox">Build Rep and your multiplier grows.</p>
+		<p class="userbox">Your votes count as much as your Rep. New members start at 1</p>
+		<p class="userbox">Vote daily and your Rep will grow</p>
 		<?php do_action( 'wordpress_social_login' ); ?>
 	<?php } else { ?>
 		<p class="userbox"><a href="<?php echo $thisDomain; ?>/your-votes">Your Votes</a></p>

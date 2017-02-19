@@ -101,7 +101,8 @@
 	</section>
 	<div class="onboardbox" id="thing<?php echo $thisID; ?>-onboardbox">
 		<?php if ( !is_user_logged_in() ) { ?>
-			<p class="onboardText">Members' votes count 10x more. Build Rep and your multiplier grows.</p>
+			<p class="onboardText">Your votes count as much as your rep. New member start at 1</p>
+			<p class="onboardText">Vote daily and your Rep will grow</p>
 			<?php do_action( 'wordpress_social_login' );
 		}; ?>
 	</div>
