@@ -100,7 +100,7 @@ if ($underdogs) {
 				<?php if ($isChild && $thisTax == 'stars') { ?>
 					(<a href="<?php echo $thisDomain; ?>/<?php echo $thisTax; ?>/<?php echo $this_parent_slug; ?>"><?php echo $this_parent_title; ?></a>)
 				<?php }; 
-				if ($thisTax == 'stars' && $winCount !== '' && $winCount !== '1') {
+				if ($thisTax == 'stars' && $winCount !== '0' && $winCount !== '1') {
 					echo " - "; print_r($winCount); echo " Wins"; 
 				} else if ( $thisTax == 'stars' && $winCount !== '' && $winCount === '1') {
 					echo " - "; print_r($winCount); echo " Win";
