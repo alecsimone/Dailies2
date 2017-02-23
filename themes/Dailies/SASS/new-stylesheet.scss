@@ -467,7 +467,7 @@ a#lessbar {
 .wrapper {
 	@media #{$bpLarge} {
 		width: calc(100% - #{$double});
-		max-width: 1710px;
+		max-width: 1280px;
 		margin: auto;
 		position: relative;
 	}

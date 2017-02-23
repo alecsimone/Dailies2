@@ -340,7 +340,7 @@ a#lessbar {
 @media screen and (min-width: 850px) {
   .wrapper {
     width: calc(100% - 24px);
-    max-width: 1710px;
+    max-width: 1280px;
     margin: auto;
     position: relative; } }
 
