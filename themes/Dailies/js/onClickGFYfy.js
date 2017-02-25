@@ -31,13 +31,19 @@ var gfyCollection = function () { //Maybe change this name to be gfyReplacement
     }
 
     function init() { //My code:
+        var thisThumb = jQuery(`#${this.id}`);
+        var thisThing = thisThumb.parent().parent();
+        var thisThingID = thisThing.attr("id");
+        var thisPostID = thisThingID.substring(5);
+        tickUpViews(thisPostID, 'gfy');
+
         var collection = [];
         // find each gfycat on page and run its init
-        console.log(this.id);
         elem_single = document.getElementById(this.id);
         var gfyObj = new gfyObject(elem_single);
         collection.push(gfyObj);
         collection[0].init();
+
 
         /* Their Code:
         elem_coll = byClass("gfyitem", document); // here's where we want to swap in the GFYtitle we grabbed from the listener
@@ -283,7 +289,6 @@ var gfyObject = function (gfyElem) {
         isMobile = mobilecheck();
         gfyId = gfyRootElem.getAttribute('data-id');
         gfyIDP = gfyRootElem.getAttribute('id');
-        console.log(gfyId);
         playbuttonId = gfyIDP + 'playbutton';
         document.getElementById(playbuttonId).style.display = 'none';
         if (gfyRootElem.getAttribute('data-title') == "true")

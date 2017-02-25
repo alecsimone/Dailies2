@@ -92,6 +92,15 @@
 			the_content();
 		} ?>
 	</section>
+		<?php if ($user_id == 1) {
+			$gfyPlayCount = get_post_meta($thisID, 'gfyViewcount', true);
+			$fullClipPlayCount = get_post_meta($thisID, 'fullClipViewcount', true);
+			$totalPlays = $gfyPlayCount + $fullClipPlayCount;
+			?>
+			<p class="attribution playcount">
+				<?php echo $totalPlays; ?> plays.
+			</p>
+		<?php } ?>
 	<section id="thing<?php echo $thisID; //to give each thing a unique ID so they can be told apart ?>-votebar" class="votebar">
 		<?php if ( ( $user_id == 0 && !in_array($client_ip, $guestlist) ) || ( $user_id != 0 && !array_key_exists($user_id, $voteledger) ) ) { ?>
 			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Vote-Icon-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon" data-id="<?php echo $thisID; ?>" data-vote="up" onclick="vote(<?php echo $thisID; ?>)">

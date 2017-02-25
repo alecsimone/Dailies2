@@ -129,12 +129,15 @@ function doesTheReplacing(thisLink) {
 		var replacementCodeEnd = "&autoplay=true\" width=\"640\" height=\"360\" frameborder=\"0\" scrolling=\"no\" allowfullscreen=\"true\"></iframe></div>";
 		var replacementCode = replacementCodeStart + thisClipKeyCode + replacementCodeEnd;
 		thisContent.html(replacementCode);
+
+		var thisThingID = thisThing.attr("id");
+		var thisPostID = thisThingID.substring(5);
+		tickUpViews(thisPostID, 'fullClip');
 	};
 	var thisEmbed = jQuery('.embed-container');
 	var embedHeight = thisEmbed.outerHeight();
 	var thisContentBox = thisEmbed.parent();
 	thisContentBox.height(embedHeight);
-
 }
 
  jQuery('.contentContainer').on('click', '.fullClipLink', function(event) {
