@@ -18,6 +18,7 @@ $twitch_url = get_term_meta($thisTermID, 'twitch', true);
 $youtube_url = get_term_meta($thisTermID, 'youtube', true);
 $website_url = get_term_meta($thisTermID, 'website', true);
 $discord_url = get_term_meta($thisTermID, 'discord', true);
+$donate_url = get_term_meta($thisTermID, 'donate', true);
 
 $orderby = get_query_var('orderby', 'date');
 $order = get_query_var('order', 'DESC');
@@ -71,9 +72,12 @@ if ($this_parent_id !== 0) {
 		if ($website_url == '') {
 			$website_url = get_term_meta($this_parent_id, 'website', true);
 		};
+		if ($donate_url == '') {
+			$donate_url = get_term_meta($this_parent_id, 'donate', true);
+		};
 };
 
-if ($twitter_url != '' || $twitch_url != '' || $youtube_url != '' || $website_url != '') {
+if ($twitter_url != '' || $twitch_url != '' || $youtube_url != '' || $website_url != '' || $donate_url != '') {
 	$has_data = true;
 }
 if ($underdogs) {
@@ -124,6 +128,7 @@ if ($underdogs) {
 				<?php if ($twitch_url != '') { ?><a href="<?php echo $twitch_url; ?>" class="archive-data-link" target="_blank"><div class="archive-data-button twitch"><img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/01/Twitch-purple-logo.png" alt="twitch link"></div></a><?php }; ?>
 				<?php if ($youtube_url != '') { ?><a href="<?php echo $youtube_url; ?>" class="archive-data-link" target="_blank"><div class="archive-data-button youtube"><img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/01/youtube-logo.png" alt="youtube link"></div></a><?php }; ?>
 				<?php if ($discord_url != '') { ?><a href="<?php echo $discord_url; ?>" class="archive-data-link" target="_blank"><div class="archive-data-button discord"><img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/01/Discord-logo.png" alt="discord link"></div></a><?php }; ?>
+				<?php if ($donate_url != '') { ?><a href="<?php echo $donate_url; ?>" class="archive-data-link" target="_blank"><div class="archive-data-button donate"><img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/03/Donate-logo.png" alt="donate link"></div></a><?php }; ?>
 			</div>
 		<?php }; ?>
 	</div>

@@ -57,31 +57,38 @@
 		<?php } ?>
 	</section>
 	<section id="thing<?php echo $thisID; ?>-storybox" class="storybox">
-		<p class="attribution starsource">
-		<?php $stars = get_the_terms( $post->ID, 'stars' );
-		if ( !empty($attribution) ) { ?>
-			<?php echo $attribution; // edit_post_link( 'this', ' Edit ', '.' ); That last thing is the "edit this" link for the thing. First thing is the attribution for the post, from the custom field ?>
-		<?php } elseif ( !empty($stars) ) { ?>
-			Starring 
-				<?php 
-				$starCount = count($stars); 
-				$starCounter = 0;
-				if ( $starCount == 1 ) { ?><a href="<?php echo $thisDomain; ?>/stars/<?php echo $stars[0]->slug; ?>"><?php echo $stars[0]->name; ?></a>.
-				<?php } elseif ($starCount == 2 ) { ?><a href="<?php echo $thisDomain; ?>/stars/<?php echo $stars[0]->slug; ?>"><?php echo $stars[0]->name; ?></a> and <a href="<?php echo $thisDomain; ?>/stars/<?php echo $stars[1]->slug; ?>"><?php echo $stars[1]->name; ?></a>.
-				<?php } else {
-					while ($starCounter < $starCount - 1) { ?>
-						<a href="<?php echo $thisDomain; ?>/stars/<?php echo $stars[$starCounter]->slug; ?>"><?php echo $stars[$starCounter]->name; ?></a>, 
-						<?php $starCounter++;
-					} ?> and <a href="<?php echo $thisDomain; ?>/stars/<?php echo $stars[$starCounter]->slug; ?>"><?php echo $stars[$starCounter]->name; ?></a>.
-				<?php } ?> 
-			<?php the_terms( $post->ID, 'source', 'From ', ', ' ); ?>
-			<?php edit_post_link( 'this', ' Edit ' ); ?>
-		</p>
 		<p class="attribution full-clip">
 			<?php if ( !empty($fullClip) ) { ?>
 				<a href="<?php echo $fullClip; ?>" target="_blank" class="fullClipLink">Full Clip</a>
-			<?php }
-		} ?>
+			<?php } ?>
+		</p>
+		<p class="attribution stars">
+			<?php $stars = get_the_terms( $post->ID, 'stars' );
+			if ( !empty($attribution) ) { ?>
+			<?php echo $attribution; // That's the attribution for the post from the custom field ?>
+			<?php } elseif ( !empty($stars) ) {
+				$starCount = count($stars); 
+				$starCounter = 0;
+				$defaultPic = 'http://therocketdailies.com/wp-content/uploads/2017/03/default_pic.jpg';
+				while ($starCounter < $starCount) { 
+					$starpic = get_term_meta($stars[$starCounter]->term_taxonomy_id, 'logo', true); 
+					if ( empty($starpic) ) {
+						$starpic = $defaultPic;
+					}; ?>
+					<a class="starsourceImgLink" href="<?php echo $thisDomain; ?>/stars/<?php echo $stars[$starCounter]->slug; ?>"><img class="starpic" src="<?php echo $starpic; ?>"></a><a class="starsourceLink" href="<?php echo $thisDomain; ?>/stars/<?php echo $stars[$starCounter]->slug; ?>"><?php echo $stars[$starCounter]->name; ?></a>
+					<?php $starCounter++;
+				} 
+			}; ?>
+		</p>
+		<p class="attribution source">
+			<?php $source = get_the_terms( $post->ID, 'source'); 
+			if ( !empty($source) ) { 
+				$sourcepic = get_term_meta($source[0]->term_taxonomy_id, 'logo', true);
+				if ( empty($sourcepic) ) {
+					$sourcepic = $defaultPic;
+				}; ?>
+				<a class="starsourceImgLink" href="<?php echo $thisDomain; ?>/source/<?php echo $source[0]->slug; ?>"><img class="starpic" src="<?php echo $sourcepic; ?>"></a><a class="starsourceLink" href="<?php echo $thisDomain; ?>/source/<?php echo $source[0]->slug; ?>"><?php echo $source[0]->name; ?></a>
+			<?php } ?>
 		</p>
 		<?php if ( !$tournament && (!is_home() || $underdogs) ) { ?>
 			<div id="thing<?php echo $thisID; ?>-datebox" class="datebox">
@@ -98,7 +105,7 @@
 			$totalPlays = $gfyPlayCount + $fullClipPlayCount;
 			?>
 			<p class="attribution playcount">
-				<?php echo $totalPlays; ?> plays.
+				<?php echo $totalPlays; ?> plays. <?php edit_post_link('Edit this'); ?>
 			</p>
 		<?php } ?>
 	<section id="thing<?php echo $thisID; //to give each thing a unique ID so they can be told apart ?>-votebar" class="votebar">
@@ -110,7 +117,7 @@
 	</section>
 	<div class="onboardbox" id="thing<?php echo $thisID; ?>-onboardbox">
 		<?php if ( !is_user_logged_in() ) { ?>
-			<p class="onboardText">Your votes count as much as your rep. New member start at 1</p>
+			<p class="onboardText">Your votes count as much as your rep. New member get 1</p>
 			<p class="onboardText">Vote daily and your Rep will grow</p>
 			<?php do_action( 'wordpress_social_login' );
 		}; ?>

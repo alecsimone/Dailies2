@@ -14,11 +14,15 @@
 		'orderby' => 'meta_value_num',
 		'order' => 'desc',
 		'meta_key' => 'votecount',
-		'date_query' => array(
-			array(
-				'year'  => 2016,
+		'tax_query' => array(
+			array( // Tax_Query takes an array of arrays, so we have to do this
+				'taxonomy' => 'source',
+				'field' => 'slug',
+				'terms' => 'gfinity',
+				'operator' => 'NOT IN'
 			),
 		),
+
 	);
 	query_posts($archArgs);
 	$max = $wp_query->max_num_pages; // redo this for the new query
@@ -38,9 +42,9 @@
 	<?php ($paged == 0) ? $earlier = $paged + 2 : $earlier = $paged + 1;
 	if ( $earlier <= $max ) { 
 		if ($underdogs) { ?>
-			<a href="http://therocketdailies.com/for-silent/page/<?php echo $earlier; ?>" class="earlier more pull"><img src='<?php echo $thisDomain; ?>/wp-content/uploads/2016/09/More.png' class='earlierIMG'></a>
+			<a href="<?php echo $thisDomain; ?>/for-silent/page/<?php echo $earlier; ?>" class="earlier more pull"><img src='<?php echo $thisDomain; ?>/wp-content/uploads/2016/09/More.png' class='earlierIMG'></a>
 		<?php } else { ?>
-			<a href="http://therocketdailies.com/for-silent/page/<?php echo $earlier; ?>" class="earlier more pull"><img src='<?php echo $thisDomain; ?>/wp-content/uploads/2016/09/More.png' class='earlierIMG'></a>
+			<a href="<?php echo $thisDomain; ?>/for-silent/page/<?php echo $earlier; ?>" class="earlier more pull"><img src='<?php echo $thisDomain; ?>/wp-content/uploads/2016/09/More.png' class='earlierIMG'></a>
 		<?php };
 	} else { ?>
 		<a class="earlier nomore pull">That's all, folks</a>

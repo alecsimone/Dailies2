@@ -17,6 +17,7 @@ $gold: rgba(253,202,60,.8);
 
 $blue: #10508f;
 $blueTrans: rgba(45,109,166,.85);
+$darkerBlue: #0a3259;
 
 $green: #306b39;
 $orange: rgba(255,153,0,.8);
@@ -26,7 +27,8 @@ $transLight: rgba(255,253,249,.5);
 $transLight3: rgba(255,253,249, .25);
 $lightOrange: #e5e4e3;
 
-$black: #262626;
+$black: #121212;
+$lighterBlack: #262626;
 $blackTrans: rgba(0,0,0,.6);
 $blackTrans2: rgba(0,0,0,.8);
 $blackTrans3: rgba(0,0,0,.9);
@@ -112,9 +114,6 @@ $maxestWidth: 1280px;
 	bottom: 0px;
 }
 
-.titlebox a, .comments-header a, .thing.winner .comments-header a, #onboard .comments-header a, p.userbox {
-	//color: $black;
-}
 p.attribution a, p.attribution a:visited, .datebox, #onboard .titlebox a, #onboard a, .score, .votecount {
 	color: $blue;
 }

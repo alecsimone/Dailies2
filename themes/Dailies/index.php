@@ -3,7 +3,7 @@
 <div class="contentContainer">
 
 	<div id="propbox">
-		<div class="propaganda" id="propLeft">Current Daily Prize: $25.00</div>
+		<div class="propaganda" id="propLeft">Today's Prize: $25.00</div>
 		<div class="propaganda" id="propRight">More Coming Soon...</div>
 	</div>
 
@@ -90,13 +90,7 @@
 	<?php $adCounter = 0;
 	$adsCounted = 0;
 	foreach ( $postDataNoms as $post) : setup_postdata($post);
-		if ($adCounter == 2) { ?>
-			<div class="adunit loop-ad pull" data-adunit="loopad-home" data-size-mapping="default-sizes"></div>
-			<?php $adCounter = 0;
-			$adsCounted++; 
-		}; 
 		include(locate_template('thing.php'));
-		$adCounter++;
 	endforeach;
 	$my_page++; ?>
 

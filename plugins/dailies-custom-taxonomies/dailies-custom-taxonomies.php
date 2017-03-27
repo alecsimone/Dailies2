@@ -80,7 +80,7 @@ function create_source_taxonomy() {
 	);
 }
 
-$stars_metas = ['logo', 'twitter', 'twitch', 'youtube', 'wins'];
+$stars_metas = ['logo', 'twitter', 'twitch', 'youtube', 'wins', 'donate'];
 add_action( 'stars_edit_form_fields', 'edit_star_form_fields', 10, 2 );
 function edit_star_form_fields($term, $taxonomy) {
 	global $stars_metas;

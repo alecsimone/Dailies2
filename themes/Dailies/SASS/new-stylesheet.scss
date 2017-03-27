@@ -17,6 +17,9 @@ $lighterblue: #3b8fd9;
 $blueTrans: rgba(16,80,143,.85);
 $darkerBlue: #0a3259;
 
+$lightGray: #e5e5e5;
+$lightGrayRed: #e5e3e1;
+
 $orange: rgba(255, 153, 0, .8);
 $transOrange: rgba(255, 153, 0, .2);
 
@@ -28,6 +31,7 @@ $lightGreen: #e6ebe8;
 $lightBlue: #dce1e5;
 
 $black: #121212;
+$lighterBlack: #262626;
 $blackTrans: rgba(12,12,12,.6);
 $blackTrans2: rgba(12,12,12,.8);
 $blackTrans3: rgba(12,12,12,.9);
@@ -166,7 +170,7 @@ body:before { /* Background hack to play a little nicer on mobile */
 	  	width: 100%;
 	  	height: 100%;
 	  	z-index: -10;
-	  	background: $lightBlue;
+	  	background: $lightGrayRed;
 }
 a, a:visited {
     color: $blue;
@@ -959,9 +963,25 @@ p.attribution {
 	padding: 0px;
 	max-width: none;
 }
-p.attribution.starsource {
-	float: left;
-}p.attribution.full-clip {
+p.attribution.stars, p.attribution.source {
+	align-items: center;
+	margin-bottom: $half;
+}
+p.attribution.stars {
+	display: inline-flex;
+}
+p.attribution.source {
+	display: flex;
+}
+img.starpic {
+	width: auto;
+	height: $triple;
+	border-radius: $quarter;
+}
+a.starsourceLink {
+	padding: 0px $baseline 0px $quarter;
+}
+p.attribution.full-clip {
 	float: right;
 	clear: right;
 	background: $blue;
@@ -976,6 +996,9 @@ p.attribution.starsource {
 p.attribution.full-clip a.fullClipLink {
     color: #fff;
     text-decoration: none;
+}
+p.attribution.playcount {
+	margin: 0;
 }
 p.attribution a, p.attribution a:visited {
 	color: $gold;
@@ -1203,7 +1226,7 @@ h4.recap {
 	background: #fff;
 }
 #decomments-comment-section.decomments-comment-section.decomments-comment-section .decomments-text-holder, #decomments-comment-section.decomments-comment-section.decomments-comment-section .decomments-title-block .decomments-autor-name {
-	color: $light;
+	color: $black;
 }
 #decomments-comment-section.decomments-comment-section.decomments-comment-section .decomments-number {
 	color: $light;

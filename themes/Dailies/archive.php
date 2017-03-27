@@ -9,10 +9,7 @@
 	Sort by: <a class="orderLink <?php if ($our_order == 'newest') { echo 'currentOrder'; }; ?>" href="<?php echo $thisDomain; ?>/<?php echo $thisTax; ?>/<?php echo $thisSlug; ?>/?orderby=date&order=desc">Newest</a> <a class="orderLink <?php if ($our_order == 'oldest') { echo 'currentOrder'; }; ?>" href="<?php echo $thisDomain; ?>/<?php echo $thisTax; ?>/<?php echo $thisSlug; ?>/?orderby=date&order=asc">Oldest</a> <a class="orderLink <?php if ($our_order == 'top') { echo 'currentOrder'; }; ?>" href="<?php echo $thisDomain; ?>/<?php echo $thisTax; ?>/<?php echo $thisSlug; ?>/?orderby=meta_value_num&order=desc">Top</a>
 </nav>
 
-	<?php $adCounter = 0;
-	$adsCounted = 0;
-	//this is just a comment to test changing files.
-	$archArgs = array(
+	<?php $archArgs = array(
 		'posts_per_page' => 10,
 		'paged' => $paged,
 		'orderby' => $orderby,
@@ -43,13 +40,7 @@
 	};
 	$max = $wp_query->max_num_pages; // redo this for the new query
 	if ( have_posts() ) : while ( have_posts() ) : the_post(); 
-		 if ($adCounter == 3) { ?>
-			<div class="adunit loop-ad pull" data-adunit="loopad-home" data-size-mapping="default-sizes"></div>
-			<?php $adCounter = 0;
-			$adsCounted++; 
-		}; 
-		include(locate_template('thing.php')); 
-		$adCounter++; ?>
+		include(locate_template('thing.php')); ?>
 
 	<?php endwhile; else : ?>
 		<p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
