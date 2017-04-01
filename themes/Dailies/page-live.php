@@ -6,7 +6,7 @@
 		var options = {
 			width: '100%',
 			height: '100%',
-			channel: "kaydop"
+			channel: "dappur"
 		};
 		var player = new Twitch.Player("live-twitch-player", options);
 		player.setVolume(0.5);

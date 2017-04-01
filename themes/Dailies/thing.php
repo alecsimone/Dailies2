@@ -161,7 +161,18 @@ if (has_category('noms')) { ?>
 			$twitchcode = get_post_meta($thisID, 'TwitchCode', true);
 			$embedcode = get_post_meta($thisID, 'EmbedCode', true);
 			$hash = rand(1, 99); ?>
-			<h3><a href="<?php the_permalink(); ?>"<?php 
+			<h3><a href="<?php
+				if ( !empty($gfytitle) ) {
+					echo "http://gfycat.com/";
+					echo $gfytitle;
+				} elseif ( !empty($twitchcode) ) {
+					echo "http://twitch.tv/";
+					echo $twitchcode;
+				} elseif ( !empty($youtubecode) ) {
+					echo "https://youtube.com/watch?v=";
+					echo $youtubecode;
+				}
+			 ?>"<?php 
 				if ( !empty($gfytitle) ) {
 					?>class='gfy-little-thing' id='<?php echo $gfytitle; echo $hash; ?>' onclick="littleReplacer('<?php echo $gfytitle; echo '\', \''; echo $gfytitle; echo $hash; ?>')" data-id='<?php echo $gfytitle; ?>' data-autoplay=true data-controls=true data-expand=true <?php }
 				elseif ( !empty($twitchcode) ) { 

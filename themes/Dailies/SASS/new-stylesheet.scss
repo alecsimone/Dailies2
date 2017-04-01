@@ -55,6 +55,7 @@ $bpStupidLarge: "screen and (min-width: 1864px)";
 $baseline: 12px;
 $half: $baseline / 2; // 6
 $quarter: $baseline /4; // 3
+$minusQuarter: $baseline - $quarter; //9
 $plusHalf: $baseline + $baseline / 2; // 18
 $plusQuarter: $baseline + $baseline /4; // 15
 $double: 2 * $baseline; // 24
@@ -317,6 +318,7 @@ a#live {
 	flex-basis: 110px;
 	font-weight: bold;
 }
+a#underdogs { flex-basis: 110px;}
 a#stars {flex-basis: 80px;}
 a#source {flex-basis: 110px;}
 a#skills {flex-basis: 80px;}
@@ -1618,6 +1620,10 @@ $liveBP4: "screen and (min-width: 1440px)";
 .little-thing {
 	padding: $half;
 	max-width: 980px;
+	min-width: 400px;
+	width: 48%;
+	display: inline-block;
+	margin: $minusQuarter;
 	line-height: 0;
 }
 .little-thing-top {
