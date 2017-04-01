@@ -11,7 +11,6 @@
 <?php 
 	$thisDailyVars = this_dailies_vars(); // header.php doesn't seem to be able to use variables defined normally in the child theme's functions.php, so instead we have to define them inside a function which we call here. This is very inelegant, and if you know an elegant way to do it instead, please tell me.
 	$thisNavLinks = $thisDailyVars['nav-links'];
-	$trendingTags = trendingTags();
 	global $thisDomain;
 	$thisDomain = get_site_url();
 ?>

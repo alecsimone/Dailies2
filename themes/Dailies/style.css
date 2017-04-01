@@ -169,8 +169,8 @@ a#winners {
 a#best {
   flex-basis: 60px; }
 
-a#underdogs {
-  color: #3b8fd9;
+a#live {
+  color: #d93b3b;
   flex-basis: 110px;
   font-weight: bold; }
 
@@ -598,7 +598,7 @@ a.earlier.nomore {
   border-left: none;
   border-right: none;
   width: 100%;
-  max-width: 1280px;
+  max-width: 980px;
   box-sizing: border-box;
   margin: 15px auto;
   border-radius: 2px;
@@ -852,7 +852,9 @@ p.attribution a, p.attribution a:visited {
   position: relative;
   height: auto;
   color: #121212;
-  font-size: 18px; }
+  font-size: 18px;
+  line-height: 1em;
+  padding: 0 3px; }
 
 .comments-header {
   font-weight: bold;
@@ -876,11 +878,20 @@ p.attribution a, p.attribution a:visited {
     text-decoration: none; }
     .comment-preview-author a:hover {
       text-decoration: underline; }
+  .comment-preview-author::before {
+    content: "-";
+    color: #fff;
+    display: block;
+    height: 6px; }
 
 .comment-form-container {
   max-height: 0;
   overflow: hidden;
   transition: max-height .5s ease; }
+  .comment-form-container::before {
+    content: "-";
+    height: 12px;
+    color: #fff; }
 
 p.logged-in-as {
   font-size: 15px;
@@ -1338,5 +1349,103 @@ p.rules.privacy {
 
 p.onboardText.your-votes-error {
   margin: 12px 0px; }
+
+/*----------- 3H: Live Page ----------- */
+#live-player-container {
+  margin: auto;
+  height: 360px; }
+  @media screen and (min-width: 750px) {
+    #live-player-container {
+      max-width: 1440px; } }
+  @media screen and (min-width: 1100px) {
+    #live-player-container {
+      height: 600px; } }
+
+#live-twitch-player {
+  width: 100%;
+  height: 100%;
+  display: block;
+  margin: auto; }
+  @media screen and (min-width: 750px) {
+    #live-twitch-player {
+      width: 90%; } }
+  @media screen and (min-width: 900px) {
+    #live-twitch-player {
+      width: 60%;
+      display: inline-block; } }
+  @media screen and (min-width: 1100px) {
+    #live-twitch-player {
+      width: 66%; } }
+  @media screen and (min-width: 1440px) {
+    #live-twitch-player {
+      width: 75%; } }
+
+#live-twitch-chat {
+  width: 100%;
+  min-width: 355px;
+  height: 100%;
+  display: block;
+  margin: auto; }
+  @media screen and (min-width: 750px) {
+    #live-twitch-chat {
+      width: 90%; } }
+  @media screen and (min-width: 900px) {
+    #live-twitch-chat {
+      display: inline-block;
+      width: 40%; } }
+  @media screen and (min-width: 1100px) {
+    #live-twitch-chat {
+      width: 33%; } }
+  @media screen and (min-width: 1440px) {
+    #live-twitch-chat {
+      width: 25%; } }
+
+.toggle-player-button {
+  display: inline-block;
+  padding: 12px;
+  border-radius: 0 0 6px 6px;
+  background: #10508f;
+  color: rgba(255, 253, 249, 0.9);
+  cursor: pointer; }
+
+.little-thing {
+  padding: 6px;
+  max-width: 980px;
+  line-height: 0; }
+
+.little-thing-top {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  line-height: 1em; }
+
+.little-title {
+  width: calc(100% - 136px);
+  padding: 0; }
+
+.little-votebox {
+  width: 48px;
+  height: 48px;
+  padding-right: 6px;
+  text-align: center; }
+
+.little-votebox img {
+  width: 48px;
+  height: 48px; }
+
+.little-discuss-button {
+  width: 60px;
+  text-align: right;
+  opacity: .8; }
+  .little-discuss-button:hover {
+    opacity: 1; }
+
+.little-discuss-button img {
+  width: 36px;
+  height: 36px; }
+
+.little-thing .commentbox .comments-header {
+  display: none; }
 
 /*# sourceMappingURL=style.css.map */

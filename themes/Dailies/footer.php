@@ -1,32 +1,5 @@
 <?php global $thisDomain; ?>
 <script>
-function dfpInit() {
-	var dfpIsDeclared = true; // in the jquery.dfp.js file we declared a variable dfpTest. If that file was blocked by an adblocker, it will not have been declared
-	try{ dfpTest } //So we're going to try the variable and see what happens
-	catch(e) {
-		if (e.name == "ReferenceError") { //if the variable throws a reference error
-			dfpIsDeclared = false; //We set this variable to false, indicating jquery.dfp.js was blocked, and we shouldn't do this function
-		}
-	}
-	if (dfpIsDeclared) {
-		jQuery('.adunit:not(".display-block")').dfp({
-			dfpID: mydfpID,
-			collapseEmptyDivs: 'original',
-			enableSingleRequest: 'false',
-			sizeMapping: {
-				'default-sizes': [
-				{browser: [1440,720], ad_sizes: [[970, 90], [728, 90]]},
-				{browser: [1024,768], ad_sizes: [728, 90]},
-				{browser: [500,300], ad_sizes: [[468, 60], [234, 60], [320, 50]]},
-				{browser: [0,0], ad_sizes: [[234, 60], [320, 50]]},
-				],
-			}
-		});
-	};
-};
-
-jQuery(document).ready(dfpInit);
-
 /*** imgResizer Function to pull in bigger featured images on bigger screens ***/
 function imgResizer() {
 	var windowWidth = jQuery(window).width();
@@ -63,6 +36,7 @@ jQuery(document).mouseup(function (e)
 
 /*** Vote Icon Replacer ***/
 jQuery('.contentContainer').on('hover', '.voteIcon', function() {
+	console.log("you hovered!");
 	thisVoteIcon = jQuery(this);
 	thisIconSrc = thisVoteIcon.attr("src")
 	MedalSrc = 'http://therocketdailies.com/wp-content/uploads/2016/12/Medal-small-100.png';
@@ -106,13 +80,30 @@ function youtubeReplacer(ID, UID) {
 };
 
 /*** Twitch Replacer ***/
+function generateTwitchReplacementCode(ID) {
+	var replacementCodeStart = "<div class=\"embed-container\"><iframe src=\"https://clips.twitch.tv/embed?clip=";
+	var replacementCodeEnd = "&autoplay=true\" width=\"640\" height=\"360\" frameborder=\"0\" scrolling=\"no\" allowfullscreen=\"true\"></iframe></div>";
+	var replacementCode = replacementCodeStart + ID + replacementCodeEnd;
+	return replacementCode;
+}
+function generateGfyReplacementCode(ID) {
+	var replacementCodeStart = "<div class='embed-container'><iframe src='https://gfycat.com/ifr/"
+	var replacementCodeEnd = "' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;' allowfullscreen></iframe></div>"
+	var replacementCode = replacementCodeStart + ID + replacementCodeEnd;
+	return replacementCode;
+}
+function generateYoutubeReplacementCode(ID) {
+	var replacementCodeStart = "<div class='embed-container'><iframe width='1280' height='720' src='https://www.youtube.com/embed/"
+	var replacementCodeEnd = "?showinfo=0&autoplay=1' frameborder='0' allowfullscreen></iframe></div>"
+	var replacementCode = replacementCodeStart + ID + replacementCodeEnd;
+	return replacementCode;
+}
+
 function twitchReplacer(ID, UID) {
 	var featIMG = document.getElementById(UID);
 	var container = jQuery(featIMG).parent();
 	var playButton = container.find('.playbutton');
-	var replacementCodeStart = "<div class=\"embed-container\"><iframe src=\"https://clips.twitch.tv/embed?clip=";
-	var replacementCodeEnd = "&autoplay=true\" width=\"640\" height=\"360\" frameborder=\"0\" scrolling=\"no\" allowfullscreen=\"true\"></iframe></div>";
-	var replacementCode = replacementCodeStart + ID + replacementCodeEnd;
+	var replacementCode = generateTwitchReplacementCode(ID);
 	jQuery(featIMG).replaceWith(replacementCode);
 	jQuery(playButton).remove();
 };
@@ -148,6 +139,45 @@ jQuery('.contentContainer').on('click', 'p.attribution.full-clip', function() {
 	var thisLink = jQuery(this).children('.fullClipLink');
 	doesTheReplacing(thisLink);
 });
+
+function littleReplacer(ID, UID) {
+	console.log(UID);
+}
+
+jQuery('.little-title').on('click', 'a', function() {
+	event.preventDefault();
+	var thisLittleClass = jQuery(this).attr("class");
+	var thisCode = jQuery(this).attr("data-id");
+	var thisWholeThing = jQuery(this).parent().parent().parent().parent();
+	var thisEmbedTarget = thisWholeThing.find('.little-thing-bottom');
+	var embedExistenceChecker = thisEmbedTarget.find('.embed-container');
+	if (embedExistenceChecker.length) {
+		embedExistenceChecker.remove();
+	} else if ( thisLittleClass == 'twitch-little-thing' ) {
+		var embedCode = generateTwitchReplacementCode(thisCode);
+		thisEmbedTarget.append(embedCode);
+	} else if ( thisLittleClass == 'gfy-little-thing' ) {
+		var embedCode = generateGfyReplacementCode(thisCode);
+		thisEmbedTarget.append(embedCode);
+	} else if ( thisLittleClass == 'yt-little-thing' ) {
+		var embedCode = generateYoutubeReplacementCode(thisCode);
+		thisEmbedTarget.append(embedCode);
+	}
+});
+
+function toggleLivePlayer() {
+	var livePlayer = jQuery('#live-player-container');
+	var thisButton = jQuery('.toggle-player-button');
+	if ( livePlayer.css('display') == 'none') {
+		livePlayer.css("display", "block");
+		thisButton.html('X Hide Player');
+		thisButton.css("borderRadius", "0 0 6px 6px");
+	} else {
+		livePlayer.css("display", "none");
+		thisButton.html('V Show Player');
+		thisButton.css("borderRadius", "6px");
+	};
+}
 
 /*** Show Comment Form **/
 function showCommentForm(ID, UID) {
@@ -210,7 +240,6 @@ jQuery(function() {
 		imgResizer()
 		heightLocker();
 		console.log('re-initializing!');
-		dfpInit;
 	    var moreGFYs = document.getElementsByClassName('gfyitem');
 	    for (var i=0; i<moreGFYs.length; i++) {
 	    	moreGFYs[i].addEventListener("click",gfyCollection.init,false);

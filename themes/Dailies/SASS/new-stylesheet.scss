@@ -20,6 +20,8 @@ $darkerBlue: #0a3259;
 $lightGray: #e5e5e5;
 $lightGrayRed: #e5e3e1;
 
+$red: #d93b3b;
+
 $orange: rgba(255, 153, 0, .8);
 $transOrange: rgba(255, 153, 0, .2);
 
@@ -71,6 +73,7 @@ $shadow: 0 1px 1px rgba(173,168,168,0.1);
 $smallTagbarHeight: 75px;
 $mediumTagbarHeight: 150px;
 $mediumFontSize: 20px;
+$bigWidth: 980px;
 $maxestWidth: 1280px;
 
 //Mixins
@@ -309,8 +312,8 @@ a#winners {
 	line-height: 0px;
 }
 a#best {flex-basis: 60px;}
-a#underdogs {
-	color: $lighterblue;
+a#live {
+	color: $red;
 	flex-basis: 110px;
 	font-weight: bold;
 }
@@ -741,7 +744,7 @@ a.earlier.nomore {
 	border-left: none;
 	border-right: none;
 	width: 100%;
-	max-width: $maxestWidth;
+	max-width: $bigWidth;
 	box-sizing: border-box;
 	margin: $plusQuarter auto;
 	border-radius: $rounded;
@@ -1020,6 +1023,8 @@ p.attribution a, p.attribution a:visited {
 	height: auto;
 	color: $black;
 	font-size: $plusHalf;
+	line-height: 1em;
+	padding: 0 $quarter;
 }
 .comments-header {
 	font-weight: bold;
@@ -1047,12 +1052,23 @@ p.attribution a, p.attribution a:visited {
 			text-decoration: underline;
 		}
 	}
+	&::before {
+		content: "-";
+		color: #fff;
+		display: block;
+		height: $half;
+	}
 }
 
 .comment-form-container {
 	max-height: 0;
 	overflow: hidden;
 	transition: max-height .5s ease;
+	&::before {
+		content: "-";
+		height: $baseline;
+		color: #fff;
+	}
 }
 
 p.logged-in-as {
@@ -1532,4 +1548,112 @@ p.rules.privacy {
 }
 p.onboardText.your-votes-error {
 	margin: $baseline 0px;
+}
+
+/*----------- 3H: Live Page ----------- */
+$liveBP1: "screen and (min-width: 750px)";
+$liveBP2: "screen and (min-width: 900px)";
+$liveBP3: "screen and (min-width: 1100px)";
+$liveBP4: "screen and (min-width: 1440px)";
+
+#live-player-container {
+	margin: auto;
+	height: 360px;
+	@media #{$liveBP1} {
+		max-width: 1440px;
+	}
+	@media #{$liveBP3} {
+		height: 600px;
+	}
+}
+#live-twitch-player {
+	width: 100%;
+	height: 100%;
+	display: block;
+	margin: auto;
+	@media #{$liveBP1} {
+		width: 90%;
+	}
+	@media #{$liveBP2} {
+		width: 60%;
+		display: inline-block;
+	}
+	@media #{$liveBP3} {
+		width: 66%;
+	}
+	@media #{$liveBP4} {
+		width: 75%;
+	}
+}
+#live-twitch-chat {
+	width: 100%;
+	min-width: 355px;
+	height: 100%;
+	display: block;
+	margin: auto;
+	@media #{$liveBP1} {
+		width: 90%;
+	}
+	@media #{$liveBP2} {
+		display: inline-block;
+		width: 40%;
+	}
+	@media #{$liveBP3} {
+		width: 33%;
+	}
+	@media #{$liveBP4} {
+		width: 25%;
+	}
+}
+
+.toggle-player-button {
+	display: inline-block;
+	padding: $baseline;
+	border-radius: 0 0 $half $half;
+	background: $blue;
+	color: $light;
+	cursor: pointer;
+}
+
+.little-thing {
+	padding: $half;
+	max-width: 980px;
+	line-height: 0;
+}
+.little-thing-top {
+	display: inline-flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	line-height: 1em;
+}
+.little-title{
+	width: calc(100% - 136px);
+	padding: 0;
+}
+.little-votebox {
+	width: $quad;
+	height: $quad;
+	padding-right: $half;
+	text-align: center;
+}
+.little-votebox img, {
+	width: $quad;
+	height: $quad;
+}
+.little-discuss-button {
+	width: $sept;
+	text-align: right;
+	opacity: .8;
+	&:hover {
+		opacity: 1;
+	}
+}
+.little-discuss-button img {
+	width: $triple;
+	height: $triple;
+}
+
+.little-thing .commentbox .comments-header {
+    display: none;
 }
