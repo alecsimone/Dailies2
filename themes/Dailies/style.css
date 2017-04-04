@@ -604,6 +604,7 @@ a.earlier.nomore {
   max-width: 980px;
   box-sizing: border-box;
   margin: 15px auto;
+  border-top: 2px solid #121212;
   border-radius: 2px;
   color: #121212;
   text-align: left;
@@ -618,6 +619,8 @@ a.earlier.nomore {
   @media screen and (min-width: 941px) {
     .thing {
       padding: 0px 15px 15px; } }
+  .thing.winner {
+    border-top: none; }
 
 @media screen and (min-width: 941px) {
   .votebar, .storybox, .commentbox, .tagbar {
@@ -1355,6 +1358,7 @@ p.onboardText.your-votes-error {
 
 /*----------- 3H: Live Page ----------- */
 #live-player-container {
+  display: none;
   margin: auto;
   height: 360px; }
   @media screen and (min-width: 750px) {
@@ -1425,7 +1429,8 @@ p.onboardText.your-votes-error {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  line-height: 1em; }
+  line-height: 1em;
+  margin-bottom: 6px; }
 
 .little-title {
   width: calc(100% - 136px);
@@ -1444,7 +1449,7 @@ p.onboardText.your-votes-error {
 .little-discuss-button {
   width: 60px;
   text-align: right;
-  opacity: .8; }
+  opacity: .9; }
   .little-discuss-button:hover {
     opacity: 1; }
 
@@ -1454,5 +1459,21 @@ p.onboardText.your-votes-error {
 
 .little-thing .commentbox .comments-header {
   display: none; }
+
+.little-thing textarea#comment {
+  width: calc(100% - 6px); }
+
+.little-thing-attribution {
+  padding: 6px;
+  text-align: left; }
+  .little-thing-attribution p.stars, .little-thing-attribution p.source {
+    margin: 0;
+    line-height: 0; }
+  .little-thing-attribution p.source {
+    display: inline-flex; }
+
+.little-thing p.attribution img {
+  width: 24px;
+  height: 24px; }
 
 /*# sourceMappingURL=style.css.map */

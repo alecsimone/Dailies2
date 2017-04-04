@@ -749,6 +749,7 @@ a.earlier.nomore {
 	max-width: $bigWidth;
 	box-sizing: border-box;
 	margin: $plusQuarter auto;
+	border-top: 2px solid $black;
 	border-radius: $rounded;
 	color: $black;
 	text-align: left;
@@ -762,6 +763,9 @@ a.earlier.nomore {
 	}
 	@media #{$bpXL} {
 		padding: 0px $plusQuarter $plusQuarter;
+	}
+	&.winner {
+		border-top: none;
 	}
 }
 
@@ -1559,6 +1563,7 @@ $liveBP3: "screen and (min-width: 1100px)";
 $liveBP4: "screen and (min-width: 1440px)";
 
 #live-player-container {
+	display: none;
 	margin: auto;
 	height: 360px;
 	@media #{$liveBP1} {
@@ -1632,6 +1637,7 @@ $liveBP4: "screen and (min-width: 1440px)";
 	align-items: center;
 	width: 100%;
 	line-height: 1em;
+	margin-bottom: $half;
 }
 .little-title{
 	width: calc(100% - 136px);
@@ -1650,7 +1656,7 @@ $liveBP4: "screen and (min-width: 1440px)";
 .little-discuss-button {
 	width: $sept;
 	text-align: right;
-	opacity: .8;
+	opacity: .9;
 	&:hover {
 		opacity: 1;
 	}
@@ -1662,4 +1668,23 @@ $liveBP4: "screen and (min-width: 1440px)";
 
 .little-thing .commentbox .comments-header {
     display: none;
+}
+.little-thing textarea#comment {
+	width: calc(100% - #{$half});
+}
+
+.little-thing-attribution {
+	padding: $half;
+	text-align: left;
+	& p.stars, p.source {
+		margin: 0;
+		line-height: 0;
+	}
+	& p.source {
+		display: inline-flex;
+	}
+}
+.little-thing p.attribution img {
+	width: $double;
+	height: $double;
 }

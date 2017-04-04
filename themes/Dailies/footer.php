@@ -149,7 +149,7 @@ jQuery('.little-title').on('click', 'a', function() {
 	var thisLittleClass = jQuery(this).attr("class");
 	var thisCode = jQuery(this).attr("data-id");
 	var thisWholeThing = jQuery(this).parent().parent().parent().parent();
-	var thisEmbedTarget = thisWholeThing.find('.little-thing-bottom');
+	var thisEmbedTarget = thisWholeThing.find('.little-thing-embed');
 	var embedExistenceChecker = thisEmbedTarget.find('.embed-container');
 	if (embedExistenceChecker.length) {
 		embedExistenceChecker.remove();
@@ -163,6 +163,7 @@ jQuery('.little-title').on('click', 'a', function() {
 		var embedCode = generateYoutubeReplacementCode(thisCode);
 		thisEmbedTarget.append(embedCode);
 	}
+	$grid.isotope();
 });
 
 function toggleLivePlayer() {

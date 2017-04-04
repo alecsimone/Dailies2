@@ -54,6 +54,8 @@
 	<script async type="text/javascript" src="<?php echo $thisDomain; ?>/wp-content/themes/Dailies/js/onClickGFYfy.js"></script>
 	<!-- Enable jQuery Kinetic -->
 	<script async type="text/javascript" src="<?php echo $thisDomain; ?>/wp-content/themes/Dailies/js/jquery.kinetic.min.js"></script>
+	<!-- Isotope -->
+	<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
 </head>
 
 <!-- Show me that body -->

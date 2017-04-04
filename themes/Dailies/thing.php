@@ -112,6 +112,7 @@ if (has_category('noms')) { ?>
 		$totalPlays = $gfyPlayCount + $fullClipPlayCount; ?>
 		<p class="attribution playcount">
 			<?php echo $totalPlays; ?> plays. <?php edit_post_link('Edit this'); ?>
+			<?php print_r($voteledger); print_r($guestlist); ?>
 		</p>
 	<?php } ?>
 
@@ -166,7 +167,7 @@ if (has_category('noms')) { ?>
 					echo "http://gfycat.com/";
 					echo $gfytitle;
 				} elseif ( !empty($twitchcode) ) {
-					echo "http://twitch.tv/";
+					echo "http://clips.twitch.tv/";
 					echo $twitchcode;
 				} elseif ( !empty($youtubecode) ) {
 					echo "https://youtube.com/watch?v=";
@@ -182,12 +183,42 @@ if (has_category('noms')) { ?>
 					}
 				?>><?php the_title();?></a></h3>
 		</div><div class="little-discuss-button">
-			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/03/comment-icon.png" onclick="showCommentForm(<?php echo $thisID; echo ", "; echo $hash; echo $thisID; ?>)">
+			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/comment-icon-black.png" onclick="showCommentForm(<?php echo $thisID; echo ", "; echo $hash; echo $thisID; ?>)">
 		</div>
 	</section>
-	<section class="little-thing-bottom" id="ltb-<?php echo $thisID; ?>">
+	<section class="little-thing-embed" id="lte-<?php echo $thisID; ?>">
 	</section>
-	<?php include(locate_template('commentbox.php')); ?>
+	<?php $source = get_the_terms( $post->ID, 'source');
+	$stars = get_the_terms( $post->ID, 'stars' );
+	$defaultPic = 'http://therocketdailies.com/wp-content/uploads/2017/03/default_pic.jpg';
+	if ( !empty($stars) || !empty($source) ) { ?>
+		<section class="little-thing-attribution" id="lta-<?php echo $thisID; ?>">
+			<?php if ( !empty($source) ) { ?>
+				<p class="attribution source">
+					<?php $sourcepic = get_term_meta($source[0]->term_taxonomy_id, 'logo', true);
+					if ( empty($sourcepic) ) {
+						$sourcepic = $defaultPic;
+					}; ?>
+					<a class="starsourceImgLink" href="<?php echo $thisDomain; ?>/source/<?php echo $source[0]->slug; ?>"><img class="starpic" src="<?php echo $sourcepic; ?>"></a><a class="starsourceLink" href="<?php echo $thisDomain; ?>/source/<?php echo $source[0]->slug; ?>"><?php echo $source[0]->name; ?></a>
+				</p>
+			<?php };
+			if ( !empty($stars) ) {
+				$starCount = count($stars); 
+				$starCounter = 0; ?>
+				<p class="attribution stars">
+					<?php while ($starCounter < $starCount) {
+						$starpic = get_term_meta($stars[$starCounter]->term_taxonomy_id, 'logo', true);
+						if ( empty($starpic) ) {
+							$starpic = $defaultPic;
+						}; ?>
+						<a class="starsourceImgLink" href="<?php echo $thisDomain; ?>/stars/<?php echo $stars[$starCounter]->slug; ?>"><img class="starpic" src="<?php echo $starpic; ?>"></a><a class="starsourceLink" href="<?php echo $thisDomain; ?>/stars/<?php echo $stars[$starCounter]->slug; ?>"><?php echo $stars[$starCounter]->name; ?></a>
+						<?php $starCounter++;
+					}; ?>
+				</p>
+			<?php }; ?>
+		</section>
+	<?php }; 
+	include(locate_template('commentbox.php')); ?>
 </article>
 
 <?php } ?>

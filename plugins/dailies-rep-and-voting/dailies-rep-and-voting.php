@@ -104,8 +104,8 @@ function daily_ajax_vote() { // Our function for voting
 			$new_count = $current_count - $old_voteledger[$user_id]; // Take away the amount of rep this user contributed to that
 			$update_success = update_post_meta( $vote_post_id, 'votecount', $new_count); // Update the score, store the success
 
-			unset($voteledger[$user_id]); // Take this user out of the list of users who voted for this post
-			$ledger_update_success = update_post_meta( $vote_post_id, 'voteledger', $voteledger); // Update the new voteledger, store success
+			unset($old_voteledger[$user_id]); // Take this user out of the list of users who voted for this post
+			$ledger_update_success = update_post_meta( $vote_post_id, 'voteledger', $old_voteledger); // Update the new voteledger, store success
 
 			$old_vote_history = get_user_meta($user_id, 'voteHistory', true); // get the user's vote history
 			$new_vote_history = $old_vote_history; // copy it into a new array
