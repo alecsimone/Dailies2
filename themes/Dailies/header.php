@@ -25,8 +25,6 @@
 	<script type="text/javascript" src="http://therocketdailies.com/wp-includes/js/jquery/jquery.js?ver=1.12.4"></script>
 	<script type="text/javascript" src="http://therocketdailies.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1"></script>
 	<!-- jQUERY FOR LOCAL HOST, DELETE FOR PRODUCTION -->
-	<!-- jQuery DFP -->
-	<script type="text/javascript" src="<?php echo $thisDomain; ?>/wp-content/themes/Dailies/js/jquery.dfp.js"></script>
 	<!-- Get Some Fonts -->
 	<script src="https://use.typekit.net/vhv3omo.js"></script>
 	<script>try{Typekit.load({ async: true });}catch(e){}</script>

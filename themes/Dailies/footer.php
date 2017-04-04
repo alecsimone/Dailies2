@@ -167,15 +167,25 @@ jQuery('.little-title').on('click', 'a', function() {
 });
 
 function toggleLivePlayer() {
+	var twitchEmbedHTML = jQuery('')
 	var livePlayer = jQuery('#live-player-container');
 	var thisButton = jQuery('.toggle-player-button');
 	if ( livePlayer.css('display') == 'none') {
 		livePlayer.css("display", "block");
-		thisButton.html('X Hide Player');
+		livePlayer.html('<div id="live-twitch-player"></div><div id="live-twitch-chat"><iframe frameborder="0" scrolling="yes" id="the_rocket_dailies" src="https://www.twitch.tv/the_rocket_dailies/chat" height="100%" width="100%"></iframe></div>');
+		var options = {
+			width: "100%",
+			height: "100%",
+			channel: "the_rocket_dailies"
+		};
+		var player = new Twitch.Player("live-twitch-player", options);
+		player.setVolume(0.5);
+		thisButton.html('X Hide Live Player');
 		thisButton.css("borderRadius", "0 0 6px 6px");
 	} else {
 		livePlayer.css("display", "none");
-		thisButton.html('V Show Player');
+		livePlayer.html('');
+		thisButton.html('V Show Live Player');
 		thisButton.css("borderRadius", "6px");
 	};
 }

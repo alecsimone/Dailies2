@@ -1415,14 +1415,22 @@ p.onboardText.your-votes-error {
   color: rgba(255, 253, 249, 0.9);
   cursor: pointer; }
 
+@media screen and (min-width: 850px) {
+  #live-posts-loop {
+    width: 98%;
+    margin: auto; } }
+
 .little-thing {
   padding: 6px;
   max-width: 980px;
-  min-width: 400px;
-  width: 48%;
+  min-width: 350px;
+  width: 98%;
   display: inline-block;
-  margin: 9px;
+  margin: 9px 0;
   line-height: 0; }
+  @media screen and (min-width: 850px) {
+    .little-thing {
+      width: calc(50% - 9px); } }
 
 .little-thing-top {
   display: inline-flex;

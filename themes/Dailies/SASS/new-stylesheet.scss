@@ -1622,14 +1622,24 @@ $liveBP4: "screen and (min-width: 1440px)";
 	cursor: pointer;
 }
 
+#live-posts-loop {
+	@media #{$bpLarge} {
+		width: 98%;
+		margin: auto;
+	}
+}
+
 .little-thing {
 	padding: $half;
 	max-width: 980px;
-	min-width: 400px;
-	width: 48%;
+	min-width: 350px;
+	width: 98%;
 	display: inline-block;
-	margin: $minusQuarter;
+	margin: $minusQuarter 0;
 	line-height: 0;
+	@media #{$bpLarge} {
+		width: calc(50% - 9px);
+	}
 }
 .little-thing-top {
 	display: inline-flex;
