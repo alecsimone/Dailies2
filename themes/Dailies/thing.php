@@ -64,7 +64,11 @@ if (has_category('noms')) { ?>
 	</section>
 
 	<section class="storybox" id="thing<?php echo $thisID; ?>-storybox">
-		<?php $fullClip = get_post_meta($thisID, 'FullClip', true);
+		<?php if (!empty($twitchcode)) {
+			$fullClip = 'https://clips.twitch.tv/' . $twitchcode;
+		} else {
+			$fullClip = get_post_meta($thisID, 'FullClip', true);
+		}
 		if ( !empty($fullClip) ) { ?>
 			<p class="attribution full-clip">
 				<a href="<?php echo $fullClip; ?>" target="_blank" class="fullClipLink">Full Clip</a>
@@ -118,7 +122,7 @@ if (has_category('noms')) { ?>
 
 	<section class="votebar" id="thing<?php echo $thisID; ?>-votebar">
 		<?php if ( ( $user_id == 0 && !in_array($client_ip, $guestlist) ) || ( $user_id != 0 && !array_key_exists($user_id, $voteledger) ) ) { ?>
-			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Vote-Icon-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon" data-id="<?php echo $thisID; ?>" data-vote="up" onclick="vote(<?php echo $thisID; ?>)">
+			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/Vote-Icon-line-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon" data-id="<?php echo $thisID; ?>" data-vote="up" onclick="vote(<?php echo $thisID; ?>)">
 		<?php } elseif ( ( $user_id == 0 && in_array($client_ip, $guestlist) ) || ( $user_id != 0 && array_key_exists($user_id, $voteledger) ) ) { ?>
 			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Medal-small-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon" data-id="<?php echo $thisID; ?>" data-vote="down" onclick="vote(<?php echo $thisID; ?>)">
 		<?php }; ?>
@@ -144,19 +148,19 @@ if (has_category('noms')) { ?>
 </article>
 
 <?php } else { ?>
-<article class="thing little-thing">
+<article id="little-thing-<?php echo $thisID; ?>" class="thing little-thing">
 	<section class="little-thing-top" id="ltt-<?php echo $thisID; ?>">
-		<div class="little-votebox">
-			<?php $voteledger = get_post_meta($thisID, 'voteledger', true);
-			$guestlist = get_post_meta($thisID, 'guestlist', true);
-			$user_id = get_current_user_id();
-			$client_ip = $_SERVER['REMOTE_ADDR'];
-			if ( ( $user_id == 0 && !in_array($client_ip, $guestlist) ) || ( $user_id != 0 && !array_key_exists($user_id, $voteledger) ) ) { ?>
-				<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Vote-Icon-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon" data-id="<?php echo $thisID; ?>" data-vote="up" onclick="vote(<?php echo $thisID; ?>)">
-			<?php } elseif ( ( $user_id == 0 && in_array($client_ip, $guestlist) ) || ( $user_id != 0 && array_key_exists($user_id, $voteledger) ) ) { ?>
-				<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Medal-small-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon" data-id="<?php echo $thisID; ?>" data-vote="down" onclick="vote(<?php echo $thisID; ?>)">
-			<?php }; ?>
-		</div><div class="little-title titlebox">
+		<?php $source = get_the_terms( $post->ID, 'source');
+		if ( !empty($source) ) { ?>
+			<p class="attribution source">
+				<?php $sourcepic = get_term_meta($source[0]->term_taxonomy_id, 'logo', true);
+				if ( empty($sourcepic) ) {
+					$sourcepic = $defaultPic;
+				}; ?>
+				<a class="starsourceImgLink" href="<?php echo $thisDomain; ?>/source/<?php echo $source[0]->slug; ?>"><img class="starpic" src="<?php echo $sourcepic; ?>"></a>
+			</p>
+		<?php }; ?>
+		<div class="little-title titlebox">
 			<?php $gfytitle =  get_post_meta($thisID, 'GFYtitle', true);
 			$youtubecode = get_post_meta($thisID, 'YouTubeCode', true);
 			$twitchcode = get_post_meta($thisID, 'TwitchCode', true);
@@ -173,7 +177,7 @@ if (has_category('noms')) { ?>
 					echo "https://youtube.com/watch?v=";
 					echo $youtubecode;
 				}
-			 ?>"<?php 
+			 ?>" target="_blank"<?php 
 				if ( !empty($gfytitle) ) {
 					?>class='gfy-little-thing' id='<?php echo $gfytitle; echo $hash; ?>' onclick="littleReplacer('<?php echo $gfytitle; echo '\', \''; echo $gfytitle; echo $hash; ?>')" data-id='<?php echo $gfytitle; ?>' data-autoplay=true data-controls=true data-expand=true <?php }
 				elseif ( !empty($twitchcode) ) { 
@@ -181,44 +185,61 @@ if (has_category('noms')) { ?>
 				elseif ( !empty($youtubecode) ) { 
 						?>class='yt-little-thing' id='<?php echo $youtubecode; echo $hash; ?>' data-id="<?php echo $youtubecode; ?>" onclick="littleReplacer('<?php echo $youtubecode; echo '\', \''; echo $youtubecode; echo $hash; ?>')" <?php 
 					}
-				?>><?php the_title();?></a></h3>
-		</div><div class="little-discuss-button">
-			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/comment-icon-black.png" onclick="showCommentForm(<?php echo $thisID; echo ", "; echo $hash; echo $thisID; ?>)">
+				?>><?php the_title();?></a></h3> <div id="little-thing<?php echo $thisID; ?>-votecount" class="votecount little-thing-votecount">
+			<?php $score = get_post_meta($thisID, 'votecount', true);
+			if ($score == '') {$score = 0;};
+			$voteledger = get_post_meta($thisID, 'voteledger', true);
+			$user_id = get_current_user_id();
+			$client_ip = $_SERVER['REMOTE_ADDR'];
+			$voteContribution = $voteledger[$user_id];
+			$guestlist = get_post_meta($thisID, 'guestlist', true);
+			if ($voteContribution == '' && !in_array($client_ip, $guestlist)) {
+				$voteContribution = 0;
+			} elseif ( $voteContribution == '' && in_array($client_ip, $guestlist) ) {$voteContribution = 0.1; }; ?>
+			<div id="thingScore<?php echo $thisID; ?>" data-score="<?php echo $score; ?>" data-contribution="<?php echo $voteContribution; ?>">(+<?php echo $score; ?>)</div>
+		</div>
+		</div><div class="little-votebox">
+			<?php $voteledger = get_post_meta($thisID, 'voteledger', true);
+			$guestlist = get_post_meta($thisID, 'guestlist', true);
+			$user_id = get_current_user_id();
+			$client_ip = $_SERVER['REMOTE_ADDR'];
+			if ( ( $user_id == 0 && !in_array($client_ip, $guestlist) ) || ( $user_id != 0 && !array_key_exists($user_id, $voteledger) ) ) { ?>
+				<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/Vote-Icon-line-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon" data-id="<?php echo $thisID; ?>" data-vote="up" onclick="vote(<?php echo $thisID; ?>)">
+			<?php } elseif ( ( $user_id == 0 && in_array($client_ip, $guestlist) ) || ( $user_id != 0 && array_key_exists($user_id, $voteledger) ) ) { ?>
+				<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Medal-small-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon" data-id="<?php echo $thisID; ?>" data-vote="down" onclick="vote(<?php echo $thisID; ?>)">
+			<?php }; ?>
 		</div>
 	</section>
 	<section class="little-thing-embed" id="lte-<?php echo $thisID; ?>">
 	</section>
-	<?php $source = get_the_terms( $post->ID, 'source');
-	$stars = get_the_terms( $post->ID, 'stars' );
-	$defaultPic = 'http://therocketdailies.com/wp-content/uploads/2017/03/default_pic.jpg';
-	if ( !empty($stars) || !empty($source) ) { ?>
-		<section class="little-thing-attribution" id="lta-<?php echo $thisID; ?>">
-			<?php if ( !empty($source) ) { ?>
-				<p class="attribution source">
-					<?php $sourcepic = get_term_meta($source[0]->term_taxonomy_id, 'logo', true);
-					if ( empty($sourcepic) ) {
-						$sourcepic = $defaultPic;
+	<?php $stars = get_the_terms( $post->ID, 'stars' );
+	$defaultPic = 'http://therocketdailies.com/wp-content/uploads/2017/03/default_pic.jpg'; ?>
+	<section class="little-thing-attribution" id="lta-<?php echo $thisID; ?>">
+		<?php if ( !empty($stars) ) {
+			$starCount = count($stars); 
+			$starCounter = 0; ?>
+			<p class="attribution stars">
+				<?php while ($starCounter < $starCount) {
+					$starpic = get_term_meta($stars[$starCounter]->term_taxonomy_id, 'logo', true);
+					if ( empty($starpic) ) {
+						$starpic = $defaultPic;
 					}; ?>
-					<a class="starsourceImgLink" href="<?php echo $thisDomain; ?>/source/<?php echo $source[0]->slug; ?>"><img class="starpic" src="<?php echo $sourcepic; ?>"></a><a class="starsourceLink" href="<?php echo $thisDomain; ?>/source/<?php echo $source[0]->slug; ?>"><?php echo $source[0]->name; ?></a>
-				</p>
-			<?php };
-			if ( !empty($stars) ) {
-				$starCount = count($stars); 
-				$starCounter = 0; ?>
-				<p class="attribution stars">
-					<?php while ($starCounter < $starCount) {
-						$starpic = get_term_meta($stars[$starCounter]->term_taxonomy_id, 'logo', true);
-						if ( empty($starpic) ) {
-							$starpic = $defaultPic;
-						}; ?>
-						<a class="starsourceImgLink" href="<?php echo $thisDomain; ?>/stars/<?php echo $stars[$starCounter]->slug; ?>"><img class="starpic" src="<?php echo $starpic; ?>"></a><a class="starsourceLink" href="<?php echo $thisDomain; ?>/stars/<?php echo $stars[$starCounter]->slug; ?>"><?php echo $stars[$starCounter]->name; ?></a>
-						<?php $starCounter++;
-					}; ?>
-				</p>
-			<?php }; ?>
-		</section>
-	<?php }; 
-	include(locate_template('commentbox.php')); ?>
+					<a class="starsourceImgLink" href="<?php echo $thisDomain; ?>/stars/<?php echo $stars[$starCounter]->slug; ?>"><img class="starpic" src="<?php echo $starpic; ?>"></a><a class="starsourceLink" href="<?php echo $thisDomain; ?>/stars/<?php echo $stars[$starCounter]->slug; ?>"><?php echo $stars[$starCounter]->name; ?></a>
+					<?php $starCounter++;
+				};
+				edit_post_link('Edit this'); ?>
+			</p>
+		<?php } else { ?>
+			<p class="attribution stars">
+				<img class="starpic nostars" src="<?php echo $defaultPic; ?>">
+				<?php edit_post_link('Edit this'); ?>
+			</p>
+		<?php }; ?>
+		<div class="little-discuss-button">
+			<?php if ( current_user_can('delete_published_posts') ) { ?><div class="post-trasher" onclick="postTrasher(<?php echo $thisID; ?>)"><img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/red-x.png"></div><?php }; ?><img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/comment-icon-outline.png" onclick="showCommentForm(<?php echo $thisID; echo ", "; echo $hash; echo $thisID; ?>)">
+		</div>
+	</section>
+	<?php include(locate_template('commentbox.php')); ?>
 </article>
 
 <?php } ?>

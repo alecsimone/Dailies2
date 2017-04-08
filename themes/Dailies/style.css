@@ -30,6 +30,16 @@ body:before {
   height: 100%;
   z-index: -10;
   background: #e5e3e1; }
+  @media screen and (min-width: 687px) {
+    body:before {
+      background: #f2f6fa;
+      /* Old browsers */
+      background: -moz-radial-gradient(center, ellipse cover, #f2f6fa 2%, #dedae0 100%);
+      /* FF3.6-15 */
+      background: -webkit-radial-gradient(center, ellipse cover, #f2f6fa 2%, #dedae0 100%);
+      /* Chrome10-25,Safari5.1-6 */
+      background: radial-gradient(ellipse at center, #f2f6fa 2%, #dedae0 100%);
+      /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */ } }
 
 a, a:visited {
   color: #10508f; }
@@ -819,6 +829,8 @@ img.starpic {
   width: auto;
   height: 36px;
   border-radius: 3px; }
+  img.starpic.nostars {
+    margin-right: 6px; }
 
 a.starsourceLink {
   padding: 0px 12px 0px 3px; }
@@ -826,11 +838,11 @@ a.starsourceLink {
 p.attribution.full-clip {
   float: right;
   clear: right;
-  background: #10508f;
-  color: #fff;
   padding: 6px 6px;
   border-radius: 6px;
-  border: 1px solid rgba(12, 12, 12, 0.1); }
+  color: #fff;
+  background: #10508f;
+  border: 1px solid #e5e5e5; }
   p.attribution.full-clip:hover {
     background: #0a3259; }
 
@@ -868,12 +880,12 @@ p.attribution a, p.attribution a:visited {
   padding-bottom: .1em;
   margin-bottom: 12px; }
   .comments-header a {
-    color: #fff;
-    background: #10508f;
     padding: 6px 12px;
     border-radius: 6px;
-    border: 1px solid rgba(12, 12, 12, 0.1);
-    text-decoration: none; }
+    text-decoration: none;
+    color: #fff;
+    background: #10508f;
+    border: 1px solid #e5e5e5; }
     .comments-header a:hover {
       background: #0a3259; }
 
@@ -893,7 +905,7 @@ p.attribution a, p.attribution a:visited {
 .comment-form-container {
   max-height: 0;
   overflow: hidden;
-  transition: max-height .5s ease; }
+  transition: max-height .25s ease; }
   .comment-form-container::before {
     content: "-";
     height: 12px;
@@ -1357,55 +1369,83 @@ p.onboardText.your-votes-error {
   margin: 12px 0px; }
 
 /*----------- 3H: Live Page ----------- */
+body.page-id-3801:before {
+  background: #402416;
+  /* Old browsers */
+  background: -moz-radial-gradient(center, ellipse cover, #402416 0%, #1f110b 100%);
+  /* FF3.6-15 */
+  background: -webkit-radial-gradient(center, ellipse cover, #402416 0%, #1f110b 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: radial-gradient(ellipse at center, #402416 0%, #1f110b 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */ }
+body.page-id-3801 .thing {
+  background: #e5e5e5;
+  background-size: 100% auto;
+  background-position: center; }
+
+#donate-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px; }
+
+.patreon-button {
+  display: inline-block;
+  padding: 12px;
+  background: #121212;
+  border-radius: 6px; }
+  .patreon-button img {
+    width: 48px;
+    height: 48px; }
+  .patreon-button:hover {
+    background: #262626; }
+
+.streamlabs-bar {
+  width: 1000px;
+  height: 78px;
+  display: inline-block; }
+
+.donate-button {
+  display: inline-block;
+  background: #121212;
+  font-size: 30px;
+  padding: 12px;
+  border-radius: 6px;
+  text-decoration: none; }
+  .donate-button:hover {
+    background: #262626;
+    text-decoration: underline; }
+
+a.donate-link {
+  color: #ecc15b;
+  font-weight: bold; }
+
 #live-player-container {
   display: none;
   margin: auto;
   height: 360px; }
-  @media screen and (min-width: 750px) {
+  @media screen and (min-width: 850px) {
     #live-player-container {
-      max-width: 1440px; } }
-  @media screen and (min-width: 1100px) {
-    #live-player-container {
-      height: 600px; } }
+      max-width: 2260px; } }
 
 #live-twitch-player {
   width: 100%;
   height: 100%;
   display: block;
   margin: auto; }
-  @media screen and (min-width: 750px) {
+  @media screen and (min-width: 850px) {
     #live-twitch-player {
-      width: 90%; } }
-  @media screen and (min-width: 900px) {
-    #live-twitch-player {
-      width: 60%;
+      width: calc(100% - 340px);
       display: inline-block; } }
-  @media screen and (min-width: 1100px) {
-    #live-twitch-player {
-      width: 66%; } }
-  @media screen and (min-width: 1440px) {
-    #live-twitch-player {
-      width: 75%; } }
 
 #live-twitch-chat {
-  width: 100%;
-  min-width: 355px;
+  width: 340px;
   height: 100%;
-  display: block;
+  display: none;
   margin: auto; }
-  @media screen and (min-width: 750px) {
+  @media screen and (min-width: 850px) {
     #live-twitch-chat {
-      width: 90%; } }
-  @media screen and (min-width: 900px) {
-    #live-twitch-chat {
-      display: inline-block;
-      width: 40%; } }
-  @media screen and (min-width: 1100px) {
-    #live-twitch-chat {
-      width: 33%; } }
-  @media screen and (min-width: 1440px) {
-    #live-twitch-chat {
-      width: 25%; } }
+      display: inline-block; } }
 
 .toggle-player-button {
   display: inline-block;
@@ -1415,10 +1455,78 @@ p.onboardText.your-votes-error {
   color: rgba(255, 253, 249, 0.9);
   cursor: pointer; }
 
-@media screen and (min-width: 850px) {
-  #live-posts-loop {
-    width: 98%;
-    margin: auto; } }
+#channel-changer {
+  text-align: center; }
+  @media screen and (min-width: 850px) {
+    #channel-changer {
+      width: 98%;
+      margin: auto; } }
+
+p.channel-changer-title {
+  color: #fff;
+  margin: 0;
+  text-align: center;
+  font-weight: bold;
+  font-size: 24px; }
+
+.channel-changer-button {
+  background: #121212;
+  display: inline-block;
+  padding: 3px;
+  border-radius: 0px 0px 2px 2px;
+  margin-bottom: 6px;
+  cursor: pointer; }
+  .channel-changer-button.active, .channel-changer-button:hover {
+    background: #333;
+    transition: background .1s; }
+
+.cc-logo {
+  display: inline-block; }
+  .cc-logo img {
+    width: 60px;
+    height: 60px;
+    vertical-align: bottom; }
+
+.cc-details {
+  display: inline-block;
+  padding: 0 6px;
+  color: rgba(255, 253, 249, 0.9); }
+
+.channel-display-name a {
+  text-decoration: none;
+  color: #ecc15b;
+  font-weight: bold;
+  font-size: 18px; }
+
+#kill-player-button {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  vertical-align: top;
+  height: 68px;
+  background: #121212;
+  color: rgba(255, 253, 249, 0.9);
+  padding: 0 6px;
+  border-radius: 0px 0px 2px 2px;
+  cursor: pointer; }
+  #kill-player-button img {
+    display: block;
+    height: 24px;
+    margin: 6px 0; }
+  #kill-player-button:hover {
+    background: #333;
+    transition: background .1s; }
+
+.hidden-data {
+  display: none; }
+
+#live-posts-loop {
+  margin-top: 18px; }
+  @media screen and (min-width: 850px) {
+    #live-posts-loop {
+      width: 98%;
+      margin: 18px auto 0; } }
 
 .little-thing {
   padding: 6px;
@@ -1431,6 +1539,9 @@ p.onboardText.your-votes-error {
   @media screen and (min-width: 850px) {
     .little-thing {
       width: calc(50% - 9px); } }
+  @media screen and (min-width: 2000px) {
+    .little-thing {
+      width: calc(33% - 6px); } }
 
 .little-thing-top {
   display: inline-flex;
@@ -1438,16 +1549,15 @@ p.onboardText.your-votes-error {
   align-items: center;
   width: 100%;
   line-height: 1em;
-  margin-bottom: 6px; }
+  margin-bottom: 3px; }
 
 .little-title {
-  width: calc(100% - 136px);
+  width: calc(100% - 120px);
   padding: 0; }
 
 .little-votebox {
   width: 48px;
   height: 48px;
-  padding-right: 6px;
   text-align: center; }
 
 .little-votebox img {
@@ -1455,9 +1565,14 @@ p.onboardText.your-votes-error {
   height: 48px; }
 
 .little-discuss-button {
-  width: 60px;
+  width: 36px;
+  margin-right: 6px;
+  margin-left: auto;
   text-align: right;
-  opacity: .9; }
+  opacity: .9;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end; }
   .little-discuss-button:hover {
     opacity: 1; }
 
@@ -1472,16 +1587,31 @@ p.onboardText.your-votes-error {
   width: calc(100% - 6px); }
 
 .little-thing-attribution {
-  padding: 6px;
-  text-align: left; }
-  .little-thing-attribution p.stars, .little-thing-attribution p.source {
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; }
+  .little-thing-attribution p.stars {
     margin: 0;
     line-height: 0; }
-  .little-thing-attribution p.source {
-    display: inline-flex; }
 
-.little-thing p.attribution img {
+.little-thing p.attribution.source {
+  display: inline-block;
+  margin: 0;
+  line-height: 1em; }
+  .little-thing p.attribution.source img {
+    width: 48px;
+    height: 48px; }
+
+.little-thing p.attribution.stars img {
   width: 24px;
   height: 24px; }
+
+.post-trasher {
+  margin-top: 1px; }
+  .post-trasher img {
+    width: 24px;
+    height: 24px;
+    margin-right: 6px; }
 
 /*# sourceMappingURL=style.css.map */

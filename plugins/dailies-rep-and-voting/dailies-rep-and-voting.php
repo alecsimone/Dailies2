@@ -71,6 +71,7 @@ function daily_ajax_vote() { // Our function for voting
 
 			} else { $new_rep = $user_rep; };
 
+			$voteledger[$user_id] = $new_rep; // Add a new element to our array with the User ID as the Key and their current rep as the value. We'll use this to make sure we take away the right amount of points when they unvote
 			$ledger_update_success = update_post_meta($vote_post_id, 'voteledger', $voteledger); // Update the ledger, store the success
 		
 			$current_count = get_post_meta( $vote_post_id, 'votecount', true); // Get the current score

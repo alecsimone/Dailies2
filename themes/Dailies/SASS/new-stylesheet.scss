@@ -15,6 +15,7 @@ $lightGold: rgba(236, 193, 91, 0.8);
 $blue: rgba(16, 80, 143, 1);
 $lighterblue: #3b8fd9;
 $blueTrans: rgba(16,80,143,.85);
+$blueTrans2: rgba(16,80,143,.3);
 $darkerBlue: #0a3259;
 
 $lightGray: #e5e5e5;
@@ -34,6 +35,7 @@ $lightBlue: #dce1e5;
 
 $black: #121212;
 $lighterBlack: #262626;
+$evenLighterBlack: #333;
 $blackTrans: rgba(12,12,12,.6);
 $blackTrans2: rgba(12,12,12,.8);
 $blackTrans3: rgba(12,12,12,.9);
@@ -121,6 +123,15 @@ $maxestWidth: 1280px;
 	border: 1px solid rgba(0,0,0,.1);
 }
 
+@mixin buttonOutline() {
+	color: #fff;
+	background: $blue;
+	border: 1px solid $lightGray;
+	&:hover {
+			background: $darkerBlue;
+		}
+}
+
 //      Table of Contents
 //
 // 1. Fundamental Structure
@@ -175,6 +186,12 @@ body:before { /* Background hack to play a little nicer on mobile */
 	  	height: 100%;
 	  	z-index: -10;
 	  	background: $lightGrayRed;
+	  	@media #{$bpMedium} {
+		  	background: #f2f6fa; /* Old browsers */
+			background: -moz-radial-gradient(center, ellipse cover, #f2f6fa 2%, #dedae0 100%); /* FF3.6-15 */
+			background: -webkit-radial-gradient(center, ellipse cover, #f2f6fa 2%,#dedae0 100%); /* Chrome10-25,Safari5.1-6 */
+			background: radial-gradient(ellipse at center, #f2f6fa 2%,#dedae0 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	  };
 }
 a, a:visited {
     color: $blue;
@@ -986,6 +1003,9 @@ img.starpic {
 	width: auto;
 	height: $triple;
 	border-radius: $quarter;
+	&.nostars {
+		margin-right: $half;
+	}
 }
 a.starsourceLink {
 	padding: 0px $baseline 0px $quarter;
@@ -993,17 +1013,12 @@ a.starsourceLink {
 p.attribution.full-clip {
 	float: right;
 	clear: right;
-	background: $blue;
-	color: #fff;
 	padding: $half $half;
 	border-radius: $half;
-	border: 1px solid rgba(12,12,12,.1);
-	&:hover {
-		background: $darkerBlue;
-	}
+	@include buttonOutline();
 }
 p.attribution.full-clip a.fullClipLink {
-    color: #fff;
+	color: #fff;
     text-decoration: none;
 }
 p.attribution.playcount {
@@ -1038,15 +1053,11 @@ p.attribution a, p.attribution a:visited {
 	padding-bottom: .1em;
 	margin-bottom: $baseline;
 	a {
-		color: #fff;
-		background: $blue;
 		padding: $half $baseline;
 		border-radius: $half;
-		border: 1px solid rgba(12,12,12,.1);
 		text-decoration: none;
-		&:hover {
-			background: $darkerBlue;
-		}
+		@include buttonOutline();
+		
 	}
 }
 .comment-preview-author {
@@ -1069,7 +1080,7 @@ p.attribution a, p.attribution a:visited {
 .comment-form-container {
 	max-height: 0;
 	overflow: hidden;
-	transition: max-height .5s ease;
+	transition: max-height .25s ease;
 	&::before {
 		content: "-";
 		height: $baseline;
@@ -1557,20 +1568,68 @@ p.onboardText.your-votes-error {
 }
 
 /*----------- 3H: Live Page ----------- */
-$liveBP1: "screen and (min-width: 750px)";
-$liveBP2: "screen and (min-width: 900px)";
-$liveBP3: "screen and (min-width: 1100px)";
-$liveBP4: "screen and (min-width: 1440px)";
+body.page-id-3801{
+	&:before {
+   		background: #402416; /* Old browsers */
+		background: -moz-radial-gradient(center, ellipse cover, #402416 0%, #1f110b 100%); /* FF3.6-15 */
+		background: -webkit-radial-gradient(center, ellipse cover, #402416 0%,#1f110b 100%); /* Chrome10-25,Safari5.1-6 */
+		background: radial-gradient(ellipse at center, #402416 0%,#1f110b 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	}
+	& .thing {
+		background: $lightGray;
+		background-size: 100% auto;
+		background-position: center;
+	}
+}
+
+#donate-box {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: $double;
+}
+.patreon-button {
+	display: inline-block;
+	padding: $baseline;
+	background: $black;
+	border-radius: $half;
+	& img {
+		width: $quad;
+		height: $quad;
+	}
+	&:hover {
+		background: $lighterBlack;
+	}
+}
+.streamlabs-bar {
+	width: 1000px;
+	height: 78px;
+	display: inline-block;
+}
+.donate-button {
+	display: inline-block;
+	background: $black;
+	font-size: $doublePlusHalf;
+	padding: $baseline;
+	border-radius: $half;
+	text-decoration: none;
+	&:hover {
+		background: $lighterBlack;
+		text-decoration: underline;
+		
+	}
+}
+a.donate-link {
+	color: $gold;
+	font-weight: bold;
+}
 
 #live-player-container {
 	display: none;
 	margin: auto;
 	height: 360px;
-	@media #{$liveBP1} {
-		max-width: 1440px;
-	}
-	@media #{$liveBP3} {
-		height: 600px;
+	@media #{$bpLarge} {
+		max-width: 2260px;
 	}
 }
 #live-twitch-player {
@@ -1578,38 +1637,18 @@ $liveBP4: "screen and (min-width: 1440px)";
 	height: 100%;
 	display: block;
 	margin: auto;
-	@media #{$liveBP1} {
-		width: 90%;
-	}
-	@media #{$liveBP2} {
-		width: 60%;
+	@media #{$bpLarge} {
+		width: calc(100% - 340px);
 		display: inline-block;
-	}
-	@media #{$liveBP3} {
-		width: 66%;
-	}
-	@media #{$liveBP4} {
-		width: 75%;
 	}
 }
 #live-twitch-chat {
-	width: 100%;
-	min-width: 355px;
+	width: 340px;
 	height: 100%;
-	display: block;
+	display: none;
 	margin: auto;
-	@media #{$liveBP1} {
-		width: 90%;
-	}
-	@media #{$liveBP2} {
+	@media #{$bpLarge} {
 		display: inline-block;
-		width: 40%;
-	}
-	@media #{$liveBP3} {
-		width: 33%;
-	}
-	@media #{$liveBP4} {
-		width: 25%;
 	}
 }
 
@@ -1622,10 +1661,83 @@ $liveBP4: "screen and (min-width: 1440px)";
 	cursor: pointer;
 }
 
-#live-posts-loop {
+#channel-changer {
+	text-align: center;
 	@media #{$bpLarge} {
 		width: 98%;
 		margin: auto;
+	}
+}
+p.channel-changer-title {
+	color: #fff;
+	margin: 0;
+	text-align: center;
+	font-weight: bold;
+	font-size: $double;
+}
+.channel-changer-button {
+	background: $black;
+	display: inline-block;
+	padding: $quarter;
+	border-radius: $roundedBot;
+	margin-bottom: $half;
+	cursor: pointer;
+	&.active, &:hover {
+		background: $evenLighterBlack;
+		transition: background .1s;
+	}
+}
+.cc-logo {
+	display: inline-block;
+	& img {
+		width: $sept;
+		height: $sept;
+		vertical-align: bottom;
+	}
+}
+.cc-details {
+	display: inline-block;
+	padding: 0 $half;
+	color: $light;
+}
+.channel-display-name a {
+	text-decoration: none;
+	color: $gold;
+	font-weight: bold;
+	font-size: $plusHalf;
+}
+
+#kill-player-button {
+	display: none;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	vertical-align: top;
+	height: 68px;
+	background: $black;
+	color: $light;
+	padding: 0 $half;
+	border-radius: $roundedBot;
+	cursor: pointer;
+	& img {
+		display: block;
+		height: $double;
+		margin: $half 0;
+	}
+	&:hover {
+		background: $evenLighterBlack;
+		transition: background .1s;
+	}
+}
+
+.hidden-data {
+	display: none;
+}
+#live-posts-loop {
+	margin-top: $plusHalf;
+	@media #{$bpLarge} {
+		width: 98%;
+		margin: 18px auto 0;
 	}
 }
 
@@ -1640,6 +1752,9 @@ $liveBP4: "screen and (min-width: 1440px)";
 	@media #{$bpLarge} {
 		width: calc(50% - 9px);
 	}
+	@media screen and (min-width: 2000px) {
+		width: calc(33% - 6px);
+	}
 }
 .little-thing-top {
 	display: inline-flex;
@@ -1647,16 +1762,15 @@ $liveBP4: "screen and (min-width: 1440px)";
 	align-items: center;
 	width: 100%;
 	line-height: 1em;
-	margin-bottom: $half;
+	margin-bottom: $quarter;
 }
 .little-title{
-	width: calc(100% - 136px);
+	width: calc(100% - 120px);
 	padding: 0;
 }
 .little-votebox {
 	width: $quad;
-	height: $quad;
-	padding-right: $half;
+	height: $quad;;
 	text-align: center;
 }
 .little-votebox img, {
@@ -1664,9 +1778,14 @@ $liveBP4: "screen and (min-width: 1440px)";
 	height: $quad;
 }
 .little-discuss-button {
-	width: $sept;
+	width: $triple;
+	margin-right: $half;
+	margin-left: auto;
 	text-align: right;
 	opacity: .9;
+	display: inline-flex;
+	align-items: center;
+	justify-content: flex-end;
 	&:hover {
 		opacity: 1;
 	}
@@ -1684,17 +1803,33 @@ $liveBP4: "screen and (min-width: 1440px)";
 }
 
 .little-thing-attribution {
-	padding: $half;
 	text-align: left;
-	& p.stars, p.source {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	& p.stars {
 		margin: 0;
 		line-height: 0;
 	}
-	& p.source {
-		display: inline-flex;
+}
+.little-thing p.attribution.source {
+	display: inline-block;
+	margin: 0;
+	line-height: 1em;
+	& img {
+		width: $quad;
+		height: $quad;
 	}
 }
-.little-thing p.attribution img {
+.little-thing p.attribution.stars img {
 	width: $double;
 	height: $double;
+}
+.post-trasher {
+	margin-top: 1px;
+	& img {
+		width: $double;
+		height: $double;
+		margin-right: $half;
+	}
 }
