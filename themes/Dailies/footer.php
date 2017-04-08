@@ -40,7 +40,7 @@ jQuery('.contentContainer').on('hover', '.voteIcon', function() {
 	thisVoteIcon = jQuery(this);
 	thisIconSrc = thisVoteIcon.attr("src")
 	MedalSrc = 'http://therocketdailies.com/wp-content/uploads/2016/12/Medal-small-100.png';
-	VoteIconSrc = 'http://therocketdailies.com/wp-content/uploads/2016/12/Vote-Icon-100.png';
+	VoteIconSrc = 'http://therocketdailies.com/wp-content/uploads/2017/04/Vote-Icon-line-100.png';
 	if ( thisIconSrc.includes(MedalSrc) ) {
 		thisVoteIcon.attr("src", VoteIconSrc);
 	} else if ( thisIconSrc.includes(VoteIconSrc) ) {
@@ -144,62 +144,21 @@ function littleReplacer(ID, UID) {
 	console.log(UID);
 }
 
-jQuery('.little-title').on('click', 'a', function() {
-	event.preventDefault();
-	var thisLittleClass = jQuery(this).attr("class");
-	var thisCode = jQuery(this).attr("data-id");
-	var thisWholeThing = jQuery(this).parent().parent().parent().parent();
-	var thisEmbedTarget = thisWholeThing.find('.little-thing-embed');
-	var embedExistenceChecker = thisEmbedTarget.find('.embed-container');
-	if (embedExistenceChecker.length) {
-		embedExistenceChecker.remove();
-	} else if ( thisLittleClass == 'twitch-little-thing' ) {
-		var embedCode = generateTwitchReplacementCode(thisCode);
-		thisEmbedTarget.append(embedCode);
-	} else if ( thisLittleClass == 'gfy-little-thing' ) {
-		var embedCode = generateGfyReplacementCode(thisCode);
-		thisEmbedTarget.append(embedCode);
-	} else if ( thisLittleClass == 'yt-little-thing' ) {
-		var embedCode = generateYoutubeReplacementCode(thisCode);
-		thisEmbedTarget.append(embedCode);
-	}
-	$grid.isotope();
-});
 
-function toggleLivePlayer() {
-	var twitchEmbedHTML = jQuery('')
-	var livePlayer = jQuery('#live-player-container');
-	var thisButton = jQuery('.toggle-player-button');
-	if ( livePlayer.css('display') == 'none') {
-		livePlayer.css("display", "block");
-		livePlayer.html('<div id="live-twitch-player"></div><div id="live-twitch-chat"><iframe frameborder="0" scrolling="yes" id="the_rocket_dailies" src="https://www.twitch.tv/the_rocket_dailies/chat" height="100%" width="100%"></iframe></div>');
-		var options = {
-			width: "100%",
-			height: "100%",
-			channel: "the_rocket_dailies"
-		};
-		var player = new Twitch.Player("live-twitch-player", options);
-		player.setVolume(0.5);
-		thisButton.html('X Hide Live Player');
-		thisButton.css("borderRadius", "0 0 6px 6px");
-	} else {
-		livePlayer.css("display", "none");
-		livePlayer.html('');
-		thisButton.html('V Show Live Player');
-		thisButton.css("borderRadius", "6px");
-	};
-}
 
 /*** Show Comment Form **/
 function showCommentForm(ID, UID) {
 	var thisFormID = '#comment-form-container-' + UID;
 	var thisForm = jQuery(thisFormID);
 	var thisFormMaxHeight = thisForm.css("maxHeight");
-	console.log(thisFormMaxHeight);
 	if (thisFormMaxHeight == '0px') {
 		thisForm.css("maxHeight", "200px");
 	} else {
 		thisForm.css("maxHeight", "0px");
+	}
+	if ( thisForm.parent().parent().hasClass("little-thing") ) {
+		jQuery(".comment-form-container").one("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){grid.isotope();});
+		console.log("isotope");
 	}
 }
 

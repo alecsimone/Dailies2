@@ -17,7 +17,7 @@ function enqueue_ajax_vote() {
 		'ajaxurl' => admin_url( 'admin-ajax.php' ),
 		'nonce' => $nonce,
 		'medal' => 'http://therocketdailies.com/wp-content/uploads/2016/12/Medal-small-100.png',
-		'emptyVoteIcon' => 'http://therocketdailies.com/wp-content/uploads/2016/12/Vote-Icon-100.png'
+		'emptyVoteIcon' => 'http://therocketdailies.com/wp-content/uploads/2017/04/Vote-Icon-line-100.png'
 	);
 	wp_localize_script( 'ajax-vote', 'daily_vote', $daily_vote_data );
 
@@ -50,8 +50,6 @@ function daily_ajax_vote() { // Our function for voting
 
 		if ( !array_key_exists($user_id, $old_voteledger) ) { // If the userID is not in the voteledger for this post
 			$voteledger = $old_voteledger; 
-			$voteledger[$user_id] = $user_rep; // Add a new element to our array with the User ID as the Key and their current rep as the value. We'll use this to make sure we take away the right amount of points when they unvote
-			$ledger_update_success = update_post_meta($vote_post_id, 'voteledger', $voteledger); // Update the ledger, store the success
 
 			$current_time = time(); // Get the current time
 			$rep_votes = get_user_meta($user_id, 'repVotes', true); // Get the array of posts for which the user got rep
@@ -65,9 +63,7 @@ function daily_ajax_vote() { // Our function for voting
 			} else { $third_time = 0; }; 
 			
 			$goaltime = $third_time + 86400;
-			$test = $current_time - $goaltime;
 			if ( $current_time >= $goaltime ) { // If the third vote back was more than 1 day ago, or if the user doesn't have 5 elements in their repVotes list
-				$test = "Conditional isn't working";
 				$new_rep = $user_rep + .1; // tick up their rep
 				$rep_votes[$vote_post_id] = $current_time; // Add the current post to rep_votes with the time at which the vote was cast
 				$user_update_success = update_user_meta($user_id, 'rep', $new_rep); // And update it
@@ -75,6 +71,8 @@ function daily_ajax_vote() { // Our function for voting
 
 			} else { $new_rep = $user_rep; };
 
+			$ledger_update_success = update_post_meta($vote_post_id, 'voteledger', $voteledger); // Update the ledger, store the success
+		
 			$current_count = get_post_meta( $vote_post_id, 'votecount', true); // Get the current score
 			$new_count = $current_count + $new_rep; // Add the user's rep to it
 			$update_success = update_post_meta( $vote_post_id, 'votecount', $new_count); // Update, store
@@ -97,8 +95,6 @@ function daily_ajax_vote() { // Our function for voting
 				unset($rep_votes[$vote_post_id]); // Take the key for this post out of the array
 				$user_rep_votes_success = update_user_meta($user_id, 'repVotes', $rep_votes);
 			} else { $new_rep = $user_rep; };
-
-			$testvar = $old_voteledger[$user_id];
 
 			$current_count = get_post_meta( $vote_post_id, 'votecount', true); // get the current score of the post
 			$new_count = $current_count - $old_voteledger[$user_id]; // Take away the amount of rep this user contributed to that

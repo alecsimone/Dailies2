@@ -20,7 +20,7 @@ function vote(ID) {
 		thisScoreElement.attr('data-contribution', 0);
 		thisVoteButton.replaceWith(`<img src="${daily_vote.emptyVoteIcon}" id="voteIcon${ID}" class="voteIcon" data-id="${ID}" data-vote="up" onclick="vote(${ID})">`).fadeIn(200);
 	}
-	thisScoreElement.html('+' + newScore);
+	thisScoreElement.html( `(+${newScore})` );
 	console.log(newScore);
 	thisScoreElement.attr('data-score', newScore);
 	thisOnboardbox.css("maxHeight", 300);

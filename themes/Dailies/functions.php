@@ -83,4 +83,81 @@ function enqueue_increase_views() {
 add_action( 'wp_ajax_increase_views', 'increase_views' );
 add_action( 'wp_ajax_nopriv_increase_views', 'increase_views' );
 
+add_action( 'wp_enqueue_scripts', 'enqueue_refresh_live' );
+function enqueue_refresh_live() {
+	wp_register_script( 'ajax-refresh-live', '/wp-content/themes/Dailies/js/refresh_live.js' );
+	$refresh_live_data = array(
+		'ajaxurl' => admin_url( 'admin-ajax.php' ),
+	);
+	wp_localize_script( 'ajax-refresh-live', 'data_for_refresh_live', $refresh_live_data );
+	wp_enqueue_script('ajax-refresh-live'); 
+}
+
+add_action( 'wp_ajax_refresh_live', 'refresh_live' );
+add_action( 'wp_ajax_nopriv_refresh_live', 'refresh_live' );
+
+function thingifyID($ID) {
+	global $post;
+	$our_post = get_post($ID);
+	$post = $our_post;
+	setup_postdata($our_post);
+	ob_start();
+	get_template_part('thing');
+	$newThing = ob_get_contents();
+	ob_end_clean();
+	return $newThing;
+}
+
+function refresh_live() {
+	$oldData = $_POST['oldData'];
+	$liveArgs = array(
+		'category__not_in' => 4,
+		'posts_per_page' => 40,
+		'date_query' => array(
+			array(
+				'after' => '24 hours ago'
+			)
+		)
+	);
+	$postDataLive = get_posts($liveArgs); 
+	$postsAndScores = array();
+	foreach ( $postDataLive as $post ) {
+		$pid = $post->ID;
+		$postsAndScores[$pid] = get_post_meta($pid, 'votecount', true);
+		$newPostIDs[] = $pid;
+	};
+	$newPostsAndScores = json_encode($postsAndScores);
+
+	foreach ( $oldData as $pid => $score) {
+		$oldPostIDs[] = $pid;
+	};
+
+	$freshPostIDs = array_diff($newPostIDs, $oldPostIDs);
+	$freshPostIDs = array_reverse($freshPostIDs);
+	foreach ($freshPostIDs as $freshPostID) {
+		$freshPosts[] = thingifyID($freshPostID);
+	};
+
+	$stalePosts = array_diff($oldPostIDs, $newPostIDs);
+	foreach ($stalePosts as $index => $pid) {
+		$stalePostIDs[] = $pid;
+	};
+	$refreshReturn = array(
+		'fresh' => $freshPosts,
+		'stale' => $stalePostIDs,
+		'newData' => $newPostsAndScores
+	);
+	echo json_encode($refreshReturn);
+	wp_die();
+}
+
+add_action( 'wp_ajax_trash_post', 'trash_post' );
+add_action( 'wp_ajax_nopriv_trash_post', 'trash_post' );
+
+function trash_post() {
+	$trashPostID = $_POST['trash'];
+	wp_trash_post($trashPostID);
+	wp_die();
+};
+
 ?>
