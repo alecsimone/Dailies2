@@ -872,7 +872,7 @@ p.attribution a, p.attribution a:visited {
   color: #121212;
   font-size: 18px;
   line-height: 1em;
-  padding: 0 3px; }
+  padding-top: 12px; }
 
 .comments-header {
   font-weight: bold;
@@ -941,13 +941,30 @@ input#comment-submit {
 
 /*----------- 3e: tagbox ----------- */
 .tagbox {
-  padding: 12px 6px;
+  padding: 12px 0;
   font-size: 15px;
-  text-align: center; }
+  text-align: center;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between; }
   .tagbox a {
     color: #10508f; }
     .tagbox a:visited {
       color: #10508f; }
+
+.tags {
+  display: inline-block; }
+
+.discuss-button-container {
+  height: 42px;
+  position: relative; }
+
+img.discuss-button {
+  width: 48px;
+  height: 48px;
+  position: absolute;
+  right: 0;
+  top: 6px; }
 
 /*---------------------------------------------------------
 3. Specific Pages

@@ -1045,7 +1045,7 @@ p.attribution a, p.attribution a:visited {
 	color: $black;
 	font-size: $plusHalf;
 	line-height: 1em;
-	padding: 0 $quarter;
+	padding-top: $baseline;
 }
 .comments-header {
 	font-weight: bold;
@@ -1119,15 +1119,32 @@ input#comment-submit {
 
 /*----------- 3e: tagbox ----------- */
 .tagbox {
-	padding: $baseline $half;
+	padding: $baseline 0;
 	font-size: $plusQuarter;
 	text-align: center;
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
 	a {
     	color: $blue;
     	&:visited {
 			color: $blue;
 		}
     }
+}
+.tags {
+	display: inline-block;
+}
+.discuss-button-container {
+	height: $quad - $half;
+	position: relative;
+}
+img.discuss-button {
+	width: $quad;
+	height: $quad;
+	position: absolute;
+	right: 0;
+	top: $half;
 }
 
 /*---------------------------------------------------------

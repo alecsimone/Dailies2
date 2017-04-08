@@ -6,23 +6,16 @@
 		'orderby' => 'comment_karma'
 		);
 	$previewComments = get_comments( $commentArgs );
-	if ( $previewComments ) {
-		$rawCommentCount = wp_count_comments($post->ID); 
-		$commentCount = $rawCommentCount->approved; ?>
-		<div class="comments-header" id="thing<?php echo $thisID; ?>-comments-header">
-			<a href="javascript:" onclick="showCommentForm(<?php echo $thisID; echo ", "; echo $hash; echo $thisID; ?>)">Discussion</a>
-		</div>
-		<?php foreach( $previewComments as $comment ) {
-			$commentContent = $comment->comment_content;
-			$commentLength = strlen($commentContent);
-			if ( $commentLength > 100 ) {
-				$commentContent = substr($commentContent, 0, 100);
-				$commentContent = $commentContent . "...";
-			}; ?>
-			<div class="comment-preview-author"><a href="<?php the_permalink(); ?>#comments"><?php echo $comment->comment_author; ?></a></div> - <?php echo $commentContent; ?> <br>
-		<?php };
-	} else { ?>
-		<div class="comments-header" id="thing<?php echo $thisID; ?>-comments-header"><a href="javascript:" onclick="showCommentForm(<?php echo $thisID; echo ", "; echo $hash; echo $thisID; ?>)">Discuss</a></div>
+	$rawCommentCount = wp_count_comments($post->ID); 
+	$commentCount = $rawCommentCount->approved;
+	foreach( $previewComments as $comment ) {
+		$commentContent = $comment->comment_content;
+		$commentLength = strlen($commentContent);
+		if ( $commentLength > 100 ) {
+			$commentContent = substr($commentContent, 0, 100);
+			$commentContent = $commentContent . "...";
+		}; ?>
+		<div class="comment-preview-author"><a href="<?php the_permalink(); ?>#comments"><?php echo $comment->comment_author; ?></a></div> - <?php echo $commentContent; ?> <br>
 	<?php }; ?>
 	<div class="comment-form-container" id="comment-form-container-<?php echo $hash; echo $thisID; ?>">
 		<?php $commentFormArgs = array(

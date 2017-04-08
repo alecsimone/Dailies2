@@ -135,16 +135,17 @@ if (has_category('noms')) { ?>
 		}; ?>
 	</div>
 
-	<?php if ( !is_single() ) { ?>
-		<?php include( locate_template('commentbox.php') ); ?>
+	<?php include( locate_template('commentbox.php') ); ?>
 
-		<section class="tagbox" id="thing<?php echo $thisID; ?>-tagbox">
+	<section class="tagbox" id="thing<?php echo $thisID; ?>-tagbox">
+		<div class="tags" id="thing<?php echo $thisID; ?>-tags">
 			<?php $tag_list = get_the_tag_list( 'More: ', ',  ', '', $thisID);
 			$skill_list = get_the_terms($thisID, 'skills');
 			echo $tag_list;
 			foreach ($skill_list as $skill) { ?>, <a href="<?php echo $thisDomain; ?>/skills/<?php echo $skill->slug; ?>" ><?php echo $skill->name; ?></a><?php }; ?>
-		</section>
-	<?php }; ?>
+		</div>
+		<div class="discuss-button-container"><img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/comment-icon-outline.png" class="discuss-button" onclick="showCommentForm(<?php echo $thisID; echo ", "; echo $hash; echo $thisID; ?>)"></div>
+	</section>
 </article>
 
 <?php } else { ?>
