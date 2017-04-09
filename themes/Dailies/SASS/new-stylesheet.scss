@@ -22,6 +22,7 @@ $lightGray: #e5e5e5;
 $lightGrayRed: #e5e3e1;
 
 $red: #d93b3b;
+$purple: #7c0a43;
 
 $orange: rgba(255, 153, 0, .8);
 $transOrange: rgba(255, 153, 0, .2);
@@ -67,6 +68,8 @@ $quad: 4 * $baseline;
 $sept: 5 * $baseline;
 $sex: 6 * $baseline;
 $oct: 8 * $baseline;
+$dec: 10 * $baseline;
+$twelvetimes: 12 * $baseline;
 
 //Other Variables
 $rounded: 2px;
@@ -1131,7 +1134,7 @@ input#comment-submit {
 	a {
     	color: $blue;
     	&:visited {
-			color: $blue;
+			color: $purple;
 		}
     }
 }
@@ -1605,26 +1608,34 @@ body.page-id-3801{
 #donate-box {
 	display: flex;
 	align-items: center;
-	justify-content: center;
-	margin-bottom: $double;
+	justify-content: flex-start;
+	margin: 0 auto $double;
+	width: 100%;
+	@media #{$bpMedium} {
+		width: 88%;
+	}
 }
 .patreon-button {
 	display: inline-block;
 	padding: $baseline;
 	background: $black;
 	border-radius: $half;
+	margin: 0 $baseline;
 	& img {
-		width: $quad;
-		height: $quad;
+		width: $triple;
+		height: $triple;
 	}
 	&:hover {
 		background: $lighterBlack;
 	}
 }
 .streamlabs-bar {
-	width: 1000px;
-	height: 78px;
+	height: 66px;
 	display: inline-block;
+	width: 100%;
+	@media #{$bpMedium} {
+		width: 90%;
+	}
 }
 .donate-button {
 	display: inline-block;
@@ -1642,6 +1653,11 @@ body.page-id-3801{
 a.donate-link {
 	color: $gold;
 	font-weight: bold;
+}
+.donation-ticker {
+	height: $sept;
+	width: 80%;
+	margin-left: $half;
 }
 
 #live-player-container {
@@ -1701,18 +1717,25 @@ p.cctitle-instructions {
 	color: $light;
 }
 .channel-changer-button {
+	position: relative;
 	background: $black;
 	display: inline-block;
 	padding: $quarter;
 	border-radius: $roundedBot;
-	margin-bottom: $half;
+	margin: 0 $half $half;
 	cursor: pointer;
+	overflow: hidden;
+	max-width: $sex;
+	max-height: $oct;
+	@media #{$bpMedium} {
+		max-width: $dec;
+		max-height: $twelvetimes;		
+	}
 	&.active, &:hover, &.filtering {
 		background: $evenLighterBlack;
 		transition: background .1s;
 	}
-	&.live .channel-time {
-		font-weight: bold;
+	&.live .channel-display-name {
 		color: $red;
 	}
 }
@@ -1720,40 +1743,78 @@ p.cctitle-instructions {
 .cc-logo {
 	display: inline-block;
 	& img {
-		width: $sept;
-		height: $sept;
+		width: 100%;
+		height: auto;
 		vertical-align: bottom;
 	}
 }
 .cc-details {
-	display: inline-block;
-	padding: 0 $half;
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 	color: $light;
+	background: $evenLighterBlack;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: calc(100% - #{$plusHalf});
+	opacity: 0;
+	transition: opacity .1s;
+	font-size: $baseline;
+	padding: 0;
+	@media #{$bpMedium} {
+		font-size: $plusQuarter;
+		padding: $quarter;
+		height: calc(100% - #{$double});
+	}
+	&:hover {
+		opacity: 1;
+	}
 }
-.channel-display-name a {
-	text-decoration: none;
+.channel-display-name {
 	color: $gold;
 	font-weight: bold;
-	font-size: $plusHalf;
+	font-size: $baseline;
+	line-height: $plusHalf;
+	@media #{$bpMedium} {
+		font-size: $plusHalf;
+		line-height: $double;
+		margin-top: 2px;	
+	}
 }
 #filter-button {
 	display: none;
+	&.isFiltering {
+		background: $evenLighterBlack;
+	}
 }
 #filter-button, #sort-button {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	vertical-align: top;
-	height: 68px;
 	background: $black;
 	color: $light;
-	padding: 0 $half;
 	border-radius: $roundedBot;
 	cursor: pointer;
+	height: $sex;
+	width: $sex;
+	padding: $baseline;
+	@media #{$bpMedium} {
+		height: $dec;
+		width: $dec;
+		padding: $quarter $baseline;
+	}
 	& img {
 		display: block;
-		height: $double;
-		margin: $half 0;
+		height: $triple;
+		margin: $quarter 0;
+		@media #{$bpMedium} {
+			height: $quad;
+			margin: $half 0;
+		}
 	}
 	&:hover {
 		background: $evenLighterBlack;
@@ -1762,6 +1823,9 @@ p.cctitle-instructions {
 }
 #sort-button {
 	display: inline-flex;
+}
+#sort-button.sorting {
+	background: $evenLighterBlack;
 }
 
 .hidden-data {
@@ -1772,6 +1836,14 @@ p.cctitle-instructions {
 	@media #{$bpLarge} {
 		width: 98%;
 		margin: 18px auto 0;
+	}
+}
+.noPosts {
+	color: #fff;
+	font-size: $plusHalf;
+	margin-top: $triple;
+	& a {
+		color: $lighterblue;
 	}
 }
 

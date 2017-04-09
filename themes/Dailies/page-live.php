@@ -1,17 +1,20 @@
 <?php get_header(); ?>
 
+<div class="streamlabs-bar">
+	<iframe src="https://streamlabs.com/widgets/donation-goal?token=8BE4E105DA0C64096FD6" height="100%" width="100%" name="donation-bar" frameborder="0" scrolling="no" id="donation-bar">You need an iframes capable browser to view this content.</iframe>
+</div>
 <section id="donate-box">
 	<a href="https://www.patreon.com/rocket_dailies" class="patreon-link"><div class="patreon-button">
 		<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/Patreon.png" alt="patreon" class="patreon-logo">
-	</div></a><div class="streamlabs-bar">
-		<iframe src="https://streamlabs.com/widgets/donation-goal?token=8BE4E105DA0C64096FD6" height="100%" width="100%" name="donation-bar" frameborder="0" scrolling="no" id="donation-bar">You need an iframes capable browser to view this content.</iframe>
-	</div><a href="https://twitch.streamlabs.com/the_rocket_dailies" target="_blank" class="donate-link"><div class="donate-button">
+	</div></a><a href="https://twitch.streamlabs.com/the_rocket_dailies" target="_blank" class="donate-link"><div class="donate-button">
 		Donate
-	</div></a>
+	</div></a><div class="donation-ticker">
+		<iframe src="https://streamlabs.com/widgets/donation-ticker?token=8BE4E105DA0C64096FD6" height="100%" width="100%" name="donation-bar" frameborder="0" scrolling="no" id="donation-bar">You need an iframes capable browser to view this content.</iframe>
+	</div>
 </section>
 
 <p class="channel-changer-title">Today's Tournaments:</p>
-<p class="cctitle-instructions">(click to watch/filter)</p>
+<p class="cctitle-instructions">click to watch</p>
 <script src= "http://player.twitch.tv/js/embed/v1.js"></script>
 <section id="live-player-container">
 </section>
@@ -23,12 +26,13 @@
 	</div>
 	<?php $todaysChannels = array(
 		//0-Display Name, 1-link, 2-logo 3-Description, 4-Time
-		'metaleak' => ['Team Metaleak', 'metaleak', 521, 'EU - 2v2 - &euro;50', '10 AM EST'],
-		'prl' => ['Pro Rivalry, EU & NA', 'prorl', 81, 'EU $150 3v3 / NA Bragging Rights', '11 AM EST / 9PM EST'],
-		'rewind' => ['Rewind Gaming', 'rewindrl', 583, 'EU - 3v3 - &euro;45', '2:30 PM EST'],
+		'metaleak' => ['Metaleak', 'metaleak', 521, 'EU - 2v2 - &euro;50', '10 AM EST'],
+		'prl' => ['Pro Rivalry', 'prorl', 81, 'EU $150 3v3 / NA Bragging Rights', '11 AM EST / 9PM EST'],
+		'rewind' => ['Rewind', 'rewindrl', 583, 'EU - 3v3 - &euro;45', '2:30 PM EST'],
 		'rlcs' => ['RLCS', 'rlcs', 79, 'Midseason Mayhem', '3PM EST'],
-		'boost' => ['Boost Legacy', 'boost-legacy', 401, 'NA - 2v2 - $50', '3PM EST'],
-		'nexus' => ['Nexus Gaming', 'nexus-gaming', 389, 'NA - 3v3 - $150', '8PM EST'],
+		'boost' => ['Boost', 'boost-legacy', 401, 'NA - 2v2 - $50', '3PM EST'],
+		'nexus' => ['Nexus', 'nexus-gaming', 389, 'NA - 3v3 - $150', '8PM EST'],
+		'throwdown' => ['Throwdown', 'throwdowntv', 531, 'OCE RLCS', '10PM EST'],
 	//	'me' => ['Rocket Dailies', 'rocket-dailies', 688, 'Nomination Stream', 'Midnight EST'],
 	); 
 	foreach ($todaysChannels as $channel) { 
@@ -38,10 +42,10 @@
 			<div class="cc-logo">
 				<a href="<?php echo $thisDomain; ?>/source/<?php echo $channel[1]; ?>/" target="_blank"><img src="<?php $sourcepic = get_term_meta($channel[2], 'logo', true); echo $sourcepic; ?>"></a>
 			</div>
+			<div class="channel-display-name" data-display-name="<?php echo $channel[0]; ?>"><?php echo $channel[0]; ?></div>
 			<div class="cc-details">
-				<div class="channel-display-name"><a href="<?php echo $thisDomain; ?>/source/<?php echo $channel[1]; ?>/" target="_blank"><?php echo $channel[0]; ?></a></div>
 				<div class="channel-info"><?php echo $channel[3]; ?></div>
-				<div class="channel-time" data-time-string="<?php echo $channel[4]; ?>"><?php echo $channel[4]; ?></div>
+				<div class="channel-time"><?php echo $channel[4]; ?></div>
 			</div>
 		</div>
 	<?php }; ?>
@@ -56,16 +60,22 @@
 	'posts_per_page' => 40,
 	'date_query' => array(
 		array(
-			'after' => '24 hours ago'
+			'after' => '48 hours ago'
 		)
 	)
 );
 $postDataLive = get_posts($liveArgs); 
 $postsAndScores = array();
-foreach ( $postDataLive as $post ) {
-	$pid = $post->ID;
-	$postsAndScores[$pid] = get_post_meta($pid, 'votecount', true);
-}; ?>
+if ($postDataLive) {
+	foreach ( $postDataLive as $post ) {
+		$pid = $post->ID;
+		$postsAndScores[$pid] = get_post_meta($pid, 'votecount', true);
+	}; 
+} else { ?>
+	<div class="noPosts">
+		No posts yet today. Wanna <a href="mailto:submit@therocketdailies.com?Subject=Check%20out%20this%20play" class="noPostsSuggest">suggest</a> one?
+	</div>
+<?php }; ?>
 <div id="live-posts-data" class="hidden-data"><?php echo json_encode($postsAndScores); ?></div>
 <div id="live-userbox" style="display:none"><?php include( locate_template('userbox.php') ); ?></div>
 
@@ -100,7 +110,7 @@ var grid = jQuery('#live-posts-loop').isotope({
 var refreshRate = 15000;
 window.setInterval(function() {refreshLive()}, refreshRate);
 
-var streamCheckRate = 600000;
+var streamCheckRate = 300000;
 jQuery(window).load(streamChecker);
 window.setInterval(function() {streamChecker()}, streamCheckRate);
 
@@ -160,6 +170,12 @@ jQuery('#channel-changer').on('click', '#filter-button', function() {
 	var activeButton = jQuery('.active');
 	var activeSlug = activeButton.attr("data-channel-slug");
 	filterSource(activeSlug);
+	var filterButton = jQuery('#filter-button');
+	if ( filterButton.hasClass('isFiltering') ) {
+		filterButton.removeClass('isFiltering');
+	} else {
+		filterButton.addClass('isFiltering');
+	};
 });
 
 jQuery('#channel-changer').on('click', '#sort-button', function() {
@@ -171,6 +187,7 @@ jQuery('#channel-changer').on('click', '#sort-button', function() {
 		});
 		grid.isotope('updateSortData').isotope();
 		loop.addClass('sorted');
+		jQuery(this).addClass('sorting');
 	} else {
 		grid.isotope({
 			sortBy: 'original-order',
@@ -178,6 +195,7 @@ jQuery('#channel-changer').on('click', '#sort-button', function() {
 		});
 		grid.isotope('updateSortData').isotope();
 		loop.removeClass('sorted');
+		jQuery(this).removeClass('sorting');
 	}
 });
 
@@ -287,14 +305,14 @@ function streamChecker() {
 							var thisButton = jQuery(this);
 							var thisName = thisButton.attr("data-channel-name");
 							if ( jQuery.inArray(thisName, liveStreamNames) > -1 ) {
-								var liveStreamTimebox = thisButton.find('.channel-time');
-								liveStreamTimebox.html('&#9679; Live Now!');
+								var liveStreamNamebox = thisButton.find('.channel-display-name');
+								liveStreamNamebox.html('&#9679; Live Now!');
 								thisButton.removeClass('offline');
 								thisButton.addClass('live');
 							} else if ( jQuery.inArray(thisName, liveStreamNames) == -1 && thisButton.hasClass('live') ) {
-								var thisTimebox = thisButton.find('.channel-time');
-								var originalTimeString = thisTimebox.attr("data-time-string");
-								thisTimebox.html(originalTimeString);
+								var thisNamebox = thisButton.find('.channel-display-name');
+								var originalNameString = thisNamebox.attr("data-name-string");
+								thisNamebox.html(originalNameString);
 								thisButton.removeClass('live');
 								thisButton.addClass('offline');
 							}

@@ -115,7 +115,7 @@ function refresh_live() {
 		'posts_per_page' => 40,
 		'date_query' => array(
 			array(
-				'after' => '24 hours ago'
+				'after' => '48 hours ago'
 			)
 		)
 	);

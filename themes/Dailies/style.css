@@ -953,7 +953,7 @@ input#comment-submit {
   .tagbox a {
     color: #10508f; }
     .tagbox a:visited {
-      color: #10508f; }
+      color: #7c0a43; }
 
 .tags {
   display: inline-block; }
@@ -1406,24 +1406,32 @@ body.page-id-3801 .thing {
 #donate-box {
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 24px; }
+  justify-content: flex-start;
+  margin: 0 auto 24px;
+  width: 100%; }
+  @media screen and (min-width: 687px) {
+    #donate-box {
+      width: 88%; } }
 
 .patreon-button {
   display: inline-block;
   padding: 12px;
   background: #121212;
-  border-radius: 6px; }
+  border-radius: 6px;
+  margin: 0 12px; }
   .patreon-button img {
-    width: 48px;
-    height: 48px; }
+    width: 36px;
+    height: 36px; }
   .patreon-button:hover {
     background: #262626; }
 
 .streamlabs-bar {
-  width: 1000px;
-  height: 78px;
-  display: inline-block; }
+  height: 66px;
+  display: inline-block;
+  width: 100%; }
+  @media screen and (min-width: 687px) {
+    .streamlabs-bar {
+      width: 90%; } }
 
 .donate-button {
   display: inline-block;
@@ -1439,6 +1447,11 @@ body.page-id-3801 .thing {
 a.donate-link {
   color: #ecc15b;
   font-weight: bold; }
+
+.donation-ticker {
+  height: 60px;
+  width: 80%;
+  margin-left: 6px; }
 
 #live-player-container {
   display: none;
@@ -1495,61 +1508,107 @@ p.cctitle-instructions {
   color: rgba(255, 253, 249, 0.9); }
 
 .channel-changer-button {
+  position: relative;
   background: #121212;
   display: inline-block;
   padding: 3px;
   border-radius: 0px 0px 2px 2px;
-  margin-bottom: 6px;
-  cursor: pointer; }
+  margin: 0 6px 6px;
+  cursor: pointer;
+  overflow: hidden;
+  max-width: 72px;
+  max-height: 96px; }
+  @media screen and (min-width: 687px) {
+    .channel-changer-button {
+      max-width: 120px;
+      max-height: 144px; } }
   .channel-changer-button.active, .channel-changer-button:hover, .channel-changer-button.filtering {
     background: #333;
     transition: background .1s; }
-  .channel-changer-button.live .channel-time {
-    font-weight: bold;
+  .channel-changer-button.live .channel-display-name {
     color: #d93b3b; }
 
 .cc-logo {
   display: inline-block; }
   .cc-logo img {
-    width: 60px;
-    height: 60px;
+    width: 100%;
+    height: auto;
     vertical-align: bottom; }
 
 .cc-details {
-  display: inline-block;
-  padding: 0 6px;
-  color: rgba(255, 253, 249, 0.9); }
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 253, 249, 0.9);
+  background: #333;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 18px);
+  opacity: 0;
+  transition: opacity .1s;
+  font-size: 12px;
+  padding: 0; }
+  @media screen and (min-width: 687px) {
+    .cc-details {
+      font-size: 15px;
+      padding: 3px;
+      height: calc(100% - 24px); } }
+  .cc-details:hover {
+    opacity: 1; }
 
-.channel-display-name a {
-  text-decoration: none;
+.channel-display-name {
   color: #ecc15b;
   font-weight: bold;
-  font-size: 18px; }
+  font-size: 12px;
+  line-height: 18px; }
+  @media screen and (min-width: 687px) {
+    .channel-display-name {
+      font-size: 18px;
+      line-height: 24px;
+      margin-top: 2px; } }
 
 #filter-button {
   display: none; }
+  #filter-button.isFiltering {
+    background: #333; }
 
 #filter-button, #sort-button {
   flex-direction: column;
   align-items: center;
   justify-content: center;
   vertical-align: top;
-  height: 68px;
   background: #121212;
   color: rgba(255, 253, 249, 0.9);
-  padding: 0 6px;
   border-radius: 0px 0px 2px 2px;
-  cursor: pointer; }
+  cursor: pointer;
+  height: 72px;
+  width: 72px;
+  padding: 12px; }
+  @media screen and (min-width: 687px) {
+    #filter-button, #sort-button {
+      height: 120px;
+      width: 120px;
+      padding: 3px 12px; } }
   #filter-button img, #sort-button img {
     display: block;
-    height: 24px;
-    margin: 6px 0; }
+    height: 36px;
+    margin: 3px 0; }
+    @media screen and (min-width: 687px) {
+      #filter-button img, #sort-button img {
+        height: 48px;
+        margin: 6px 0; } }
   #filter-button:hover, #sort-button:hover {
     background: #333;
     transition: background .1s; }
 
 #sort-button {
   display: inline-flex; }
+
+#sort-button.sorting {
+  background: #333; }
 
 .hidden-data {
   display: none; }
@@ -1560,6 +1619,13 @@ p.cctitle-instructions {
     #live-posts-loop {
       width: 98%;
       margin: 18px auto 0; } }
+
+.noPosts {
+  color: #fff;
+  font-size: 18px;
+  margin-top: 36px; }
+  .noPosts a {
+    color: #3b8fd9; }
 
 .little-thing {
   padding: 6px;
