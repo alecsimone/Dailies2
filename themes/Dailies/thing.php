@@ -149,10 +149,11 @@ if (has_category('noms')) { ?>
 </article>
 
 <?php } else { ?>
-<article id="little-thing-<?php echo $thisID; ?>" class="thing little-thing">
+<?php $source = get_the_terms( $post->ID, 'source'); 
+$sourceSlug = $source[0]->slug; ?>
+<article id="little-thing-<?php echo $thisID; ?>" class="thing little-thing <?php echo $sourceSlug; ?>">
 	<section class="little-thing-top" id="ltt-<?php echo $thisID; ?>">
-		<?php $source = get_the_terms( $post->ID, 'source');
-		if ( !empty($source) ) { ?>
+		<?php if ( !empty($source) ) { ?>
 			<p class="attribution source">
 				<?php $sourcepic = get_term_meta($source[0]->term_taxonomy_id, 'logo', true);
 				if ( empty($sourcepic) ) {

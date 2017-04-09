@@ -874,6 +874,9 @@ p.attribution a, p.attribution a:visited {
   line-height: 1em;
   padding-top: 12px; }
 
+.little-thing .commentbox {
+  padding-top: 0; }
+
 .comments-header {
   font-weight: bold;
   font-size: 1.2em;
@@ -1486,6 +1489,11 @@ p.channel-changer-title {
   font-weight: bold;
   font-size: 24px; }
 
+p.cctitle-instructions {
+  padding: 0;
+  margin: 0;
+  color: rgba(255, 253, 249, 0.9); }
+
 .channel-changer-button {
   background: #121212;
   display: inline-block;
@@ -1493,9 +1501,12 @@ p.channel-changer-title {
   border-radius: 0px 0px 2px 2px;
   margin-bottom: 6px;
   cursor: pointer; }
-  .channel-changer-button.active, .channel-changer-button:hover {
+  .channel-changer-button.active, .channel-changer-button:hover, .channel-changer-button.filtering {
     background: #333;
     transition: background .1s; }
+  .channel-changer-button.live .channel-time {
+    font-weight: bold;
+    color: #d93b3b; }
 
 .cc-logo {
   display: inline-block; }

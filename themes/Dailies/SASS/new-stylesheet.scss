@@ -1047,6 +1047,9 @@ p.attribution a, p.attribution a:visited {
 	line-height: 1em;
 	padding-top: $baseline;
 }
+.little-thing .commentbox {
+	padding-top: 0;
+}
 .comments-header {
 	font-weight: bold;
 	font-size: 1.2em;
@@ -1692,6 +1695,11 @@ p.channel-changer-title {
 	font-weight: bold;
 	font-size: $double;
 }
+p.cctitle-instructions {
+	padding: 0;
+	margin: 0;
+	color: $light;
+}
 .channel-changer-button {
 	background: $black;
 	display: inline-block;
@@ -1699,11 +1707,16 @@ p.channel-changer-title {
 	border-radius: $roundedBot;
 	margin-bottom: $half;
 	cursor: pointer;
-	&.active, &:hover {
+	&.active, &:hover, &.filtering {
 		background: $evenLighterBlack;
 		transition: background .1s;
 	}
+	&.live .channel-time {
+		font-weight: bold;
+		color: $red;
+	}
 }
+
 .cc-logo {
 	display: inline-block;
 	& img {

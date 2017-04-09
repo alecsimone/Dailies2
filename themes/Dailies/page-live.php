@@ -5,12 +5,13 @@
 		<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/Patreon.png" alt="patreon" class="patreon-logo">
 	</div></a><div class="streamlabs-bar">
 		<iframe src="https://streamlabs.com/widgets/donation-goal?token=8BE4E105DA0C64096FD6" height="100%" width="100%" name="donation-bar" frameborder="0" scrolling="no" id="donation-bar">You need an iframes capable browser to view this content.</iframe>
-	</div><a href="https://twitch.streamlabs.com/the_rocket_dailies" class="donate-link"><div class="donate-button">
+	</div><a href="https://twitch.streamlabs.com/the_rocket_dailies" target="_blank" class="donate-link"><div class="donate-button">
 		Donate
 	</div></a>
 </section>
 
 <p class="channel-changer-title">Today's Tournaments:</p>
+<p class="cctitle-instructions">(click to watch/filter)</p>
 <script src= "http://player.twitch.tv/js/embed/v1.js"></script>
 <section id="live-player-container">
 </section>
@@ -22,25 +23,25 @@
 	</div>
 	<?php $todaysChannels = array(
 		//0-Display Name, 1-link, 2-logo 3-Description, 4-Time
-		0 => ['Mockit League', 'mockit-league', 85, 'MCS - 3v3 - $5000', '7PM EST'],
-		1 => ['Mythical', 'mythical-esports', 251, 'NA - 2v2 $100', '8PM EST'],
-		2 => ['vVv Gaming', 'vvv-gaming', 239, 'NA - 3v3 $300', '8PM EST'],
-		3 => ['Rocket Street', 'rocketstreet', 518, 'SAM - 2v2', '7PM EST'],
-		4 => ['Liquor League', 'liquor-league', 559, 'NA - 3v3 - $100', '8PM EST'],
-		5 => ['Drop, shot, & Roll', 'liefx', 662, 'Dropshot 1v1 - $100', '4PM EST'],
-		6 => ['Rocket Dailies', 'rocket-dailies', 688, 'Nomination Stream', 'Midnight EST'],
+		'metaleak' => ['Team Metaleak', 'metaleak', 521, 'EU - 2v2 - &euro;50', '10 AM EST'],
+		'prl' => ['Pro Rivalry, EU & NA', 'prorl', 81, 'EU $150 3v3 / NA Bragging Rights', '11 AM EST / 9PM EST'],
+		'rewind' => ['Rewind Gaming', 'rewindrl', 583, 'EU - 3v3 - &euro;45', '2:30 PM EST'],
+		'rlcs' => ['RLCS', 'rlcs', 79, 'Midseason Mayhem', '3PM EST'],
+		'boost' => ['Boost Legacy', 'boost-legacy', 401, 'NA - 2v2 - $50', '3PM EST'],
+		'nexus' => ['Nexus Gaming', 'nexus-gaming', 389, 'NA - 3v3 - $150', '8PM EST'],
+	//	'me' => ['Rocket Dailies', 'rocket-dailies', 688, 'Nomination Stream', 'Midnight EST'],
 	); 
 	foreach ($todaysChannels as $channel) { 
 		$twitchWholeURL = get_term_meta($channel[2], 'twitch', true);
 		$twitchChannel = substr($twitchWholeURL, 22); ?>
-		<div class="channel-changer-button inactive" data-channel-name="<?php echo $twitchChannel; ?>">
+		<div class="channel-changer-button inactive offline" data-channel-name="<?php echo $twitchChannel; ?>" data-channel-slug="<?php echo $channel[1]; ?>">
 			<div class="cc-logo">
 				<a href="<?php echo $thisDomain; ?>/source/<?php echo $channel[1]; ?>/" target="_blank"><img src="<?php $sourcepic = get_term_meta($channel[2], 'logo', true); echo $sourcepic; ?>"></a>
 			</div>
 			<div class="cc-details">
 				<div class="channel-display-name"><a href="<?php echo $thisDomain; ?>/source/<?php echo $channel[1]; ?>/" target="_blank"><?php echo $channel[0]; ?></a></div>
 				<div class="channel-info"><?php echo $channel[3]; ?></div>
-				<div class="channel-time"><?php echo $channel[4]; ?></div>
+				<div class="channel-time" data-time-string="<?php echo $channel[4]; ?>"><?php echo $channel[4]; ?></div>
 			</div>
 		</div>
 	<?php }; ?>
@@ -75,9 +76,6 @@ foreach ( $postDataLive as $post ) {
 
 
 <script>
-var refreshRate = 15000;
-window.setInterval(function() {refreshLive()}, refreshRate);
-
 var grid = jQuery('#live-posts-loop').isotope({
 	//options
 	itemSelector: '.little-thing',
@@ -86,6 +84,13 @@ var grid = jQuery('#live-posts-loop').isotope({
 		gutter: 18,
 	}
 });
+
+var refreshRate = 15000;
+window.setInterval(function() {refreshLive()}, refreshRate);
+
+var streamCheckRate = 600000;
+jQuery(window).load(streamChecker);
+window.setInterval(function() {streamChecker()}, streamCheckRate);
 
 jQuery('.little-title').on('click', 'a', function() {
 	event.preventDefault();
@@ -109,7 +114,7 @@ jQuery('.little-title').on('click', 'a', function() {
 	grid.isotope();
 });
 
-jQuery('#channel-changer').on('click', '.channel-changer-button.inactive', function() {
+jQuery('#channel-changer').on('click', '.channel-changer-button.inactive.live', function() {
 	event.preventDefault();
 	var channel = jQuery(this).attr("data-channel-name");
 	showChannel(channel);
@@ -118,6 +123,20 @@ jQuery('#channel-changer').on('click', '.channel-changer-button.inactive', funct
 	oldActive.addClass('inactive');
 	jQuery(this).removeClass('inactive');
 	jQuery(this).addClass('active');
+});
+
+jQuery('#channel-changer').on('click', '.channel-changer-button.inactive.offline', function() {
+	event.preventDefault();
+	if ( !jQuery(this).hasClass('filtering') ) {
+		var thisSlug = jQuery(this).attr("data-channel-slug");
+		var oldFilter = jQuery('.filtering');
+		oldFilter.removeClass('filtering');
+		grid.isotope({ filter: `.${thisSlug}` });
+		jQuery(this).addClass('filtering');
+	} else {
+		grid.isotope({ filter: '*' });
+		jQuery(this).removeClass('filtering');
+	}
 });
 
 function showChannel(channel) {
@@ -171,6 +190,71 @@ function killPlayer() {
 	oldActive.removeClass('active');
 	oldActive.addClass('inactive');
 }
+
+function streamChecker() {
+	var channelButtons = jQuery('.channel-changer-button');
+	var streamList = '';
+	jQuery.each(channelButtons, function() {
+		streamList = streamList + jQuery(this).attr("data-channel-name") + ',';
+	});
+	streamList = streamList.substring(0, streamList.length - 1);
+	jQuery.ajax({
+		type: 'GET',
+		url: `https://api.twitch.tv/kraken/users?login=${streamList}`,
+		headers: {
+			'Client-ID' : 'r7cqs4kgrg1sknyz32brgy9agivw9n',
+			'Accept' : 'application/vnd.twitchtv.v5+json',
+		},
+		success: function(data) {
+			var streamIDs = '';
+			jQuery.each(data['users'], function(index, value) {
+				streamIDs = streamIDs + value['_id'] + ',';
+			})
+			streamIDs = streamIDs.substring(0, streamIDs.length - 1);
+			jQuery.ajax({
+				type: 'GET',
+				url: `https://api.twitch.tv/kraken/streams?channel=${streamIDs}`,
+				headers: {
+					'Client-ID' : 'r7cqs4kgrg1sknyz32brgy9agivw9n',
+					'Accept' : 'application/vnd.twitchtv.v5+json',
+				},
+				success: function(data) {
+					var liveStreams = data['streams'];
+					var liveStreamNames = [];
+					jQuery.each(liveStreams, function(index, value) {
+						if (value['game'] == "Rocket League") {
+							var liveStreamName = value['channel']['display_name'].toLowerCase();
+							liveStreamNames.push(liveStreamName);
+						}
+						var allButtons = jQuery('.channel-changer-button');
+						jQuery.each(allButtons, function() {
+							var thisButton = jQuery(this);
+							var thisName = thisButton.attr("data-channel-name");
+							if ( jQuery.inArray(thisName, liveStreamNames) > -1 ) {
+								var liveStreamTimebox = thisButton.find('.channel-time');
+								liveStreamTimebox.html('&#9679; Live Now!');
+								thisButton.removeClass('offline');
+								thisButton.addClass('live');
+							} else if ( jQuery.inArray(thisName, liveStreamNames) == -1 && thisButton.hasClass('live') ) {
+								var thisTimebox = thisButton.find('.channel-time');
+								var originalTimeString = thisTimebox.attr("data-time-string");
+								thisTimebox.html(originalTimeString);
+								thisButton.removeClass('live');
+								thisButton.addClass('offline');
+							}
+						});
+					});
+				},
+				error: function() {
+					console.log("YOU FAILED THE SECOND REQUEST!")
+				}
+			})
+		},
+		error: function() {
+			console.log("YOU FAILED!");
+		}
+	});
+};
 
 </script>
 <?php get_footer(); ?>
