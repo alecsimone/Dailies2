@@ -1736,9 +1736,10 @@ p.cctitle-instructions {
 	font-weight: bold;
 	font-size: $plusHalf;
 }
-
-#kill-player-button {
+#filter-button {
 	display: none;
+}
+#filter-button, #sort-button {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
@@ -1758,6 +1759,9 @@ p.cctitle-instructions {
 		background: $evenLighterBlack;
 		transition: background .1s;
 	}
+}
+#sort-button {
+	display: inline-flex;
 }
 
 .hidden-data {

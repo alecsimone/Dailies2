@@ -17,9 +17,9 @@
 </section>
 
 <nav id="channel-changer">
-	<div id="kill-player-button" onclick="killPlayer()">
-		<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/red-x.png">
-		Kill Player
+	<div id="filter-button">
+		<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/filter.png">
+		Filter
 	</div>
 	<?php $todaysChannels = array(
 		//0-Display Name, 1-link, 2-logo 3-Description, 4-Time
@@ -45,6 +45,10 @@
 			</div>
 		</div>
 	<?php }; ?>
+	<div id="sort-button">
+		<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/sort.png">
+		Sort by Score
+	</div>
 </nav>
 
 <?php $liveArgs = array(
@@ -82,6 +86,14 @@ var grid = jQuery('#live-posts-loop').isotope({
 	percentPosition: true,
 	masonry: {
 		gutter: 18,
+	},
+	getSortData: {
+		score: function( itemElem ) {
+			var thisThingID = jQuery(itemElem).attr("id");
+			var thisID = thisThingID.substring(13);
+			var thisScore = jQuery(`#thingScore${thisID}`).attr("data-score");
+			return parseFloat(thisScore);
+		},
 	}
 });
 
@@ -114,21 +126,26 @@ jQuery('.little-title').on('click', 'a', function() {
 	grid.isotope();
 });
 
-jQuery('#channel-changer').on('click', '.channel-changer-button.inactive.live', function() {
+jQuery('#channel-changer').on('click', '.channel-changer-button.live', function() {
 	event.preventDefault();
 	var channel = jQuery(this).attr("data-channel-name");
-	showChannel(channel);
-	var oldActive = jQuery('.active');
-	oldActive.removeClass('active');
-	oldActive.addClass('inactive');
-	jQuery(this).removeClass('inactive');
-	jQuery(this).addClass('active');
+	if ( jQuery(this).hasClass('inactive') ) {
+		showChannel(channel);
+		var oldActive = jQuery('.active');
+		oldActive.removeClass('active');
+		oldActive.addClass('inactive');
+		jQuery(this).removeClass('inactive');
+		jQuery(this).addClass('active');
+	} else {
+		killPlayer();
+	}
 });
 
 jQuery('#channel-changer').on('click', '.channel-changer-button.inactive.offline', function() {
 	event.preventDefault();
-	if ( !jQuery(this).hasClass('filtering') ) {
-		var thisSlug = jQuery(this).attr("data-channel-slug");
+	var thisSlug = jQuery(this).attr("data-channel-slug");
+	filterSource(thisSlug);
+/*	if ( !jQuery(this).hasClass('filtering') ) {
 		var oldFilter = jQuery('.filtering');
 		oldFilter.removeClass('filtering');
 		grid.isotope({ filter: `.${thisSlug}` });
@@ -136,8 +153,47 @@ jQuery('#channel-changer').on('click', '.channel-changer-button.inactive.offline
 	} else {
 		grid.isotope({ filter: '*' });
 		jQuery(this).removeClass('filtering');
+	} */
+});
+
+jQuery('#channel-changer').on('click', '#filter-button', function() {
+	var activeButton = jQuery('.active');
+	var activeSlug = activeButton.attr("data-channel-slug");
+	filterSource(activeSlug);
+});
+
+jQuery('#channel-changer').on('click', '#sort-button', function() {
+	var loop = jQuery('#live-posts-loop');
+	if ( !loop.hasClass('sorted') ) {
+		grid.isotope({
+			sortBy: 'score',
+			sortAscending: false
+		});
+		grid.isotope('updateSortData').isotope();
+		loop.addClass('sorted');
+	} else {
+		grid.isotope({
+			sortBy: 'original-order',
+			sortAscending: true,
+		});
+		grid.isotope('updateSortData').isotope();
+		loop.removeClass('sorted');
 	}
 });
+
+function filterSource(sourceSlug) {
+	console.log(sourceSlug);
+	var channelChangerButton = jQuery(`[data-channel-slug=${sourceSlug}]`);
+	if ( !channelChangerButton.hasClass('filtering') ) {
+		var oldFilter = jQuery('.filtering');
+		oldFilter.removeClass('filtering');
+		grid.isotope({ filter: `.${sourceSlug}` });
+		channelChangerButton.addClass('filtering');
+	} else {
+		grid.isotope({ filter: '*' });
+		channelChangerButton.removeClass('filtering');
+	}
+}
 
 function showChannel(channel) {
 	var twitchEmbedHTML = jQuery('')
@@ -177,15 +233,15 @@ function showChannel(channel) {
 		}; 
 		var player = new Twitch.Player("live-twitch-player", options);
 	};
-	var killButton = jQuery('#kill-player-button');
-	killButton.css("display", "inline-flex");
+	var filterButton = jQuery('#filter-button');
+	filterButton.css("display", "inline-flex");
 }
 function killPlayer() {
 	var livePlayer = jQuery('#live-player-container');
 	livePlayer.css("display", "none");
 	livePlayer.html('');
-	var killButton = jQuery('#kill-player-button');
-	killButton.css("display", "none");
+	var filterButton = jQuery('#filter-button');
+	filterButton.css("display", "none");
 	var oldActive = jQuery('.active');
 	oldActive.removeClass('active');
 	oldActive.addClass('inactive');

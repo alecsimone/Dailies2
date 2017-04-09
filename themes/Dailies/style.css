@@ -1526,8 +1526,10 @@ p.cctitle-instructions {
   font-weight: bold;
   font-size: 18px; }
 
-#kill-player-button {
-  display: none;
+#filter-button {
+  display: none; }
+
+#filter-button, #sort-button {
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -1538,13 +1540,16 @@ p.cctitle-instructions {
   padding: 0 6px;
   border-radius: 0px 0px 2px 2px;
   cursor: pointer; }
-  #kill-player-button img {
+  #filter-button img, #sort-button img {
     display: block;
     height: 24px;
     margin: 6px 0; }
-  #kill-player-button:hover {
+  #filter-button:hover, #sort-button:hover {
     background: #333;
     transition: background .1s; }
+
+#sort-button {
+  display: inline-flex; }
 
 .hidden-data {
   display: none; }
