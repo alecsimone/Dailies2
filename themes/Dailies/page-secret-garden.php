@@ -41,11 +41,15 @@ function clipGetter(cursor) {
 			var clipCount = clips.length;
 			console.log("returned " + clipCount + " clips");
 			var cutCount = 0;
+			var currentTime = + new Date();
+			console.log(currentTime);
 			for (var i = 0; i < clips.length; i++) {
 				var thisSlug = clips[i]['slug'];
 				var thisTitle = clips[i]['title'];
 				var thisTimeRaw = clips[i]['created_at'];
 				var thisTime = Date.parse(thisTimeRaw);
+				var timeSince = currentTime - thisTime;
+				var hoursAgo = Math.floor(timeSince / 3600000);
 				var thisGame = clips[i]['game'];
 				var thisWholeSource = clips[i]['broadcaster']['channel_url'];
 				var thisSource = thisWholeSource.substring(22);
@@ -68,7 +72,7 @@ function clipGetter(cursor) {
 									<div class='seedlingAddTitleBox'><input type='text' class='seedling-title-input' name='addTitleBox' placeholder='Keep?'></div>
 									<div class='seedling-controls'>
 										<div class='seedling-cross'><img class='seedCutter seedControlImg' src='http://dailies.gg/wp-content/uploads/2017/04/red-x.png'></div>
-										<div class='seedling-views'>${thisViewCount} views. clipped by ${thisCurator}. <a href='${thisVODLink}' target='_blank'>VOD Link</a></div>
+										<div class='seedling-views'>${thisViewCount} views. clipped by ${thisCurator} about ${hoursAgo} hours ago. <a href='${thisVODLink}' target='_blank'>VOD Link</a></div>
 									</div>
 								</div>
 							</div>
