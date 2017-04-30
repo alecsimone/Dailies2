@@ -77,13 +77,10 @@ if ($this_parent_id !== 0) {
 		};
 };
 
+$has_data = false;
 if ($twitter_url != '' || $twitch_url != '' || $youtube_url != '' || $website_url != '' || $donate_url != '') {
 	$has_data = true;
-}
-if ($underdogs) {
-	$theTag = 'Underdogs';
-	$thisTermName = 'Underdogs';
-} ?>
+}; ?>
 
 <header id="archive-header">
 	<div id="archive-left">

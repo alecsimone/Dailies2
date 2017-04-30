@@ -18,8 +18,9 @@ plugins/term-management-tools/
 plugins/theme-my-login/
 plugins/wordpress-social-login/
 plugins/wp-smushit/
-plugins/github-updater-6.1.1/
+plugins/github-updater/
 plugins/wp-sync-db-1.5/
+plugins/redirection/
 
 plugins\decomments\
 plugins\drag0drop-featured-image\
@@ -29,8 +30,9 @@ plugins\term-management-tools\
 plugins\theme-my-login\
 plugins\wordpress-social-login\
 plugins\wp-smushit\
-plugins\github-updater-6.1.1\
+plugins\github-updater\
 plugins\wp-sync-db-1.5\
+plugins\redirection\
 
 themes\Dailies\js\jquery.dfp.js
 uploads\

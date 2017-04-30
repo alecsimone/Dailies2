@@ -130,7 +130,7 @@ function add_stars_column_content( $content, $column_name, $term_id ) {
 	return $content;
 };
 
-$source_metas = ['logo', 'twitch', 'website', 'twitter', 'discord'];
+$source_metas = ['logo', 'twitch', 'website', 'twitter', 'discord', 'viewThreshold'];
 add_action( 'source_edit_form_fields', 'edit_source_form_fields', 10, 2 );
 function edit_source_form_fields($term, $taxonomy) {
 	global $source_metas;

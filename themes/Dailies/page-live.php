@@ -1,4 +1,6 @@
-<?php get_header(); ?>
+<?php get_header();
+include( locate_template('schedule.php') );
+?>
 
 <div class="streamlabs-bar">
 	<iframe src="https://streamlabs.com/widgets/donation-goal?token=8BE4E105DA0C64096FD6" height="100%" width="100%" name="donation-bar" frameborder="0" scrolling="no" id="donation-bar">You need an iframes capable browser to view this content.</iframe>
@@ -13,28 +15,17 @@
 	</div>
 </section>
 
-<p class="channel-changer-title">Today's Tournaments:</p>
-<p class="cctitle-instructions">click to watch</p>
+<!--<p class="channel-changer-title">Today's Shows:</p>-->
 <script src= "http://player.twitch.tv/js/embed/v1.js"></script>
 <section id="live-player-container">
 </section>
 
 <nav id="channel-changer">
-	<div id="filter-button">
-		<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/filter.png">
-		Filter
+	<div id="filter-button" class="channel-changer-button inactive offline filter">
+		<div class="cc-logo"><img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/filter.png"></div>
+		<div class="channel-display-name">Filter</div>
 	</div>
-	<?php $todaysChannels = array(
-		//0-Display Name, 1-link, 2-logo 3-Description, 4-Time
-		'metaleak' => ['Metaleak', 'metaleak', 521, 'EU - 2v2 - &euro;50', '10 AM EST'],
-		'prl' => ['Pro Rivalry', 'prorl', 81, 'EU $150 3v3 / NA Bragging Rights', '11 AM EST / 9PM EST'],
-		'rewind' => ['Rewind', 'rewindrl', 583, 'EU - 3v3 - &euro;45', '2:30 PM EST'],
-		'rlcs' => ['RLCS', 'rlcs', 79, 'Midseason Mayhem', '3PM EST'],
-		'boost' => ['Boost', 'boost-legacy', 401, 'NA - 2v2 - $50', '3PM EST'],
-		'nexus' => ['Nexus', 'nexus-gaming', 389, 'NA - 3v3 - $150', '8PM EST'],
-		'throwdown' => ['Throwdown', 'throwdowntv', 531, 'OCE RLCS', '10PM EST'],
-	//	'me' => ['Rocket Dailies', 'rocket-dailies', 688, 'Nomination Stream', 'Midnight EST'],
-	); 
+	<?php $todaysChannels = $schedule[$todaysSchedule];
 	foreach ($todaysChannels as $channel) { 
 		$twitchWholeURL = get_term_meta($channel[2], 'twitch', true);
 		$twitchChannel = substr($twitchWholeURL, 22); ?>
@@ -49,9 +40,9 @@
 			</div>
 		</div>
 	<?php }; ?>
-	<div id="sort-button">
-		<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/sort.png">
-		Sort by Score
+	<div id="sort-button" class="channel-changer-button inactive offline sort">
+		<div class="cc-logo"><img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/sort.png"></div>
+		<div class="channel-display-name">Sort</div>
 	</div>
 </nav>
 
@@ -73,7 +64,7 @@ if ($postDataLive) {
 	}; 
 } else { ?>
 	<div class="noPosts">
-		No posts yet today. Wanna <a href="mailto:submit@therocketdailies.com?Subject=Check%20out%20this%20play" class="noPostsSuggest">suggest</a> one?
+		No highlights yet today. Wanna <a href="mailto:submit@therocketdailies.com?Subject=Check%20out%20this%20play" class="noPostsSuggest">suggest</a> one?
 	</div>
 <?php }; ?>
 <div id="live-posts-data" class="hidden-data"><?php echo json_encode($postsAndScores); ?></div>
@@ -114,88 +105,78 @@ var streamCheckRate = 300000;
 jQuery(window).load(streamChecker);
 window.setInterval(function() {streamChecker()}, streamCheckRate);
 
-jQuery('.little-title').on('click', 'a', function() {
+jQuery('.little-thing').on('click', '.little-thing-top', function() {
 	event.preventDefault();
-	var thisLittleClass = jQuery(this).attr("class");
-	var thisCode = jQuery(this).attr("data-id");
-	var thisWholeThing = jQuery(this).parent().parent().parent().parent();
+	var thisTitle = jQuery(this).find('.little-title-link');
+	var thisLittleClass = thisTitle.attr("class");
+	console.log(thisLittleClass);
+	var thisCode = thisTitle.attr("data-id");
+	var thisWholeThing = jQuery(this).parent();
 	var thisEmbedTarget = thisWholeThing.find('.little-thing-embed');
 	var embedExistenceChecker = thisEmbedTarget.find('.embed-container');
 	if (embedExistenceChecker.length) {
 		embedExistenceChecker.remove();
-	} else if ( thisLittleClass == 'twitch-little-thing' ) {
+	} else if ( thisLittleClass.includes('twitch-little-thing') ) {
 		var embedCode = generateTwitchReplacementCode(thisCode);
 		thisEmbedTarget.append(embedCode);
-	} else if ( thisLittleClass == 'gfy-little-thing' ) {
+	} else if ( thisLittleClass.includes('gfy-little-thing') ) {
 		var embedCode = generateGfyReplacementCode(thisCode);
 		thisEmbedTarget.append(embedCode);
-	} else if ( thisLittleClass == 'yt-little-thing' ) {
+	} else if ( thisLittleClass.includes('yt-little-thing') ) {
 		var embedCode = generateYoutubeReplacementCode(thisCode);
 		thisEmbedTarget.append(embedCode);
 	}
 	grid.isotope();
 });
 
-jQuery('#channel-changer').on('click', '.channel-changer-button.live', function() {
-	event.preventDefault();
-	var channel = jQuery(this).attr("data-channel-name");
-	if ( jQuery(this).hasClass('inactive') ) {
-		showChannel(channel);
-		var oldActive = jQuery('.active');
-		oldActive.removeClass('active');
-		oldActive.addClass('inactive');
-		jQuery(this).removeClass('inactive');
-		jQuery(this).addClass('active');
-	} else {
-		killPlayer();
-	}
-});
-
-jQuery('#channel-changer').on('click', '.channel-changer-button.inactive.offline', function() {
-	event.preventDefault();
-	var thisSlug = jQuery(this).attr("data-channel-slug");
-	filterSource(thisSlug);
-/*	if ( !jQuery(this).hasClass('filtering') ) {
-		var oldFilter = jQuery('.filtering');
-		oldFilter.removeClass('filtering');
-		grid.isotope({ filter: `.${thisSlug}` });
-		jQuery(this).addClass('filtering');
-	} else {
-		grid.isotope({ filter: '*' });
-		jQuery(this).removeClass('filtering');
-	} */
-});
-
-jQuery('#channel-changer').on('click', '#filter-button', function() {
-	var activeButton = jQuery('.active');
-	var activeSlug = activeButton.attr("data-channel-slug");
-	filterSource(activeSlug);
-	var filterButton = jQuery('#filter-button');
-	if ( filterButton.hasClass('isFiltering') ) {
-		filterButton.removeClass('isFiltering');
-	} else {
-		filterButton.addClass('isFiltering');
-	};
-});
-
-jQuery('#channel-changer').on('click', '#sort-button', function() {
-	var loop = jQuery('#live-posts-loop');
-	if ( !loop.hasClass('sorted') ) {
-		grid.isotope({
-			sortBy: 'score',
-			sortAscending: false
-		});
-		grid.isotope('updateSortData').isotope();
-		loop.addClass('sorted');
-		jQuery(this).addClass('sorting');
-	} else {
-		grid.isotope({
-			sortBy: 'original-order',
-			sortAscending: true,
-		});
-		grid.isotope('updateSortData').isotope();
-		loop.removeClass('sorted');
-		jQuery(this).removeClass('sorting');
+jQuery('#channel-changer').on('click', '.channel-changer-button', function() {
+	var thisButton = jQuery(this);
+	if ( thisButton.hasClass('live') ) {
+		event.preventDefault();
+		var channel = jQuery(this).attr("data-channel-name");
+		if ( jQuery(this).hasClass('inactive') ) {
+			showChannel(channel);
+			var oldActive = jQuery('.active');
+			oldActive.removeClass('active');
+			oldActive.addClass('inactive');
+			jQuery(this).removeClass('inactive');
+			jQuery(this).addClass('active');
+		} else {
+			killPlayer();
+		}
+	} else if ( thisButton.hasClass('filter') ) {
+		var activeButton = jQuery('.active');
+		var activeSlug = activeButton.attr("data-channel-slug");
+		filterSource(activeSlug);
+		var filterButton = jQuery('#filter-button');
+		if ( filterButton.hasClass('isFiltering') ) {
+			filterButton.removeClass('isFiltering');
+		} else {
+			filterButton.addClass('isFiltering');
+		};
+	} else if ( thisButton.hasClass('sort') ) {
+		var loop = jQuery('#live-posts-loop');
+		if ( !loop.hasClass('sorted') ) {
+			grid.isotope({
+				sortBy: 'score',
+				sortAscending: false
+			});
+			grid.isotope('updateSortData').isotope();
+			loop.addClass('sorted');
+			jQuery(this).addClass('sorting');
+		} else {
+			grid.isotope({
+				sortBy: 'original-order',
+				sortAscending: true,
+			});
+			grid.isotope('updateSortData').isotope();
+			loop.removeClass('sorted');
+			jQuery(this).removeClass('sorting');
+		}
+	} else if ( thisButton.hasClass('inactive') && thisButton.hasClass('offline') ) {
+		event.preventDefault();
+		var thisSlug = jQuery(this).attr("data-channel-slug");
+		filterSource(thisSlug);
 	}
 });
 
@@ -263,13 +244,17 @@ function killPlayer() {
 	var oldActive = jQuery('.active');
 	oldActive.removeClass('active');
 	oldActive.addClass('inactive');
+	grid.isotope({ filter: '*' });
 }
 
 function streamChecker() {
 	var channelButtons = jQuery('.channel-changer-button');
 	var streamList = '';
 	jQuery.each(channelButtons, function() {
-		streamList = streamList + jQuery(this).attr("data-channel-name") + ',';
+		var thisName = jQuery(this).attr("data-channel-name");
+		if (typeof thisName != 'undefined') {
+			streamList = streamList + thisName + ',';
+		};
 	});
 	streamList = streamList.substring(0, streamList.length - 1);
 	jQuery.ajax({
@@ -311,7 +296,7 @@ function streamChecker() {
 								thisButton.addClass('live');
 							} else if ( jQuery.inArray(thisName, liveStreamNames) == -1 && thisButton.hasClass('live') ) {
 								var thisNamebox = thisButton.find('.channel-display-name');
-								var originalNameString = thisNamebox.attr("data-name-string");
+								var originalNameString = thisNamebox.attr("data-display-name");
 								thisNamebox.html(originalNameString);
 								thisButton.removeClass('live');
 								thisButton.addClass('offline');

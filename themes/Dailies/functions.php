@@ -9,6 +9,8 @@ add_theme_support( 'post-thumbnails' );
 add_image_size('small', 350, 800);
 add_theme_support( 'title-tag' );
 
+$thisDomain = get_site_url();
+
 
 /*** Quicktags for post editor ***/
 function appthemes_add_quicktags() {
@@ -145,7 +147,8 @@ function refresh_live() {
 	$refreshReturn = array(
 		'fresh' => $freshPosts,
 		'stale' => $stalePostIDs,
-		'newData' => $newPostsAndScores
+		'newData' => $newPostsAndScores,
+		'print' => $newPostIDs
 	);
 	echo json_encode($refreshReturn);
 	wp_die();
@@ -159,5 +162,63 @@ function trash_post() {
 	wp_trash_post($trashPostID);
 	wp_die();
 };
+
+add_action( 'wp_enqueue_scripts', 'enqueue_secret_garden' );
+function enqueue_secret_garden() {
+	wp_register_script( 'ajax-secret-garden', '/wp-content/themes/Dailies/js/secret_garden.js' );
+	$secret_garden_data = array(
+		'ajaxurl' => admin_url( 'admin-ajax.php' ),
+	);
+	wp_localize_script( 'ajax-secret-garden', 'data_for_secret_garden', $secret_garden_data );
+	wp_enqueue_script('ajax-secret-garden'); 
+}
+
+add_action( 'wp_ajax_secret_garden_cut', 'secret_garden_cut' );
+add_action( 'wp_ajax_nopriv_secret_garden_cut', 'secret_garden_cut' );
+
+function secret_garden_cut() {
+	$cutSlug = $_POST['cutSlug'];
+	$cutSlugsTime = $_POST['cutSlugsTime'];
+	$oldCutList = get_post_meta(4599, 'cut', true);
+	$newCutList = $oldCutList;
+	$newCutList[$cutSlug] = $cutSlugsTime;
+	update_post_meta(4599, 'cut', $newCutList);
+	echo json_encode($newCutList);
+	wp_die();
+}
+
+add_action( 'wp_ajax_secret_garden_grow', 'secret_garden_grow' );
+add_action( 'wp_ajax_nopriv_secret_garden_grow', 'secret_garden_grow' );
+
+function secret_garden_grow() {
+	$growSlug = $_POST['growSlug'];
+	$growTitle = $_POST['growTitle'];
+	$growSourceRaw = $_POST['growSource'];
+	$growSourceFull = 'https://www.twitch.tv/' . $growSourceRaw;
+	$term_args = array(
+		'taxonomy' => 'source'
+	);
+	$sources = get_terms( $term_args );
+	foreach ($sources as $source) {
+		$key = get_term_meta( $source->term_id, 'twitch', true);
+		if ( $key == $growSourceFull ) {
+			$growSource = $source->term_id;
+		}
+	}
+	$seedArray = array(
+		'post_title' => $growTitle,
+		'post_content' => '',
+		'post_excerpt' => '',
+		'tax_input' => array(
+			'source' => $growSource,
+			),
+		'meta_input' => array(
+			'twitchCode' => $growSlug,
+			),
+	);
+	$didPost = wp_insert_post($seedArray, true);
+	echo json_encode($didPost);
+	wp_die();
+}
 
 ?>

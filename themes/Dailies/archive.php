@@ -11,6 +11,7 @@
 
 	<?php $archArgs = array(
 		'posts_per_page' => 10,
+		'category_name' => 'noms',
 		'paged' => $paged,
 		'orderby' => $orderby,
 		'order' => $order,
@@ -28,16 +29,6 @@
 		$archArgs['tag'] = $thisSlug;
 	}
 	query_posts($archArgs);
-	if ($underdogs) { 
-		$underdog_args = array(
-			'category__not_in' => 4, //4 = Noms
-			'paged' => $paged,
-			'orderby' => $orderby,
-			'order' => $order,
-			'meta_key' => 'votecount',
-		);
-		query_posts( $underdog_args);
-	};
 	$max = $wp_query->max_num_pages; // redo this for the new query
 	if ( have_posts() ) : while ( have_posts() ) : the_post(); 
 		include(locate_template('thing.php')); ?>

@@ -11,8 +11,9 @@
 <?php 
 	$thisDailyVars = this_dailies_vars(); // header.php doesn't seem to be able to use variables defined normally in the child theme's functions.php, so instead we have to define them inside a function which we call here. This is very inelegant, and if you know an elegant way to do it instead, please tell me.
 	$thisNavLinks = $thisDailyVars['nav-links'];
-	global $thisDomain;
-	$thisDomain = get_site_url();
+//	global $thisDomain;
+//	$thisDomain = get_site_url();
+	$thisDomain = $thisDailyVars['domain'];
 ?>
 <head>
 	<link rel='shortcut icon' href='/favicon.ico' type='image/ico'/ >
@@ -22,8 +23,8 @@
 	<meta name="viewport" content="width=device-width">
 	<?php wp_head(); ?>
 	<!-- jQUERY FOR LOCAL HOST, DELETE FOR PRODUCTION -->
-	<script type="text/javascript" src="http://therocketdailies.com/wp-includes/js/jquery/jquery.js?ver=1.12.4"></script>
-	<script type="text/javascript" src="http://therocketdailies.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1"></script>
+	<script type="text/javascript" src="<?php echo $thisDomain; ?>/wp-includes/js/jquery/jquery.js?ver=1.12.4"></script>
+	<script type="text/javascript" src="<?php echo $thisDomain; ?>/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1"></script>
 	<!-- jQUERY FOR LOCAL HOST, DELETE FOR PRODUCTION -->
 	<!-- Get Some Fonts -->
 	<script src="https://use.typekit.net/vhv3omo.js"></script>

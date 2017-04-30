@@ -14,6 +14,7 @@ function refreshLive() {
 			console.log('refreshed!');
 			var fresh = data.fresh;
 			var stale = data.stale;
+			console.log(data.print);
 			if (fresh != null) {	
 				var freshCount = fresh.length;
 				var i = 0;

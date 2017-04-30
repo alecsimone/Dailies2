@@ -1759,6 +1759,7 @@ p.cctitle-instructions {
 	top: 0;
 	left: 0;
 	width: 100%;
+	box-sizing: border-box;
 	height: calc(100% - #{$plusHalf});
 	opacity: 0;
 	transition: opacity .1s;
@@ -1799,21 +1800,20 @@ p.cctitle-instructions {
 	color: $light;
 	border-radius: $roundedBot;
 	cursor: pointer;
-	height: $sex;
-	width: $sex;
-	padding: $baseline;
 	@media #{$bpMedium} {
-		height: $dec;
-		width: $dec;
 		padding: $quarter $baseline;
+	}
+	& .channel-display-name {
+		color: $light;
 	}
 	& img {
 		display: block;
 		height: $triple;
-		margin: $quarter 0;
+		padding: $plusHalf;
 		@media #{$bpMedium} {
-			height: $quad;
-			margin: $half 0;
+			height: $sex;
+			width: $sex;
+			padding: $double $baseline;
 		}
 	}
 	&:hover {
@@ -1938,4 +1938,35 @@ p.cctitle-instructions {
 		height: $double;
 		margin-right: $half;
 	}
+}
+
+.seedling {
+	@include card();
+	margin: $baseline auto;
+	font-size: $plusHalf;
+	padding: $baseline;
+	width: 640px;
+}
+
+.seedling-source {
+	display: inline-block;
+}
+
+input.seedling-title-input {
+	height: $double;
+	margin: $baseline auto;
+	background: $light;
+}
+
+.seedling-controls {
+	margin: $baseline auto 0;
+}
+.seedling-plus, .seedling-cross {
+	display: inline-block;
+	padding: 0 $sept;
+}
+
+img.seedControlImg {
+	width: $double;
+	height: $double;
 }

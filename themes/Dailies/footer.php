@@ -39,8 +39,8 @@ jQuery('.contentContainer').on('hover', '.voteIcon', function() {
 	console.log("you hovered!");
 	thisVoteIcon = jQuery(this);
 	thisIconSrc = thisVoteIcon.attr("src")
-	MedalSrc = 'http://therocketdailies.com/wp-content/uploads/2016/12/Medal-small-100.png';
-	VoteIconSrc = 'http://therocketdailies.com/wp-content/uploads/2017/04/Vote-Icon-line-100.png';
+	MedalSrc = '<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Medal-small-100.png';
+	VoteIconSrc = '<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/Vote-Icon-line-100.png';
 	if ( thisIconSrc.includes(MedalSrc) ) {
 		thisVoteIcon.attr("src", VoteIconSrc);
 	} else if ( thisIconSrc.includes(VoteIconSrc) ) {

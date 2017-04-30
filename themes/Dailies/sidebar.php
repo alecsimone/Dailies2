@@ -9,6 +9,7 @@
 	<?php if ( !is_single() ) { ?>
 		<?php $topPosts= array(
 			'posts_per_page' => 10,
+			'category_name' => 'noms',
 			'orderby' => 'meta_value_num',
 			'meta_key' => 'votecount',
 			'date_query' => array(
@@ -78,7 +79,7 @@
 				$thisTax = $thisTerm->taxonomy;
 				$thisSlug = $thisTerm->slug;
 				?>
-				<div class="sidebarSectionTitle">In: <a href="http://therocketdailies.com/<?php echo $thisTax; ?>/<?php echo $thisSlug; ?>" class="sidebarSectionTitleLink"><?php echo $currentTerm ?></a></div>
+				<div class="sidebarSectionTitle">In: <a href="<?php echo $thisDomain; ?>/<?php echo $thisTax; ?>/<?php echo $thisSlug; ?>" class="sidebarSectionTitleLink"><?php echo $currentTerm ?></a></div>
 				<?php $topPosts= array(
 					'posts_per_page' => 1,
 					'post__not_in' => $relatedExcludes,

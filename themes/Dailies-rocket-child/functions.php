@@ -5,9 +5,10 @@ function childdailies_enqueue_style() {
 }
 add_action( 'wp_enqueue_scripts', 'childdailies_enqueue_style' );
 
-$thisDomain = get_site_url();
+//$thisDomain = get_site_url();
 
 function this_dailies_vars() {
+	$thisDomain = get_site_url();
 	global $thisDomain;
 	$thisDailiesVars = array(
 		'domain' => $thisDomain,

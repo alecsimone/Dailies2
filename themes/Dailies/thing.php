@@ -82,7 +82,7 @@ if (has_category('noms')) { ?>
 			} elseif ( !empty($stars) ) { 
 				$starCount = count($stars); 
 				$starCounter = 0;
-				$defaultPic = 'http://therocketdailies.com/wp-content/uploads/2017/03/default_pic.jpg';
+				$defaultPic = $thisDomain . '/wp-content/uploads/2017/03/default_pic.jpg';
 				while ($starCounter < $starCount) {
 					$starpic = get_term_meta($stars[$starCounter]->term_taxonomy_id, 'logo', true);
 					if ( empty($starpic) ) {
@@ -103,7 +103,7 @@ if (has_category('noms')) { ?>
 				<a class="starsourceImgLink" href="<?php echo $thisDomain; ?>/source/<?php echo $source[0]->slug; ?>"><img class="starpic" src="<?php echo $sourcepic; ?>"></a><a class="starsourceLink" href="<?php echo $thisDomain; ?>/source/<?php echo $source[0]->slug; ?>"><?php echo $source[0]->name; ?></a>
 			<?php } ?>
 		</p>
-		<?php if ( !$tournament && (!is_home() || $underdogs) ) { ?>
+		<?php if ( !is_home() ) { ?>
 			<div id="thing<?php echo $thisID; ?>-datebox" class="datebox">
 				<?php echo get_the_date(); ?>
 			</div>
@@ -181,11 +181,11 @@ $sourceSlug = $source[0]->slug; ?>
 				}
 			 ?>" target="_blank"<?php 
 				if ( !empty($gfytitle) ) {
-					?>class='gfy-little-thing' id='<?php echo $gfytitle; echo $hash; ?>' onclick="littleReplacer('<?php echo $gfytitle; echo '\', \''; echo $gfytitle; echo $hash; ?>')" data-id='<?php echo $gfytitle; ?>' data-autoplay=true data-controls=true data-expand=true <?php }
+					?>class='gfy-little-thing little-title-link' id='<?php echo $gfytitle; echo $hash; ?>' onclick="littleReplacer('<?php echo $gfytitle; echo '\', \''; echo $gfytitle; echo $hash; ?>')" data-id='<?php echo $gfytitle; ?>' data-autoplay=true data-controls=true data-expand=true <?php }
 				elseif ( !empty($twitchcode) ) { 
-						?>class='twitch-little-thing' id='<?php echo $twitchcode; echo $hash; ?>' data-id="<?php echo $twitchcode; ?>" onclick="littleReplacer('<?php echo $twitchcode; echo '\', \''; echo $twitchcode; echo $hash; ?>')" <?php }
+						?>class='twitch-little-thing little-title-link' id='<?php echo $twitchcode; echo $hash; ?>' data-id="<?php echo $twitchcode; ?>" onclick="littleReplacer('<?php echo $twitchcode; echo '\', \''; echo $twitchcode; echo $hash; ?>')" <?php }
 				elseif ( !empty($youtubecode) ) { 
-						?>class='yt-little-thing' id='<?php echo $youtubecode; echo $hash; ?>' data-id="<?php echo $youtubecode; ?>" onclick="littleReplacer('<?php echo $youtubecode; echo '\', \''; echo $youtubecode; echo $hash; ?>')" <?php 
+						?>class='yt-little-thing little-title-link' id='<?php echo $youtubecode; echo $hash; ?>' data-id="<?php echo $youtubecode; ?>" onclick="littleReplacer('<?php echo $youtubecode; echo '\', \''; echo $youtubecode; echo $hash; ?>')" <?php 
 					}
 				?>><?php the_title();?></a></h3> <div id="little-thing<?php echo $thisID; ?>-votecount" class="votecount little-thing-votecount">
 			<?php $score = get_post_meta($thisID, 'votecount', true);
@@ -193,11 +193,22 @@ $sourceSlug = $source[0]->slug; ?>
 			$voteledger = get_post_meta($thisID, 'voteledger', true);
 			$user_id = get_current_user_id();
 			$client_ip = $_SERVER['REMOTE_ADDR'];
-			$voteContribution = $voteledger[$user_id];
-			$guestlist = get_post_meta($thisID, 'guestlist', true);
-			if ($voteContribution == '' && !in_array($client_ip, $guestlist)) {
+			if ($voteledger == '') {
 				$voteContribution = 0;
-			} elseif ( $voteContribution == '' && in_array($client_ip, $guestlist) ) {$voteContribution = 0.1; }; ?>
+				$onLedger = false;
+			} else {
+				$voteContribution = $voteledger[$user_id];
+				$onLedger = array_key_exists($user_id, $voteledger);
+			}
+			$guestlist = get_post_meta($thisID, 'guestlist', true);
+			if ($guestlist == '') {
+				$onGuestlist = false;
+			} else {
+				$onGuestlist = in_array($client_ip, $guestlist);
+			}
+			if ($voteContribution == '' && !$onGuestlist) {
+				$voteContribution = 0;
+			} elseif ( $voteContribution == '' && $onGuestlist ) {$voteContribution = 0.1; }; ?>
 			<div id="thingScore<?php echo $thisID; ?>" data-score="<?php echo $score; ?>" data-contribution="<?php echo $voteContribution; ?>">(+<?php echo $score; ?>)</div>
 		</div>
 		</div><div class="little-votebox">
@@ -205,7 +216,7 @@ $sourceSlug = $source[0]->slug; ?>
 			$guestlist = get_post_meta($thisID, 'guestlist', true);
 			$user_id = get_current_user_id();
 			$client_ip = $_SERVER['REMOTE_ADDR'];
-			if ( ( $user_id == 0 && !in_array($client_ip, $guestlist) ) || ( $user_id != 0 && !array_key_exists($user_id, $voteledger) ) ) { ?>
+			if ( ( $user_id == 0 && !$onGuestlist ) || ( $user_id != 0 && !$onLedger ) ) { ?>
 				<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/Vote-Icon-line-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon" data-id="<?php echo $thisID; ?>" data-vote="up" onclick="vote(<?php echo $thisID; ?>)">
 			<?php } elseif ( ( $user_id == 0 && in_array($client_ip, $guestlist) ) || ( $user_id != 0 && array_key_exists($user_id, $voteledger) ) ) { ?>
 				<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Medal-small-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon" data-id="<?php echo $thisID; ?>" data-vote="down" onclick="vote(<?php echo $thisID; ?>)">
@@ -215,7 +226,7 @@ $sourceSlug = $source[0]->slug; ?>
 	<section class="little-thing-embed" id="lte-<?php echo $thisID; ?>">
 	</section>
 	<?php $stars = get_the_terms( $post->ID, 'stars' );
-	$defaultPic = 'http://therocketdailies.com/wp-content/uploads/2017/03/default_pic.jpg'; ?>
+	$defaultPic = $thisDomain . '/wp-content/uploads/2017/03/default_pic.jpg'; ?>
 	<section class="little-thing-attribution" id="lta-<?php echo $thisID; ?>">
 		<?php if ( !empty($stars) ) {
 			$starCount = count($stars); 

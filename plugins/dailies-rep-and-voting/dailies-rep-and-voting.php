@@ -8,16 +8,21 @@ Author:      Alec Simone
 License:     Do whatever the hell you want with it, it's mostly pretty shit code
 */
 
+
 function enqueue_ajax_vote() {
 	wp_register_script( 'ajax-vote', plugin_dir_url(__FILE__) . 'dailies-ajax-vote.js' );
 	
 	$nonce = wp_create_nonce('daily_vote_nonce');
 
+	$thisDomain = get_site_url();
+	$medalSrc = $thisDomain . '/wp-content/uploads/2016/12/Medal-small-100.png';
+	$voteIconSrc = $thisDomain . '/wp-content/uploads/2017/04/Vote-Icon-line-100.png';
+
 	$daily_vote_data = array(
 		'ajaxurl' => admin_url( 'admin-ajax.php' ),
 		'nonce' => $nonce,
-		'medal' => 'http://therocketdailies.com/wp-content/uploads/2016/12/Medal-small-100.png',
-		'emptyVoteIcon' => 'http://therocketdailies.com/wp-content/uploads/2017/04/Vote-Icon-line-100.png'
+		'medal' => $medalSrc,
+		'emptyVoteIcon' => $voteIconSrc
 	);
 	wp_localize_script( 'ajax-vote', 'daily_vote', $daily_vote_data );
 
