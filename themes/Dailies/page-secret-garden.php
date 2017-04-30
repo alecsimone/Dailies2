@@ -1,6 +1,8 @@
 <?php get_header();
 include( locate_template('schedule.php') );
-$cutList = get_post_meta(4599, 'cut', true);
+$gardenPostObject = get_page_by_path('secret-garden');
+$gardenID = $gardenPostObject->ID;
+$cutList = get_post_meta($gardenID, 'cut', true);
 $todaysChannels = $schedule[$todaysSchedule];
 $streamList = '';
 foreach ($todaysChannels as $channel) {
@@ -15,15 +17,20 @@ $streamList = rtrim($streamList,',');
 </div>
 
 <script>
-function clipGetter() {
+function clipGetter(cursor) {
 	var streamList = jQuery('#garden').attr('data-streams');
 	var cutList = jQuery('#garden').attr('data-cut');
 	var cutObj = JSON.parse(cutList);
 	var cutKeys = Object.keys(cutObj);
-	console.log(cutKeys);
+	if (typeof cursor == 'string') {
+		var queryURL = `https://api.twitch.tv/kraken/clips/top?channel=${streamList}&period=day&limit=100&cursor=${cursor}`;
+	} else {
+		var queryURL = `https://api.twitch.tv/kraken/clips/top?channel=${streamList}&period=day&limit=100`;
+	}
+	console.log(queryURL);
 	jQuery.ajax({
 		type: 'GET',
-		url: `https://api.twitch.tv/kraken/clips/top?channel=${streamList}&period=day&limit=100`,
+		url: queryURL,
 		headers: {
 			'Client-ID' : 'r7cqs4kgrg1sknyz32brgy9agivw9n',
 			'Accept' : 'application/vnd.twitchtv.v5+json',
@@ -31,6 +38,9 @@ function clipGetter() {
 		success: function(data) {
 			var clips = data['clips'];
 			var garden = jQuery('#garden');
+			var clipCount = clips.length;
+			console.log("returned " + clipCount + " clips");
+			var cutCount = 0;
 			for (var i = 0; i < clips.length; i++) {
 				var thisSlug = clips[i]['slug'];
 				var thisTitle = clips[i]['title'];
@@ -40,25 +50,51 @@ function clipGetter() {
 				var thisWholeSource = clips[i]['broadcaster']['channel_url'];
 				var thisSource = thisWholeSource.substring(22);
 				var thisViewCount = clips[i]['views'];
-				var thisThumbURL = clips[i]['thumbnails']['medium'];
+				var thisLogo = clips[i]['broadcaster']['logo'];
+				var thisCurator = clips[i]['curator']['display_name'];
+				var newCursor = data['_cursor'];
+				if ( clips[i]['vod'] ) {
+					var thisVODLink = clips[i]['vod']['url'];
+				};
 				if ( thisGame == 'Rocket League' && jQuery.inArray(thisSlug, cutKeys) == -1 ) {
 					garden.append(
-						`<div class='seedling'>
-							<div class='seedling-title' data-slug='${thisSlug}' data-time='${thisTime}'>
-								<a href='https://clips.twitch.tv/${thisSlug}' target='_blank'>${thisTitle}</a>
-							</div>
+						`<div class='seedling' data-source='${thisSource}'>
 							<div class='seedling-meta'>
-								<div class='seedling-source'>${thisSource}</div> - ${thisViewCount} views
+								<img src='${thisLogo}' class='seedling-logo'>
+								<div class="seedling-meta-info">
+									<div class='seedling-title' data-slug='${thisSlug}' data-time='${thisTime}'>
+										<a href='https://clips.twitch.tv/${thisSlug}' target='_blank'>${thisTitle}</a>
+									</div>
+									<div class='seedlingAddTitleBox'><input type='text' class='seedling-title-input' name='addTitleBox' placeholder='Keep?'></div>
+									<div class='seedling-controls'>
+										<div class='seedling-cross'><img class='seedCutter seedControlImg' src='http://dailies.gg/wp-content/uploads/2017/04/red-x.png'></div>
+										<div class='seedling-views'>${thisViewCount} views. clipped by ${thisCurator}. <a href='${thisVODLink}' target='_blank'>VOD Link</a></div>
+									</div>
+								</div>
 							</div>
 							<div class='seedlingEmbedTarget'></div>
-							<div class='seedlingAddTitleBox'><input type='text' class='seedling-title-input' name='addTitleBox' size='64'></div>
-							<div class='seedling-controls'>
-								<div class='seedling-plus'><img class='seedGrower seedControlImg' src='http://dailies.gg/wp-content/uploads/2017/04/blue-plus.png'></div>
-								<div class='seedling-cross'><img class='seedCutter seedControlImg' src='http://dailies.gg/wp-content/uploads/2017/04/red-x.png'></div>
-							</div>
 						</div>`
 					);
+				} else {
+					cutCount++;
 				};
+			};
+				if (clipCount == 100) {
+					garden.append(`<p class='moreClips' data-cursor='${newCursor}'>Load More</p>`);
+				}
+			if (jQuery('.clipCount').length) {
+				var clipCounterSpan = jQuery('.clipCounter');
+				var oldClipCount = parseInt(clipCounterSpan.text());
+				var newClipCounter = oldClipCount + clipCount;
+				clipCounterSpan.text(newClipCounter);
+
+				var cutCounterSpan = jQuery('.cutCounter');
+				var oldCutCount = parseInt(cutCounterSpan.text());
+				var newCutCounter = oldCutCount + cutCount;
+				cutCounterSpan.text(newCutCounter);
+			} else {
+				garden.prepend(`<p class='clipCount'>Cut: <span class='cutCounter'>${cutCount}</span>`);
+				garden.prepend(`<p class='clipCount'>Returned: <span class='clipCounter'>${clipCount}</span>`);
 			};
 		},
 		error: function() {
@@ -71,11 +107,11 @@ jQuery(window).load(clipGetter);
 jQuery("#garden").on('click', '.seedling-title', function() {
 	event.preventDefault();
 	var thisTitle = jQuery(this);
-	var thisSeedling = thisTitle.parent();
+	var thisSeedling = thisTitle.parent().parent().parent();
 	var thisEmbedTarget = thisSeedling.find('.seedlingEmbedTarget');
 	if ( thisEmbedTarget.is(':empty') ) {
 		var thisSlug = thisTitle.attr("data-slug");
-		var embedCode = `<iframe src="https://clips.twitch.tv/embed?clip=${thisSlug}&autoplay=true" width="640" height="360" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>`
+		var embedCode = `<iframe src="https://clips.twitch.tv/embed?clip=${thisSlug}&autoplay=true" width="1280" height="720" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>`
 		thisEmbedTarget.html(embedCode);
 	} else {
 		thisEmbedTarget.html('');
@@ -84,27 +120,39 @@ jQuery("#garden").on('click', '.seedling-title', function() {
 
 jQuery("#garden").on('click', '.seedling-cross', function() {
 	var thisX = jQuery(this);
-	var thisSeedling = thisX.parent().parent()
+	var thisSeedling = thisX.parent().parent().parent().parent();
 	var thisTitle = thisSeedling.find('.seedling-title');
 	var thisSlug = thisTitle.attr("data-slug");
 	var thisTime = thisTitle.attr("data-time");
+	thisX.fadeOut();
 	cutSlug(thisSlug, thisTime, thisSeedling);
 });
 
-jQuery("#garden").on('click', '.seedling-plus', function() {
-	var thisPlus = jQuery(this);
-	var thisSeedling = thisPlus.parent().parent()
-	var thisTitle = thisSeedling.find('.seedling-title');
-	var thisSlug = thisTitle.attr("data-slug");
-	var thisTime = thisTitle.attr("data-time");
-	var thisSource = thisSeedling.find('.seedling-source').text();
-	var thisTextBox = thisSeedling.find('.seedlingAddTitleBox input');
-	var thisTextEntry = thisTextBox.val();
-	if ( thisTextEntry ) {
-		var thisCustomTitle = thisTextEntry;
-	} else {
-		var thisCustomTitle = thisSlug;
+jQuery("#garden").on('keypress', '.seedling-title-input', function(e) {
+	if(e.which === 13) {
+		var thisPlus = jQuery(this);
+		thisPlus.attr("disabled", "disabled");
+		var thisSeedling = thisPlus.parent().parent().parent().parent();
+		var thisTitle = thisSeedling.find('.seedling-title');
+		var thisSlug = thisTitle.attr("data-slug");
+		var thisTime = thisTitle.attr("data-time");
+		var thisSource = thisSeedling.attr("data-source");
+		var thisTextBox = thisSeedling.find('.seedlingAddTitleBox input');
+		var thisTextEntry = thisTextBox.val();
+		if ( thisTextEntry ) {
+			var thisCustomTitle = thisTextEntry;
+		} else {
+			var thisCustomTitle = thisSlug;
+		}
+		growSeed(thisSlug, thisCustomTitle, thisSource, thisTime, thisSeedling);
 	}
-	growSeed(thisSlug, thisCustomTitle, thisSource, thisTime, thisSeedling);
 });
+
+jQuery("#garden").on('click', 'p.moreClips', function() {
+	var thisLink = jQuery(this);
+	var thisCursor = thisLink.attr("data-cursor");
+	clipGetter(thisCursor);
+	thisLink.fadeOut();
+});
+
 </script>

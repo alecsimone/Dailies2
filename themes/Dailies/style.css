@@ -1712,32 +1712,79 @@ p.cctitle-instructions {
     height: 24px;
     margin-right: 6px; }
 
+#garden {
+  padding-left: 100px;
+  text-align: left; }
+
+p.clipCount {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 6px 0;
+  text-align: left;
+  width: 760px; }
+
 .seedling {
   background: #fff;
   box-shadow: 0 1px 1px rgba(173, 168, 168, 0.1);
   border: 1px solid rgba(0, 0, 0, 0.1);
-  margin: 12px auto;
+  margin: 24px 0;
   font-size: 18px;
   padding: 12px;
-  width: 640px; }
+  width: 1280px; }
+
+img.seedling-logo {
+  width: 72px;
+  height: 72px;
+  padding: 12px; }
+
+.seedling-meta {
+  width: 1280px;
+  display: flex;
+  align-items: center; }
+
+.seedling-meta-info {
+  width: 100%; }
+
+.seedling-title {
+  padding: 6px; }
+  .seedling-title a {
+    font-size: 22px;
+    color: #121212;
+    text-decoration: none;
+    font-weight: bold; }
 
 .seedling-source {
   display: inline-block; }
 
 input.seedling-title-input {
   height: 24px;
-  margin: 12px auto;
-  background: rgba(255, 253, 249, 0.9); }
+  width: 100%;
+  margin: 0 auto 12px;
+  background: rgba(255, 253, 249, 0.9);
+  padding: 0 6px;
+  box-sizing: border-box; }
 
 .seedling-controls {
-  margin: 12px auto 0; }
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between; }
 
-.seedling-plus, .seedling-cross {
-  display: inline-block;
-  padding: 0 60px; }
+.seedling-vod-link a {
+  text-decoration: none;
+  color: #121212; }
+  .seedling-vod-link a:hover {
+    text-decoration: underline; }
 
 img.seedControlImg {
   width: 24px;
   height: 24px; }
+
+p.moreClips {
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 12px;
+  text-align: center;
+  width: 1300px; }
 
 /*# sourceMappingURL=style.css.map */

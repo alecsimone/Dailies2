@@ -1940,33 +1940,84 @@ p.cctitle-instructions {
 	}
 }
 
-.seedling {
-	@include card();
-	margin: $baseline auto;
-	font-size: $plusHalf;
-	padding: $baseline;
-	width: 640px;
+#garden {;
+	padding-left: 100px;
+	text-align: left;
+}
+p.clipCount {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 6px 0;
+    text-align: left;
+    width: 760px;
 }
 
+.seedling {
+	@include card();
+	margin: $double 0;
+	font-size: $plusHalf;
+	padding: $baseline;
+	width: 1280px;
+}
+
+img.seedling-logo {
+	width: $sex;
+	height: $sex;
+	padding: $baseline;
+}
+.seedling-meta {
+	width: 1280px;
+	display: flex;
+	align-items: center;
+}
+.seedling-meta-info {
+	width: 100%;
+}
+.seedling-title {
+	padding: $half;
+	& a {
+		font-size: 22px;
+		color: $black;
+		text-decoration: none;
+		font-weight: bold;
+	}
+}
 .seedling-source {
 	display: inline-block;
 }
 
 input.seedling-title-input {
 	height: $double;
-	margin: $baseline auto;
+	width: 100%;
+	margin: 0 auto $baseline;
 	background: $light;
+	padding: 0 $half;
+	box-sizing: border-box;
 }
 
 .seedling-controls {
-	margin: $baseline auto 0;
+	margin: 0 auto;
+	display: flex;
+	justify-content: space-between;
 }
-.seedling-plus, .seedling-cross {
-	display: inline-block;
-	padding: 0 $sept;
+.seedling-vod-link a {
+	text-decoration: none;
+	color: $black;
+	&:hover {
+		text-decoration: underline;
+	}
 }
 
 img.seedControlImg {
 	width: $double;
 	height: $double;
+}
+
+p.moreClips {
+	font-size: 24px;
+	font-weight: bold;
+	cursor: pointer;
+	padding: 12px;
+	text-align: center;
+	width: 1300px;
 }

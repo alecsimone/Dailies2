@@ -28,7 +28,7 @@ function growSeed(slug, title, source, time, seedling) {
 		success: function(data) {
 			if ( Number.isInteger(data) ) {
 				cutSlug(slug, time, seedling);
-				window.open(`http://localhost/dailieslocal/wp-admin/post.php?post=${data}&action=edit`, '_blank');
+				window.open(`http://dailies.gg/wp-admin/post.php?post=${data}&action=edit`, '_blank');
 			}
 		}
 	});
