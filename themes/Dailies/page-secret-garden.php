@@ -83,9 +83,13 @@ function clipGetter(cursor) {
 					cutCount++;
 				};
 			};
-				if (clipCount == 100) {
+			if (clipCount == 100) {
+				if (cutCount > 90) {
+					clipGetter(newCursor);
+				} else {
 					garden.append(`<p class='moreClips' data-cursor='${newCursor}'>Load More</p>`);
 				}
+			}
 			if (jQuery('.clipCount').length) {
 				var clipCounterSpan = jQuery('.clipCounter');
 				var oldClipCount = parseInt(clipCounterSpan.text());
@@ -128,6 +132,10 @@ jQuery("#garden").on('click', '.seedling-cross', function() {
 	var thisTitle = thisSeedling.find('.seedling-title');
 	var thisSlug = thisTitle.attr("data-slug");
 	var thisTime = thisTitle.attr("data-time");
+	var cutCounterSpan = jQuery('.cutCounter');
+	var oldCutCount = parseInt(cutCounterSpan.text());
+	var newCutCounter = oldCutCount + 1;
+	cutCounterSpan.text(newCutCounter);
 	thisX.fadeOut();
 	cutSlug(thisSlug, thisTime, thisSeedling);
 });

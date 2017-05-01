@@ -2021,3 +2021,70 @@ p.moreClips {
 	text-align: center;
 	width: 1300px;
 }
+
+#schedule-container {
+    color: $light;
+}
+.schedule-day {
+	display: flex;
+	flex-wrap: wrap;
+    margin: $baseline 5% $oct;
+    color: #fff;
+    text-align: left;
+    width: 90%;
+    box-sizing: border-box;
+    padding: $baseline;
+    padding-right: 10%;
+    border-radius: 3px;
+	background: #262626; /* Old browsers */
+	background: -moz-linear-gradient(left,  rgba(32,123,214,.25) 0%, rgba(0,0,0,0) 93%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(left,  rgba(32,123,214,.25) 0%,rgba(0,0,0,0) 93%); /* Chrome10-25,Safari5.1-6 */
+	//background: linear-gradient(to right,  rgba(12,51,5,.9) 0%,rgba(0,0,0,0) 90%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	background: linear-gradient(to right,  rgba(32,123,214,.25) 0%,rgba(0,0,0,0) 93%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#262626', endColorstr='#000000',GradientType=1 ); /* IE6-9 */
+    &-title {
+    	font-weight: bold;
+    	font-size: $sept;
+    	padding-left: $double;
+    	width: 85%;
+    	margin-left: 5%;
+    	text-align: left;
+    }
+}
+
+.schedule-entry {
+	font-size: $plusHalf;
+	color: $light;
+	display: inline-flex;
+    align-items: center;
+    justify-content: space-around;
+	flex-grow: 1;
+	max-width: 420px;
+    margin: $baseline;
+    padding: $plusHalf;
+    border-radius: 3px;
+	background: #041323; /* Old browsers */
+	background: -moz-linear-gradient(top,  #020a12 0%, #000000 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top,  #020a12 0%,#000000 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  #020a12 0%,#000000 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#020a12', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
+    &-info {
+		padding: 0 $baseline;
+		flex-grow: .33;
+		line-height: 1.4em;
+		font-size: $plusHalf;
+    }
+    &-source {
+		color: $gold;
+		font-weight: bold;
+		font-size: $triple;
+		padding-bottom: $half;
+    }
+    &:last-of-type {
+    	flex-grow: 0;
+    }
+}
+img.schedule-entry-logo {
+	width: $dec;
+	height: $dec;
+}
