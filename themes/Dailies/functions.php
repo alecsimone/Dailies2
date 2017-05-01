@@ -215,7 +215,7 @@ function secret_garden_grow() {
 			'source' => $growSource,
 			),
 		'meta_input' => array(
-			'twitchCode' => $growSlug,
+			'TwitchCode' => $growSlug,
 			),
 	);
 	$didPost = wp_insert_post($seedArray, true);
