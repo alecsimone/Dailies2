@@ -50,6 +50,7 @@ function clipGetter(cursor) {
 	var cutKeys = Object.keys(cutObj);
 	var cutVodsRaw = garden.attr('data-cut-vods');
 	var cutVods = JSON.parse(cutVodsRaw);
+	var VODIndexes = Object.keys(cutVods);
 	var viewThresholdsRaw = garden.attr('data-view-thresholds');
 	var viewThresholds = JSON.parse(viewThresholdsRaw);
 	if (typeof cursor == 'string') {
@@ -109,9 +110,10 @@ function clipGetter(cursor) {
 					}
 					var thisVODTimestamp = 3600 * thisHourCount + 60 * thisMinuteCount + thisSecondCount;
 					var sameVODIndexes = [];
-					for (var vodCounter = 0; vodCounter < cutVods.length; vodCounter++) {
-						if ( cutVods[vodCounter]['VODBase'] === thisVODBase ) {
-							sameVODIndexes.push(vodCounter);
+					for (var vodCounter = 0; vodCounter < VODIndexes.length; vodCounter++) {
+						var cutVODIndex = VODIndexes[vodCounter];
+						if ( cutVods[cutVODIndex]['VODBase'] === thisVODBase ) {
+							sameVODIndexes.push(cutVODIndex);
 						}
 					}
 					for (var timestampCounter = 0; timestampCounter < sameVODIndexes.length; timestampCounter++) {
