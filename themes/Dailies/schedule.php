@@ -1,5 +1,6 @@
 <?php $schedule = array(
 	'Monday' => array(
+		'vapour' => ['Vapour', 'oce-rocket-league', 654, 'Monday Night Legends 2v2', '5 AM EST'],
 		'gfinity' => ['GFinity', 'gfinity', 194, 'EU - 3v3 - &pound;150', '2 PM EST'],
 		'baguette' => ['Baguette', 'rocket-baguette', 585, 'EU GFinity, French Cast', '2 PM EST'],
 		'mockit' => ['Mockit', 'mockit-league', 85, 'NA - 1v1 - $50', '7 PM EST'],
@@ -13,14 +14,18 @@
 		//'gfinity' => ['GFinity', 'gfinity', 194, 'EU - 2v2 - &pound;60', '2 PM EST'],
 		'mockit' => ['Mockit', 'mockit-league', 85, 'MCS EU & NA', '1PM / 6PM EST'],
 		'nexus' => ['Nexus', 'nexus-gaming', 389, 'NA - 1v1 - $50', '8 PM EST'],
-		'beyond' => ['Astronauts', 'teambeyondnet', 540, 'NA - 3v3 - $1000', '10PM EST'],
+		'nl' => ['NorthernLight', 'northern-light', 734, 'NA - 2v2 - $10', '8PM EST'],
+		'collision' => ['Collision', 'collision', 735, 'NA - 2v2', '8PM EST'],
 		'myth' => ['Mythical', 'mythical-esports', 251, 'NA - 3v3 - $45', '9 PM EST'],
+		//'beyond' => ['Astronauts', 'teambeyondnet', 540, 'NA - 3v3 - $1000', '10PM EST'],
 		'me' => ['The Dailies', 'rocket-dailies', 688, 'Nom Stream', 'Midnight EST'],
 	),
 	'Wednesday' => array(
 		'jebdan' => ['JebroUnity', 'jebrounity', 619, 'EU - 2v2 - MidWeek Madness', '3 PM EST'],
+		'RLES' => ['RL ES', 'rocket-league-es', 711, 'EU 3v3 #TGXRLP', '3 PM EST'],
 		//'meta' => ['Metaleak', 'metaleak', 521, 'EU - 3v3 - &euro;200', '3 PM EST'],
 		//'orsa' => ['Orsa', 'orsa', 307, 'Season 5 Playoffs', '6 PM EST'],
+		'jboi' => ['JohnnyBoi_i', 'johnnyboi_i', 215, '1v1s', '6PM EST'],
 		'rocketstreet' => ['RocketStreet', 'rocketstreet', 518, 'SAM - 1v1', '6:30PM EST'],
 		'nexus' => ['Nexus', 'nexus-gaming', 389, 'NA - 2v2 - $100', '7 PM EST'],
 		'bl' => ['Boost', 'boost-legacy', 401, 'NA - 3v3 - $40', '10 PM EST'],
@@ -28,7 +33,6 @@
 	),
 	'Thursday' => array(
 		'gfinity' => ['GFinity', 'gfinity', 194, 'EU - 2v2 - &pound;60', '2 PM EST'],
-		'shift' => ['SPL', 'shift-pro-league', 244, 'EU - 3v3 - $50', '2 PM EST'],
 		'rewind' => ['Rewind', 'rewindrl', 583, 'EU - 1v1 - $15', '2 PM EST'],
 		'mockit' => ['Mockit', 'mockit-league', 85, 'MCS League Play', '3 PM EST'],
 		'lief' => ['LiefX', 'liefx', 662, 'Dropshot & Roll', '3 PM EST'],

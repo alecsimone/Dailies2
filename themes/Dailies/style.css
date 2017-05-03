@@ -1713,7 +1713,8 @@ p.cctitle-instructions {
     margin-right: 6px; }
 
 #garden {
-  padding-left: 100px;
+  width: 95%;
+  margin: auto;
   text-align: left; }
 
 p.clipCount {
@@ -1730,7 +1731,8 @@ p.clipCount {
   margin: 24px 0;
   font-size: 18px;
   padding: 12px;
-  width: 1280px; }
+  width: 100%;
+  box-sizing: border-box; }
 
 img.seedling-logo {
   width: 72px;
@@ -1738,7 +1740,9 @@ img.seedling-logo {
   padding: 12px; }
 
 .seedling-meta {
-  width: 1280px;
+  width: 100%;
+  padding-right: 12px;
+  box-sizing: border-box;
   display: flex;
   align-items: center; }
 

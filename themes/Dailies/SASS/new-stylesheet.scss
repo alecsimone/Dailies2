@@ -1941,7 +1941,8 @@ p.cctitle-instructions {
 }
 
 #garden {;
-	padding-left: 100px;
+	width: 95%;
+	margin: auto;
 	text-align: left;
 }
 p.clipCount {
@@ -1957,7 +1958,8 @@ p.clipCount {
 	margin: $double 0;
 	font-size: $plusHalf;
 	padding: $baseline;
-	width: 1280px;
+	width: 100%;
+	box-sizing: border-box;
 }
 
 img.seedling-logo {
@@ -1966,7 +1968,9 @@ img.seedling-logo {
 	padding: $baseline;
 }
 .seedling-meta {
-	width: 1280px;
+	width: 100%;
+	padding-right: 12px;
+	box-sizing: border-box;
 	display: flex;
 	align-items: center;
 }

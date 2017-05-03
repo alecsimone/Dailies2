@@ -179,12 +179,22 @@ add_action( 'wp_ajax_nopriv_secret_garden_cut', 'secret_garden_cut' );
 function secret_garden_cut() {
 	$cutSlug = $_POST['cutSlug'];
 	$cutSlugsTime = $_POST['cutSlugsTime'];
+	$cutSlugsVODBase = $_POST['cutSlugsVODBase'];
+	$cutSlugsVODTimestamp = $_POST['cutSlugsVODTimestamp'];
 	$gardenPostObject = get_page_by_path('secret-garden');
 	$gardenID = $gardenPostObject->ID;
 	$oldCutList = get_post_meta($gardenID, 'cut', true);
 	$newCutList = $oldCutList;
 	$newCutList[$cutSlug] = $cutSlugsTime;
 	update_post_meta($gardenID, 'cut', $newCutList);
+	$oldCutVods = get_post_meta($gardenID, 'cutVods', true);
+	$newCutVods = $oldCutVods;
+	$newCutVods[] = array(
+		'VODBase' => $cutSlugsVODBase, 
+		'VODTimestamp' => $cutSlugsVODTimestamp,
+		'clipCreatedAt' => $cutSlugsTime
+	);
+	update_post_meta($gardenID, 'cutVods', $newCutVods);
 	echo json_encode($newCutList);
 	wp_die();
 }
