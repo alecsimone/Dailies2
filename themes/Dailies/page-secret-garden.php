@@ -14,14 +14,15 @@ foreach ($cutList as $cutClipSlug => $cutClipTime) {
 update_post_meta($gardenID, 'cut', $cutList);
 $cutVods = get_post_meta($gardenID, 'cutVods', true);
 $cutVodIndex = 0;
-foreach ($cutVods as $cutVod) {
+$cutVodIndexes = array_keys($cutVods);
+foreach ($cutVodIndexes as $cutVodIndex) {
 	$currentTime = time();
-	$timeAgo = ($currentTime * 1000) - $cutVod['clipCreatedAt'];
+	$currentVodTime = $cutVods[$cutVodIndex]['clipCreatedAt'];
+	$timeAgo = ($currentTime * 1000) - $currentVodTime;
 	$hoursAgo = $timeAgo / 1000 / 3600;
 	if ($hoursAgo > 24) {	
 		unset($cutVods[$cutVodIndex]);
 	};
-	$cutVodIndex++;
 } 
 
 $todaysChannels = $schedule[$todaysSchedule];
@@ -130,7 +131,7 @@ function clipGetter(cursor) {
 					garden.append(
 						`<div class='seedling' data-source='${thisSource}'>
 							<div class='seedling-meta'>
-								<img src='${thisLogo}' class='seedling-logo'>
+								<a href="${thisWholeSource}/clips" target="_blank"><img src='${thisLogo}' class='seedling-logo'></a>
 								<div class="seedling-meta-info">
 									<div class='seedling-title' data-slug='${thisSlug}' data-time='${thisTime}'>
 										<a href='https://clips.twitch.tv/${thisSlug}' target='_blank'>${thisTitle}</a>

@@ -20,7 +20,7 @@ a#live {
 
 <div id="schedule-container">
 	<?php include( locate_template('schedule.php') );
-	foreach ($schedule as $day => $daySchedule ) { ?>
+	foreach ($shiftedSchedule as $day => $daySchedule ) { ?>
 		<div class="schedule-day-title"><?php echo $day; ?></div> 
 		<div class="schedule-day">
 			<?php foreach ($daySchedule as $dayScheduleEntry) { 
