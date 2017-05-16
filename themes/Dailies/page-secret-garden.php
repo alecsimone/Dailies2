@@ -154,6 +154,10 @@ function clipGetter(cursor) {
 							var dupe = true;
 						};
 					};
+				} else {
+					var thisVODLink = false;
+					var thisVODTimestamp = false;
+					var thisVODBase = false;
 				};
 				if ( thisGame !== 'Rocket League') {
 					console.log(`${thisSlug} cut because it wasnt Rocket League`);
