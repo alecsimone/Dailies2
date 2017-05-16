@@ -19,15 +19,12 @@ function cutSlug(slug, time, seedling, VODBase, VODTimestamp, scope) {
 				var thisVODLink = jQuery(this).find('.seedling-views a');
 				var thisVODBase = thisVODLink.attr("data-vodbase");
 				var thisVODTimestamp = thisVODLink.attr("data-vodtimestamp");
-				if (VODBase == thisVODBase) {
-					var timeDifference = VODTimestamp - thisVODTimestamp;
-					if ( -15 <= timeDifference && timeDifference <= 15) {
-						jQuery(this).remove();
-						var cutCounterSpan = jQuery('.cutCounter');
-						oldCutCount = parseInt(cutCounterSpan.text());
-						newCutCounter = oldCutCount + 1;
-						cutCounterSpan.text(newCutCounter);
-					}
+				if (VODBase === thisVODBase && thisVODTimestamp + 10 >= VODTimestamp && thisVODTimestamp - 10 <= VODTimestamp ) {
+					jQuery(this).remove();
+					var cutCounterSpan = jQuery('.cutCounter');
+					oldCutCount = parseInt(cutCounterSpan.text());
+					newCutCounter = oldCutCount + 1;
+					cutCounterSpan.text(newCutCounter);
 				}
 			});
 		}

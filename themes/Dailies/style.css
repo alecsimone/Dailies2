@@ -1908,7 +1908,6 @@ img.schedule-entry-logo {
   height: 120px; }
 
 .personalCut, .seedling-vote {
-  text-align: center;
-  margin: 12px 0; }
+  display: none; }
 
 /*# sourceMappingURL=style.css.map */
