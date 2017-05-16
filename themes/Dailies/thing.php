@@ -23,7 +23,7 @@ if (has_category('noms')) { ?>
 				$voteContribution = 0;
 			} elseif ( $voteContribution == '' && in_array($client_ip, $guestlist) ) {$voteContribution = 0.1; }; ?>
 			<div id="thingScore<?php echo $thisID; ?>" data-score="<?php echo $score; ?>" data-contribution="<?php echo $voteContribution; ?>">(+<?php echo $score; ?>)</div>
-		</div> <h3><a href="<?php the_permalink(); ?>"><?php the_title();?></a></h3>
+		</div> <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
 	</header>
 
 	<section class="contentbox" id="thing<?php echo $thisID; ?>-contentbox">
@@ -103,7 +103,7 @@ if (has_category('noms')) { ?>
 				<a class="starsourceImgLink" href="<?php echo $thisDomain; ?>/source/<?php echo $source[0]->slug; ?>"><img class="starpic" src="<?php echo $sourcepic; ?>"></a><a class="starsourceLink" href="<?php echo $thisDomain; ?>/source/<?php echo $source[0]->slug; ?>"><?php echo $source[0]->name; ?></a>
 			<?php } ?>
 		</p>
-		<?php if ( !is_home() ) { ?>
+		<?php if ( !$tournament && (!is_home() || $underdogs) ) { ?>
 			<div id="thing<?php echo $thisID; ?>-datebox" class="datebox">
 				<?php echo get_the_date(); ?>
 			</div>
@@ -191,32 +191,25 @@ $sourceSlug = $source[0]->slug; ?>
 			<?php $score = get_post_meta($thisID, 'votecount', true);
 			if ($score == '') {$score = 0;};
 			$voteledger = get_post_meta($thisID, 'voteledger', true);
+			if ($voteledger === '') {
+				$voteledger = array();
+			}
 			$user_id = get_current_user_id();
 			$client_ip = $_SERVER['REMOTE_ADDR'];
-			if ($voteledger == '') {
-				$voteContribution = 0;
-				$onLedger = false;
-			} else {
-				$voteContribution = $voteledger[$user_id];
-				$onLedger = array_key_exists($user_id, $voteledger);
-			}
+			$voteContribution = $voteledger[$user_id];
 			$guestlist = get_post_meta($thisID, 'guestlist', true);
-			if ($guestlist == '') {
-				$onGuestlist = false;
-			} else {
-				$onGuestlist = in_array($client_ip, $guestlist);
+			if ($guestlist === '') {
+				$guestlist = array();
 			}
-			if ($voteContribution == '' && !$onGuestlist) {
+			if ($voteContribution == '' && !in_array($client_ip, $guestlist)) {
 				$voteContribution = 0;
-			} elseif ( $voteContribution == '' && $onGuestlist ) {$voteContribution = 0.1; }; ?>
+			} elseif ( $voteContribution == '' && in_array($client_ip, $guestlist) ) {$voteContribution = 0.1; }; ?>
 			<div id="thingScore<?php echo $thisID; ?>" data-score="<?php echo $score; ?>" data-contribution="<?php echo $voteContribution; ?>">(+<?php echo $score; ?>)</div>
 		</div>
 		</div><div class="little-votebox">
-			<?php $voteledger = get_post_meta($thisID, 'voteledger', true);
-			$guestlist = get_post_meta($thisID, 'guestlist', true);
-			$user_id = get_current_user_id();
+			<?php $user_id = get_current_user_id();
 			$client_ip = $_SERVER['REMOTE_ADDR'];
-			if ( ( $user_id == 0 && !$onGuestlist ) || ( $user_id != 0 && !$onLedger ) ) { ?>
+			if ( ( $user_id == 0 && !in_array($client_ip, $guestlist) ) || ( $user_id != 0 && !array_key_exists($user_id, $voteledger) ) ) { ?>
 				<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/Vote-Icon-line-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon" data-id="<?php echo $thisID; ?>" data-vote="up" onclick="vote(<?php echo $thisID; ?>)">
 			<?php } elseif ( ( $user_id == 0 && in_array($client_ip, $guestlist) ) || ( $user_id != 0 && array_key_exists($user_id, $voteledger) ) ) { ?>
 				<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Medal-small-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon" data-id="<?php echo $thisID; ?>" data-vote="down" onclick="vote(<?php echo $thisID; ?>)">

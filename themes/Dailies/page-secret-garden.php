@@ -1,29 +1,56 @@
 <?php get_header();
+$acceptedUsers = array(1, 337, 183, 321, 4);
+$currentUser = get_current_user_id();
+if ( !in_array($currentUser, $acceptedUsers) ) {
+	echo "There's nothing here. How did you get here? Turn back now. Maybe try logging in and coming back. But there's definitely nothing here.";
+} else { //Sorry. This hurts me too. But not as much as having the whole fucking page indented a tab. Close bracket is at the end, I promise.
 include( locate_template('schedule.php') );
 $gardenPostObject = get_page_by_path('secret-garden');
 $gardenID = $gardenPostObject->ID;
-$cutList = get_post_meta($gardenID, 'cut', true);
-foreach ($cutList as $cutClipSlug => $cutClipTime) {
+
+if ( current_user_can('publish_posts', $gardenID) ) {
+	$canPublish = true;
+} else {
+	$canPublish = false;
+};
+
+$globalSlugList = get_post_meta($gardenID, 'slugList', true);
+if ($globalSlugList === '') {
+	$globalSlugList = array();
+} elseif (empty($globalSlugList)) {
+	$globalSlugList = array();
+};
+$globalSlugIndexes = array_keys($globalSlugList);
+foreach ($globalSlugIndexes as $slugIndex) {
 	$currentTime = time();
-	$timeAgo = ($currentTime * 1000) - $cutClipTime;
+	$slugTime = $globalSlugList[$slugIndex]['createdAt'];
+	$timeAgo = ($currentTime * 1000) - $slugTime;
 	$hoursAgo = $timeAgo / 1000 / 3600;
 	if ($hoursAgo > 24) {
-		unset($cutList[$cutClipSlug]);
-	}
-} 
-update_post_meta($gardenID, 'cut', $cutList);
-$cutVods = get_post_meta($gardenID, 'cutVods', true);
-$cutVodIndex = 0;
-$cutVodIndexes = array_keys($cutVods);
-foreach ($cutVodIndexes as $cutVodIndex) {
-	$currentTime = time();
-	$currentVodTime = $cutVods[$cutVodIndex]['clipCreatedAt'];
-	$timeAgo = ($currentTime * 1000) - $currentVodTime;
-	$hoursAgo = $timeAgo / 1000 / 3600;
-	if ($hoursAgo > 24) {	
-		unset($cutVods[$cutVodIndex]);
+		unset($globalSlugList[$slugIndex]);
 	};
-} 
+};
+update_post_meta($gardenID, 'slugList', $globalSlugList);
+
+$userSlugList = get_user_meta($currentUser, 'slugList', true);
+if ($userSlugList === '') {
+	$userSlugList = array();
+} elseif (empty($userSlugList)) {
+	$userSlugList = array();
+};
+$userSlugIndexes = array_keys($userSlugList);
+foreach ($userSlugIndexes as $slugIndex) {
+	$currentTime = time();
+	$slugTime = $userSlugList[$slugIndex]['createdAt'];
+	$timeAgo = ($currentTime * 1000) - $slugTime;
+	$hoursAgo = $timeAgo / 1000 / 3600;
+	if ($hoursAgo > 24) {
+		unset($userSlugList[$slugIndex]);
+	};
+};
+update_user_meta($currentUser, 'slugList', $userSlugList);
+
+$slugList = array_merge($globalSlugList, $userSlugList);
 
 $todaysChannels = $schedule[$todaysSchedule];
 $streamList = '';
@@ -39,22 +66,31 @@ foreach ($todaysChannels as $channel) {
 $streamList = rtrim($streamList,',');
 ?>
 
-<div id="garden" data-streams="<?php echo $streamList; ?>" data-view-thresholds='<?php echo json_encode($streamViewThresholds); ?>' data-cut='<?php echo json_encode($cutList); ?>' data-cut-vods='<?php echo json_encode($cutVods); ?>'>
+<div id="garden" data-streams="<?php echo $streamList; ?>" data-view-thresholds='<?php echo json_encode($streamViewThresholds); ?>' data-slugs='<?php echo json_encode($slugList); ?>' data-user-id='<?php echo json_encode($currentUser); ?>' data-user-can-publish='<?php echo json_encode($canPublish); ?>'>
 </div>
 
 <script>
 function clipGetter(cursor) {
 	var garden = jQuery('#garden');
 	var streamList = garden.attr('data-streams');
-	var cutList = garden.attr('data-cut');
-	var cutObj = JSON.parse(cutList);
-	var cutKeys = Object.keys(cutObj);
-	var cutVodsRaw = garden.attr('data-cut-vods');
-	var cutVods = JSON.parse(cutVodsRaw);
-	var VODIndexes = Object.keys(cutVods);
+	var slugList = garden.attr('data-slugs');
+	var slugObj = JSON.parse(slugList);
+	var slugs = Object.keys(slugObj);
+	cutSlugs = [];
+	cutMoments = [];
+	if (slugs.length > 0) {
+		for (var i = 0; i < slugs.length; i++) {
+			if (slugObj[slugs[i]]['cutBoolean'] === true) {
+				cutSlugs.push(slugs[i])
+				currentVODBase = slugObj[slugs[i]]['VODBase'];
+				currentVODTime = slugObj[slugs[i]]['VODTime'];
+				cutMoments.push({VODBase:currentVODBase, VODTime:currentVODTime, cutSlug:slugs[i]});
+			}
+		};
+	};
 	var viewThresholdsRaw = garden.attr('data-view-thresholds');
 	var viewThresholds = JSON.parse(viewThresholdsRaw);
-	if (typeof cursor == 'string') {
+	if (typeof cursor == 'string' && cursor != 'false') {
 		var queryURL = `https://api.twitch.tv/kraken/clips/top?channel=${streamList}&period=day&limit=100&cursor=${cursor}`;
 	} else {
 		var queryURL = `https://api.twitch.tv/kraken/clips/top?channel=${streamList}&period=day&limit=100`;
@@ -67,6 +103,7 @@ function clipGetter(cursor) {
 			'Accept' : 'application/vnd.twitchtv.v5+json',
 		},
 		success: function(data) {
+			console.log("Hot clips comin your way!")
 			var clips = data['clips'];
 			var clipCount = clips.length;
 			var cutCount = 0;
@@ -86,6 +123,7 @@ function clipGetter(cursor) {
 				var thisLogo = clips[i]['broadcaster']['logo'];
 				var thisCurator = clips[i]['curator']['display_name'];
 				var newCursor = data['_cursor'];
+				var dupe = false;
 				if ( clips[i]['vod'] ) {
 					var thisVODLink = clips[i]['vod']['url'];
 					var thisTimestampIndex = thisVODLink.lastIndexOf('t=');
@@ -109,25 +147,35 @@ function clipGetter(cursor) {
 					} else {
 						var thisSecondCount = 0;
 					}
-					var thisVODTimestamp = 3600 * thisHourCount + 60 * thisMinuteCount + thisSecondCount;
-					var sameVODIndexes = [];
-					for (var vodCounter = 0; vodCounter < VODIndexes.length; vodCounter++) {
-						var cutVODIndex = VODIndexes[vodCounter];
-						if ( cutVods[cutVODIndex]['VODBase'] === thisVODBase ) {
-							sameVODIndexes.push(cutVODIndex);
-						}
-					}
-					for (var timestampCounter = 0; timestampCounter < sameVODIndexes.length; timestampCounter++) {
-						var currentIndex = sameVODIndexes[timestampCounter];
-						var timeDifference = thisVODTimestamp - cutVods[currentIndex]['VODTimestamp'];
-						if ( -15 <= timeDifference && timeDifference <= 15 ) {
+					var thisVODTimestamp = 3600 * thisHourCount + 60 * thisMinuteCount + 1 * thisSecondCount;
+					for (var momentCounter = 0; momentCounter < cutMoments.length; momentCounter++) {
+						if (thisVODBase === cutMoments[momentCounter]['VODBase'] && thisVODTimestamp + 10 >= cutMoments[momentCounter]['VODTime'] && thisVODTimestamp - 10 <= cutMoments[momentCounter]['VODTime'] ) {
+							console.log(`${thisSlug} is the same as ${cutMoments[momentCounter]['cutSlug']}`);
 							var dupe = true;
-						} else {
-							var dupe = false;
-						}
+						};
 					};
 				};
-				if ( thisGame == 'Rocket League' && jQuery.inArray(thisSlug, cutKeys) == -1 && !dupe && thisViewCount >= thisViewThreshold ) {
+				if ( thisGame !== 'Rocket League') {
+					console.log(`${thisSlug} cut because it wasnt Rocket League`);
+					cutCount++;
+				} else if ( jQuery.inArray(thisSlug, cutSlugs) !== -1 ) {
+					console.log(`${thisSlug} cut because it was in the list of cut plays`);
+					cutCount++;
+				} else if (dupe) {
+					console.log(`${thisSlug} cut because it was the same as another clip`);
+					cutCount++;
+				} else if (thisViewCount <= thisViewThreshold) {
+					console.log(`${thisSlug} cut because it didn't meet the channel's view threshold`);
+					thisSourceComma = thisSource + ',';
+					pastThresholdChannelIndex = streamList.indexOf(thisSourceComma);
+					newStreamlistStart = streamList.substring(0, pastThresholdChannelIndex);
+					pastThresholdChannelFinishedIndex = pastThresholdChannelIndex + thisSourceComma.length;
+					newStreamlistEnd = streamList.substring(pastThresholdChannelFinishedIndex);
+					newStreamlist = newStreamlistStart + newStreamlistEnd;
+					garden.attr('data-streams', newStreamlist);
+					newCursor = false;
+					cutCount++;
+				} else {
 					garden.append(
 						`<div class='seedling' data-source='${thisSource}'>
 							<div class='seedling-meta'>
@@ -141,18 +189,22 @@ function clipGetter(cursor) {
 										<div class='seedling-cross'><img class='seedCutter seedControlImg' src='http://dailies.gg/wp-content/uploads/2017/04/red-x.png'></div>
 										<div class='seedling-views'>${thisViewCount} views. clipped by ${thisCurator} about ${hoursAgo} hours ago. <a href='${thisVODLink}' target='_blank' data-vodbase='${thisVODBase}' data-vodtimestamp='${thisVODTimestamp}'>VOD Link</a></div>
 									</div>
+									<div class='personalCut'>Personal Cut</div>
+									<div class='seedling-vote'>Vote</div>
 								</div>
 							</div>
 							<div class='seedlingEmbedTarget'></div>
 						</div>`
 					);
-				} else {
-					cutCount++;
 				};
 			};
 			if (clipCount == 100) {
-				if (cutCount > 90) {
+				var clipCounterSpan = jQuery('.clipCounter');
+				var oldClipCount = parseInt(clipCounterSpan.text());
+				if (cutCount > oldClipCount + 90) {
 					clipGetter(newCursor);
+					console.log(newCursor);
+					garden.append(`<p class='moreClips' data-cursor='${newCursor}'>Load More</p>`);
 				} else {
 					garden.append(`<p class='moreClips' data-cursor='${newCursor}'>Load More</p>`);
 				}
@@ -196,9 +248,7 @@ jQuery("#garden").on('click', '.seedling-title', function() {
 	}
 });
 
-jQuery("#garden").on('click', '.seedling-cross', function() {
-	var thisX = jQuery(this);
-	var thisSeedling = thisX.parent().parent().parent().parent();
+function cutSeed(thisSeedling, button, scope) {
 	var thisTitle = thisSeedling.find('.seedling-title');
 	var thisSlug = thisTitle.attr("data-slug");
 	var thisTime = thisTitle.attr("data-time");
@@ -209,8 +259,42 @@ jQuery("#garden").on('click', '.seedling-cross', function() {
 	var thisVODBase = thisVODLink.attr("data-vodbase");
 	var thisVODTimestamp = thisVODLink.attr("data-vodtimestamp");
 	cutCounterSpan.text(newCutCounter);
-	thisX.fadeOut();
-	cutSlug(thisSlug, thisTime, thisSeedling, thisVODBase, thisVODTimestamp);
+	button.fadeOut();
+	cutSlug(thisSlug, thisTime, thisSeedling, thisVODBase, thisVODTimestamp, scope);
+}
+
+jQuery("#garden").on('click', '.seedling-cross', function() {
+	var thisX = jQuery(this);
+	var thisSeedling = thisX.parent().parent().parent().parent();
+	cutSeed(thisSeedling, thisX, 'everyone');
+	
+});
+
+jQuery("#garden").on('click', '.personalCut', function() {
+	var thisButton = jQuery(this);
+	var thisSeedling = thisButton.parent().parent().parent();
+	var garden = jQuery("#garden");
+	var userID = garden.attr("data-user-id");
+	cutSeed(thisSeedling, thisButton, userID);
+});
+
+jQuery("#garden").on('click', '.seedling-vote', function() {
+	var thisButton = jQuery(this);
+	var thisSeedling = thisButton.parent().parent().parent();
+	var thisTitle = thisSeedling.find('.seedling-title');
+	var thisSlug = thisTitle.attr("data-slug");
+	var thisTime = thisTitle.attr("data-time");
+	var cutCounterSpan = jQuery('.cutCounter');
+	var oldCutCount = parseInt(cutCounterSpan.text());
+	var newCutCounter = oldCutCount + 1;
+	var thisVODLink = thisSeedling.find('.seedling-views a');
+	var thisVODBase = thisVODLink.attr("data-vodbase");
+	var thisVODTimestamp = thisVODLink.attr("data-vodtimestamp");
+	var garden = jQuery("#garden");
+	var userID = garden.attr("data-user-id");
+	cutCounterSpan.text(newCutCounter);
+	thisButton.fadeOut();
+	voteSlug(thisSlug, thisTime, thisSeedling, thisVODBase, thisVODTimestamp, userID);
 });
 
 jQuery("#garden").on('keypress', '.seedling-title-input', function(e) {
@@ -244,3 +328,5 @@ jQuery("#garden").on('click', 'p.moreClips', function() {
 });
 
 </script>
+
+<?php }; //this is closing the conditional that keeps out unwelcome guests ?>

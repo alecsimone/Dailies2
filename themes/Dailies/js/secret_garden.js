@@ -1,4 +1,4 @@
-function cutSlug(slug, time, seedling, VODBase, VODTimestamp) {
+function cutSlug(slug, time, seedling, VODBase, VODTimestamp, scope) {
 	jQuery.ajax({
 		type: "POST",
 		url: data_for_secret_garden.ajaxurl,
@@ -8,9 +8,11 @@ function cutSlug(slug, time, seedling, VODBase, VODTimestamp) {
 			cutSlugsTime: time,
 			cutSlugsVODBase: VODBase,
 			cutSlugsVODTimestamp: VODTimestamp,
+			cutSlugScope: scope,
 			action: 'secret_garden_cut',
 		},
 		success: function(data) {
+			console.log(data);
 			seedling.remove();
 			var allSeeds = jQuery('.seedling');
 			jQuery.each(allSeeds, function() {
@@ -45,9 +47,31 @@ function growSeed(slug, title, source, time, seedling, VODBase, VODTimestamp) {
 		},
 		success: function(data) {
 			if ( Number.isInteger(data) ) {
-				cutSlug(slug, time, seedling, VODBase, VODTimestamp);
+				cutSlug(slug, time, seedling, VODBase, VODTimestamp, 'everyone');
 				window.open(`http://dailies.gg/wp-admin/post.php?post=${data}&action=edit`, '_blank');
 			}
+		}
+	});
+};
+
+function voteSlug(slug, time, seedling, VODBase, VODTimestamp, user) {
+	jQuery.ajax({
+		type: "POST",
+		url: data_for_secret_garden.ajaxurl,
+		dataType:'json',
+		data: {
+			voteSlug: slug,
+			voteSlugsTime: time,
+			voteSlugsVODBase: VODBase,
+			voteSlugsVODTimestamp: VODTimestamp,
+			voteSlugScope: user,
+			action: 'secret_garden_vote',
+		},
+		success: function(data) {
+			if (data == true) {
+				console.log("You voted!");
+				cutSlug(slug, time, seedling, VODBase, VODTimestamp, user);
+			};
 		}
 	});
 };

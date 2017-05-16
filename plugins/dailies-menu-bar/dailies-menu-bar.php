@@ -17,7 +17,6 @@ function remove_admin_bar() {
 }
 
 function navLinks($navLinks) { // The array with data for the links should be in the child theme's functions.php file, inside the $thisDailiesVars array. At the start of header.php, the navlinks data array gets assigned to a variable, which is then passed to this function. 
-	$thisDomain = get_site_url();
 	$navCounter = 0;
 	$mobileDisplay = 'mobileShow';
 	foreach ($navLinks as $navLink) {
@@ -33,7 +32,7 @@ function navLinks($navLinks) { // The array with data for the links should be in
 			$navCounter++;
 		} 
 	};
-	echo "<a href='javascript:' class='hamburger' onclick='navBurger();'><img src='http://dailies.gg/wp-content/uploads/2016/12/Hamburger_icon.png' class='hamburger-icon'></a>";
+	echo "<a href='javascript:' class='hamburger' onclick='navBurger();'><img src='http://therocketdailies.com/wp-content/uploads/2016/12/Hamburger_icon.png' class='hamburger-icon'></a>";
 };
 
 function enqueue_dailies_menu_bar() {

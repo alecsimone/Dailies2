@@ -26,10 +26,10 @@
 
 	<?php date_default_timezone_set('America/Chicago'); // So this midnight is my midnight
 	$today = getdate(); //returns an array with the following keys
-	$year = $today['year'];
-	$month = $today['mon'];
-	$day = $today['mday']; //day as a number
-	$weekday = $today['wday']; //day as day of the week (monday, tuesday, thursday, wednesday, sunday, saturday)
+	$year = $today[year];
+	$month = $today[mon];
+	$day = $today[mday]; //day as a number
+	$weekday = $today[wday]; //day as day of the week (monday, tuesday, thursday, wednesday, sunday, saturday)
 	($paged == 0 ) ? $my_page = 0 : $my_page = $paged - 1;
 	stepBackDate($my_page); // Go back a day for each page that we've scrolled, because each page is a day
 	$my_page++;

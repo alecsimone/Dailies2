@@ -181,21 +181,33 @@ function secret_garden_cut() {
 	$cutSlugsTime = $_POST['cutSlugsTime'];
 	$cutSlugsVODBase = $_POST['cutSlugsVODBase'];
 	$cutSlugsVODTimestamp = $_POST['cutSlugsVODTimestamp'];
-	$gardenPostObject = get_page_by_path('secret-garden');
-	$gardenID = $gardenPostObject->ID;
-	$oldCutList = get_post_meta($gardenID, 'cut', true);
-	$newCutList = $oldCutList;
-	$newCutList[$cutSlug] = $cutSlugsTime;
-	update_post_meta($gardenID, 'cut', $newCutList);
-	$oldCutVods = get_post_meta($gardenID, 'cutVods', true);
-	$newCutVods = $oldCutVods;
-	$newCutVods[] = array(
-		'VODBase' => $cutSlugsVODBase, 
-		'VODTimestamp' => $cutSlugsVODTimestamp,
-		'clipCreatedAt' => $cutSlugsTime
+	$cutSlugScope = $_POST['cutSlugScope'];
+	if ( $cutSlugScope === 'everyone' ) {
+		$gardenPostObject = get_page_by_path('secret-garden');
+		$gardenID = $gardenPostObject->ID;
+		$oldSlugList = get_post_meta($gardenID, 'slugList', true);
+	} else {
+		$userID = $cutSlugScope;
+		$oldSlugList = get_user_meta($userID, 'slugList', true);
+	}
+	if ( !empty($oldSlugList) ) {
+		$newSlugList = $oldSlugList;
+	} else {
+		$newSlugList = array();
+	};
+	$newSlugList[$cutSlug] = array(
+		'createdAt' => $cutSlugsTime,
+		'cutBoolean' => true,
+		'VODBase' => $cutSlugsVODBase,
+		'VODTime' => $cutSlugsVODTimestamp,
+		'likeIDs' => 0
 	);
-	update_post_meta($gardenID, 'cutVods', $newCutVods);
-	echo json_encode($newCutList);
+	if ( $cutSlugScope === 'everyone' ) {
+		$updateSuccess = update_post_meta($gardenID, 'slugList', $newSlugList);
+	} else {
+		$updateSuccess = update_user_meta($userID, 'slugList', $newSlugList);
+	};
+	echo json_encode($updateSuccess);
 	wp_die();
 }
 
@@ -232,5 +244,46 @@ function secret_garden_grow() {
 	echo json_encode($didPost);
 	wp_die();
 }
+
+add_action( 'wp_ajax_secret_garden_vote', 'secret_garden_vote' );
+add_action( 'wp_ajax_nopriv_secret_garden_vote', 'secret_garden_vote' );
+
+function secret_garden_vote() {
+	$voteSlug = $_POST['voteSlug'];
+	$voteSlugsTime = $_POST['voteSlugsTime'];
+	$voteSlugsVODBase = $_POST['voteSlugsVODBase'];
+	$voteSlugsVODTimestamp = $_POST['voteSlugsVODTimestamp'];
+	$voteSlugUser = $_POST['voteSlugScope'];
+	$gardenPostObject = get_page_by_path('secret-garden');
+	$gardenID = $gardenPostObject->ID;
+	$oldSlugList = get_post_meta($gardenID, 'slugList', true);
+	if ( !empty($oldSlugList) ) {
+		$newSlugList = $oldSlugList;
+	} else {
+		$newSlugList = array();
+	};
+	if ( array_key_exists($voteSlug, $newSlugList) ) {
+		$oldLikes = $newSlugList[$voteSlug]['likeIDs'];
+		if ($oldLikes === 0) {
+			echo "This clip has already been cut";
+			wp_die();
+		} else {
+			$newLikes = $oldLikes;
+			$newLikes[] = $voteSlugUser;
+			$newSlugList[$voteSlug]['likeIDs'] = $newLikes;
+		}
+	} else {
+		$newSlugList[$voteSlug] = array(
+			'createdAt' => $voteSlugsTime,
+			'cutBoolean' => false,
+			'VODBase' => $voteSlugsVODBase,
+			'VODTime' => $voteSlugsVODTimestamp,
+			'likeIDs' => array($voteSlugUser)
+		);
+	}
+	$updateSuccess = update_post_meta($gardenID, 'slugList', $newSlugList);
+	echo json_encode($updateSuccess);
+	wp_die();
+};
 
 ?>

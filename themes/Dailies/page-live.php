@@ -46,6 +46,33 @@ include( locate_template('schedule.php') );
 	</div>
 </nav>
 
+<!-- <section id="cohosts">
+	<h3 class="live">Co-Hosts:</h3>
+	<?php $cohosts = ['dazerin', 'ninjarider', 'inanimatej']; 
+	foreach ($cohosts as $cohost) { ?>
+		<div class="cohost-button">
+			<?php $hostObject = get_term_by('slug', $cohost, 'stars');
+			$hostID = $hostObject->term_id;
+			$hostName = $hostObject->name;
+			$logo_url = get_term_meta($hostID, 'logo', true);
+			$twitter_url = get_term_meta($hostID, 'twitter', true);
+			$twitch_url = get_term_meta($hostID, 'twitch', true);
+			$youtube_url = get_term_meta($hostID, 'youtube', true);
+			$donate_url = get_term_meta($hostID, 'donate', true); ?>
+			<div class="cohost-logo"><img src="<?php echo $logo_url; ?>"></div>
+			<div class="cohost-meta">	
+				<div class="cohost-name"><?php echo $hostName; ?></div>
+				<div class="cohost-links">	
+					<?php if ($twitter_url != '') { ?><a href="<?php echo $twitter_url; ?>" class="archive-data-link" target="_blank"><div class="archive-data-button twitter"><img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/01/Twitter-logo.png" alt="twitter link"></div></a><?php }; ?>
+					<?php if ($twitch_url != '') { ?><a href="<?php echo $twitch_url; ?>" class="archive-data-link" target="_blank"><div class="archive-data-button twitch"><img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/01/Twitch-purple-logo.png" alt="twitch link"></div></a><?php }; ?>
+					<?php if ($youtube_url != '') { ?><a href="<?php echo $youtube_url; ?>" class="archive-data-link" target="_blank"><div class="archive-data-button youtube"><img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/01/youtube-logo.png" alt="youtube link"></div></a><?php }; ?>
+					<?php if ($donate_url != '') { ?><a href="<?php echo $donate_url; ?>" class="archive-data-link" target="_blank"><div class="archive-data-button donate"><img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/03/Donate-logo.png" alt="donate link"></div></a><?php }; ?>
+				</div>
+			</div>
+		</div>
+	<?php }; ?>
+</section> -->
+
 <?php $liveArgs = array(
 	'category__not_in' => 4,
 	'posts_per_page' => 40,
@@ -131,7 +158,7 @@ jQuery('.little-thing').on('click', '.little-thing-top', function() {
 
 jQuery('#channel-changer').on('click', '.channel-changer-button', function() {
 	var thisButton = jQuery(this);
-	if ( thisButton.hasClass('live') ) {
+	/* if ( thisButton.hasClass('live') ) {
 		event.preventDefault();
 		var channel = jQuery(this).attr("data-channel-name");
 		if ( jQuery(this).hasClass('inactive') ) {
@@ -144,7 +171,7 @@ jQuery('#channel-changer').on('click', '.channel-changer-button', function() {
 		} else {
 			killPlayer();
 		}
-	} else if ( thisButton.hasClass('filter') ) {
+	} else */ if ( thisButton.hasClass('filter') ) {
 		var activeButton = jQuery('.active');
 		var activeSlug = activeButton.attr("data-channel-slug");
 		filterSource(activeSlug);
@@ -173,7 +200,7 @@ jQuery('#channel-changer').on('click', '.channel-changer-button', function() {
 			loop.removeClass('sorted');
 			jQuery(this).removeClass('sorting');
 		}
-	} else if ( thisButton.hasClass('inactive') && thisButton.hasClass('offline') ) {
+	} else if ( thisButton.hasClass('inactive') /* && thisButton.hasClass('offline') */ ) {
 		event.preventDefault();
 		var thisSlug = jQuery(this).attr("data-channel-slug");
 		filterSource(thisSlug);
