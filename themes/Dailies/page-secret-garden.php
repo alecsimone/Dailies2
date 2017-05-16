@@ -188,16 +188,14 @@ function clipGetter(cursor) {
 									<div class='seedling-title' data-slug='${thisSlug}' data-time='${thisTime}'>
 										<a href='https://clips.twitch.tv/${thisSlug}' target='_blank'>${thisTitle}</a>
 									</div>
+									<div class='seedling-vote'><img class='seedVoter seedControlImg' src='http://dailies.gg/wp-content/uploads/2017/04/Vote-Icon-line.png'></div>
 									<div class='seedlingAddTitleBox'><input type='text' class='seedling-title-input' name='addTitleBox' placeholder='Keep?'></div>
-									<div class='seedling-controls'>
-										<div class='seedling-cross'><img class='seedCutter seedControlImg' src='http://dailies.gg/wp-content/uploads/2017/04/red-x.png'></div>
-										<div class='seedling-views'>${thisViewCount} views. clipped by ${thisCurator} about ${hoursAgo} hours ago. <a href='${thisVODLink}' target='_blank' data-vodbase='${thisVODBase}' data-vodtimestamp='${thisVODTimestamp}'>VOD Link</a></div>
-									</div>
-									<div class='personalCut'>Personal Cut</div>
-									<div class='seedling-vote'>Vote</div>
+									<div class='seedling-cross'><img class='seedCutter seedControlImg' src='http://dailies.gg/wp-content/uploads/2017/04/red-x.png'></div>
+									<div class='seedling-views'>${thisViewCount} views. clipped by ${thisCurator} about ${hoursAgo} hours ago. <a href='${thisVODLink}' target='_blank' data-vodbase='${thisVODBase}' data-vodtimestamp='${thisVODTimestamp}'>VOD Link</a></div>
 								</div>
 							</div>
 							<div class='seedlingEmbedTarget'></div>
+							<div class='universalCut'>Nuke It</div>
 						</div>`
 					);
 				};
@@ -243,12 +241,16 @@ jQuery("#garden").on('click', '.seedling-title', function() {
 	var thisSeedlingMetaWidth = thisSeedlingMeta.width();
 	var thisEmbedHeight = thisSeedlingMetaWidth / 16 * 9 + 'px';
 	var thisEmbedTarget = thisSeedling.find('.seedlingEmbedTarget');
+	var thisNuke = thisSeedling.find('.universalCut');
+	console.log(thisNuke);
 	if ( thisEmbedTarget.is(':empty') ) {
 		var thisSlug = thisTitle.attr("data-slug");
 		var embedCode = `<iframe src="https://clips.twitch.tv/embed?clip=${thisSlug}&autoplay=true" width="100%" height="${thisEmbedHeight}" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>`
 		thisEmbedTarget.html(embedCode);
+		thisNuke.fadeIn();
 	} else {
 		thisEmbedTarget.html('');
+		thisNuke.css("display", "none");
 	}
 });
 
@@ -267,14 +269,13 @@ function cutSeed(thisSeedling, button, scope) {
 	cutSlug(thisSlug, thisTime, thisSeedling, thisVODBase, thisVODTimestamp, scope);
 }
 
-jQuery("#garden").on('click', '.seedling-cross', function() {
-	var thisX = jQuery(this);
-	var thisSeedling = thisX.parent().parent().parent().parent();
-	cutSeed(thisSeedling, thisX, 'everyone');
-	
+jQuery("#garden").on('click', '.universalCut', function() {
+	var thisButton = jQuery(this);
+	var thisSeedling = thisButton.parent();
+	cutSeed(thisSeedling, thisButton, 'everyone');
 });
 
-jQuery("#garden").on('click', '.personalCut', function() {
+jQuery("#garden").on('click', '.seedling-cross', function() {
 	var thisButton = jQuery(this);
 	var thisSeedling = thisButton.parent().parent().parent();
 	var garden = jQuery("#garden");

@@ -1793,18 +1793,24 @@ img.seedling-logo {
   align-items: center; }
 
 .seedling-meta-info {
-  width: 100%; }
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; }
 
 .seedling-title {
   padding: 6px; }
   .seedling-title a {
-    font-size: 22px;
+    font-size: 24px;
     color: #121212;
     text-decoration: none;
     font-weight: bold; }
 
 .seedling-source {
   display: inline-block; }
+
+.seedlingAddTitleBox {
+  flex-basis: 100%; }
 
 input.seedling-title-input {
   height: 24px;
@@ -1814,10 +1820,11 @@ input.seedling-title-input {
   padding: 0 6px;
   box-sizing: border-box; }
 
-.seedling-controls {
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between; }
+.seedling-cross {
+  display: inline-block; }
+
+.seedling-vote {
+  display: inline-block; }
 
 .seedling-vod-link a {
   text-decoration: none;
@@ -1825,9 +1832,18 @@ input.seedling-title-input {
   .seedling-vod-link a:hover {
     text-decoration: underline; }
 
+.universalCut {
+  text-align: center;
+  margin: 12px 0;
+  display: none; }
+
 img.seedControlImg {
-  width: 24px;
-  height: 24px; }
+  width: 30px;
+  height: 30px; }
+
+img.seedVoter {
+  width: 36px;
+  height: 36px; }
 
 p.moreClips {
   font-size: 24px;
@@ -1906,8 +1922,5 @@ p.moreClips {
 img.schedule-entry-logo {
   width: 120px;
   height: 120px; }
-
-.personalCut, .seedling-vote {
-  display: none; }
 
 /*# sourceMappingURL=style.css.map */

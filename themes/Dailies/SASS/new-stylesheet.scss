@@ -1999,6 +1999,8 @@ p.clipCount {
     width: 760px;
 }
 
+
+
 .seedling {
 	@include card();
 	margin: $double 0;
@@ -2022,11 +2024,14 @@ img.seedling-logo {
 }
 .seedling-meta-info {
 	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
 }
 .seedling-title {
 	padding: $half;
 	& a {
-		font-size: 22px;
+		font-size: $double;
 		color: $black;
 		text-decoration: none;
 		font-weight: bold;
@@ -2036,6 +2041,9 @@ img.seedling-logo {
 	display: inline-block;
 }
 
+.seedlingAddTitleBox {
+	flex-basis: 100%;
+}
 input.seedling-title-input {
 	height: $double;
 	width: 100%;
@@ -2044,11 +2052,11 @@ input.seedling-title-input {
 	padding: 0 $half;
 	box-sizing: border-box;
 }
-
-.seedling-controls {
-	margin: 0 auto;
-	display: flex;
-	justify-content: space-between;
+.seedling-cross {
+	display: inline-block;
+}
+.seedling-vote {
+	display: inline-block;
 }
 .seedling-vod-link a {
 	text-decoration: none;
@@ -2057,10 +2065,19 @@ input.seedling-title-input {
 		text-decoration: underline;
 	}
 }
+.universalCut {
+	text-align: center;
+	margin: $baseline 0;
+	display: none;
+}
 
 img.seedControlImg {
-	width: $double;
-	height: $double;
+	width: $doublePlusHalf;
+	height: $doublePlusHalf;;
+}
+img.seedVoter {
+	width: $triple;
+	height: $triple;
 }
 
 p.moreClips {
@@ -2137,7 +2154,4 @@ p.moreClips {
 img.schedule-entry-logo {
 	width: $dec;
 	height: $dec;
-}
-.personalCut, .seedling-vote {
-	display: none;
 }
