@@ -182,20 +182,20 @@ function clipGetter(cursor) {
 				} else {
 					garden.append(
 						`<div class='seedling' data-source='${thisSource}'>
-							<div class='seedling-meta'>
+							<div class='seedling-controls'>
 								<a href="${thisWholeSource}/clips" target="_blank"><img src='${thisLogo}' class='seedling-logo'></a>
-								<div class="seedling-meta-info">
-									<div class='seedling-title' data-slug='${thisSlug}' data-time='${thisTime}'>
-										<a href='https://clips.twitch.tv/${thisSlug}' target='_blank'>${thisTitle}</a>
-									</div>
-									<div class='seedling-vote'><img class='seedVoter seedControlImg' src='http://dailies.gg/wp-content/uploads/2017/04/Vote-Icon-line.png'></div>
-									<div class='seedlingAddTitleBox'><input type='text' class='seedling-title-input' name='addTitleBox' placeholder='Keep?'></div>
-									<div class='seedling-cross'><img class='seedCutter seedControlImg' src='http://dailies.gg/wp-content/uploads/2017/04/red-x.png'></div>
-									<div class='seedling-views'>${thisViewCount} views. clipped by ${thisCurator} about ${hoursAgo} hours ago. <a href='${thisVODLink}' target='_blank' data-vodbase='${thisVODBase}' data-vodtimestamp='${thisVODTimestamp}'>VOD Link</a></div>
-								</div>
+								<div class='seedling-vote'><img class='seedVoter seedControlImg' src='http://dailies.gg/wp-content/uploads/2017/04/Vote-Icon-line.png'></div>
+								<div class='seedling-cross'><img class='seedCutter seedControlImg' src='http://dailies.gg/wp-content/uploads/2017/04/red-x.png'></div>
+								<div class='universalCut'>Nuke</div>
 							</div>
-							<div class='seedlingEmbedTarget'></div>
-							<div class='universalCut'>Nuke It</div>
+							<div class='seedling-meta'>
+								<div class='seedling-title' data-slug='${thisSlug}' data-time='${thisTime}'>
+									<a href='https://clips.twitch.tv/${thisSlug}' target='_blank'>${thisTitle}</a>
+								</div>
+								<div class='seedling-views'>${thisViewCount} views. clipped by ${thisCurator} about ${hoursAgo} hours ago. <a href='${thisVODLink}' target='_blank' data-vodbase='${thisVODBase}' data-vodtimestamp='${thisVODTimestamp}'>VOD Link</a></div>
+								<div class='seedlingAddTitleBox'><input type='text' class='seedling-title-input' name='addTitleBox' placeholder='Keep?'></div>
+								<div class='seedlingEmbedTarget'></div>
+							</div>
 						</div>`
 					);
 				};
@@ -236,7 +236,7 @@ jQuery(window).load(clipGetter);
 jQuery("#garden").on('click', '.seedling-title', function() {
 	event.preventDefault();
 	var thisTitle = jQuery(this);
-	var thisSeedling = thisTitle.parent().parent().parent();
+	var thisSeedling = thisTitle.parent().parent();
 	var thisSeedlingMeta = thisSeedling.find('.seedling-meta');
 	var thisSeedlingMetaWidth = thisSeedlingMeta.width();
 	var thisEmbedHeight = thisSeedlingMetaWidth / 16 * 9 + 'px';
@@ -271,13 +271,13 @@ function cutSeed(thisSeedling, button, scope) {
 
 jQuery("#garden").on('click', '.universalCut', function() {
 	var thisButton = jQuery(this);
-	var thisSeedling = thisButton.parent();
+	var thisSeedling = thisButton.parent().parent();
 	cutSeed(thisSeedling, thisButton, 'everyone');
 });
 
 jQuery("#garden").on('click', '.seedling-cross', function() {
 	var thisButton = jQuery(this);
-	var thisSeedling = thisButton.parent().parent().parent();
+	var thisSeedling = thisButton.parent().parent();
 	var garden = jQuery("#garden");
 	var userID = garden.attr("data-user-id");
 	cutSeed(thisSeedling, thisButton, userID);
@@ -285,7 +285,7 @@ jQuery("#garden").on('click', '.seedling-cross', function() {
 
 jQuery("#garden").on('click', '.seedling-vote', function() {
 	var thisButton = jQuery(this);
-	var thisSeedling = thisButton.parent().parent().parent();
+	var thisSeedling = thisButton.parent().parent();
 	var thisTitle = thisSeedling.find('.seedling-title');
 	var thisSlug = thisTitle.attr("data-slug");
 	var thisTime = thisTitle.attr("data-time");
@@ -306,7 +306,7 @@ jQuery("#garden").on('keypress', '.seedling-title-input', function(e) {
 	if(e.which === 13) {
 		var thisPlus = jQuery(this);
 		thisPlus.attr("disabled", "disabled");
-		var thisSeedling = thisPlus.parent().parent().parent().parent();
+		var thisSeedling = thisPlus.parent().parent().parent();
 		var thisTitle = thisSeedling.find('.seedling-title');
 		var thisSlug = thisTitle.attr("data-slug");
 		var thisTime = thisTitle.attr("data-time");

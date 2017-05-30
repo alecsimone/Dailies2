@@ -67,6 +67,7 @@ $triple: 3 * $baseline;
 $quad: 4 * $baseline;
 $sept: 5 * $baseline;
 $sex: 6 * $baseline;
+$sevenfold: 7 * $baseline;
 $oct: 8 * $baseline;
 $dec: 10 * $baseline;
 $twelvetimes: 12 * $baseline;
@@ -2008,28 +2009,30 @@ p.clipCount {
 	padding: $baseline;
 	width: 100%;
 	box-sizing: border-box;
+	border-radius: $quarter;
+	display: flex;
+	align-items: flex-start;
 }
-
+.seedling-controls {
+	display: inline-flex;
+	width: $sevenfold;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	padding-right: $baseline;
+}
 img.seedling-logo {
 	width: $sex;
 	height: $sex;
-	padding: $baseline;
+	padding: $baseline 0;
 }
 .seedling-meta {
-	width: 100%;
+	width: calc(100% - #{$dec});
 	padding-right: 12px;
 	box-sizing: border-box;
-	display: flex;
-	align-items: center;
-}
-.seedling-meta-info {
-	width: 100%;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
+	display: inline-block;
 }
 .seedling-title {
-	padding: $half;
+	padding-top: $half;
 	& a {
 		font-size: $double;
 		color: $black;
@@ -2037,26 +2040,33 @@ img.seedling-logo {
 		font-weight: bold;
 	}
 }
+.seedling-views {
+	font-size: $plusQuarter;
+}
 .seedling-source {
 	display: inline-block;
 }
 
 .seedlingAddTitleBox {
 	flex-basis: 100%;
+	margin: $baseline 0 $plusHalf;
 }
 input.seedling-title-input {
 	height: $double;
 	width: 100%;
-	margin: 0 auto $baseline;
+	margin: 0 auto;
 	background: $light;
 	padding: 0 $half;
 	box-sizing: border-box;
 }
 .seedling-cross {
 	display: inline-block;
+	cursor: pointer;
+	line-height: 0;
 }
 .seedling-vote {
 	display: inline-block;
+	line-height: 0;
 }
 .seedling-vod-link a {
 	text-decoration: none;
@@ -2067,13 +2077,27 @@ input.seedling-title-input {
 }
 .universalCut {
 	text-align: center;
-	margin: $baseline 0;
+	margin: $plusHalf 0;
 	display: none;
+	cursor: pointer;
+	background: $lighterBlack;
+	color: $light;
+    padding: 3px 0;
+    width: $sex;
+    border-radius: 2px;
+    border: 1px solid $black;
+    box-shadow: 0px 1px 2px rgba(0,0,0,.2);
+    transition: box-shadow .2s;
+    &:hover {
+    	box-shadow: none;
+    	transition: box-shadow .2s;
+    }
 }
 
-img.seedControlImg {
-	width: $doublePlusHalf;
-	height: $doublePlusHalf;;
+img.seedCutter {
+	width: 30px;
+	height: 30px;
+	padding-top: 3px;
 }
 img.seedVoter {
 	width: $triple;

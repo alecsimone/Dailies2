@@ -47,3 +47,12 @@ wp-content/themes/Dailies/js/jquery.dfp.js
 /sitemap.xml
 /sitemap.xml.gz
 
+*.jpg
+
+*.png
+
+*.jpeg
+
+*.gif
+
+uploads/wp-sync-db/index.php
