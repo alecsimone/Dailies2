@@ -29,7 +29,6 @@ function cutSlug(slug, time, seedling, VODBase, VODTimestamp, scope) {
 };
 
 function growSeed(slug, title, source, time, seedling, VODBase, VODTimestamp, voters) {
-	console.log(voters);
 	jQuery.ajax({
 		type: "POST",
 		url: data_for_secret_garden.ajaxurl,

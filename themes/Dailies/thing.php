@@ -110,7 +110,7 @@ if (has_category('noms')) { ?>
 		<?php }; ?>
 	</section>
 
-	<?php if ($user_id == 1) {
+	<?php if ( current_user_can('edit_posts') ) {
 		$gfyPlayCount = get_post_meta($thisID, 'gfyViewcount', true);
 		$fullClipPlayCount = get_post_meta($thisID, 'fullClipViewcount', true);
 		$totalPlays = $gfyPlayCount + $fullClipPlayCount; ?>
@@ -118,6 +118,9 @@ if (has_category('noms')) { ?>
 			<?php echo $totalPlays; ?> plays. <?php edit_post_link('Edit this'); ?>
 			<?php print_r($voteledger); print_r($guestlist); ?>
 		</p>
+		<div id="thing<?php echo $thisID; ?>-scorebox" class="addScore">
+			<input type='text' class='addScore-input' name='addScoreBox' placeholder='Add' data-postID='<?php echo $thisID; ?>'>
+		</div>
 	<?php } ?>
 
 	<section class="votebar" id="thing<?php echo $thisID; ?>-votebar">

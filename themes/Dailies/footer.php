@@ -233,6 +233,20 @@ jQuery('#return-to-top').click(function() {      // When arrow is clicked
     }, 500);
 });
 
+/** Add Score Box **/
+jQuery(".thing").on('keypress', '.addScore-input', function(e) {
+	if(e.which === 13) {
+		var thisBox = jQuery(this);
+		thisPostID = thisBox.attr("data-postid");
+		thisAddition = parseFloat( thisBox.val() );
+		if ( !isNaN(thisAddition) ) {
+			addScore(thisPostID, thisAddition, thisBox);
+		} else {
+			console.log("You didn't put in a number. What are you tryna do to me?");
+		}
+	}
+});
+
 /** Tagbar Scroller **/
 jQuery('#morebar').click(function() {
 	var taglist = jQuery('#taglist');

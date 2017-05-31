@@ -172,6 +172,25 @@ function daily_ajax_vote() { // Our function for voting
 	wp_die(); // And then, as all things must, we die.
 };
 
+add_action( 'wp_ajax_daily_add_score', 'daily_ajax_addscore' );
+add_action( 'wp_ajax_nopriv_daily_add_score', 'daily_ajax_addscore' );
+
+function daily_ajax_addscore() {
+	$postID = $_POST['id'];
+	$addedScore = $_POST['score'];
+	$currentScore = get_post_meta($postID, 'votecount', true);
+	$newScore = $currentScore + $addedScore;
+	update_post_meta($postID, 'votecount', $newScore);
+	$oldAddedScore = get_post_meta($postID, 'addedScore', true);
+	$newAddedScore = $oldAddedScore + $addedScore;
+	update_post_meta($postID, 'addedScore', $newAddedScore);
+	$returnValues = array(
+		'new_score' => $newScore,
+	);
+	echo json_encode($returnValues);
+	wp_die();
+}; 
+
 add_action( 'show_user_profile', 'my_show_extra_profile_fields' );
 add_action( 'edit_user_profile', 'my_show_extra_profile_fields' );
 

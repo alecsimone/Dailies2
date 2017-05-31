@@ -1032,6 +1032,17 @@ p.attribution a, p.attribution a:visited {
 	color: $gold;
 }
 
+.addScore-input {
+	height: $double;
+	font-size: $plusHalf;
+	width: $sept;
+	padding: $quarter;
+	text-align: center;
+	border: 1px solid $blackTrans;
+	border-radius: 2px;
+	margin-top: $half;
+}
+
 .datebox {
 	padding: $half 0;
 	margin-top: -$baseline;
@@ -1647,9 +1658,6 @@ body.page-id-3801{
 	height: 66px;
 	display: inline-block;
 	width: 100%;
-	@media #{$bpMedium} {
-		width: 90%;
-	}
 }
 .donate-button {
 	display: inline-block;
@@ -1677,6 +1685,7 @@ a.donate-link {
 #live-userbox {
 	display: inline-block;
 	width: 20%;
+	padding: 0 $double;
 }
 
 #cohosts {

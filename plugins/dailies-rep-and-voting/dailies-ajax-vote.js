@@ -57,3 +57,28 @@ function scoreFadeBack(ID) {
 		thisScoreElement.fadeIn(200);
 	};
 }
+
+function addScore(postID, score, scorebox) {
+	console.log(`Adding ${thisAddition} points to post ${thisPostID}`);
+	jQuery.ajax({
+		type: "POST",
+		url: daily_vote.ajaxurl,
+		dataType:'json',
+		data: {
+			id: postID,
+			score: score,
+			action: 'daily_add_score'
+		},
+		error: function(data) {
+			console.log("Error!");
+			console.log(data);
+		},
+		success: function(data) {
+			console.log(`Post ${postID} now has ${data.new_score} points`);
+			scorebox.val('');
+			var thisScoreElement = jQuery(`#thingScore${postID}`);
+			thisScoreElement.html( `(+${data.new_score})` );
+			thisScoreElement.attr("data-score", data.new_score);
+		}
+	});
+}
