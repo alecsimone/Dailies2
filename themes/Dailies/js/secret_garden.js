@@ -46,7 +46,6 @@ function growSeed(slug, title, source, time, seedling, VODBase, VODTimestamp, vo
 		},
 		success: function(data) {
 			if ( Number.isInteger(data) ) {
-				tickUpCutCounter();
 				cutSlug(slug, time, seedling, VODBase, VODTimestamp, 'everyone');
 				window.open(`http://dailies.gg/wp-admin/post.php?post=${data}&action=edit`, '_blank');
 			}
