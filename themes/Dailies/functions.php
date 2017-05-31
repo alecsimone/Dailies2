@@ -221,16 +221,37 @@ function secret_garden_grow() {
 	$growSourceFull = 'https://www.twitch.tv/' . $growSourceRaw;
 	$growVotersRaw = '"' . $_POST['growVoters'] . '"';
 	$growVoters = json_decode($growVotersRaw);
-	$term_args = array(
+	$source_args = array(
 		'taxonomy' => 'source'
 	);
-	$sources = get_terms( $term_args );
+	$sources = get_terms( $source_args );
 	foreach ($sources as $source) {
 		$key = get_term_meta( $source->term_id, 'twitch', true);
 		if ( $key == $growSourceFull ) {
 			$growSource = $source->term_id;
 		}
 	}
+	$titleWords = explode(" ", $growTitle);
+	$starNickname = strtolower($titleWords[0]);
+	$starNickLength = strlen($starNickname);
+	$star_args = array(
+		'taxonomy' => 'stars'
+	);
+	$stars = get_terms( $star_args );
+	$postStar = 'X';
+	$singleStar = false;
+	foreach ($stars as $star) {
+		$starSlug = $star->slug;
+		$starShortSlug = substr($starSlug, 0, $starNickLength);
+		if ($starShortSlug == $starNickname) {
+			if (!$singleStar) {
+				$postStar = $star->term_id;
+				$singleStar = true;
+			} else {
+				$postStar = 'X';
+			}
+		}
+	};
 	$voteCount = 0;
 	$voteledger = array();
 	if (is_string($growVoters)) {
@@ -253,6 +274,7 @@ function secret_garden_grow() {
 		'post_excerpt' => '',
 		'tax_input' => array(
 			'source' => $growSource,
+			'stars' => $postStar
 			),
 		'meta_input' => array(
 			'TwitchCode' => $growSlug,

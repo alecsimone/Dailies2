@@ -41,6 +41,9 @@ function growSeed(slug, title, source, time, seedling, VODBase, VODTimestamp, vo
 			growVoters: voters,
 			action: 'secret_garden_grow',
 		},
+		error: function(data) {
+			console.log(data);
+		},
 		success: function(data) {
 			if ( Number.isInteger(data) ) {
 				tickUpCutCounter();
