@@ -1403,6 +1403,17 @@ body.page-id-3801 .thing {
   background-size: 100% auto;
   background-position: center; }
 
+.live-header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 95%;
+  margin: 12px auto 24px; }
+
+.moneystuff {
+  width: 75%;
+  display: inline-block; }
+
 #donate-box {
   display: flex;
   align-items: center;
@@ -1452,6 +1463,10 @@ a.donate-link {
   height: 60px;
   width: 80%;
   margin-left: 6px; }
+
+#live-userbox {
+  display: inline-block;
+  width: 20%; }
 
 #cohosts {
   display: flex;

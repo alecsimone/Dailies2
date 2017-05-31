@@ -2,17 +2,23 @@
 include( locate_template('schedule.php') );
 ?>
 
-<div class="streamlabs-bar">
-	<iframe src="https://streamlabs.com/widgets/donation-goal?token=8BE4E105DA0C64096FD6" height="100%" width="100%" name="donation-bar" frameborder="0" scrolling="no" id="donation-bar">You need an iframes capable browser to view this content.</iframe>
-</div>
-<section id="donate-box">
-	<a href="https://www.patreon.com/rocket_dailies" class="patreon-link"><div class="patreon-button">
-		<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/Patreon.png" alt="patreon" class="patreon-logo">
-	</div></a><a href="https://twitch.streamlabs.com/the_rocket_dailies" target="_blank" class="donate-link"><div class="donate-button">
-		Donate
-	</div></a><div class="donation-ticker">
-		<iframe src="https://streamlabs.com/widgets/donation-ticker?token=8BE4E105DA0C64096FD6" height="100%" width="100%" name="donation-bar" frameborder="0" scrolling="no" id="donation-bar">You need an iframes capable browser to view this content.</iframe>
-	</div>
+<section class="live-header">
+	<section class="moneystuff">	
+		<section class="streamlabs-bar">
+			<iframe src="https://streamlabs.com/widgets/donation-goal?token=8BE4E105DA0C64096FD6" height="100%" width="100%" name="donation-bar" frameborder="0" scrolling="no" id="donation-bar">You need an iframes capable browser to view this content.</iframe>
+		</section>
+		<section id="donate-box">
+			<a href="https://www.patreon.com/rocket_dailies" class="patreon-link"><div class="patreon-button">
+				<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/Patreon.png" alt="patreon" class="patreon-logo">
+			</div></a><a href="https://twitch.streamlabs.com/the_rocket_dailies" target="_blank" class="donate-link"><div class="donate-button">
+				Donate
+			</div></a><div class="donation-ticker">
+				<iframe src="https://streamlabs.com/widgets/donation-ticker?token=8BE4E105DA0C64096FD6" height="100%" width="100%" name="donation-bar" frameborder="0" scrolling="no" id="donation-bar">You need an iframes capable browser to view this content.</iframe>
+			</div>
+		</section>
+	</section><section id="live-userbox">
+		<?php include( locate_template('userbox.php') ); ?>
+	</section>
 </section>
 
 <!--<p class="channel-changer-title">Today's Shows:</p>-->
