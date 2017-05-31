@@ -1,7 +1,6 @@
 <?php get_header();
-$acceptedUsers = array(1, 337, 183, 321, 4);
 $currentUser = get_current_user_id();
-if ( !in_array($currentUser, $acceptedUsers) ) {
+if ( !current_user_can('edit_posts') ) {
 	echo "There's nothing here. How did you get here? Turn back now. Maybe try logging in and coming back. But there's definitely nothing here.";
 } else { //Sorry. This hurts me too. But not as much as having the whole fucking page indented a tab. Close bracket is at the end, I promise.
 include( locate_template('schedule.php') );
@@ -51,6 +50,10 @@ foreach ($userSlugIndexes as $slugIndex) {
 update_user_meta($currentUser, 'slugList', $userSlugList);
 
 $slugList = array_merge($globalSlugList, $userSlugList);
+foreach ($globalSlugIndexes as $slugIndex) {
+	$slugLikes = $globalSlugList[$slugIndex]['likeIDs'];
+	$slugList[$slugIndex]['likeIDs'] = $slugLikes;
+}
 
 $todaysChannels = $schedule[$todaysSchedule];
 $streamList = '';
@@ -73,6 +76,14 @@ $streamList = rtrim($streamList,',');
 function clipGetter(cursor) {
 	var garden = jQuery('#garden');
 	var streamList = garden.attr('data-streams');
+	var canPublish = garden.attr('data-user-can-publish');
+	if (canPublish === 'true') {
+		var nuke = "<div class='universalCut'>Nuke</div>";
+		var keep = "<div class='seedlingAddTitleBox'><input type='text' class='seedling-title-input' name='addTitleBox' placeholder='Keep?'></div>"
+	} else {
+		var nuke = '';
+		var keep = '';
+	}
 	var slugList = garden.attr('data-slugs');
 	var slugObj = JSON.parse(slugList);
 	var slugs = Object.keys(slugObj);
@@ -122,6 +133,22 @@ function clipGetter(cursor) {
 				var thisViewThreshold = viewThresholds[thisSource];
 				var thisLogo = clips[i]['broadcaster']['logo'];
 				var thisCurator = clips[i]['curator']['display_name'];
+				if (typeof slugObj[thisSlug] !== 'undefined') {
+					var thisVoters = slugObj[thisSlug]['likeIDs'];
+					var thisVoteCount = thisVoters.length;
+					if (typeof thisVoteCount === 'undefined') {
+						thisVoteCount = 0;
+					}
+				} else {
+					var thisVoteCount = 0;
+				};
+				if (thisVoteCount === 0) {
+					var thisVoteScore = '';
+					var thisVotersObj = '0';
+				} else {
+					var thisVoteScore = `(+${thisVoteCount})`;
+					var thisVotersObj = JSON.stringify(thisVoters);
+				}
 				var newCursor = data['_cursor'];
 				var dupe = false;
 				if ( clips[i]['vod'] ) {
@@ -186,14 +213,14 @@ function clipGetter(cursor) {
 								<a href="${thisWholeSource}/clips" target="_blank"><img src='${thisLogo}' class='seedling-logo'></a>
 								<div class='seedling-vote'><img class='seedVoter seedControlImg' src='http://dailies.gg/wp-content/uploads/2017/04/Vote-Icon-line.png'></div>
 								<div class='seedling-cross'><img class='seedCutter seedControlImg' src='http://dailies.gg/wp-content/uploads/2017/04/red-x.png'></div>
-								<div class='universalCut'>Nuke</div>
+								${nuke}
 							</div>
 							<div class='seedling-meta'>
-								<div class='seedling-title' data-slug='${thisSlug}' data-time='${thisTime}'>
-									<a href='https://clips.twitch.tv/${thisSlug}' target='_blank'>${thisTitle}</a>
+								<div class='seedling-title' data-slug='${thisSlug}' data-time='${thisTime}' data-voters='${thisVotersObj}'>
+									<a href='https://clips.twitch.tv/${thisSlug}' target='_blank'>${thisVoteScore} ${thisTitle}</a>
 								</div>
 								<div class='seedling-views'>${thisViewCount} views. clipped by ${thisCurator} about ${hoursAgo} hours ago. <a href='${thisVODLink}' target='_blank' data-vodbase='${thisVODBase}' data-vodtimestamp='${thisVODTimestamp}'>VOD Link</a></div>
-								<div class='seedlingAddTitleBox'><input type='text' class='seedling-title-input' name='addTitleBox' placeholder='Keep?'></div>
+								${keep}
 								<div class='seedlingEmbedTarget'></div>
 							</div>
 						</div>`
@@ -258,15 +285,18 @@ function cutSeed(thisSeedling, button, scope) {
 	var thisTitle = thisSeedling.find('.seedling-title');
 	var thisSlug = thisTitle.attr("data-slug");
 	var thisTime = thisTitle.attr("data-time");
-	var cutCounterSpan = jQuery('.cutCounter');
-	var oldCutCount = parseInt(cutCounterSpan.text());
-	var newCutCounter = oldCutCount + 1;
 	var thisVODLink = thisSeedling.find('.seedling-views a');
 	var thisVODBase = thisVODLink.attr("data-vodbase");
 	var thisVODTimestamp = thisVODLink.attr("data-vodtimestamp");
-	cutCounterSpan.text(newCutCounter);
 	button.fadeOut();
 	cutSlug(thisSlug, thisTime, thisSeedling, thisVODBase, thisVODTimestamp, scope);
+}
+
+function tickUpCutCounter() {
+	var cutCounterSpan = jQuery('.cutCounter');
+	var oldCutCount = parseInt(cutCounterSpan.text());
+	var newCutCounter = oldCutCount + 1;
+	cutCounterSpan.text(newCutCounter);
 }
 
 jQuery("#garden").on('click', '.universalCut', function() {
@@ -289,15 +319,11 @@ jQuery("#garden").on('click', '.seedling-vote', function() {
 	var thisTitle = thisSeedling.find('.seedling-title');
 	var thisSlug = thisTitle.attr("data-slug");
 	var thisTime = thisTitle.attr("data-time");
-	var cutCounterSpan = jQuery('.cutCounter');
-	var oldCutCount = parseInt(cutCounterSpan.text());
-	var newCutCounter = oldCutCount + 1;
 	var thisVODLink = thisSeedling.find('.seedling-views a');
 	var thisVODBase = thisVODLink.attr("data-vodbase");
 	var thisVODTimestamp = thisVODLink.attr("data-vodtimestamp");
 	var garden = jQuery("#garden");
 	var userID = garden.attr("data-user-id");
-	cutCounterSpan.text(newCutCounter);
 	thisButton.fadeOut();
 	voteSlug(thisSlug, thisTime, thisSeedling, thisVODBase, thisVODTimestamp, userID);
 });
@@ -310,6 +336,7 @@ jQuery("#garden").on('keypress', '.seedling-title-input', function(e) {
 		var thisTitle = thisSeedling.find('.seedling-title');
 		var thisSlug = thisTitle.attr("data-slug");
 		var thisTime = thisTitle.attr("data-time");
+		var thisVoters = thisTitle.attr("data-voters");
 		var thisSource = thisSeedling.attr("data-source");
 		var thisVODLink = thisSeedling.find('.seedling-views a');
 		var thisVODBase = thisVODLink.attr("data-vodbase");
@@ -321,7 +348,7 @@ jQuery("#garden").on('keypress', '.seedling-title-input', function(e) {
 		} else {
 			var thisCustomTitle = thisSlug;
 		}
-		growSeed(thisSlug, thisCustomTitle, thisSource, thisTime, thisSeedling, thisVODBase, thisVODTimestamp);
+		growSeed(thisSlug, thisCustomTitle, thisSource, thisTime, thisSeedling, thisVODBase, thisVODTimestamp, thisVoters);
 	}
 });
 

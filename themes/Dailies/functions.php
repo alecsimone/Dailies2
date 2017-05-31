@@ -219,6 +219,8 @@ function secret_garden_grow() {
 	$growTitle = $_POST['growTitle'];
 	$growSourceRaw = $_POST['growSource'];
 	$growSourceFull = 'https://www.twitch.tv/' . $growSourceRaw;
+	$growVotersRaw = '"' . $_POST['growVoters'] . '"';
+	$growVoters = json_decode($growVotersRaw);
 	$term_args = array(
 		'taxonomy' => 'source'
 	);
@@ -229,6 +231,22 @@ function secret_garden_grow() {
 			$growSource = $source->term_id;
 		}
 	}
+	$voteCount = 0;
+	$voteledger = array();
+	if (is_string($growVoters)) {
+		$voterID = substr($growVoters, 2, -2);
+		$voterRep = get_user_meta($voterID, 'rep', true);
+		if ( $voterRep === '' ) {$voterRep = 1;};
+		$voteledger[$voterID] = $voterRep;
+		$voteCount = $voteCount + $voterRep;
+	} elseif (is_array($growVoters)) {
+		foreach ($growVoters as $voter) {
+			$voterRep = get_user_meta($voter, 'rep', true);
+			if ( $voterRep == '' ) {$voterRep = 1;};
+			$voteledger[$voter] = $voterRep;
+			$voteCount = $voteCount + $voterRep;
+		}
+	} elseif (is_null($growVoters)) {$voteCount = $growVotersRaw;};
 	$seedArray = array(
 		'post_title' => $growTitle,
 		'post_content' => '',
@@ -238,6 +256,8 @@ function secret_garden_grow() {
 			),
 		'meta_input' => array(
 			'TwitchCode' => $growSlug,
+			'voteledger' => $voteledger,
+			'votecount' => $voteCount
 			),
 	);
 	$didPost = wp_insert_post($seedArray, true);

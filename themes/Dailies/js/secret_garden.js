@@ -12,7 +12,7 @@ function cutSlug(slug, time, seedling, VODBase, VODTimestamp, scope) {
 			action: 'secret_garden_cut',
 		},
 		success: function(data) {
-			console.log(data);
+			tickUpCutCounter();
 			seedling.remove();
 			var allSeeds = jQuery('.seedling');
 			jQuery.each(allSeeds, function() {
@@ -21,17 +21,15 @@ function cutSlug(slug, time, seedling, VODBase, VODTimestamp, scope) {
 				var thisVODTimestamp = thisVODLink.attr("data-vodtimestamp");
 				if (VODBase === thisVODBase && thisVODTimestamp + 10 >= VODTimestamp && thisVODTimestamp - 10 <= VODTimestamp ) {
 					jQuery(this).remove();
-					var cutCounterSpan = jQuery('.cutCounter');
-					oldCutCount = parseInt(cutCounterSpan.text());
-					newCutCounter = oldCutCount + 1;
-					cutCounterSpan.text(newCutCounter);
+					tickUpCutCounter();
 				}
 			});
 		}
 	});
 };
 
-function growSeed(slug, title, source, time, seedling, VODBase, VODTimestamp) {
+function growSeed(slug, title, source, time, seedling, VODBase, VODTimestamp, voters) {
+	console.log(voters);
 	jQuery.ajax({
 		type: "POST",
 		url: data_for_secret_garden.ajaxurl,
@@ -40,10 +38,12 @@ function growSeed(slug, title, source, time, seedling, VODBase, VODTimestamp) {
 			growSlug: slug,
 			growSource: source,
 			growTitle: title,
+			growVoters: voters,
 			action: 'secret_garden_grow',
 		},
 		success: function(data) {
 			if ( Number.isInteger(data) ) {
+				tickUpCutCounter();
 				cutSlug(slug, time, seedling, VODBase, VODTimestamp, 'everyone');
 				window.open(`http://dailies.gg/wp-admin/post.php?post=${data}&action=edit`, '_blank');
 			}
@@ -67,6 +67,7 @@ function voteSlug(slug, time, seedling, VODBase, VODTimestamp, user) {
 		success: function(data) {
 			if (data == true) {
 				console.log("You voted!");
+				tickUpCutCounter();
 				cutSlug(slug, time, seedling, VODBase, VODTimestamp, user);
 			};
 		}
