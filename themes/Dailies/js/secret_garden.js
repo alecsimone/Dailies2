@@ -18,9 +18,10 @@ function cutSlug(slug, time, seedling, VODBase, VODTimestamp, scope) {
 			jQuery.each(allSeeds, function() {
 				var thisVODLink = jQuery(this).find('.seedling-views a');
 				var thisVODBase = thisVODLink.attr("data-vodbase");
-				var thisVODTimestamp = thisVODLink.attr("data-vodtimestamp");
+				var thisVODTimestamp = parseInt(thisVODLink.attr("data-vodtimestamp"), 10);
 				if (VODBase === thisVODBase && thisVODTimestamp + 10 >= VODTimestamp && thisVODTimestamp - 10 <= VODTimestamp ) {
 					jQuery(this).remove();
+					console.log(`Cutting play with VODBase ${thisVODBase} and timestamp ${thisVODTimestamp} Because they match VODBase ${VODBase} and timestamp ${VODTimestamp}`);
 					tickUpCutCounter();
 				}
 			});
