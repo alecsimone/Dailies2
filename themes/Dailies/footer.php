@@ -132,12 +132,20 @@ function doesTheReplacing(thisLink) {
 }
 
  jQuery('.contentContainer').on('click', '.fullClipLink', function(event) {
-	event.preventDefault();
+ 	thisLink = jQuery(this).attr("href");
+ 	isTwitchClip = thisLink.indexOf('twitch');
+ 	if (isTwitchClip >= 0) {
+		event.preventDefault();
+ 	}
 });
 
 jQuery('.contentContainer').on('click', 'p.attribution.full-clip', function() {
 	var thisLink = jQuery(this).children('.fullClipLink');
-	doesTheReplacing(thisLink);
+	var thisHREF = thisLink.attr("href");
+	isTwitchClip = thisHREF.indexOf('twitch');
+	if (isTwitchClip >= 0) {
+		doesTheReplacing(thisLink);
+	}
 });
 
 function littleReplacer(ID, UID) {
