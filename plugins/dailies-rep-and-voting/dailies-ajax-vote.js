@@ -14,11 +14,17 @@ function vote(ID) {
 	if (thisVoteDirection === "up") {
 		newScore = (thisScore + thisRep).toFixed(1);
 		thisScoreElement.attr('data-contribution', thisRep);
-		thisVoteButton.replaceWith(`<img src="${daily_vote.medal}" id="voteIcon${ID}" class="voteIcon" data-id="${ID}" data-vote="down" onclick="vote(${ID})">`).fadeIn(200);
+		thisVoteButton.attr("src", daily_vote.medal);
+		thisVoteButton.attr("data-vote", "down");
+		thisVoteButton.attr("data-replace-src", daily_vote.emptyVoteIcon);
+		thisVoteButton.addClass("replaceHold");
 	} else {
 		newScore = (thisScore - thisContribution).toFixed(1);
 		thisScoreElement.attr('data-contribution', 0);
-		thisVoteButton.replaceWith(`<img src="${daily_vote.emptyVoteIcon}" id="voteIcon${ID}" class="voteIcon" data-id="${ID}" data-vote="up" onclick="vote(${ID})">`).fadeIn(200);
+		thisVoteButton.attr("src", daily_vote.emptyVoteIcon);
+		thisVoteButton.attr("data-vote", "up");
+		thisVoteButton.attr("data-replace-src", daily_vote.medal);
+		thisVoteButton.addClass("replaceHold");
 	}
 	thisScoreElement.html( `(+${newScore})` );
 	console.log(newScore);

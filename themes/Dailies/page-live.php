@@ -138,13 +138,13 @@ var streamCheckRate = 300000;
 jQuery(window).load(streamChecker);
 window.setInterval(function() {streamChecker()}, streamCheckRate);
 
-jQuery('.little-thing').on('click', '.little-thing-top', function() {
+jQuery('.little-thing').on('click', '.little-title', function() {
 	event.preventDefault();
 	var thisTitle = jQuery(this).find('.little-title-link');
 	var thisLittleClass = thisTitle.attr("class");
 	console.log(thisLittleClass);
 	var thisCode = thisTitle.attr("data-id");
-	var thisWholeThing = jQuery(this).parent();
+	var thisWholeThing = jQuery(this).parent().parent();
 	var thisEmbedTarget = thisWholeThing.find('.little-thing-embed');
 	var embedExistenceChecker = thisEmbedTarget.find('.embed-container');
 	if (embedExistenceChecker.length) {

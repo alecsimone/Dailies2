@@ -8,6 +8,8 @@ Author:      Alec Simone
 License:     Do whatever the hell you want with it, it's mostly pretty shit code
 */
 
+$thisDomain = get_site_url();
+
 function enqueue_ajax_vote() {
 	wp_register_script( 'ajax-vote', plugin_dir_url(__FILE__) . 'dailies-ajax-vote.js' );
 	

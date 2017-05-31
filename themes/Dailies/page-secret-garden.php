@@ -211,7 +211,7 @@ function clipGetter(cursor) {
 						`<div class='seedling' data-source='${thisSource}'>
 							<div class='seedling-controls'>
 								<a href="${thisWholeSource}/clips" target="_blank"><img src='${thisLogo}' class='seedling-logo'></a>
-								<div class='seedling-vote'><img class='seedVoter seedControlImg' src='http://dailies.gg/wp-content/uploads/2017/04/Vote-Icon-line.png'></div>
+								<div class='seedling-vote'><img class='seedVoter seedControlImg hoverReplacer' src='http://dailies.gg/wp-content/uploads/2017/04/Vote-Icon-line.png' data-replace-src='http://dailies.gg/wp-content/uploads/2016/12/Medal-small-100.png'></div>
 								<div class='seedling-cross'><img class='seedCutter seedControlImg' src='http://dailies.gg/wp-content/uploads/2017/04/red-x.png'></div>
 								${nuke}
 							</div>
@@ -361,4 +361,5 @@ jQuery("#garden").on('click', 'p.moreClips', function() {
 
 </script>
 
-<?php }; //this is closing the conditional that keeps out unwelcome guests ?>
+<?php }; //this is closing the conditional that keeps out unwelcome guests 
+get_footer(); ?>

@@ -34,7 +34,7 @@ jQuery(document).mouseup(function (e)
     }
 });
 
-/*** Vote Icon Replacer ***/
+/*** Vote Icon Replacer
 jQuery('.contentContainer').on('hover', '.voteIcon', function() {
 	console.log("you hovered!");
 	thisVoteIcon = jQuery(this);
@@ -46,7 +46,7 @@ jQuery('.contentContainer').on('hover', '.voteIcon', function() {
 	} else if ( thisIconSrc.includes(VoteIconSrc) ) {
 		thisVoteIcon.attr("src", MedalSrc);
 	};
-});
+}); ***/
 
 /*** heightLocker Function to keep gfys from collapsing and re-expanding when the image is swapped for the video ***/
 function heightLocker() {
@@ -246,6 +246,26 @@ jQuery(".thing").on('keypress', '.addScore-input', function(e) {
 		}
 	}
 });
+
+/** Hover Replacer **/
+jQuery("body").on('mouseenter', '.hoverReplacer', function() {
+	replaceImage(jQuery(this));
+});
+jQuery("body").on('mouseleave', '.hoverReplacer', function() {
+	if (!jQuery(this).hasClass('replaceHold')) {
+		replaceImage(jQuery(this));
+	} else {
+		jQuery(this).removeClass('replaceHold');
+	}
+});
+
+function replaceImage(thisIMG) {
+	var thisOldSrc = thisIMG.attr("src");
+	var thisNewSrc = thisIMG.attr("data-replace-src");
+	thisIMG.attr("src", thisNewSrc);
+	thisIMG.attr("data-replace-src", thisOldSrc);
+}
+
 
 /** Tagbar Scroller **/
 jQuery('#morebar').click(function() {
