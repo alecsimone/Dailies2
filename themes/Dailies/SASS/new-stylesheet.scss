@@ -571,7 +571,7 @@ a#lessbar {
 	}
 }
 .goldBG {
-	background: $lightGold;
+	background: $gold;
 	color: $black;
 }
 #repHeader {
@@ -1685,6 +1685,7 @@ a.donate-link {
 #live-userbox {
 	display: inline-block;
 	width: 20%;
+	max-width: 300px;
 	padding: 0 $double;
 }
 

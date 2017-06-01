@@ -420,7 +420,7 @@ a#lessbar {
       border-radius: 2px; } }
 
 .goldBG, #repHeader, #repFooter {
-  background: rgba(236, 193, 91, 0.8);
+  background: #ecc15b;
   color: #121212; }
 
 #repHeader {
@@ -1474,6 +1474,7 @@ a.donate-link {
 #live-userbox {
   display: inline-block;
   width: 20%;
+  max-width: 300px;
   padding: 0 24px; }
 
 #cohosts {
