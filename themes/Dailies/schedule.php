@@ -30,7 +30,7 @@
 		'cca' => ['CCA', 'cca', 736, 'Wednesday Night Lights', '9PM EST'],
 		'bl' => ['Boost', 'boost-legacy', 401, 'NA - 3v3 - $40', '10PM EST'],
 		'forzen' => ['Forzen', 'forzen', 772, '2v2 - $200', '8PM EST'],
-		'me' => ['The Dailies', 'rocket-dailies', 688, 'Nom Stream', 'Midnight EST'],
+		//'me' => ['The Dailies', 'rocket-dailies', 688, 'Nom Stream', 'Midnight EST'],
 	),
 	'Thursday' => array(
 		//'gfinity' => ['GFinity', 'gfinity', 194, 'EU - 2v2 - &pound;60', '2PM EST'],
@@ -58,7 +58,7 @@
 		'me' => ['The Dailies', 'rocket-dailies', 688, 'Nom Stream', 'Midnight EST'],
 	),
 	'Weekend' => array(
-		//'rla' => ['RL Asia', 'rocket-league-asia', 280, 'Asia - 3v3', '2AM EST'],
+		'rla' => ['RL Asia', 'rocket-league-asia', 280, 'Asia - 3v3', '2AM EST'],
 		'metaleak' => ['Metaleak', 'metaleak', 521, 'EU - 2v2 - &euro;50', '10AM EST'],
 		'prl' => ['ProRL', 'prorl', 81, 'EU $150 3v3 / NA Bragging Rights', '11AM EST / 9PM EST'],
 		'rewind' => ['Rewind', 'rewindrl', 583, 'EU - 3v3 - &euro;45', '2:30PM EST'],
@@ -68,9 +68,9 @@
 		'cca' => ['CCA', 'cca', 736, 'CCA Weekend Matches', '8:00PM EST'],
 		'nexus' => ['Nexus', 'nexus-gaming', 389, 'NA - 3v3 - $150', '8PM EST'],
 		'mld' => ['MLD', 'mld', 750, 'Finals!', '8PM EST'],
-		'throwdown' => ['Throwdown', 'throwdowntv', 531, 'OCE RLCS Qualifiers', '10PM EST'],
-		'MyTF1XTRA' => ['MyTF1XTRA', 'mytf1xtra', 776, 'EU LAN', '12 PM EST'],
-		//'rlo' => ['RLO', 'rocket-league-oceania', 646, 'OCE 3v3', '3AM EST'],
+		//'throwdown' => ['Throwdown', 'throwdowntv', 531, 'OCE RLCS Qualifiers', '10PM EST'],
+		//'MyTF1XTRA' => ['MyTF1XTRA', 'mytf1xtra', 776, 'EU LAN', '12 PM EST'],
+		'rlo' => ['RLO', 'rocket-league-oceania', 646, 'OCE 3v3', '3AM EST'],
 	),
 ); 
 

@@ -131,7 +131,7 @@ var grid = jQuery('#live-posts-loop').isotope({
 	}
 });
 
-var refreshRate = 15000;
+var refreshRate = 5000;
 window.setInterval(function() {refreshLive()}, refreshRate);
 
 var streamCheckRate = 300000;

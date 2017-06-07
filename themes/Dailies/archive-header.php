@@ -110,6 +110,10 @@ if ($underdogs) {
 					echo " - "; print_r($winCount); echo " Win";
 				}; ?>
 			</h2>
+			<?php if ( current_user_can('edit_posts') ) { ?>
+				<a href="<?php echo $thisDomain; ?>/wp-admin/term.php?taxonomy=<?php echo $thisTax; ?>&tag_ID=<?php echo $thisTermID; ?>" class="archive-edit-link">Edit This</a>
+			<?php }
+			?>
 		</div>
 		<?php if ($has_data) { ?>
 			<div id="archive-data">

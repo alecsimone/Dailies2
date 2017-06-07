@@ -43,8 +43,9 @@ function refreshLive() {
 			jQuery.each(postsAndScores, function(id, score) {
 				var scoreDivID = `#thingScore${id}`;
 				var scoreDiv = jQuery(scoreDivID);
-				var newScore = `(+${score})`
+				var newScore = `(+${score})`;
 				scoreDiv.html(newScore);
+				scoreDiv.attr("data-score", score);
 			});
 
 		}

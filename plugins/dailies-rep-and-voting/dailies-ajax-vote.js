@@ -14,6 +14,7 @@ function vote(ID) {
 	if (thisVoteDirection === "up") {
 		newScore = (thisScore + thisRep).toFixed(1);
 		thisScoreElement.attr('data-contribution', thisRep);
+		thisScoreElement.attr('data-score', newScore);
 		thisVoteButton.attr("src", daily_vote.medal);
 		thisVoteButton.attr("data-vote", "down");
 		thisVoteButton.attr("data-replace-src", daily_vote.emptyVoteIcon);
@@ -21,6 +22,7 @@ function vote(ID) {
 	} else {
 		newScore = (thisScore - thisContribution).toFixed(1);
 		thisScoreElement.attr('data-contribution', 0);
+		thisScoreElement.attr('data-score', newScore);
 		thisVoteButton.attr("src", daily_vote.emptyVoteIcon);
 		thisVoteButton.attr("data-vote", "up");
 		thisVoteButton.attr("data-replace-src", daily_vote.medal);
