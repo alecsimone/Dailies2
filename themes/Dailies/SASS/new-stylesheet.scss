@@ -2121,6 +2121,9 @@ input.seedling-title-input {
     	transition: box-shadow .2s;
     }
 }
+.seedling-vote, .seedling-cross {
+	display: none;
+}
 
 img.seedCutter {
 	width: 30px;

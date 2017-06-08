@@ -30,6 +30,7 @@ foreach ($globalSlugIndexes as $slugIndex) {
 	};
 };
 update_post_meta($gardenID, 'slugList', $globalSlugList);
+//update_post_meta($gardenID, 'slugList', '');
 
 $userSlugList = get_user_meta($currentUser, 'slugList', true);
 if ($userSlugList === '') {
@@ -48,12 +49,14 @@ foreach ($userSlugIndexes as $slugIndex) {
 	};
 };
 update_user_meta($currentUser, 'slugList', $userSlugList);
+//update_user_meta($currentUser, 'slugList', '');
 
 $slugList = array_merge($globalSlugList, $userSlugList);
 foreach ($globalSlugIndexes as $slugIndex) {
 	$slugLikes = $globalSlugList[$slugIndex]['likeIDs'];
 	$slugList[$slugIndex]['likeIDs'] = $slugLikes;
 }
+print_r($slugList);
 
 $todaysChannels = $schedule[$todaysSchedule];
 $streamList = '';
@@ -176,7 +179,7 @@ function clipGetter(cursor) {
 					}
 					var thisVODTimestamp = 3600 * thisHourCount + 60 * thisMinuteCount + 1 * thisSecondCount;
 					for (var momentCounter = 0; momentCounter < cutMoments.length; momentCounter++) {
-						if (thisVODBase === cutMoments[momentCounter]['VODBase'] && thisVODTimestamp + 10 >= cutMoments[momentCounter]['VODTime'] && thisVODTimestamp - 10 <= cutMoments[momentCounter]['VODTime'] ) {
+						if (thisVODBase === cutMoments[momentCounter]['VODBase'] && thisVODTimestamp + 15 >= cutMoments[momentCounter]['VODTime'] && thisVODTimestamp - 15 <= cutMoments[momentCounter]['VODTime'] ) {
 							console.log(`${thisSlug} is the same as ${cutMoments[momentCounter]['cutSlug']}`);
 							var dupe = true;
 						};
@@ -266,18 +269,31 @@ jQuery("#garden").on('click', '.seedling-title', function() {
 	var thisSeedling = thisTitle.parent().parent();
 	var thisSeedlingMeta = thisSeedling.find('.seedling-meta');
 	var thisSeedlingMetaWidth = thisSeedlingMeta.width();
-	var thisEmbedHeight = thisSeedlingMetaWidth / 16 * 9 + 'px';
+	var heightByWidth = thisSeedlingMetaWidth / 16 * 9;
+	var viewportHeight = jQuery(window).height();
+	var baseSeedlingHeight = thisSeedling.outerHeight();
+	var heightByViewport = viewportHeight - baseSeedlingHeight - 48;
+	if (heightByViewport < heightByWidth) {
+		var thisEmbedHeight = heightByViewport;
+	} else {
+		var thisEmbedHeight = heightByWidth;
+	}
 	var thisEmbedTarget = thisSeedling.find('.seedlingEmbedTarget');
 	var thisNuke = thisSeedling.find('.universalCut');
-	console.log(thisNuke);
+	var thisVote = thisSeedling.find('.seedling-vote');
+	var thisCut = thisSeedling.find('.seedling-cross');
 	if ( thisEmbedTarget.is(':empty') ) {
 		var thisSlug = thisTitle.attr("data-slug");
 		var embedCode = `<iframe src="https://clips.twitch.tv/embed?clip=${thisSlug}&autoplay=true" width="100%" height="${thisEmbedHeight}" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>`
 		thisEmbedTarget.html(embedCode);
 		thisNuke.fadeIn();
+		thisVote.fadeIn();
+		thisCut.fadeIn();
 	} else {
 		thisEmbedTarget.html('');
 		thisNuke.css("display", "none");
+		thisVote.css("display", "none");
+		thisCut.css("display", "none");
 	}
 });
 

@@ -1883,6 +1883,9 @@ input.seedling-title-input {
     box-shadow: none;
     transition: box-shadow .2s; }
 
+.seedling-vote, .seedling-cross {
+  display: none; }
+
 img.seedCutter {
   width: 30px;
   height: 30px;

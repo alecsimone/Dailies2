@@ -220,7 +220,8 @@ function secret_garden_grow() {
 	$growSourceRaw = $_POST['growSource'];
 	$growSourceFull = 'https://www.twitch.tv/' . $growSourceRaw;
 	$growVotersRaw = '"' . $_POST['growVoters'] . '"';
-	$growVoters = json_decode($growVotersRaw);
+	$growVotersStillJSONForSomeReason = json_decode($growVotersRaw);
+	$growVoters = json_decode($growVotersStillJSONForSomeReason);
 	$source_args = array(
 		'taxonomy' => 'source'
 	);
@@ -261,7 +262,7 @@ function secret_garden_grow() {
 		$voteledger[$voterID] = $voterRep;
 		$voteCount = $voteCount + $voterRep;
 	} elseif (is_array($growVoters)) {
-		foreach ($growVoters as $voter) {
+		foreach ($growVoters as $key => $voter) {
 			$voterRep = get_user_meta($voter, 'rep', true);
 			if ( $voterRep == '' ) {$voterRep = 1;};
 			$voteledger[$voter] = $voterRep;
