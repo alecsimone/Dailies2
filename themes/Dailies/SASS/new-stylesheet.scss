@@ -1061,7 +1061,6 @@ p.attribution a, p.attribution a:visited {
 	width: $sept;
 	padding: $quarter;
 	text-align: center;
-	border: 1px solid $blackTrans;
 	border-radius: 2px;
 	margin-top: $half;
 }
@@ -2112,20 +2111,40 @@ img.seedling-logo {
 }
 input.seedling-title-input {
 	height: $double;
-	width: 100%;
+	width: calc(100% - #{$sept});
 	margin: 0 auto;
 	background: $light;
 	padding: 0 $half;
 	box-sizing: border-box;
 }
+.keepbutton {
+	width: $quad;
+	margin-left: $baseline;
+	box-sizing: border-box;
+	font-size: $plusQuarter;
+	padding: $quarter;
+	border: 1px solid $blackTrans;
+	color: $blackTrans3;
+}
+.cutVoteContainer {
+	width: 100%;
+	height: 0;
+	position: relative;
+}
 .seedling-cross {
 	display: inline-block;
 	cursor: pointer;
 	line-height: 0;
+	position: absolute;
+	right: $quarter;
+	top: 0;
 }
 .seedling-vote {
 	display: inline-block;
 	line-height: 0;
+	position: absolute;
+	top: 0;
+	left: $quarter;
 }
 .seedling-vod-link a {
 	text-decoration: none;

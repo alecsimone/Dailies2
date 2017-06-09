@@ -82,7 +82,7 @@ function clipGetter(query, cursor, queryTwo, cursorTwo) {
 	var canPublish = garden.attr('data-user-can-publish');
 	if (canPublish === 'true') {
 		var nuke = "<button class='universalCut'>Nuke</button>";
-		var keep = "<div class='seedlingAddTitleBox'><input type='text' class='seedling-title-input' name='addTitleBox' placeholder='Keep?'></div>"
+		var keep = "<div class='seedlingAddTitleBox'><input type='text' class='seedling-title-input' name='addTitleBox' placeholder='Who and Why?'><button class='keepbutton'>nom</button></div>"
 	} else {
 		var nuke = '';
 		var keep = '';
@@ -291,8 +291,10 @@ function clipGetter(query, cursor, queryTwo, cursorTwo) {
 					`<div class='seedling' data-source='${thisSource}'>
 						<div class='seedling-controls'>
 							<a href="${thisWholeSource}/clips" target="_blank"><img src='${thisLogo}' class='seedling-logo'></a>
-							<div class='seedling-vote'><img class='seedVoter seedControlImg hoverReplacer' src='http://dailies.gg/wp-content/uploads/2017/04/Vote-Icon-line.png' data-replace-src='http://dailies.gg/wp-content/uploads/2016/12/Medal-small-100.png'></div>
-							<div class='seedling-cross'><img class='seedCutter seedControlImg' src='http://dailies.gg/wp-content/uploads/2017/04/red-x.png'></div>
+							<div class="cutVoteContainer">
+								<div class='seedling-vote'><img class='seedVoter seedControlImg hoverReplacer' src='http://dailies.gg/wp-content/uploads/2017/04/Vote-Icon-line.png' data-replace-src='http://dailies.gg/wp-content/uploads/2016/12/Medal-small-100.png'></div>
+								<div class='seedling-cross'><img class='seedCutter seedControlImg' src='http://dailies.gg/wp-content/uploads/2017/04/red-x.png'></div>
+							</div>
 							${nuke}
 						</div>
 						<div class='seedling-meta'>
@@ -352,6 +354,7 @@ jQuery("#garden").on('click', '.seedling-title', function() {
 	var thisNuke = thisSeedling.find('.universalCut');
 	var thisVote = thisSeedling.find('.seedling-vote');
 	var thisCut = thisSeedling.find('.seedling-cross');
+	var thisCutVoteContainer = thisCut.parent();
 	if ( thisEmbedTarget.is(':empty') ) {
 		var thisSlug = thisTitle.attr("data-slug");
 		var embedCode = `<iframe src="https://clips.twitch.tv/embed?clip=${thisSlug}&autoplay=true" width="100%" height="${thisEmbedHeight}" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>`
@@ -359,11 +362,13 @@ jQuery("#garden").on('click', '.seedling-title', function() {
 		thisNuke.fadeIn();
 		thisVote.fadeIn();
 		thisCut.fadeIn();
+		thisCutVoteContainer.css("height", "36px");
 	} else {
 		thisEmbedTarget.html('');
 		thisNuke.css("display", "none");
 		thisVote.css("display", "none");
 		thisCut.css("display", "none");
+		thisCutVoteContainer.css("height", "0px");
 	}
 });
 
@@ -393,7 +398,7 @@ jQuery("#garden").on('click', '.universalCut', function() {
 
 jQuery("#garden").on('click', '.seedling-cross', function() {
 	var thisButton = jQuery(this);
-	var thisSeedling = thisButton.parent().parent();
+	var thisSeedling = thisButton.parent().parent().parent();
 	var garden = jQuery("#garden");
 	var userID = garden.attr("data-user-id");
 	cutSeed(thisSeedling, thisButton, userID);
@@ -401,7 +406,7 @@ jQuery("#garden").on('click', '.seedling-cross', function() {
 
 jQuery("#garden").on('click', '.seedling-vote', function() {
 	var thisButton = jQuery(this);
-	var thisSeedling = thisButton.parent().parent();
+	var thisSeedling = thisButton.parent().parent().parent();
 	var thisTitle = thisSeedling.find('.seedling-title');
 	var thisSlug = thisTitle.attr("data-slug");
 	var thisTime = thisTitle.attr("data-time");
@@ -419,24 +424,34 @@ jQuery("#garden").on('keypress', '.seedling-title-input', function(e) {
 		var thisPlus = jQuery(this);
 		thisPlus.attr("disabled", "disabled");
 		var thisSeedling = thisPlus.parent().parent().parent();
-		var thisTitle = thisSeedling.find('.seedling-title');
-		var thisSlug = thisTitle.attr("data-slug");
-		var thisTime = thisTitle.attr("data-time");
-		var thisVoters = thisTitle.attr("data-voters");
-		var thisSource = thisSeedling.attr("data-source");
-		var thisVODLink = thisSeedling.find('.seedling-views a');
-		var thisVODBase = thisVODLink.attr("data-vodbase");
-		var thisVODTimestamp = thisVODLink.attr("data-vodtimestamp");
-		var thisTextBox = thisSeedling.find('.seedlingAddTitleBox input');
-		var thisTextEntry = thisTextBox.val();
-		if ( thisTextEntry ) {
-			var thisCustomTitle = thisTextEntry;
-		} else {
-			var thisCustomTitle = thisSlug;
-		}
-		growSeed(thisSlug, thisCustomTitle, thisSource, thisTime, thisSeedling, thisVODBase, thisVODTimestamp, thisVoters);
+		plantSeed(thisSeedling);
 	}
 });
+jQuery("#garden").on('click', '.keepbutton', function() {
+	var thisKeepButton = jQuery(this);
+	var thisSeedling = thisKeepButton.parent().parent().parent();
+	plantSeed(thisSeedling);
+});
+
+function plantSeed(thisSeedling) {
+	console.log("we doin it this way yall");
+	var thisTitle = thisSeedling.find('.seedling-title');
+	var thisSlug = thisTitle.attr("data-slug");
+	var thisTime = thisTitle.attr("data-time");
+	var thisVoters = thisTitle.attr("data-voters");
+	var thisSource = thisSeedling.attr("data-source");
+	var thisVODLink = thisSeedling.find('.seedling-views a');
+	var thisVODBase = thisVODLink.attr("data-vodbase");
+	var thisVODTimestamp = thisVODLink.attr("data-vodtimestamp");
+	var thisTextBox = thisSeedling.find('.seedlingAddTitleBox input');
+	var thisTextEntry = thisTextBox.val();
+	if ( thisTextEntry ) {
+		var thisCustomTitle = thisTextEntry;
+	} else {
+		var thisCustomTitle = thisSlug;
+	}
+	growSeed(thisSlug, thisCustomTitle, thisSource, thisTime, thisSeedling, thisVODBase, thisVODTimestamp, thisVoters);
+} 
 
 jQuery("#garden").on('click', 'button.moreClips', function() {
 	var thisLink = jQuery(this);

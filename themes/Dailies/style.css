@@ -883,7 +883,6 @@ p.attribution a, p.attribution a:visited {
   width: 60px;
   padding: 3px;
   text-align: center;
-  border: 1px solid rgba(12, 12, 12, 0.6);
   border-radius: 2px;
   margin-top: 6px; }
 
@@ -1875,20 +1874,40 @@ img.seedling-logo {
 
 input.seedling-title-input {
   height: 24px;
-  width: 100%;
+  width: calc(100% - 60px);
   margin: 0 auto;
   background: rgba(255, 253, 249, 0.9);
   padding: 0 6px;
   box-sizing: border-box; }
 
+.keepbutton {
+  width: 48px;
+  margin-left: 12px;
+  box-sizing: border-box;
+  font-size: 15px;
+  padding: 3px;
+  border: 1px solid rgba(12, 12, 12, 0.6);
+  color: rgba(12, 12, 12, 0.9); }
+
+.cutVoteContainer {
+  width: 100%;
+  height: 0;
+  position: relative; }
+
 .seedling-cross {
   display: inline-block;
   cursor: pointer;
-  line-height: 0; }
+  line-height: 0;
+  position: absolute;
+  right: 3px;
+  top: 0; }
 
 .seedling-vote {
   display: inline-block;
-  line-height: 0; }
+  line-height: 0;
+  position: absolute;
+  top: 0;
+  left: 3px; }
 
 .seedling-vod-link a {
   text-decoration: none;
