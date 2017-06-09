@@ -49,6 +49,27 @@ h3 {
   line-height: 1.1em;
   margin: 0px; }
 
+button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  cursor: pointer;
+  background: none;
+  color: #121212;
+  padding: 6px;
+  border-radius: 2px;
+  border: 1px solid #121212;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+  box-sizing: initial;
+  font-size: 18px;
+  font-family: proxima-nova, sans-serif;
+  transition: box-shadow .2s; }
+  button:hover {
+    box-shadow: none;
+    transition: box-shadow .2s;
+    background: rgba(0, 0, 0, 0.03); }
+
 /*---------------------------------------------------------
 1. Fundamental Structure
 This is for the broad architectural stuff. This includes:
@@ -1785,7 +1806,8 @@ p.cctitle-instructions {
 #garden {
   width: 95%;
   margin: auto;
-  text-align: left; }
+  text-align: left;
+  position: relative; }
 
 p.clipCount {
   font-size: 18px;
@@ -1793,6 +1815,14 @@ p.clipCount {
   margin: 6px 0;
   text-align: left;
   width: 760px; }
+
+.sgButtons {
+  position: absolute;
+  right: 0;
+  top: 6px; }
+
+.sgButton {
+  margin: 0 3px; }
 
 .seedling {
   background: #fff;
@@ -1870,18 +1900,7 @@ input.seedling-title-input {
   text-align: center;
   margin: 18px 0;
   display: none;
-  cursor: pointer;
-  background: #262626;
-  color: rgba(255, 253, 249, 0.9);
-  padding: 3px 0;
-  width: 72px;
-  border-radius: 2px;
-  border: 1px solid #121212;
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
-  transition: box-shadow .2s; }
-  .universalCut:hover {
-    box-shadow: none;
-    transition: box-shadow .2s; }
+  width: 72px; }
 
 .seedling-vote, .seedling-cross {
   display: none; }
@@ -1895,13 +1914,14 @@ img.seedVoter {
   width: 36px;
   height: 36px; }
 
-p.moreClips {
+.moreClips {
+  display: block;
+  margin: 0 auto 24px;
   font-size: 24px;
   font-weight: bold;
   cursor: pointer;
   padding: 12px;
-  text-align: center;
-  width: 100%; }
+  text-align: center; }
 
 #schedule-container {
   color: rgba(255, 253, 249, 0.9); }

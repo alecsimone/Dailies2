@@ -14,14 +14,14 @@ function cutSlug(slug, time, seedling, VODBase, VODTimestamp, scope) {
 		success: function(data) {
 			tickUpCutCounter();
 			seedling.remove();
+			console.log(`You just cut ${slug}, if it was a mistake you can still watch it here: http://clips.twitch.tv/${slug}`);
 			var allSeeds = jQuery('.seedling');
 			jQuery.each(allSeeds, function() {
 				var thisVODLink = jQuery(this).find('.seedling-views a');
 				var thisVODBase = thisVODLink.attr("data-vodbase");
 				var thisVODTimestamp = parseInt(thisVODLink.attr("data-vodtimestamp"), 10);
-				if (VODBase === thisVODBase && thisVODTimestamp + 10 >= VODTimestamp && thisVODTimestamp - 10 <= VODTimestamp ) {
+				if (VODBase === thisVODBase && thisVODTimestamp + 15 >= VODTimestamp && thisVODTimestamp - 15 <= VODTimestamp ) {
 					jQuery(this).remove();
-					console.log(`Cutting play with VODBase ${thisVODBase} and timestamp ${thisVODTimestamp} Because they match VODBase ${VODBase} and timestamp ${VODTimestamp}`);
 					tickUpCutCounter();
 				}
 			});
@@ -68,7 +68,6 @@ function voteSlug(slug, time, seedling, VODBase, VODTimestamp, user) {
 		},
 		success: function(data) {
 			if (data == true) {
-				console.log("You voted!");
 				tickUpCutCounter();
 				cutSlug(slug, time, seedling, VODBase, VODTimestamp, user);
 			};

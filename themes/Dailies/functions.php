@@ -226,6 +226,7 @@ function secret_garden_grow() {
 		'taxonomy' => 'source'
 	);
 	$sources = get_terms( $source_args );
+	$growSource = 632;
 	foreach ($sources as $source) {
 		$key = get_term_meta( $source->term_id, 'twitch', true);
 		if ( $key == $growSourceFull ) {

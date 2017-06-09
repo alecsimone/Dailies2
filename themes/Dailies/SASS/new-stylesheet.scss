@@ -207,6 +207,29 @@ h3 {
     margin: 0px;
 }
 
+button {
+	-webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    display: inline-block;
+	cursor: pointer;
+	background: none;
+	color: $black;
+    padding: 6px;
+    border-radius: 2px;
+    border: 1px solid $black;
+    box-shadow: 0px 1px 2px rgba(0,0,0,.2);
+    box-sizing: initial;
+    font-size: $plusHalf;
+    font-family: proxima-nova, sans-serif;
+    transition: box-shadow .2s;
+    &:hover {
+    	box-shadow: none;
+    	transition: box-shadow .2s;
+    	background: rgba(0,0,0,.03);
+    }
+}
+
 /*---------------------------------------------------------
 1. Fundamental Structure
 This is for the broad architectural stuff. This includes:
@@ -2019,6 +2042,7 @@ p.cctitle-instructions {
 	width: 95%;
 	margin: auto;
 	text-align: left;
+	position: relative;
 }
 p.clipCount {
     font-size: 18px;
@@ -2028,7 +2052,14 @@ p.clipCount {
     width: 760px;
 }
 
-
+.sgButtons {
+	position: absolute;
+	right: 0;
+	top: $half;
+}
+.sgButton {
+	margin: 0 $quarter;
+}
 
 .seedling {
 	@include card();
@@ -2107,19 +2138,7 @@ input.seedling-title-input {
 	text-align: center;
 	margin: $plusHalf 0;
 	display: none;
-	cursor: pointer;
-	background: $lighterBlack;
-	color: $light;
-    padding: 3px 0;
-    width: $sex;
-    border-radius: 2px;
-    border: 1px solid $black;
-    box-shadow: 0px 1px 2px rgba(0,0,0,.2);
-    transition: box-shadow .2s;
-    &:hover {
-    	box-shadow: none;
-    	transition: box-shadow .2s;
-    }
+    width: $sex; 
 }
 .seedling-vote, .seedling-cross {
 	display: none;
@@ -2135,13 +2154,14 @@ img.seedVoter {
 	height: $triple;
 }
 
-p.moreClips {
+.moreClips {
+	display: block;
+	margin: 0 auto $double;
 	font-size: 24px;
 	font-weight: bold;
 	cursor: pointer;
 	padding: 12px;
 	text-align: center;
-	width: 100%;
 }
 
 #schedule-container {
