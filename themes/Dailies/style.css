@@ -1808,17 +1808,23 @@ p.cctitle-instructions {
   text-align: left;
   position: relative; }
 
+.garden-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; }
+
 p.clipCount {
   font-size: 18px;
   font-weight: bold;
-  margin: 6px 0;
   text-align: left;
-  width: 760px; }
+  margin: 0 0 6px; }
 
-.sgButtons {
-  position: absolute;
-  right: 0;
-  top: 6px; }
+.sgAddStreamInput {
+  background: rgba(255, 253, 249, 0.9);
+  font-size: 18px;
+  padding: 3px;
+  width: 360px;
+  border-radius: 3px; }
 
 .sgButton {
   margin: 0 3px; }
@@ -1934,7 +1940,7 @@ img.seedVoter {
   height: 36px; }
 
 .moreClips {
-  display: block;
+  display: none;
   margin: 0 auto 24px;
   font-size: 24px;
   font-weight: bold;

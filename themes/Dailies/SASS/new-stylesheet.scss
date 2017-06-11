@@ -2043,19 +2043,28 @@ p.cctitle-instructions {
 	text-align: left;
 	position: relative;
 }
-p.clipCount {
-    font-size: 18px;
-    font-weight: bold;
-    margin: 6px 0;
-    text-align: left;
-    width: 760px;
+
+.garden-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.sgButtons {
-	position: absolute;
-	right: 0;
-	top: $half;
+p.clipCount {
+    font-size: $plusHalf;
+    font-weight: bold;
+    text-align: left;
+    margin: 0 0 $half;
 }
+
+.sgAddStreamInput {
+	background: $light;
+	font-size: $plusHalf;
+	padding: $quarter;
+	width: 360px;
+	border-radius: $quarter;
+}
+
 .sgButton {
 	margin: 0 $quarter;
 }
@@ -2174,7 +2183,7 @@ img.seedVoter {
 }
 
 .moreClips {
-	display: block;
+	display: none;
 	margin: 0 auto $double;
 	font-size: 24px;
 	font-weight: bold;
