@@ -246,8 +246,8 @@ $sourceSlug = $source[0]->slug; ?>
 				<?php edit_post_link('Edit this'); ?>
 			</p>
 		<?php }; ?>
-		<div class="little-discuss-button">
-			<?php if ( current_user_can('delete_published_posts') ) { ?><div class="post-trasher" onclick="postTrasher(<?php echo $thisID; ?>)"><img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/red-x.png"></div><?php }; ?><img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/comment-icon-outline.png" onclick="showCommentForm(<?php echo $thisID; echo ", "; echo $hash; echo $thisID; ?>)">
+		<div class="little-author-button">
+			<?php if ( current_user_can('delete_published_posts') ) { ?><div class="post-trasher" onclick="postTrasher(<?php echo $thisID; ?>)"><img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/red-x.png"></div><?php }; ?><img src="<?php $authorID = get_post_field('post_author', $post->ID); $authorIMG = get_user_meta($authorID, 'customProfilePic', true); echo $authorIMG; ?>" class="little-thing-author">
 		</div>
 	</section>
 	<?php include(locate_template('commentbox.php')); ?>

@@ -4,17 +4,15 @@ include( locate_template('schedule.php') );
 
 <section class="live-header">
 	<section class="moneystuff">	
-		<section class="streamlabs-bar">
-			<iframe src="https://streamlabs.com/widgets/donation-goal?token=8BE4E105DA0C64096FD6" height="100%" width="100%" name="donation-bar" frameborder="0" scrolling="no" id="donation-bar">You need an iframes capable browser to view this content.</iframe>
-		</section>
 		<section id="donate-box">
 			<a href="https://www.patreon.com/rocket_dailies" class="patreon-link"><div class="patreon-button">
 				<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/Patreon.png" alt="patreon" class="patreon-logo">
 			</div></a><a href="https://twitch.streamlabs.com/the_rocket_dailies" target="_blank" class="donate-link"><div class="donate-button">
 				Donate
-			</div></a><div class="donation-ticker">
-				<iframe src="https://streamlabs.com/widgets/donation-ticker?token=8BE4E105DA0C64096FD6" height="100%" width="100%" name="donation-bar" frameborder="0" scrolling="no" id="donation-bar">You need an iframes capable browser to view this content.</iframe>
-			</div>
+			</div></a>
+		</section>
+		<section class="streamlabs-bar">
+			<iframe src="https://streamlabs.com/widgets/donation-goal?token=8BE4E105DA0C64096FD6" height="100%" width="100%" name="donation-bar" frameborder="0" scrolling="no" id="donation-bar">You need an iframes capable browser to view this content.</iframe>
 		</section>
 	</section><section id="live-userbox">
 		<?php include( locate_template('userbox.php') ); ?>
@@ -27,29 +25,29 @@ include( locate_template('schedule.php') );
 </section>
 
 <nav id="channel-changer">
-	<div id="filter-button" class="channel-changer-button inactive offline filter">
-		<div class="cc-logo"><img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/filter.png"></div>
-		<div class="channel-display-name">Filter</div>
-	</div>
-	<?php $todaysChannels = $schedule[$todaysSchedule];
-	foreach ($todaysChannels as $channel) { 
-		$twitchWholeURL = get_term_meta($channel[2], 'twitch', true);
-		$twitchChannel = substr($twitchWholeURL, 22); ?>
-		<div class="channel-changer-button inactive offline" data-channel-name="<?php echo $twitchChannel; ?>" data-channel-slug="<?php echo $channel[1]; ?>">
-			<div class="cc-logo">
-				<a href="<?php echo $thisDomain; ?>/source/<?php echo $channel[1]; ?>/" target="_blank"><img src="<?php $sourcepic = get_term_meta($channel[2], 'logo', true); echo $sourcepic; ?>"></a>
-			</div>
-			<div class="channel-display-name" data-display-name="<?php echo $channel[0]; ?>"><?php echo $channel[0]; ?></div>
-			<div class="cc-details">
-				<div class="channel-info"><?php echo $channel[3]; ?></div>
-				<div class="channel-time"><?php echo $channel[4]; ?></div>
-			</div>
+	<div class="scrollButton scrollLeft">&lt</div>
+	<div class="channel-changer-buttons">
+		<div id="sort-button" class="channel-changer-button inactive offline sort">
+			<div class="cc-logo"><img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/sort.png"></div>
+			<div class="channel-display-name">Sort</div>
 		</div>
-	<?php }; ?>
-	<div id="sort-button" class="channel-changer-button inactive offline sort">
-		<div class="cc-logo"><img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/sort.png"></div>
-		<div class="channel-display-name">Sort</div>
+		<?php $todaysChannels = $schedule[$todaysSchedule];
+		foreach ($todaysChannels as $channel) { 
+			$twitchWholeURL = get_term_meta($channel[2], 'twitch', true);
+			$twitchChannel = substr($twitchWholeURL, 22); ?>
+			<div class="channel-changer-button inactive offline" data-channel-name="<?php echo $twitchChannel; ?>" data-channel-slug="<?php echo $channel[1]; ?>">
+				<div class="cc-logo">
+					<a href="<?php echo $thisDomain; ?>/source/<?php echo $channel[1]; ?>/" target="_blank"><img src="<?php $sourcepic = get_term_meta($channel[2], 'logo', true); echo $sourcepic; ?>"></a>
+				</div>
+				<div class="channel-display-name" data-display-name="<?php echo $channel[0]; ?>"><?php echo $channel[0]; ?></div>
+				<div class="cc-details">
+					<div class="channel-info"><?php echo $channel[3]; ?></div>
+					<div class="channel-time"><?php echo $channel[4]; ?></div>
+				</div>
+			</div>
+		<?php }; ?>
 	</div>
+	<div class="scrollButton scrollRight">></div>
 </nav>
 
 <!-- <section id="cohosts">
@@ -347,6 +345,83 @@ function streamChecker() {
 		}
 	});
 };
+jQuery(window).load(ccWidthChecker);
+jQuery(window).resize(ccWidthChecker);
+
+function ccWidthChecker() {
+	var windowWidth = jQuery(window).width();
+	var ccButtons = jQuery('.channel-changer-button');
+	var visibleButtons = 0;
+	jQuery.each(ccButtons, function() {
+		if ( jQuery(this).css("display") !== "none" ) {
+			visibleButtons++;
+		}
+	})
+	var ccButtonBuffer = parseFloat(jQuery('.channel-changer-button:last').outerWidth(true)) - parseFloat(jQuery('.channel-changer-button:last').width());
+	var channelChangerPadding = parseFloat(jQuery('#channel-changer').css("paddingLeft"));
+	var newButtonWidth = windowWidth / visibleButtons - ccButtonBuffer - channelChangerPadding - 3;
+	var sortButtonIMG = jQuery("#sort-button img");
+	var sortButtonIMGHeight = sortButtonIMG.height();
+	var newSortButtonIMGPadding = (newButtonWidth - sortButtonIMGHeight) / 2;
+	if (newSortButtonIMGPadding >= 0 && newButtonWidth >= 60) {
+		if ( newButtonWidth < 120) {
+			jQuery('.channel-changer-button').css("maxWidth", newButtonWidth);
+			sortButtonIMG.css("paddingTop", newSortButtonIMGPadding);
+			sortButtonIMG.css("paddingBottom", newSortButtonIMGPadding);
+		}
+	} else {
+		jQuery('.scrollRight').fadeIn(100);
+		jQuery('.scrollRight').css("display", "flex");
+	}
+}
+
+function firstRightness() {
+	var firstChannel = jQuery('#sort-button');
+	var firstChannelRightness = firstChannel.offset().left;
+	return firstChannelRightness;
+}
+function lastRightness() {
+	var lastChannel = jQuery('.channel-changer-button:last');
+	var lastChannelRightness = lastChannel.offset().left;
+	var lastChannelWidth = lastChannel.outerWidth();
+	var lastChannelRightEdge = lastChannelWidth + lastChannelRightness;
+	return lastChannelRightEdge;
+}
+
+jQuery(".scrollButton").click(function() {
+	if (jQuery(this).css("display") === 'flex') {
+		if (jQuery(this).hasClass("scrollRight")) {
+			var direction = "Right";
+		} else if (jQuery(this).hasClass("scrollLeft")) {
+			var direction = "Left";
+		}
+		scrollbar(direction);
+	}
+})
+
+function scrollbar(direction) {
+	var channelChanger = jQuery('.channel-changer-buttons');
+	var scrollLeft = jQuery('.scrollLeft');
+	var scrollRight = jQuery('.scrollRight');
+	var windowWidth = jQuery(window).width();
+	if (direction === 'Right') {
+		var newRightness = lastRightness() - windowWidth;
+		if (newRightness <= windowWidth) {
+			scrollRight.fadeOut(); 
+			scrollLeft.fadeIn(150);
+			scrollLeft.css("display", "flex");
+		}
+		channelChanger.animate( { scrollLeft: `+=${windowWidth}` }, 200 );
+	} else if (direction === 'Left') {
+		var newRightness = firstRightness() + windowWidth;
+		if (newRightness >= 0) {
+			scrollLeft.fadeOut();
+			scrollRight.fadeIn(150);
+			scrollRight.css("display", "flex");
+		};
+		channelChanger.animate( { scrollLeft: `-=${windowWidth}` }, 200 );
+	}
+}
 
 </script>
 <?php get_footer(); ?>

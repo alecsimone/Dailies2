@@ -177,7 +177,8 @@ input.search-submit {
 input#searchform {
   width: 400px;
   height: 32px;
-  margin: 7px 0px; }
+  margin: 7px 0px;
+  -webkit-appearance: none; }
 
 a#winners {
   color: #ecc15b;
@@ -1436,19 +1437,26 @@ body.page-id-3801 .thing {
 .live-header {
   display: flex;
   justify-content: space-around;
-  align-items: center;
+  align-items: baseline;
+  flex-wrap: wrap;
   width: 95%;
   margin: 12px auto 24px; }
+  @media screen and (min-width: 687px) {
+    .live-header {
+      flex-wrap: nowrap; } }
 
 .moneystuff {
-  width: 75%;
+  width: 100%;
   display: inline-block; }
+  @media screen and (min-width: 687px) {
+    .moneystuff {
+      width: 75%; } }
 
 #donate-box {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  margin: 0 auto 24px;
+  justify-content: center;
+  margin: 0 auto;
   width: 100%; }
   @media screen and (min-width: 687px) {
     #donate-box {
@@ -1495,6 +1503,7 @@ a.donate-link {
   display: inline-block;
   width: 20%;
   max-width: 300px;
+  min-width: 196px;
   padding: 0 24px; }
 
 #cohosts {
@@ -1579,11 +1588,11 @@ h3.live {
   cursor: pointer; }
 
 #channel-changer {
-  text-align: center; }
-  @media screen and (min-width: 850px) {
-    #channel-changer {
-      width: 98%;
-      margin: auto; } }
+  position: relative;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  padding-left: 6px; }
 
 p.channel-changer-title {
   color: #fff;
@@ -1597,13 +1606,19 @@ p.cctitle-instructions {
   margin: 0;
   color: rgba(255, 253, 249, 0.9); }
 
+.channel-changer-buttons {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  line-height: 0; }
+
 .channel-changer-button {
   position: relative;
   background: #121212;
   display: inline-block;
   padding: 3px;
   border-radius: 0px 0px 2px 2px;
-  margin: 0 6px 6px;
+  margin: 0 3px 6px;
   cursor: pointer;
   overflow: hidden;
   max-width: 72px;
@@ -1641,7 +1656,8 @@ p.cctitle-instructions {
   opacity: 0;
   transition: opacity .1s;
   font-size: 12px;
-  padding: 0; }
+  padding: 0;
+  line-height: 1.5em; }
   @media screen and (min-width: 687px) {
     .cc-details {
       font-size: 15px;
@@ -1682,7 +1698,8 @@ p.cctitle-instructions {
     color: rgba(255, 253, 249, 0.9); }
   #filter-button img, #sort-button img {
     display: block;
-    height: 36px;
+    width: 24px;
+    height: 24px;
     padding: 18px; }
     @media screen and (min-width: 687px) {
       #filter-button img, #sort-button img {
@@ -1698,6 +1715,26 @@ p.cctitle-instructions {
 
 #sort-button.sorting {
   background: #333; }
+
+.scrollButton {
+  display: none;
+  position: absolute;
+  font-size: 48px;
+  font-weight: bold;
+  top: 0;
+  color: rgba(255, 253, 249, 0.5);
+  background: rgba(12, 12, 12, 0.8);
+  height: calc(100% - 12px);
+  padding: 0 12px;
+  align-items: center;
+  z-index: 2;
+  cursor: pointer; }
+
+.scrollLeft {
+  left: 0; }
+
+.scrollRight {
+  right: 0; }
 
 .hidden-data {
   display: none; }
@@ -1737,7 +1774,7 @@ p.cctitle-instructions {
   align-items: center;
   width: 100%;
   line-height: 1em;
-  margin-bottom: 3px; }
+  margin-bottom: 6px; }
 
 .little-title {
   width: calc(100% - 120px);
@@ -1752,21 +1789,22 @@ p.cctitle-instructions {
   width: 48px;
   height: 48px; }
 
-.little-discuss-button {
+.little-author-button {
   width: 36px;
-  margin-right: 6px;
+  margin-right: 8px;
   margin-left: auto;
   text-align: right;
   opacity: .9;
   display: inline-flex;
   align-items: center;
   justify-content: flex-end; }
-  .little-discuss-button:hover {
+  .little-author-button:hover {
     opacity: 1; }
 
-.little-discuss-button img {
-  width: 36px;
-  height: 36px; }
+.little-author-button img {
+  width: 30px;
+  height: 30px;
+  border-radius: 3px; }
 
 .little-thing .commentbox .comments-header {
   display: none; }
@@ -1792,8 +1830,8 @@ p.cctitle-instructions {
     height: 48px; }
 
 .little-thing p.attribution.stars img {
-  width: 24px;
-  height: 24px; }
+  width: 30px;
+  height: 30px; }
 
 .post-trasher {
   margin-top: 1px; }

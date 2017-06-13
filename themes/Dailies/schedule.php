@@ -65,6 +65,7 @@
 		//'rlcs' => ['RLCS', 'rlcs', 79, 'League Play', 'Sat & Sun'],
 		//'gold' => ['Goldrush', 'goldrushgg', 761, 'Worldwide LAN', '3PM EST'],
 		'rstreet' => ['RocketStreet', 'rocketstreet', 518, 'SAM Rising Stars', '530PM EST'],
+		'elevate' => ['Elevate', 'elevate-league', 820, 'New Tournament', '7PM EST'],
 		'cca' => ['CCA', 'cca', 736, 'CCA Weekend Matches', '8:00PM EST'],
 		'nexus' => ['Nexus', 'nexus-gaming', 389, 'NA - 3v3 - $150', '8PM EST'],
 		'mld' => ['MLD', 'mld', 750, 'Finals!', '8PM EST'],

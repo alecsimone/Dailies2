@@ -337,6 +337,7 @@ input#searchform {
 	width: 400px;
     height: 32px;
     margin: 7px 0px;
+    -webkit-appearance: none;
 }
 a#winners {
 	color: $gold;
@@ -1642,21 +1643,28 @@ body.page-id-3801{
 .live-header {
 	display: flex;
 	justify-content: space-around;
-	align-items: center;
+	align-items: baseline;
+	flex-wrap: wrap;
 	width: 95%;
 	margin: $baseline auto $double;
+	@media #{$bpMedium} {
+		flex-wrap: nowrap;
+	}
 }
 
 .moneystuff {
-	width: 75%;
+	width: 100%;
 	display: inline-block;
+	@media #{$bpMedium} {
+		width: 75%;
+	}
 }
 
 #donate-box {
 	display: flex;
 	align-items: center;
-	justify-content: flex-start;
-	margin: 0 auto $double;
+	justify-content: center;
+	margin: 0 auto;
 	width: 100%;
 	@media #{$bpMedium} {
 		width: 88%;
@@ -1708,6 +1716,7 @@ a.donate-link {
 	display: inline-block;
 	width: 20%;
 	max-width: 300px;
+	min-width: 196px;
 	padding: 0 $double;
 }
 
@@ -1795,11 +1804,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#262626', end
 }
 
 #channel-changer {
+	position: relative;
 	text-align: center;
-	@media #{$bpLarge} {
-		width: 98%;
-		margin: auto;
-	}
+	white-space: nowrap;
+	overflow: hidden;
+	padding-left: $half;
 }
 p.channel-changer-title {
 	color: #fff;
@@ -1813,20 +1822,26 @@ p.cctitle-instructions {
 	margin: 0;
 	color: $light;
 }
+.channel-changer-buttons {
+	display: inline-block;
+	max-width: 100%;
+	overflow: hidden;
+	line-height: 0;
+}
 .channel-changer-button {
 	position: relative;
 	background: $black;
 	display: inline-block;
 	padding: $quarter;
 	border-radius: $roundedBot;
-	margin: 0 $half $half;
+	margin: 0 $quarter $half;
 	cursor: pointer;
 	overflow: hidden;
 	max-width: $sex;
 	max-height: $oct;
 	@media #{$bpMedium} {
 		max-width: $dec;
-		max-height: $twelvetimes;		
+		max-height: $twelvetimes;
 	}
 	&.active, &:hover, &.filtering {
 		background: $evenLighterBlack;
@@ -1862,6 +1877,7 @@ p.cctitle-instructions {
 	transition: opacity .1s;
 	font-size: $baseline;
 	padding: 0;
+	line-height: 1.5em;
 	@media #{$bpMedium} {
 		font-size: $plusQuarter;
 		padding: $quarter;
@@ -1905,7 +1921,8 @@ p.cctitle-instructions {
 	}
 	& img {
 		display: block;
-		height: $triple;
+		width: $double;
+		height: $double;
 		padding: $plusHalf;
 		@media #{$bpMedium} {
 			height: $sex;
@@ -1923,6 +1940,26 @@ p.cctitle-instructions {
 }
 #sort-button.sorting {
 	background: $evenLighterBlack;
+}
+.scrollButton {
+	display: none;
+    position: absolute;
+    font-size: $quad;
+    font-weight: bold;
+    top: 0;
+    color: $transLight;
+    background: $blackTrans2;
+    height: calc(100% - #{$baseline});
+    padding: 0 $baseline;
+    align-items: center;
+    z-index: 2;
+    cursor: pointer;
+}
+.scrollLeft {
+	left: 0;
+}
+.scrollRight {
+	right: 0;
 }
 
 .hidden-data {
@@ -1965,7 +2002,7 @@ p.cctitle-instructions {
 	align-items: center;
 	width: 100%;
 	line-height: 1em;
-	margin-bottom: $quarter;
+	margin-bottom: $half;
 }
 .little-title{
 	width: calc(100% - 120px);
@@ -1980,9 +2017,9 @@ p.cctitle-instructions {
 	width: $quad;
 	height: $quad;
 }
-.little-discuss-button {
+.little-author-button {
 	width: $triple;
-	margin-right: $half;
+	margin-right: 8px;
 	margin-left: auto;
 	text-align: right;
 	opacity: .9;
@@ -1993,9 +2030,10 @@ p.cctitle-instructions {
 		opacity: 1;
 	}
 }
-.little-discuss-button img {
-	width: $triple;
-	height: $triple;
+.little-author-button img {
+	width: $doublePlusHalf;
+	height: $doublePlusHalf;
+	border-radius: $quarter;
 }
 
 .little-thing .commentbox .comments-header {
@@ -2025,8 +2063,8 @@ p.cctitle-instructions {
 	}
 }
 .little-thing p.attribution.stars img {
-	width: $double;
-	height: $double;
+	width: $doublePlusHalf;
+	height: $doublePlusHalf;
 }
 .post-trasher {
 	margin-top: 1px;
