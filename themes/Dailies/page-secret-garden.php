@@ -268,7 +268,7 @@ function clipGetter(queryCursorPairsArray) {
 				cutCount++;
 			} else {
 				garden.append(
-					`<div class='seedling' data-source='${thisSource}' data-views='${thisViewCount}'>
+					`<div class='seedling' id='${thisSlug}-seedling' data-source='${thisSource}' data-views='${thisViewCount}'>
 						<div class='seedling-controls'>
 							<a href="${thisWholeSource}/clips" target="_blank"><img src='${thisLogo}' class='seedling-logo'></a>
 							<div class="cutVoteContainer">
@@ -355,23 +355,27 @@ jQuery("#garden").on('click', '.seedling-title', function() {
 	event.preventDefault();
 	var thisTitle = jQuery(this);
 	var thisSeedling = thisTitle.parent().parent();
-	var thisSeedlingMeta = thisSeedling.find('.seedling-meta');
+	expandSeedling(thisSeedling);	
+});
+function expandSeedling(seedling) {
+	var thisSeedlingMeta = seedling.find('.seedling-meta');
 	var thisSeedlingMetaWidth = thisSeedlingMeta.width();
 	var heightByWidth = thisSeedlingMetaWidth / 16 * 9;
 	var viewportHeight = jQuery(window).height();
-	var baseSeedlingHeight = thisSeedling.outerHeight();
+	var baseSeedlingHeight = seedling.outerHeight();
 	var heightByViewport = viewportHeight - baseSeedlingHeight - 48;
 	if (heightByViewport < heightByWidth) {
 		var thisEmbedHeight = heightByViewport;
 	} else {
 		var thisEmbedHeight = heightByWidth;
 	}
-	var thisEmbedTarget = thisSeedling.find('.seedlingEmbedTarget');
-	var thisNuke = thisSeedling.find('.universalCut');
-	var thisVote = thisSeedling.find('.seedling-vote');
-	var thisCut = thisSeedling.find('.seedling-cross');
+	var thisEmbedTarget = seedling.find('.seedlingEmbedTarget');
+	var thisNuke = seedling.find('.universalCut');
+	var thisVote = seedling.find('.seedling-vote');
+	var thisCut = seedling.find('.seedling-cross');
 	var thisCutVoteContainer = thisCut.parent();
 	if ( thisEmbedTarget.is(':empty') ) {
+		var thisTitle = seedling.find('.seedling-title');
 		var thisSlug = thisTitle.attr("data-slug");
 		var embedCode = `<iframe src="https://clips.twitch.tv/embed?clip=${thisSlug}&autoplay=true" width="100%" height="${thisEmbedHeight}" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>`
 		thisEmbedTarget.html(embedCode);
@@ -386,15 +390,16 @@ jQuery("#garden").on('click', '.seedling-title', function() {
 		thisCut.css("display", "none");
 		thisCutVoteContainer.css("height", "0px");
 	}
-});
+}
 
-function cutSeed(thisSeedling, button, scope) {
+function cutSeed(thisSeedling, scope) {
 	var thisTitle = thisSeedling.find('.seedling-title');
 	var thisSlug = thisTitle.attr("data-slug");
 	var thisTime = thisTitle.attr("data-time");
 	var thisVODLink = thisSeedling.find('.seedling-views a');
 	var thisVODBase = thisVODLink.attr("data-vodbase");
 	var thisVODTimestamp = thisVODLink.attr("data-vodtimestamp");
+	var button = thisSeedling.find('.seedCutter');
 	button.fadeOut();
 	cutSlug(thisSlug, thisTime, thisSeedling, thisVODBase, thisVODTimestamp, scope);
 }
@@ -409,7 +414,7 @@ function tickUpCutCounter() {
 jQuery("#garden").on('click', '.universalCut', function() {
 	var thisButton = jQuery(this);
 	var thisSeedling = thisButton.parent().parent();
-	cutSeed(thisSeedling, thisButton, 'everyone');
+	cutSeed(thisSeedling, 'everyone');
 });
 
 jQuery("#garden").on('click', '.seedling-cross', function() {
@@ -417,7 +422,7 @@ jQuery("#garden").on('click', '.seedling-cross', function() {
 	var thisSeedling = thisButton.parent().parent().parent();
 	var garden = jQuery("#garden");
 	var userID = garden.attr("data-user-id");
-	cutSeed(thisSeedling, thisButton, userID);
+	cutSeed(thisSeedling, userID);
 });
 
 jQuery("#garden").on('click', '.seedling-vote', function() {
@@ -508,6 +513,29 @@ jQuery("#garden").on('keypress', '.sgAddStreamInput', function(e) {
 		thisInput.val('');
 	}
 });
+
+jQuery(window).on('click', function(e) {
+	jQuery('.focus').removeClass('focus');
+}); 
+jQuery("#garden").on('click', '.seedling', function(e) {
+	jQuery('.focus').removeClass('focus');
+	jQuery(this).addClass('focus');
+	e.stopPropagation();
+});
+jQuery(window).on('keypress', function(e) {
+	if(e.which === 113) {
+		var focusedSeedling = jQuery('.seedling.focus');
+		if (focusedSeedling.length) {
+			var nextSeedling = focusedSeedling.next();
+			focusedSeedling.removeClass('focus');
+			var garden = jQuery('#garden');
+			var userID = garden.attr("data-user-id");
+			cutSeed(focusedSeedling, userID);
+			nextSeedling.addClass('focus');
+			expandSeedling(nextSeedling);
+		}
+	}
+})
 
 </script>
 

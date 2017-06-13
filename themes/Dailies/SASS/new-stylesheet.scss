@@ -40,7 +40,7 @@ $evenLighterBlack: #333;
 $blackTrans: rgba(12,12,12,.6);
 $blackTrans2: rgba(12,12,12,.8);
 $blackTrans3: rgba(12,12,12,.9);
-$blackTrans4: rgba(12,12,12,.6);
+$blackTrans4: rgba(12,12,12,.4);
 
 //Breakpoints. Remember to use the "interpolation braces" when calling these variables. e.g. #{$bpSmall}
 $bpxs: "screen and (min-width: 287px)";
@@ -1579,7 +1579,7 @@ a.stringNameLink {
 	display: inline-block;
 }
 .pearlOverlay {
-	background: $blackTrans4;
+	background: $blackTrans;
 	@include fourCorners();
 	@include flexbox();
 	justify-content: center;
@@ -1923,7 +1923,7 @@ p.cctitle-instructions {
 		display: block;
 		width: $double;
 		height: $double;
-		padding: $plusHalf;
+		padding: $double;
 		@media #{$bpMedium} {
 			height: $sex;
 			width: $sex;
@@ -2117,6 +2117,9 @@ p.clipCount {
 	border-radius: $quarter;
 	display: flex;
 	align-items: flex-start;
+	&.focus {
+		border: 1px solid $blackTrans4;
+	}
 }
 .seedling-controls {
 	display: inline-flex;
@@ -2252,7 +2255,7 @@ img.seedVoter {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#262626', endColorstr='#000000',GradientType=1 ); /* IE6-9 */
     &-title {
     	font-weight: bold;
-    	font-size: $sept;
+    	font-size: $quad;
     	padding-left: $double;
     	width: 85%;
     	margin-left: 5%;
@@ -2269,7 +2272,7 @@ img.seedVoter {
 	flex-grow: 1;
 	max-width: 420px;
     margin: $baseline;
-    padding: $plusHalf;
+    padding: $baseline;
     border-radius: 3px;
 	background: #041323; /* Old browsers */
 	background: -moz-linear-gradient(top,  #020a12 0%, #000000 100%); /* FF3.6-15 */
@@ -2280,12 +2283,12 @@ img.seedVoter {
 		padding: 0 $baseline;
 		flex-grow: .33;
 		line-height: 1.4em;
-		font-size: $plusHalf;
+		font-size: $plusQuarter;
     }
     &-source {
 		color: $gold;
 		font-weight: bold;
-		font-size: $triple;
+		font-size: $doublePlusHalf;
 		padding-bottom: $half;
     }
     &:last-of-type {

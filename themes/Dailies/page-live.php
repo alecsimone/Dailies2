@@ -368,6 +368,8 @@ function ccWidthChecker() {
 			jQuery('.channel-changer-button').css("maxWidth", newButtonWidth);
 			sortButtonIMG.css("paddingTop", newSortButtonIMGPadding);
 			sortButtonIMG.css("paddingBottom", newSortButtonIMGPadding);
+			jQuery('.scrollRight').fadeOut(200);
+			jQuery('.scrollLeft').fadeOut(200);
 		}
 	} else {
 		jQuery('.scrollRight').fadeIn(100);

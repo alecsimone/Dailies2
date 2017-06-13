@@ -11,14 +11,12 @@
 		'me' => ['The Dailies', 'rocket-dailies', 688, 'Nom Stream', 'Midnight EST'],
 	),
 	'Tuesday' => array(
-		//'esloce' => ['ESL OCE', 'esl-australia', 616, 'OCE - 3v3', '5 AM EST'],
-		//'gfinity' => ['GFinity', 'gfinity', 194, 'EU - 2v2 - &pound;60', '2 PM EST'],
+		'myth' => ['Mythical', 'mythical-esports', 251, 'NA - 3v3 - $45', '9PM EST'],
+		'forzen' => ['Forzen', 'forzen', 772, '2v2 - $200', '8PM EST'],
 		'nexus' => ['Nexus', 'nexus-gaming', 389, 'NA - 1v1 - $50', '8PM EST'],
 		'nl' => ['NorthernLight', 'northern-light', 734, 'NA - 2v2 - $10', '8PM EST'],
 		'collision' => ['Collision', 'collision', 735, 'NA - 2v2', '8PM EST'],
-		'forzen' => ['Forzen', 'forzen', 772, '2v2 - $200', '8PM EST'],
-		'myth' => ['Mythical', 'mythical-esports', 251, 'NA - 3v3 - $45', '9PM EST'],
-		'me' => ['The Dailies', 'rocket-dailies', 688, 'Nom Stream', 'Midnight EST'],
+		'powered' => ['RPowered', 'rocket-powered', 826, 'NA - 1v1 - $15', '8PM EST'],
 	),
 	'Wednesday' => array(
 		'ocerl' => ['OCE RL', 'oce-rocket-league', 654, 'Perth RL 3v3', '5AM EST'],
@@ -30,7 +28,6 @@
 		'cca' => ['CCA', 'cca', 736, 'Wednesday Night Lights', '9PM EST'],
 		'bl' => ['Boost', 'boost-legacy', 401, 'NA - 3v3 - $40', '10PM EST'],
 		'forzen' => ['Forzen', 'forzen', 772, '2v2 - $200', '8PM EST'],
-		//'me' => ['The Dailies', 'rocket-dailies', 688, 'Nom Stream', 'Midnight EST'],
 	),
 	'Thursday' => array(
 		'OCE' => ['OCE RL', 'oce-rocket-league', 654, 'Palehorse Esports Alpha Cup 3v3', '5:30AM EST'],
