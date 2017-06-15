@@ -546,6 +546,26 @@ jQuery(window).on('keypress', function(e) {
 		expandSeedling(nextSeedling);
 	}
 })
+jQuery("#garden").on('click', '.cutAndNext', function() {
+	var focusedSeedling = jQuery('.seedling.focus');
+	if (focusedSeedling.length) {
+		var nextSeedling = focusedSeedling.next();
+		focusedSeedling.removeClass('focus');
+		cutAndNext(focusedSeedling);
+		nextSeedling.addClass('focus');
+		expandSeedling(nextSeedling);
+	}
+});
+jQuery("#garden").on('click', '.nukeAndNext', function() {
+	var focusedSeedling = jQuery('.seedling.focus');
+	if (focusedSeedling.length) {
+		var nextSeedling = focusedSeedling.next();
+		focusedSeedling.removeClass('focus');
+		nukeAndNext(focusedSeedling);
+		nextSeedling.addClass('focus');
+		expandSeedling(nextSeedling);
+	}
+});
 function cutAndNext(focusedSeedling) {	
 	var garden = jQuery('#garden');
 	var userID = garden.attr("data-user-id");
