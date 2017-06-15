@@ -2004,17 +2004,17 @@ img.seedVoter {
   border-radius: 3px;
   background: #262626;
   /* Old browsers */
-  background: -moz-linear-gradient(left, rgba(32, 123, 214, 0.25) 0%, transparent 93%);
+  background: -moz-linear-gradient(left, rgba(59, 143, 217, 0.6) 0%, transparent 93%);
   /* FF3.6-15 */
-  background: -webkit-linear-gradient(left, rgba(32, 123, 214, 0.25) 0%, transparent 93%);
+  background: -webkit-linear-gradient(left, rgba(59, 143, 217, 0.6) 0%, transparent 93%);
   /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to right, rgba(32, 123, 214, 0.25) 0%, transparent 93%);
+  background: linear-gradient(to right, rgba(59, 143, 217, 0.6) 0%, transparent 93%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#262626', endColorstr='#000000',GradientType=1 );
   /* IE6-9 */ }
   .schedule-day-title {
     font-weight: bold;
-    font-size: 48px;
+    font-size: 60px;
     padding-left: 24px;
     width: 85%;
     margin-left: 5%;
@@ -2022,7 +2022,7 @@ img.seedVoter {
 
 .schedule-entry {
   font-size: 18px;
-  color: rgba(255, 253, 249, 0.9);
+  color: #fff;
   display: inline-flex;
   align-items: center;
   justify-content: space-around;
@@ -2044,12 +2044,12 @@ img.seedVoter {
   .schedule-entry-info {
     padding: 0 12px;
     flex-grow: .33;
-    line-height: 1.4em;
-    font-size: 15px; }
+    line-height: 1.5em;
+    font-size: 18px; }
   .schedule-entry-source {
     color: #ecc15b;
     font-weight: bold;
-    font-size: 30px;
+    font-size: 36px;
     padding-bottom: 6px; }
   .schedule-entry:last-of-type {
     flex-grow: 0; }

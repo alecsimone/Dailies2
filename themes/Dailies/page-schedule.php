@@ -2,21 +2,15 @@
 
 <style media="screen" type="text/css">
 body:before {
-	background: #181818; /* Old browsers */
-	background: -moz-radial-gradient(center, ellipse cover, #202020 2%, #121212 100%); /* FF3.6-15 */
-	background: -webkit-radial-gradient(center, ellipse cover, #202020 2%,#121212 100%); /* Chrome10-25,Safari5.1-6 */
-	background: radial-gradient(ellipse at center, #202020 2%,#121212 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-}
-#menu-links-wrapper {
-	background: rgba(13,56,6,.9);
+	background: #222; /* Old browsers */
+	background: -moz-radial-gradient(center, ellipse cover, #262626 2%, #161616 100%); /* FF3.6-15 */
+	background: -webkit-radial-gradient(center, ellipse cover, #262626 2%,#161616 100%); /* Chrome10-25,Safari5.1-6 */
+	background: radial-gradient(ellipse at center, #262626 2%, #161616 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 a {
 	text-decoration: none;
 }
-a#live {
-	color: rgba(16,80,143,.85);
-}
-</style>
+</style> 
 
 <div id="schedule-container">
 	<?php include( locate_template('schedule.php') );

@@ -2248,14 +2248,13 @@ img.seedVoter {
     padding-right: 10%;
     border-radius: 3px;
 	background: #262626; /* Old browsers */
-	background: -moz-linear-gradient(left,  rgba(32,123,214,.25) 0%, rgba(0,0,0,0) 93%); /* FF3.6-15 */
-	background: -webkit-linear-gradient(left,  rgba(32,123,214,.25) 0%,rgba(0,0,0,0) 93%); /* Chrome10-25,Safari5.1-6 */
-	//background: linear-gradient(to right,  rgba(12,51,5,.9) 0%,rgba(0,0,0,0) 90%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-	background: linear-gradient(to right,  rgba(32,123,214,.25) 0%,rgba(0,0,0,0) 93%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	background: -moz-linear-gradient(left,  rgba(59, 143, 217, 0.6) 0%, rgba(0,0,0,0) 93%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(left,  rgba(59, 143, 217, 0.6) 0%,rgba(0,0,0,0) 93%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to right, rgba(59, 143, 217, 0.6) 0%, rgba(0,0,0,0) 93%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#262626', endColorstr='#000000',GradientType=1 ); /* IE6-9 */
     &-title {
     	font-weight: bold;
-    	font-size: $quad;
+    	font-size: $sept;
     	padding-left: $double;
     	width: 85%;
     	margin-left: 5%;
@@ -2265,7 +2264,7 @@ img.seedVoter {
 
 .schedule-entry {
 	font-size: $plusHalf;
-	color: $light;
+	color: #fff;
 	display: inline-flex;
     align-items: center;
     justify-content: space-around;
@@ -2282,13 +2281,13 @@ img.seedVoter {
     &-info {
 		padding: 0 $baseline;
 		flex-grow: .33;
-		line-height: 1.4em;
-		font-size: $plusQuarter;
+		line-height: 1.5em;
+		font-size: $plusHalf;
     }
     &-source {
 		color: $gold;
 		font-weight: bold;
-		font-size: $doublePlusHalf;
+		font-size: $triple;
 		padding-bottom: $half;
     }
     &:last-of-type {
