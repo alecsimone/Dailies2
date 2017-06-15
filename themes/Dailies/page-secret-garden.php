@@ -92,9 +92,11 @@ function clipGetter(queryCursorPairsArray) {
 	var canPublish = garden.attr('data-user-can-publish');
 	if (canPublish === 'true') {
 		var nuke = "<button class='universalCut'>Nuke</button>";
+		var nukeAndNext = "<button class='nukeAndNext extraButton'>N</button>"
 		var keep = "<div class='seedlingAddTitleBox'><input type='text' class='seedling-title-input' name='addTitleBox' placeholder='Who and Why?'><button class='keepbutton'>nom</button></div>"
 	} else {
 		var nuke = '';
+		var nukeAndNext = '';
 		var keep = '';
 	}
 	var slugList = garden.attr('data-slugs');
@@ -277,6 +279,10 @@ function clipGetter(queryCursorPairsArray) {
 							</div>
 							${nuke}
 						</div>
+						<div class="seedling-extra-buttons">
+							${nukeAndNext}
+							<button class="cutAndNext extraButton">X</button>
+						</div>
 						<div class='seedling-meta'>
 							<div class='seedling-title' data-slug='${thisSlug}' data-time='${thisTime}' data-voters='${thisVotersObj}'>
 								<a href='https://clips.twitch.tv/${thisSlug}' target='_blank'>${thisVoteScore} ${thisTitle}</a>
@@ -373,6 +379,7 @@ function expandSeedling(seedling) {
 	var thisNuke = seedling.find('.universalCut');
 	var thisVote = seedling.find('.seedling-vote');
 	var thisCut = seedling.find('.seedling-cross');
+	var thisExtraButtons = seedling.find('.seedling-extra-buttons');
 	var thisCutVoteContainer = thisCut.parent();
 	if ( thisEmbedTarget.is(':empty') ) {
 		var thisTitle = seedling.find('.seedling-title');
@@ -382,12 +389,15 @@ function expandSeedling(seedling) {
 		thisNuke.fadeIn();
 		thisVote.fadeIn();
 		thisCut.fadeIn();
+		thisExtraButtons.fadeIn();
+		thisExtraButtons.css("display", "flex");
 		thisCutVoteContainer.css("height", "36px");
 	} else {
 		thisEmbedTarget.html('');
 		thisNuke.css("display", "none");
 		thisVote.css("display", "none");
 		thisCut.css("display", "none");
+		thisExtraButtons.css("display", "none");
 		thisCutVoteContainer.css("height", "0px");
 	}
 }
@@ -523,19 +533,31 @@ jQuery("#garden").on('click', '.seedling', function(e) {
 	e.stopPropagation();
 });
 jQuery(window).on('keypress', function(e) {
-	if(e.which === 113) {
-		var focusedSeedling = jQuery('.seedling.focus');
-		if (focusedSeedling.length) {
-			var nextSeedling = focusedSeedling.next();
-			focusedSeedling.removeClass('focus');
-			var garden = jQuery('#garden');
-			var userID = garden.attr("data-user-id");
-			cutSeed(focusedSeedling, userID);
-			nextSeedling.addClass('focus');
-			expandSeedling(nextSeedling);
+	var focusedSeedling = jQuery('.seedling.focus');
+	if (focusedSeedling.length) {
+		var nextSeedling = focusedSeedling.next();
+		focusedSeedling.removeClass('focus');
+		if (e.which === 120) {
+			cutAndNext(focusedSeedling);
+		} else if (e.which === 110) {
+			nukeAndNext(focusedSeedling);
 		}
+		nextSeedling.addClass('focus');
+		expandSeedling(nextSeedling);
 	}
 })
+function cutAndNext(focusedSeedling) {	
+	var garden = jQuery('#garden');
+	var userID = garden.attr("data-user-id");
+	cutSeed(focusedSeedling, userID);
+}
+function nukeAndNext(focusedSeedling) {
+	var garden = jQuery('#garden');
+	var canNuke = garden.attr("data-user-can-publish");
+	if (canNuke === 'true') {
+		cutSeed(focusedSeedling, 'everyone');
+	}
+}
 
 </script>
 

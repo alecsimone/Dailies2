@@ -1871,6 +1871,7 @@ p.clipCount {
   background: #fff;
   box-shadow: 0 1px 1px rgba(173, 168, 168, 0.1);
   border: 1px solid rgba(0, 0, 0, 0.1);
+  position: relative;
   margin: 24px 0;
   font-size: 18px;
   padding: 12px;
@@ -1881,6 +1882,14 @@ p.clipCount {
   align-items: flex-start; }
   .seedling.focus {
     border: 1px solid rgba(12, 12, 12, 0.4); }
+  .seedling-extra-buttons {
+    position: absolute;
+    width: 84px;
+    padding-right: 12px;
+    bottom: 12px;
+    margin-bottom: 3px;
+    display: none;
+    justify-content: space-around; }
 
 .seedling-controls {
   display: inline-flex;

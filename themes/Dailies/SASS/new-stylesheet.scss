@@ -2109,6 +2109,7 @@ p.clipCount {
 
 .seedling {
 	@include card();
+	position: relative;
 	margin: $double 0;
 	font-size: $plusHalf;
 	padding: $baseline;
@@ -2119,6 +2120,15 @@ p.clipCount {
 	align-items: flex-start;
 	&.focus {
 		border: 1px solid $blackTrans4;
+	}
+	&-extra-buttons {
+		position: absolute;
+		width: $sevenfold;
+		padding-right: $baseline;
+		bottom: $baseline;
+		margin-bottom: $quarter;
+		display: none;
+		justify-content: space-around;
 	}
 }
 .seedling-controls {
