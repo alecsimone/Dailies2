@@ -69,7 +69,7 @@ function voteSlug(slug, time, seedling, VODBase, VODTimestamp, user) {
 		success: function(data) {
 			if (data == true) {
 				tickUpCutCounter();
-				cutSlug(slug, time, seedling, VODBase, VODTimestamp, user);
+				//cutSlug(slug, time, seedling, VODBase, VODTimestamp, user);
 			};
 		}
 	});

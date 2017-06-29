@@ -854,6 +854,7 @@ a.earlier.nomore {
 	font-weight: bold;
 	display: inline-block;
 	padding-right: $half;
+	color: $blue;
 }
 
 /*----------- 3Aii: votebox ----------- */
@@ -1053,7 +1054,7 @@ p.attribution.playcount {
 	margin: 0;
 }
 p.attribution a, p.attribution a:visited {
-	color: $gold;
+	color: $blue;
 }
 
 .addScore-input {
@@ -1071,7 +1072,7 @@ p.attribution a, p.attribution a:visited {
 	margin-top: -$baseline;
 	font-size: $plusQuarter;
 	line-height: 1em;
-	color: $gold;
+	color: $blue;
 	margin-left: 0;
 	clear: both;
 }
@@ -1628,10 +1629,10 @@ p.onboardText.your-votes-error {
 /*----------- 3H: Live Page ----------- */
 body.page-id-3801{
 	&:before {
-   		background: #402416; /* Old browsers */
-		background: -moz-radial-gradient(center, ellipse cover, #402416 0%, #1f110b 100%); /* FF3.6-15 */
-		background: -webkit-radial-gradient(center, ellipse cover, #402416 0%,#1f110b 100%); /* Chrome10-25,Safari5.1-6 */
-		background: radial-gradient(ellipse at center, #402416 0%,#1f110b 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+   		background: #222; /* Old browsers */
+		background: -moz-radial-gradient(center, ellipse cover, #262626 2%, #161616 100%); /* FF3.6-15 */
+		background: -webkit-radial-gradient(center, ellipse cover, #262626 2%,#161616 100%); /* Chrome10-25,Safari5.1-6 */
+		background: radial-gradient(ellipse at center, #262626 2%, #161616 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 	}
 	& .thing {
 		background: $lightGray;
@@ -1807,7 +1808,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#262626', end
 	position: relative;
 	text-align: center;
 	white-space: nowrap;
-	overflow: hidden;
+	//overflow: hidden;
 	padding-left: $half;
 }
 p.channel-changer-title {
@@ -1825,7 +1826,7 @@ p.cctitle-instructions {
 .channel-changer-buttons {
 	display: inline-block;
 	max-width: 100%;
-	overflow: hidden;
+	//overflow: hidden;
 	line-height: 0;
 }
 .channel-changer-button {
@@ -1833,10 +1834,10 @@ p.cctitle-instructions {
 	background: $black;
 	display: inline-block;
 	padding: $quarter;
-	border-radius: $roundedBot;
+	border-radius: 2px;
 	margin: 0 $quarter $half;
 	cursor: pointer;
-	overflow: hidden;
+	//overflow: hidden;
 	max-width: $sex;
 	max-height: $oct;
 	@media #{$bpMedium} {
@@ -1846,9 +1847,6 @@ p.cctitle-instructions {
 	&.active, &:hover, &.filtering {
 		background: $evenLighterBlack;
 		transition: background .1s;
-	}
-	&.live .channel-display-name {
-		color: $red;
 	}
 }
 
@@ -1865,6 +1863,7 @@ p.cctitle-instructions {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	white-space: pre-wrap;
 	color: $light;
 	background: $evenLighterBlack;
 	position: absolute;
@@ -1872,7 +1871,7 @@ p.cctitle-instructions {
 	left: 0;
 	width: 100%;
 	box-sizing: border-box;
-	height: calc(100% - #{$plusHalf});
+	height: 100%;
 	opacity: 0;
 	transition: opacity .1s;
 	font-size: $baseline;
@@ -1881,22 +1880,43 @@ p.cctitle-instructions {
 	@media #{$bpMedium} {
 		font-size: $plusQuarter;
 		padding: $quarter;
-		height: calc(100% - #{$double});
+		height: 100%;
 	}
 	&:hover {
 		opacity: 1;
 	}
 }
+.channel-changer-button.filtering .cc-details {
+	opacity: 1;
+}
 .channel-display-name {
 	color: $gold;
 	font-weight: bold;
 	font-size: $baseline;
-	line-height: $plusHalf;
 	@media #{$bpMedium} {
-		font-size: $plusHalf;
-		line-height: $double;
-		margin-top: 2px;	
+		font-size: $plusHalf;	
 	}
+}
+.channel-live-now {
+	margin-top: 0;
+	text-align: center;
+	color: $red;
+	line-height: $double;
+	max-height: 0;
+	overflow: hidden;
+	position: absolute;
+	height: 24px;
+	width: 100%;
+	background: $black;
+	left: 0;
+	transition: max-height .25s;
+	&:hover {
+		text-decoration: underline;
+	}
+}
+a.liveNowLink {
+	text-decoration: none;
+	color: $red;
 }
 #filter-button {
 	display: none;
@@ -1989,11 +2009,16 @@ p.cctitle-instructions {
 	display: inline-block;
 	margin: $minusQuarter 0;
 	line-height: 0;
+	border-radius: 2px;
+	border-top: none;
 	@media #{$bpLarge} {
 		width: calc(50% - 9px);
 	}
 	@media screen and (min-width: 2000px) {
 		width: calc(33% - 6px);
+	}
+	& p.attribution.stars img {
+		border-radius: $plusQuarter;
 	}
 }
 .little-thing-top {
@@ -2033,7 +2058,7 @@ p.cctitle-instructions {
 .little-author-button img {
 	width: $doublePlusHalf;
 	height: $doublePlusHalf;
-	border-radius: $quarter;
+	border-radius: $plusQuarter;
 }
 
 .little-thing .commentbox .comments-header {
@@ -2048,6 +2073,7 @@ p.cctitle-instructions {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	margin-top: $half;
 	& p.stars {
 		margin: 0;
 		line-height: 0;
@@ -2275,11 +2301,10 @@ img.seedVoter {
 .schedule-entry {
 	font-size: $plusHalf;
 	color: #fff;
+	max-width: 480px;
 	display: inline-flex;
-    align-items: center;
-    justify-content: space-around;
-	flex-grow: 1;
-	max-width: 420px;
+	justify-content: space-around;
+	align-items: center;
     margin: $baseline;
     padding: $baseline;
     border-radius: 3px;
@@ -2288,6 +2313,10 @@ img.seedVoter {
 	background: -webkit-linear-gradient(top,  #020a12 0%,#000000 100%); /* Chrome10-25,Safari5.1-6 */
 	background: linear-gradient(to bottom,  #020a12 0%,#000000 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#020a12', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
+	&-top {
+		display: inline-flex;
+    	align-items: center;
+	}
     &-info {
 		padding: 0 $baseline;
 		flex-grow: .33;
@@ -2300,11 +2329,25 @@ img.seedVoter {
 		font-size: $triple;
 		padding-bottom: $half;
     }
+    &-twitch-link {
+    	display: flex;
+    	align-items: center;
+    	padding: $quarter 0;
+    	font-weight: bold;
+    	font-size: $double;
+	    & img {
+	    	width: $doublePlusHalf;
+	    	height: $doublePlusHalf;
+	    }
+	}
     &:last-of-type {
     	flex-grow: 0;
     }
 }
 img.schedule-entry-logo {
-	width: $dec;
-	height: $dec;
+	width: 144px;
+	height: 144px;
+}
+a.schedule-entry-link {
+	color: $light;
 }

@@ -689,7 +689,8 @@ a.earlier.nomore {
   font-size: 24px;
   font-weight: bold;
   display: inline-block;
-  padding-right: 6px; }
+  padding-right: 6px;
+  color: #10508f; }
 
 /*----------- 3Aii: votebox ----------- */
 .votebox {
@@ -876,7 +877,7 @@ p.attribution.playcount {
   margin: 0; }
 
 p.attribution a, p.attribution a:visited {
-  color: #ecc15b; }
+  color: #10508f; }
 
 .addScore-input {
   height: 24px;
@@ -892,7 +893,7 @@ p.attribution a, p.attribution a:visited {
   margin-top: -12px;
   font-size: 15px;
   line-height: 1em;
-  color: #ecc15b;
+  color: #10508f;
   margin-left: 0;
   clear: both; }
 
@@ -1421,13 +1422,13 @@ p.onboardText.your-votes-error {
 
 /*----------- 3H: Live Page ----------- */
 body.page-id-3801:before {
-  background: #402416;
+  background: #222;
   /* Old browsers */
-  background: -moz-radial-gradient(center, ellipse cover, #402416 0%, #1f110b 100%);
+  background: -moz-radial-gradient(center, ellipse cover, #262626 2%, #161616 100%);
   /* FF3.6-15 */
-  background: -webkit-radial-gradient(center, ellipse cover, #402416 0%, #1f110b 100%);
+  background: -webkit-radial-gradient(center, ellipse cover, #262626 2%, #161616 100%);
   /* Chrome10-25,Safari5.1-6 */
-  background: radial-gradient(ellipse at center, #402416 0%, #1f110b 100%);
+  background: radial-gradient(ellipse at center, #262626 2%, #161616 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */ }
 body.page-id-3801 .thing {
   background: #e5e5e5;
@@ -1591,7 +1592,6 @@ h3.live {
   position: relative;
   text-align: center;
   white-space: nowrap;
-  overflow: hidden;
   padding-left: 6px; }
 
 p.channel-changer-title {
@@ -1609,7 +1609,6 @@ p.cctitle-instructions {
 .channel-changer-buttons {
   display: inline-block;
   max-width: 100%;
-  overflow: hidden;
   line-height: 0; }
 
 .channel-changer-button {
@@ -1617,10 +1616,9 @@ p.cctitle-instructions {
   background: #121212;
   display: inline-block;
   padding: 3px;
-  border-radius: 0px 0px 2px 2px;
+  border-radius: 2px;
   margin: 0 3px 6px;
   cursor: pointer;
-  overflow: hidden;
   max-width: 72px;
   max-height: 96px; }
   @media screen and (min-width: 687px) {
@@ -1630,8 +1628,6 @@ p.cctitle-instructions {
   .channel-changer-button.active, .channel-changer-button:hover, .channel-changer-button.filtering {
     background: #333;
     transition: background .1s; }
-  .channel-changer-button.live .channel-display-name {
-    color: #d93b3b; }
 
 .cc-logo {
   display: inline-block; }
@@ -1645,6 +1641,7 @@ p.cctitle-instructions {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  white-space: pre-wrap;
   color: rgba(255, 253, 249, 0.9);
   background: #333;
   position: absolute;
@@ -1652,7 +1649,7 @@ p.cctitle-instructions {
   left: 0;
   width: 100%;
   box-sizing: border-box;
-  height: calc(100% - 18px);
+  height: 100%;
   opacity: 0;
   transition: opacity .1s;
   font-size: 12px;
@@ -1662,20 +1659,40 @@ p.cctitle-instructions {
     .cc-details {
       font-size: 15px;
       padding: 3px;
-      height: calc(100% - 24px); } }
+      height: 100%; } }
   .cc-details:hover {
     opacity: 1; }
+
+.channel-changer-button.filtering .cc-details {
+  opacity: 1; }
 
 .channel-display-name {
   color: #ecc15b;
   font-weight: bold;
-  font-size: 12px;
-  line-height: 18px; }
+  font-size: 12px; }
   @media screen and (min-width: 687px) {
     .channel-display-name {
-      font-size: 18px;
-      line-height: 24px;
-      margin-top: 2px; } }
+      font-size: 18px; } }
+
+.channel-live-now {
+  margin-top: 0;
+  text-align: center;
+  color: #d93b3b;
+  line-height: 24px;
+  max-height: 0;
+  overflow: hidden;
+  position: absolute;
+  height: 24px;
+  width: 100%;
+  background: #121212;
+  left: 0;
+  transition: max-height .25s; }
+  .channel-live-now:hover {
+    text-decoration: underline; }
+
+a.liveNowLink {
+  text-decoration: none;
+  color: #d93b3b; }
 
 #filter-button {
   display: none; }
@@ -1760,13 +1777,17 @@ p.cctitle-instructions {
   width: 98%;
   display: inline-block;
   margin: 9px 0;
-  line-height: 0; }
+  line-height: 0;
+  border-radius: 2px;
+  border-top: none; }
   @media screen and (min-width: 850px) {
     .little-thing {
       width: calc(50% - 9px); } }
   @media screen and (min-width: 2000px) {
     .little-thing {
       width: calc(33% - 6px); } }
+  .little-thing p.attribution.stars img {
+    border-radius: 15px; }
 
 .little-thing-top {
   display: inline-flex;
@@ -1804,7 +1825,7 @@ p.cctitle-instructions {
 .little-author-button img {
   width: 30px;
   height: 30px;
-  border-radius: 3px; }
+  border-radius: 15px; }
 
 .little-thing .commentbox .comments-header {
   display: none; }
@@ -1816,7 +1837,8 @@ p.cctitle-instructions {
   text-align: left;
   display: flex;
   justify-content: space-between;
-  align-items: center; }
+  align-items: center;
+  margin-top: 6px; }
   .little-thing-attribution p.stars {
     margin: 0;
     line-height: 0; }
@@ -2032,11 +2054,10 @@ img.seedVoter {
 .schedule-entry {
   font-size: 18px;
   color: #fff;
+  max-width: 480px;
   display: inline-flex;
-  align-items: center;
   justify-content: space-around;
-  flex-grow: 1;
-  max-width: 420px;
+  align-items: center;
   margin: 12px;
   padding: 12px;
   border-radius: 3px;
@@ -2050,6 +2071,9 @@ img.seedVoter {
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#020a12', endColorstr='#000000',GradientType=0 );
   /* IE6-9 */ }
+  .schedule-entry-top {
+    display: inline-flex;
+    align-items: center; }
   .schedule-entry-info {
     padding: 0 12px;
     flex-grow: .33;
@@ -2060,11 +2084,23 @@ img.seedVoter {
     font-weight: bold;
     font-size: 36px;
     padding-bottom: 6px; }
+  .schedule-entry-twitch-link {
+    display: flex;
+    align-items: center;
+    padding: 3px 0;
+    font-weight: bold;
+    font-size: 24px; }
+    .schedule-entry-twitch-link img {
+      width: 30px;
+      height: 30px; }
   .schedule-entry:last-of-type {
     flex-grow: 0; }
 
 img.schedule-entry-logo {
-  width: 120px;
-  height: 120px; }
+  width: 144px;
+  height: 144px; }
+
+a.schedule-entry-link {
+  color: rgba(255, 253, 249, 0.9); }
 
 /*# sourceMappingURL=style.css.map */

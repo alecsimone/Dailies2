@@ -186,11 +186,11 @@ $sourceSlug = $source[0]->slug; ?>
 				}
 			 ?>" target="_blank"<?php 
 				if ( !empty($gfytitle) ) {
-					?>class='gfy-little-thing little-title-link' id='<?php echo $gfytitle; echo $hash; ?>' onclick="littleReplacer('<?php echo $gfytitle; echo '\', \''; echo $gfytitle; echo $hash; ?>')" data-id='<?php echo $gfytitle; ?>' data-autoplay=true data-controls=true data-expand=true <?php }
+					?>class='gfy-little-thing little-title-link' id='<?php echo $gfytitle; echo $hash; ?>' data-id='<?php echo $gfytitle; ?>' data-autoplay=true data-controls=true data-expand=true <?php }
 				elseif ( !empty($twitchcode) ) { 
-						?>class='twitch-little-thing little-title-link' id='<?php echo $twitchcode; echo $hash; ?>' data-id="<?php echo $twitchcode; ?>" onclick="littleReplacer('<?php echo $twitchcode; echo '\', \''; echo $twitchcode; echo $hash; ?>')" <?php }
+						?>class='twitch-little-thing little-title-link' id='<?php echo $twitchcode; echo $hash; ?>' data-id="<?php echo $twitchcode; ?>" <?php }
 				elseif ( !empty($youtubecode) ) { 
-						?>class='yt-little-thing little-title-link' id='<?php echo $youtubecode; echo $hash; ?>' data-id="<?php echo $youtubecode; ?>" onclick="littleReplacer('<?php echo $youtubecode; echo '\', \''; echo $youtubecode; echo $hash; ?>')" <?php 
+						?>class='yt-little-thing little-title-link' id='<?php echo $youtubecode; echo $hash; ?>' data-id="<?php echo $youtubecode; ?>" <?php 
 					}
 				?>><?php the_title();?></a></h3> <div id="little-thing<?php echo $thisID; ?>-votecount" class="votecount little-thing-votecount">
 			<?php $score = get_post_meta($thisID, 'votecount', true);

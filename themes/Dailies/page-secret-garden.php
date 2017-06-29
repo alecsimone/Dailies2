@@ -1,4 +1,4 @@
-<?php get_header();
+F<?php get_header();
 $currentUser = get_current_user_id();
 if ( !current_user_can('edit_posts') ) {
 	echo "There's nothing here. How did you get here? Turn back now. Maybe try logging in and coming back. But there's definitely nothing here.";
@@ -384,7 +384,7 @@ function expandSeedling(seedling) {
 	if ( thisEmbedTarget.is(':empty') ) {
 		var thisTitle = seedling.find('.seedling-title');
 		var thisSlug = thisTitle.attr("data-slug");
-		var embedCode = `<iframe src="https://clips.twitch.tv/embed?clip=${thisSlug}&autoplay=true" width="100%" height="${thisEmbedHeight}" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>`
+		var embedCode = `<iframe id="${thisSlug}-iframe" src="https://clips.twitch.tv/embed?clip=${thisSlug}&autoplay=true" width="100%" height="${thisEmbedHeight}" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>`
 		thisEmbedTarget.html(embedCode);
 		thisNuke.fadeIn();
 		thisVote.fadeIn();
@@ -409,7 +409,11 @@ function cutSeed(thisSeedling, scope) {
 	var thisVODLink = thisSeedling.find('.seedling-views a');
 	var thisVODBase = thisVODLink.attr("data-vodbase");
 	var thisVODTimestamp = thisVODLink.attr("data-vodtimestamp");
-	var button = thisSeedling.find('.seedCutter');
+		if (scope === 'everyone') {
+			var button = thisSeedling.find('.universalCut');
+		} else {
+			var button = thisSeedling.find('.seedCutter');
+		}
 	button.fadeOut();
 	cutSlug(thisSlug, thisTime, thisSeedling, thisVODBase, thisVODTimestamp, scope);
 }
@@ -446,11 +450,12 @@ jQuery("#garden").on('click', '.seedling-vote', function() {
 	var thisVODTimestamp = thisVODLink.attr("data-vodtimestamp");
 	var garden = jQuery("#garden");
 	var userID = garden.attr("data-user-id");
-	thisButton.fadeOut();
+	//thisButton.fadeOut();
 	voteSlug(thisSlug, thisTime, thisSeedling, thisVODBase, thisVODTimestamp, userID);
 });
 
 jQuery("#garden").on('keypress', '.seedling-title-input', function(e) {
+	e.stopPropagation();
 	if(e.which === 13) {
 		var thisPlus = jQuery(this);
 		thisPlus.attr("disabled", "disabled");
@@ -465,7 +470,6 @@ jQuery("#garden").on('click', '.keepbutton', function() {
 });
 
 function plantSeed(thisSeedling) {
-	console.log("we doin it this way yall");
 	var thisTitle = thisSeedling.find('.seedling-title');
 	var thisSlug = thisTitle.attr("data-slug");
 	var thisTime = thisTitle.attr("data-time");
@@ -506,6 +510,7 @@ jQuery("#garden").on('click', '#injectRL', function() {
 });
 
 jQuery("#garden").on('keypress', '.sgAddStreamInput', function(e) {
+	e.stopPropagation();
 	if(e.which === 13) {
 		var thisInput = jQuery(this);
 		var input = thisInput.val();
@@ -539,32 +544,27 @@ jQuery(window).on('keypress', function(e) {
 		focusedSeedling.removeClass('focus');
 		if (e.which === 120) {
 			cutAndNext(focusedSeedling);
+			nextSeedling.addClass('focus');
+			expandSeedling(nextSeedling);
 		} else if (e.which === 110) {
 			nukeAndNext(focusedSeedling);
+			nextSeedling.addClass('focus');
+			expandSeedling(nextSeedling);
 		}
-		nextSeedling.addClass('focus');
-		expandSeedling(nextSeedling);
 	}
 })
-jQuery("#garden").on('click', '.cutAndNext', function() {
-	var focusedSeedling = jQuery('.seedling.focus');
-	if (focusedSeedling.length) {
-		var nextSeedling = focusedSeedling.next();
-		focusedSeedling.removeClass('focus');
-		cutAndNext(focusedSeedling);
-		nextSeedling.addClass('focus');
-		expandSeedling(nextSeedling);
+jQuery("#garden").on('click', '.extraButton', function(e) {
+	var thisSeedling = jQuery(this).parent().parent();
+	var nextSeedling = thisSeedling.next();
+	jQuery('.focus').removeClass('focus');
+	if ( jQuery(e.target).is('button.cutAndNext.extraButton') ) {
+		cutAndNext(thisSeedling);
+	} else if ( jQuery(e.target).is('button.nukeAndNext.extraButton') ) {
+		nukeAndNext(thisSeedling);		
 	}
-});
-jQuery("#garden").on('click', '.nukeAndNext', function() {
-	var focusedSeedling = jQuery('.seedling.focus');
-	if (focusedSeedling.length) {
-		var nextSeedling = focusedSeedling.next();
-		focusedSeedling.removeClass('focus');
-		nukeAndNext(focusedSeedling);
-		nextSeedling.addClass('focus');
-		expandSeedling(nextSeedling);
-	}
+	nextSeedling.addClass('focus');
+	expandSeedling(nextSeedling);
+	e.stopPropagation();
 });
 function cutAndNext(focusedSeedling) {	
 	var garden = jQuery('#garden');

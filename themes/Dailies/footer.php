@@ -148,9 +148,9 @@ jQuery('.contentContainer').on('click', 'p.attribution.full-clip', function() {
 	}
 });
 
-function littleReplacer(ID, UID) {
+/*function littleReplacer(ID, UID) {
 	console.log(UID);
-}
+} */
 
 
 
@@ -242,7 +242,7 @@ jQuery('#return-to-top').click(function() {      // When arrow is clicked
 });
 
 /** Add Score Box **/
-jQuery(".thing").on('keypress', '.addScore-input', function(e) {
+jQuery(".contentContainer").on('keypress', '.addScore-input', function(e) {
 	if(e.which === 13) {
 		var thisBox = jQuery(this);
 		thisPostID = thisBox.attr("data-postid");

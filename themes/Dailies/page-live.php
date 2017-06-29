@@ -29,7 +29,6 @@ include( locate_template('schedule.php') );
 	<div class="channel-changer-buttons">
 		<div id="sort-button" class="channel-changer-button inactive offline sort">
 			<div class="cc-logo"><img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/sort.png"></div>
-			<div class="channel-display-name">Sort</div>
 		</div>
 		<?php $todaysChannels = $schedule[$todaysSchedule];
 		foreach ($todaysChannels as $channel) { 
@@ -39,8 +38,9 @@ include( locate_template('schedule.php') );
 				<div class="cc-logo">
 					<a href="<?php echo $thisDomain; ?>/source/<?php echo $channel[1]; ?>/" target="_blank"><img src="<?php $sourcepic = get_term_meta($channel[2], 'logo', true); echo $sourcepic; ?>"></a>
 				</div>
-				<div class="channel-display-name" data-display-name="<?php echo $channel[0]; ?>"><?php echo $channel[0]; ?></div>
+				<div class="channel-live-now <?php echo $channel[0]; ?>"><a href="<?php echo $twitchWholeURL; ?>" target="_blank" class="liveNowLink">&#9679; Live Now!</a></div>
 				<div class="cc-details">
+					<div class="channel-display-name" data-display-name="<?php echo $channel[0]; ?>"><?php echo $channel[0]; ?></div>
 					<div class="channel-info"><?php echo $channel[3]; ?></div>
 					<div class="channel-time"><?php echo $channel[4]; ?></div>
 				</div>
@@ -140,7 +140,6 @@ jQuery('.little-thing').on('click', '.little-title', function() {
 	event.preventDefault();
 	var thisTitle = jQuery(this).find('.little-title-link');
 	var thisLittleClass = thisTitle.attr("class");
-	console.log(thisLittleClass);
 	var thisCode = thisTitle.attr("data-id");
 	var thisWholeThing = jQuery(this).parent().parent();
 	var thisEmbedTarget = thisWholeThing.find('.little-thing-embed');
@@ -205,10 +204,13 @@ jQuery('#channel-changer').on('click', '.channel-changer-button', function() {
 			jQuery(this).removeClass('sorting');
 		}
 	} else if ( thisButton.hasClass('inactive') /* && thisButton.hasClass('offline') */ ) {
-		event.preventDefault();
+		//event.preventDefault();
 		var thisSlug = jQuery(this).attr("data-channel-slug");
 		filterSource(thisSlug);
 	}
+});
+jQuery('#channel-changer').on('click', '.channel-live-now', function(e) {
+	e.stopPropagation();
 });
 
 function filterSource(sourceSlug) {
@@ -320,15 +322,21 @@ function streamChecker() {
 						jQuery.each(allButtons, function() {
 							var thisButton = jQuery(this);
 							var thisName = thisButton.attr("data-channel-name");
+							if (thisName !== undefined) {
+								thisName = thisName.toLowerCase();
+							}
+							console.log(thisName);
+							console.log(liveStreamNames);
 							if ( jQuery.inArray(thisName, liveStreamNames) > -1 ) {
-								var liveStreamNamebox = thisButton.find('.channel-display-name');
-								liveStreamNamebox.html('&#9679; Live Now!');
+								var liveNowBox = thisButton.find('.channel-live-now');
+								liveNowBox.css("maxHeight", "24px");
+								liveNowBox.css("marginTop", "2px");
 								thisButton.removeClass('offline');
 								thisButton.addClass('live');
 							} else if ( jQuery.inArray(thisName, liveStreamNames) == -1 && thisButton.hasClass('live') ) {
-								var thisNamebox = thisButton.find('.channel-display-name');
-								var originalNameString = thisNamebox.attr("data-display-name");
-								thisNamebox.html(originalNameString);
+								var liveNowBox = thisButton.find('.channel-live-now');
+								liveNowBox.css("maxHeight", "0");
+								liveNowBox.css("marginTop", "0");
 								thisButton.removeClass('live');
 								thisButton.addClass('offline');
 							}

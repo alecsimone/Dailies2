@@ -11,18 +11,14 @@ function refreshLive() {
 			action: 'refresh_live',
 		},
 		success: function(data) {
-			console.log('refreshed!');
 			var fresh = data.fresh;
 			var stale = data.stale;
-			console.log(fresh);
-			console.log(stale);
-			console.log(data.print);
+			console.log('ping');
 			if (fresh != null) {	
 				var freshCount = fresh.length;
 				var i = 0;
 				while (i < freshCount) {
 					var freshPosts = jQuery(fresh[i]);
-					console.log(fresh[i]);
 					grid.prepend(freshPosts).isotope('prepended', freshPosts);
 					i++
 				}
