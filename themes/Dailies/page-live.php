@@ -155,6 +155,12 @@ jQuery('.little-thing').on('click', '.little-title', function() {
 	} else if ( thisLittleClass.includes('yt-little-thing') ) {
 		var embedCode = generateYoutubeReplacementCode(thisCode);
 		thisEmbedTarget.append(embedCode);
+	} else if (thisLittleClass.includes('raw-embed-little-thing') ) {
+		if (thisEmbedTarget.css("display") === "none") {			
+			thisEmbedTarget.css("display", "block");
+		} else {
+			thisEmbedTarget.css("display", "none");
+		}
 	}
 	grid.isotope();
 });

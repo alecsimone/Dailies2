@@ -188,10 +188,12 @@ $sourceSlug = $source[0]->slug; ?>
 				if ( !empty($gfytitle) ) {
 					?>class='gfy-little-thing little-title-link' id='<?php echo $gfytitle; echo $hash; ?>' data-id='<?php echo $gfytitle; ?>' data-autoplay=true data-controls=true data-expand=true <?php }
 				elseif ( !empty($twitchcode) ) { 
-						?>class='twitch-little-thing little-title-link' id='<?php echo $twitchcode; echo $hash; ?>' data-id="<?php echo $twitchcode; ?>" <?php }
+					?>class='twitch-little-thing little-title-link' id='<?php echo $twitchcode; echo $hash; ?>' data-id="<?php echo $twitchcode; ?>" <?php }
 				elseif ( !empty($youtubecode) ) { 
-						?>class='yt-little-thing little-title-link' id='<?php echo $youtubecode; echo $hash; ?>' data-id="<?php echo $youtubecode; ?>" <?php 
-					}
+					?>class='yt-little-thing little-title-link' id='<?php echo $youtubecode; echo $hash; ?>' data-id="<?php echo $youtubecode; ?>" <?php }
+				elseif ( !empty($embedcode) ) {
+					?> class="raw-embed-little-thing little-title-link" <?php 
+				}
 				?>><?php the_title();?></a></h3> <div id="little-thing<?php echo $thisID; ?>-votecount" class="votecount little-thing-votecount">
 			<?php $score = get_post_meta($thisID, 'votecount', true);
 			if ($score == '') {$score = 0;};
@@ -221,7 +223,10 @@ $sourceSlug = $source[0]->slug; ?>
 			<?php }; ?>
 		</div>
 	</section>
-	<section class="little-thing-embed" id="lte-<?php echo $thisID; ?>">
+	<section class="little-thing-embed" id="lte-<?php echo $thisID; ?>" <?php if ( !empty($embedcode) ) {?> style="display:none;" <?php } ?> >
+		<?php if ( !empty($embedcode) ) {
+			echo $embedcode;
+		} ?>
 	</section>
 	<?php $stars = get_the_terms( $post->ID, 'stars' );
 	$defaultPic = $thisDomain . '/wp-content/uploads/2017/03/default_pic.jpg'; ?>
