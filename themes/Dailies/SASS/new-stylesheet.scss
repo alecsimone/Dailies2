@@ -16,6 +16,7 @@ $blue: rgba(16, 80, 143, 1);
 $lighterblue: #3b8fd9;
 $blueTrans: rgba(16,80,143,.85);
 $blueTrans2: rgba(16,80,143,.3);
+$lighterblueTrans: hsla(210, 90%, 90%, 0.2);
 $darkerBlue: #0a3259;
 
 $lightGray: #e5e5e5;
@@ -41,6 +42,7 @@ $blackTrans: rgba(12,12,12,.6);
 $blackTrans2: rgba(12,12,12,.8);
 $blackTrans3: rgba(12,12,12,.9);
 $blackTrans4: rgba(12,12,12,.4);
+$blackTrans5: rgba(0,0,0,.25);
 
 //Breakpoints. Remember to use the "interpolation braces" when calling these variables. e.g. #{$bpSmall}
 $bpxs: "screen and (min-width: 287px)";
@@ -174,7 +176,7 @@ html, body {
 	height: 100%; /* This and min-height help the background work on mobile */
  	min-height: 100%;
 	font-family: proxima-nova, sans-serif;
-	color: $black;
+	color: $light;
 	margin: 0px;
 	padding: 0px;
 	text-align: center;
@@ -190,18 +192,11 @@ body:before { /* Background hack to play a little nicer on mobile */
 	  	height: 100%;
 	  	z-index: -10;
 	  	background: $lightGrayRed;
-	  	@media #{$bpMedium} {
-		  	background: #262626; /* Old browsers */
-			//background: -moz-radial-gradient(center, ellipse cover, #f2f6fa 2%, #dedae0 100%); /* FF3.6-15 */
-			//background: -webkit-radial-gradient(center, ellipse cover, #f2f6fa 2%,#dedae0 100%); /* Chrome10-25,Safari5.1-6 */
-			//background: radial-gradient(ellipse at center, #f2f6fa 2%,#dedae0 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-	  		//background: -webkit-radial-gradient(center, ellipse cover, #262626 2%,#161616 100%); /* Chrome10-25,Safari5.1-6 */
-			background: radial-gradient(ellipse at center, #444 2%, #161616 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-			//background: linear-gradient(to right, #323232 0%,#121212 50%,#323232 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-	  };
+	  	background: #26262C; /* Old browsers */
+		//background: radial-gradient(ellipse at center, #444450 2%, #262626 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 a, a:visited {
-    color: $blue;
+    color: $lighterblue;
 }
 
 h3 {
@@ -217,10 +212,10 @@ button {
     display: inline-block;
 	cursor: pointer;
 	background: none;
-	color: $black;
+	color: $light;
     padding: 6px;
     border-radius: 2px;
-    border: 1px solid $black;
+    border: 1px solid $light;
     box-shadow: 0px 1px 2px rgba(0,0,0,.2);
     box-sizing: initial;
     font-size: $plusHalf;
@@ -382,143 +377,6 @@ a#twitter, a#youtube, a#twitch {
 	line-height: 0px;
 }
 
-/*----------- 1B: tagbar -----------
-#tagbar {
-	@include byWidth();
-	position: relative;
-	box-sizing: border-box;
-	border-radius: $rounded;
-	white-space: nowrap;
-	padding: $baseline 0px;
-    margin: 0px auto;
-   	color: $light;
-	text-align: left;
-	@media #{$bpMedium} {
-		font-size: $mediumFontSize;
-	}
-	@media #{$bpLarge} {
-		margin: 0px auto $double;
-	}
-	@media #{$bpXL} {
-		margin: 0px auto $plusHalf;
-	}
-}
-#taglist {
-	height: $smallTagbarHeight;
-	width: 100%;
-	font-size: 0px;
-	margin: auto;
-	position: relative;
-	overflow: hidden;
-	@media #{$bpMedium} {
-		height: $mediumTagbarHeight;
-	}
-	@media #{$bpLarge} {
-		width: calc(100% - 100px);
-	}
-}
-.scrollWrapper {
-	position: relative;
-	overflow: hidden;
-	width: 100%;
-	height: 100%;
-}
-
-.scrollableArea {
-	position: relative;
-	width: auto;
-	height: 100%;
-}
-
-.barItem {
-	height: $smallTagbarHeight;
-	width: $smallTagbarHeight / 9 * 16;
-	margin: 0px 2px;
-	display: inline-block;
-	position: relative;
-	@media #{$bpMedium} {
-		height: $mediumTagbarHeight;
-		width: $mediumTagbarHeight / 9 * 16;
-	}
-	@media #{$bpLarge} {
-		width: calc(100% / 4 - #{$half});
-		margin: 0px $quarter;
-	}
-	@media #{$bpXXL} {
-		width: calc(100% / 5 - #{$half});
-	}
-	@media #{$bpStupidLarge} {
-		width: calc(100% / 6 - #{$half});
-	}
-}
-a.barItemLink {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    left: 0px;
-    top: 0px;
-    background: $chocolateRGBA;
-    color: $blackTrans;
-    text-decoration: none;
-    text-shadow: 0 0px $half $blackTrans2;
-    font-size: $plusHalf;
-    font-weight: bold;
-	line-height: 75px;
-	transition: all .2s;
-	&:hover {
-		text-decoration: underline;
-    	background: $blackTrans2;
-    	color: $light;
-    	text-shadow: none;
-    }
-    &.skills {
-    	color: $blue;
-    }
-    &.stars {
-    	color: $gold;
-    }
-    &.source {
-    //	color: $green;
-    }
-    @media #{$bpMedium} {
-    	line-height: $mediumTagbarHeight;
-    	font-size: $double;
-    }
-}
-a.barButton {
-	display: none;
-   	position: absolute;
-   	top: $baseline;
-    bottom: $baseline;
-    padding: 0;
-    width: 30px;
-    text-align: center;
-	text-decoration: none;
-    color: $transLight;
-    background: $blackTrans;
-    line-height: 75px;
-    font-size: 21px;
-    font-weight: bold;
-	z-index: 2;
-	transition: color .2s;
-	@media #{$bpMedium} {
-    	line-height: $mediumTagbarHeight;
-    	font-size: 30px; 
-    	width: 50px;
-    }
-    @media #{$bpLarge} {
-    	display: block;
-    }
-}
-a#morebar {
-    right: 0px;
-}
-a#lessbar {
-    left: 0px;
-    color: transparent;
-}
-
 /*----------- 1C: wrapper ----------- */
 .wrapper {
 	@media #{$bpLarge} {
@@ -534,9 +392,7 @@ a#lessbar {
 	overflow: hidden;
 	@media #{$bpLarge} {
 		margin-top: $double;
-		width: 90%;
-		background: #101010;
-		box-shadow: 0 0 12px rgba(0,0,0,.8);
+		width: 100%;
 		display: inline-block;
 	}
 }
@@ -626,16 +482,14 @@ a#lessbar {
 	flex-direction: column;
 	justify-content: center;
 	height: auto;
-	margin-bottom: $baseline;
+	padding: $baseline 0;
 	box-shadow: $shadow;
 	border-right: 1px solid rgba(0,0,0,.1);
 	border-bottom: 1px solid rgba(0,0,0,.1);
 	border-left: 1px solid rgba(0,0,0,.1);
 	@media #{$bpMedium} {
-		margin-bottom: $plusHalf;
 	}
 	@media #{$bpLarge} {
-		margin-bottom: $baseline;
 	}
 	@media #{$bpXXL} {
 		justify-content: space-around;
@@ -798,12 +652,14 @@ a.earlier.nomore {
 	color: $light;
 	text-align: left;
 	padding: $baseline 0;
+	border-top: $quarter solid $transLight3;
+	&:first-of-type {
+		border-top: none;
+	}
 	@media #{$bpMedium} {
 		font-size: $mediumFontSize;
 	}
 	@media #{$bpLarge} {
-		border-left: 1px solid rgba(0,0,0,.1);
-		border-right: 1px solid rgba(0,0,0,.1);
 	}
 	@media #{$bpXL} {
 		padding: 0px 0 $plusQuarter;
@@ -849,7 +705,7 @@ a.earlier.nomore {
 
 /*----------- 3Ai: votecount ----------- */
 .votecount {
-	font-size: $triple;
+	font-size: $doublePlusHalf;
 	font-weight: bold;
 	display: inline-block;
 	padding-right: $half;
@@ -916,6 +772,7 @@ p.onboardText {
 	color: $light;
 	line-height: 0px;
 	z-index: 0;
+	box-shadow: 0 0 $half $blackTrans5;
 	img {
     	max-width: 100%;
     	height: auto;
@@ -1220,21 +1077,26 @@ a.earlier.nomore.thing {
 
 /*----------- 3Ai: propbox ----------- */
 #homeheader {
-	width: 90%;
-	margin: $double auto 0;
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
+	margin: $double auto;
+	flex-wrap: wrap;
+	@media #{$bpMedium} {
+		width: 90%;
+		justify-content: space-between;
+		margin: $double auto 0;
+	}
 }
 
 #propbox {
-	width: 10%;
+	width: 100%;
+	margin: 0 0 $baseline 0;
 	height: 150px;
 	position: relative;
 	background: url('http://therocketdailies.com/wp-content/uploads/2017/02/Faceoff-black.jpg') center/cover;
-	margin: 0px $double 0 0;
 	@media #{$bpMedium} {
 		margin: 0px auto $plusHalf;
+		width: 10%;
 	}
 	@media #{$bpLarge} {
 		height: 240px;
@@ -1243,8 +1105,11 @@ a.earlier.nomore.thing {
 	}
 }
 #userbox-wrapper {
-	width: 15%;
-	min-width: 200px;
+	width: 100%;
+	@media #{$bpMedium} {
+		width: 15%;
+		min-width: 200px;
+	}
 }
 
 .propaganda {
@@ -1648,7 +1513,8 @@ body.page-id-3801{
 		background: radial-gradient(ellipse at center, #262626 2%, #161616 100%);
 	} */
 	& .thing {
-		background: $black;
+		background: $blackTrans5;
+		border: 3px solid $black;
 		background-size: 100% auto;
 		background-position: center;
 	}
@@ -2024,7 +1890,7 @@ a.liveNowLink {
 	line-height: 0;
 	border-radius: 2px;
 	border-top: none;
-	box-shadow: 0 1px $half rgba(0,0,0,.5);
+	box-shadow: 0 1px $half rgba(0,0,0,.3);
 	@media #{$bpLarge} {
 		width: calc(50% - 9px);
 	}
@@ -2123,7 +1989,7 @@ a.liveNowLink {
 
 #garden {;
 	width: 95%;
-	margin: auto;
+	margin: $plusHalf auto;
 	text-align: left;
 	position: relative;
 }
@@ -2154,7 +2020,8 @@ p.clipCount {
 }
 
 .seedling {
-	@include card();
+	background: $blackTrans5;
+	border: 3px solid $black;
 	position: relative;
 	margin: $double 0;
 	font-size: $plusHalf;
@@ -2165,7 +2032,7 @@ p.clipCount {
 	display: flex;
 	align-items: flex-start;
 	&.focus {
-		border: 1px solid $blackTrans4;
+		border: 3px solid $transLight3;
 	}
 	&-extra-buttons {
 		position: absolute;
@@ -2199,7 +2066,7 @@ img.seedling-logo {
 	padding-top: $half;
 	& a {
 		font-size: $double;
-		color: $black;
+		color: $light;
 		text-decoration: none;
 		font-weight: bold;
 	}
@@ -2219,9 +2086,11 @@ input.seedling-title-input {
 	height: $double;
 	width: calc(100% - #{$sept});
 	margin: 0 auto;
-	background: $light;
+	background: $lighterblueTrans;
+	color: $light;
 	padding: 0 $half;
 	box-sizing: border-box;
+	border: 1px solid $transLight3;
 }
 .keepbutton {
 	width: $quad;

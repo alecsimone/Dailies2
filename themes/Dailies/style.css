@@ -13,7 +13,7 @@ html, body {
   /* This and min-height help the background work on mobile */
   min-height: 100%;
   font-family: proxima-nova, sans-serif;
-  color: #121212;
+  color: rgba(255, 253, 249, 0.9);
   margin: 0px;
   padding: 0px;
   text-align: center;
@@ -29,16 +29,12 @@ body:before {
   width: 100%;
   height: 100%;
   z-index: -10;
-  background: #e5e3e1; }
-  @media screen and (min-width: 687px) {
-    body:before {
-      background: #262626;
-      /* Old browsers */
-      background: radial-gradient(ellipse at center, #444 2%, #161616 100%);
-      /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */ } }
+  background: #e5e3e1;
+  background: #26262C;
+  /* Old browsers */ }
 
 a, a:visited {
-  color: #10508f; }
+  color: #3b8fd9; }
 
 h3 {
   font-size: 30px;
@@ -52,10 +48,10 @@ button {
   display: inline-block;
   cursor: pointer;
   background: none;
-  color: #121212;
+  color: rgba(255, 253, 249, 0.9);
   padding: 6px;
   border-radius: 2px;
-  border: 1px solid #121212;
+  border: 1px solid rgba(255, 253, 249, 0.9);
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
   box-sizing: initial;
   font-size: 18px;
@@ -229,143 +225,6 @@ a#twitter, a#youtube, a#twitch {
   height: auto;
   line-height: 0px; }
 
-/*----------- 1B: tagbar -----------
-#tagbar {
-	@include byWidth();
-	position: relative;
-	box-sizing: border-box;
-	border-radius: $rounded;
-	white-space: nowrap;
-	padding: $baseline 0px;
-    margin: 0px auto;
-   	color: $light;
-	text-align: left;
-	@media screen and (min-width: 687px) {
-		font-size: $mediumFontSize;
-	}
-	@media screen and (min-width: 850px) {
-		margin: 0px auto $double;
-	}
-	@media screen and (min-width: 941px) {
-		margin: 0px auto $plusHalf;
-	}
-}
-#taglist {
-	height: $smallTagbarHeight;
-	width: 100%;
-	font-size: 0px;
-	margin: auto;
-	position: relative;
-	overflow: hidden;
-	@media screen and (min-width: 687px) {
-		height: $mediumTagbarHeight;
-	}
-	@media screen and (min-width: 850px) {
-		width: calc(100% - 100px);
-	}
-}
-.scrollWrapper {
-	position: relative;
-	overflow: hidden;
-	width: 100%;
-	height: 100%;
-}
-
-.scrollableArea {
-	position: relative;
-	width: auto;
-	height: 100%;
-}
-
-.barItem {
-	height: $smallTagbarHeight;
-	width: $smallTagbarHeight / 9 * 16;
-	margin: 0px 2px;
-	display: inline-block;
-	position: relative;
-	@media screen and (min-width: 687px) {
-		height: $mediumTagbarHeight;
-		width: $mediumTagbarHeight / 9 * 16;
-	}
-	@media screen and (min-width: 850px) {
-		width: calc(100% / 4 - 6px);
-		margin: 0px $quarter;
-	}
-	@media screen and (min-width: 1280px) {
-		width: calc(100% / 5 - 6px);
-	}
-	@media screen and (min-width: 1864px) {
-		width: calc(100% / 6 - 6px);
-	}
-}
-a.barItemLink {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    left: 0px;
-    top: 0px;
-    background: $chocolateRGBA;
-    color: $blackTrans;
-    text-decoration: none;
-    text-shadow: 0 0px $half $blackTrans2;
-    font-size: $plusHalf;
-    font-weight: bold;
-	line-height: 75px;
-	transition: all .2s;
-	&:hover {
-		text-decoration: underline;
-    	background: $blackTrans2;
-    	color: $light;
-    	text-shadow: none;
-    }
-    &.skills {
-    	color: $blue;
-    }
-    &.stars {
-    	color: $gold;
-    }
-    &.source {
-    //	color: $green;
-    }
-    @media screen and (min-width: 687px) {
-    	line-height: $mediumTagbarHeight;
-    	font-size: $double;
-    }
-}
-a.barButton {
-	display: none;
-   	position: absolute;
-   	top: $baseline;
-    bottom: $baseline;
-    padding: 0;
-    width: 30px;
-    text-align: center;
-	text-decoration: none;
-    color: $transLight;
-    background: $blackTrans;
-    line-height: 75px;
-    font-size: 21px;
-    font-weight: bold;
-	z-index: 2;
-	transition: color .2s;
-	@media screen and (min-width: 687px) {
-    	line-height: $mediumTagbarHeight;
-    	font-size: 30px; 
-    	width: 50px;
-    }
-    @media screen and (min-width: 850px) {
-    	display: block;
-    }
-}
-a#morebar {
-    right: 0px;
-}
-a#lessbar {
-    left: 0px;
-    color: transparent;
-}
-
 /*----------- 1C: wrapper ----------- */
 @media screen and (min-width: 850px) {
   .wrapper {
@@ -380,9 +239,7 @@ a#lessbar {
   @media screen and (min-width: 850px) {
     .contentContainer {
       margin-top: 24px;
-      width: 90%;
-      background: #101010;
-      box-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
+      width: 100%;
       display: inline-block; } }
 
 @media screen and (min-width: 850px) {
@@ -468,17 +325,11 @@ a#lessbar {
   flex-direction: column;
   justify-content: center;
   height: auto;
-  margin-bottom: 12px;
+  padding: 12px 0;
   box-shadow: 0 1px 1px rgba(173, 168, 168, 0.1);
   border-right: 1px solid rgba(0, 0, 0, 0.1);
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   border-left: 1px solid rgba(0, 0, 0, 0.1); }
-  @media screen and (min-width: 687px) {
-    #userbox {
-      margin-bottom: 18px; } }
-  @media screen and (min-width: 850px) {
-    #userbox {
-      margin-bottom: 12px; } }
   @media screen and (min-width: 1280px) {
     #userbox {
       justify-content: space-around; } }
@@ -629,14 +480,13 @@ a.earlier.nomore {
   border-radius: 2px;
   color: rgba(255, 253, 249, 0.9);
   text-align: left;
-  padding: 12px 0; }
+  padding: 12px 0;
+  border-top: 3px solid rgba(255, 253, 249, 0.25); }
+  .thing:first-of-type {
+    border-top: none; }
   @media screen and (min-width: 687px) {
     .thing {
       font-size: 20px; } }
-  @media screen and (min-width: 850px) {
-    .thing {
-      border-left: 1px solid rgba(0, 0, 0, 0.1);
-      border-right: 1px solid rgba(0, 0, 0, 0.1); } }
   @media screen and (min-width: 941px) {
     .thing {
       padding: 0px 0 15px; } }
@@ -675,7 +525,7 @@ a.earlier.nomore {
 
 /*----------- 3Ai: votecount ----------- */
 .votecount {
-  font-size: 36px;
+  font-size: 30px;
   font-weight: bold;
   display: inline-block;
   padding-right: 6px;
@@ -737,7 +587,8 @@ p.onboardText {
   background: #000;
   color: rgba(255, 253, 249, 0.9);
   line-height: 0px;
-  z-index: 0; }
+  z-index: 0;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.25); }
   .contentbox img {
     max-width: 100%;
     height: auto; }
@@ -1027,21 +878,26 @@ a.earlier.nomore.thing {
     transform: rotate(360deg); } }
 /*----------- 3Ai: propbox ----------- */
 #homeheader {
-  width: 90%;
-  margin: 24px auto 0;
   display: flex;
   align-items: center;
-  justify-content: space-between; }
+  margin: 24px auto;
+  flex-wrap: wrap; }
+  @media screen and (min-width: 687px) {
+    #homeheader {
+      width: 90%;
+      justify-content: space-between;
+      margin: 24px auto 0; } }
 
 #propbox {
-  width: 10%;
+  width: 100%;
+  margin: 0 0 12px 0;
   height: 150px;
   position: relative;
-  background: url("http://therocketdailies.com/wp-content/uploads/2017/02/Faceoff-black.jpg") center/cover;
-  margin: 0px 24px 0 0; }
+  background: url("http://therocketdailies.com/wp-content/uploads/2017/02/Faceoff-black.jpg") center/cover; }
   @media screen and (min-width: 687px) {
     #propbox {
-      margin: 0px auto 18px; } }
+      margin: 0px auto 18px;
+      width: 10%; } }
   @media screen and (min-width: 850px) {
     #propbox {
       height: 240px;
@@ -1049,8 +905,11 @@ a.earlier.nomore.thing {
       margin: 0; } }
 
 #userbox-wrapper {
-  width: 15%;
-  min-width: 200px; }
+  width: 100%; }
+  @media screen and (min-width: 687px) {
+    #userbox-wrapper {
+      width: 15%;
+      min-width: 200px; } }
 
 .propaganda {
   position: absolute;
@@ -1431,7 +1290,8 @@ body.page-id-3801 {
   		background: radial-gradient(ellipse at center, #262626 2%, #161616 100%);
   	} */ }
   body.page-id-3801 .thing {
-    background: #121212;
+    background: rgba(0, 0, 0, 0.25);
+    border: 3px solid #121212;
     background-size: 100% auto;
     background-position: center; }
 
@@ -1780,7 +1640,7 @@ a.liveNowLink {
   line-height: 0;
   border-radius: 2px;
   border-top: none;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.5); }
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3); }
   @media screen and (min-width: 850px) {
     .little-thing {
       width: calc(50% - 9px); } }
@@ -1869,7 +1729,7 @@ a.liveNowLink {
 
 #garden {
   width: 95%;
-  margin: auto;
+  margin: 18px auto;
   text-align: left;
   position: relative; }
 
@@ -1895,9 +1755,8 @@ p.clipCount {
   margin: 0 3px; }
 
 .seedling {
-  background: #fff;
-  box-shadow: 0 1px 1px rgba(173, 168, 168, 0.1);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.25);
+  border: 3px solid #121212;
   position: relative;
   margin: 24px 0;
   font-size: 18px;
@@ -1908,7 +1767,7 @@ p.clipCount {
   display: flex;
   align-items: flex-start; }
   .seedling.focus {
-    border: 1px solid rgba(12, 12, 12, 0.4); }
+    border: 3px solid rgba(255, 253, 249, 0.25); }
   .seedling-extra-buttons {
     position: absolute;
     width: 84px;
@@ -1940,7 +1799,7 @@ img.seedling-logo {
   padding-top: 6px; }
   .seedling-title a {
     font-size: 24px;
-    color: #121212;
+    color: rgba(255, 253, 249, 0.9);
     text-decoration: none;
     font-weight: bold; }
 
@@ -1958,9 +1817,11 @@ input.seedling-title-input {
   height: 24px;
   width: calc(100% - 60px);
   margin: 0 auto;
-  background: rgba(255, 253, 249, 0.9);
+  background: rgba(207, 230, 252, 0.2);
+  color: rgba(255, 253, 249, 0.9);
   padding: 0 6px;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 253, 249, 0.25); }
 
 .keepbutton {
   width: 48px;

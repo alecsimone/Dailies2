@@ -74,9 +74,9 @@ if (has_category('noms')) { ?>
 
 	<section class="votebar" id="thing<?php echo $thisID; ?>-votebar">
 		<?php if ( ( $user_id == 0 && !in_array($client_ip, $guestlist) ) || ( $user_id != 0 && !array_key_exists($user_id, $voteledger) ) ) { ?>
-			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/Vote-Icon-line-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon hoverReplacer" data-id="<?php echo $thisID; ?>" data-vote="up" data-replace-src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Medal-small-100.png" onclick="vote(<?php echo $thisID; ?>)">
+			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/07/Vote-Icon-light-line-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon hoverReplacer" data-id="<?php echo $thisID; ?>" data-vote="up" data-replace-src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Medal-small-100.png" onclick="vote(<?php echo $thisID; ?>)">
 		<?php } elseif ( ( $user_id == 0 && in_array($client_ip, $guestlist) ) || ( $user_id != 0 && array_key_exists($user_id, $voteledger) ) ) { ?>
-			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Medal-small-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon hoverReplacer" data-id="<?php echo $thisID; ?>" data-vote="down" data-replace-src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/Vote-Icon-line-100.png" onclick="vote(<?php echo $thisID; ?>)">
+			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Medal-small-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon hoverReplacer" data-id="<?php echo $thisID; ?>" data-vote="down" data-replace-src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/07/Vote-Icon-light-line-100.png" onclick="vote(<?php echo $thisID; ?>)">
 		<?php }; ?>
 	</section>
 
@@ -156,7 +156,7 @@ $sourceSlug = $source[0]->slug; ?>
 				if ( empty($sourcepic) ) {
 					$sourcepic = $defaultPic;
 				}; ?>
-				<a class="starsourceImgLink" href="<?php echo $thisDomain; ?>/source/<?php echo $source[0]->slug; ?>"><img class="starpic" src="<?php echo $sourcepic; ?>"></a>
+				<a class="starsourceImgLink" href="<?php echo $thisDomain; ?>/source/<?php echo $source[0]->slug; ?>"><img class="starpic sourcepic" src="<?php echo $sourcepic; ?>"></a>
 			</p>
 		<?php }; ?>
 		<div class="little-title titlebox">
@@ -209,9 +209,9 @@ $sourceSlug = $source[0]->slug; ?>
 			<?php $user_id = get_current_user_id();
 			$client_ip = $_SERVER['REMOTE_ADDR'];
 			if ( ( $user_id == 0 && !in_array($client_ip, $guestlist) ) || ( $user_id != 0 && !array_key_exists($user_id, $voteledger) ) ) { ?>
-				<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/Vote-Icon-line-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon hoverReplacer" data-id="<?php echo $thisID; ?>" data-vote="up" data-replace-src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Medal-small-100.png" onclick="vote(<?php echo $thisID; ?>)">
+				<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/07/Vote-Icon-light-line-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon hoverReplacer" data-id="<?php echo $thisID; ?>" data-vote="up" data-replace-src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Medal-small-100.png" onclick="vote(<?php echo $thisID; ?>)">
 			<?php } elseif ( ( $user_id == 0 && in_array($client_ip, $guestlist) ) || ( $user_id != 0 && array_key_exists($user_id, $voteledger) ) ) { ?>
-				<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Medal-small-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon hoverReplacer" data-id="<?php echo $thisID; ?>" data-vote="down" data-replace-src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/Vote-Icon-line-100.png" onclick="vote(<?php echo $thisID; ?>)">
+				<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Medal-small-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon hoverReplacer" data-id="<?php echo $thisID; ?>" data-vote="down" data-replace-src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/07/Vote-Icon-light-line-100.png" onclick="vote(<?php echo $thisID; ?>)">
 			<?php }; ?>
 		</div>
 	</section>

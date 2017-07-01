@@ -275,7 +275,7 @@ function clipGetter(queryCursorPairsArray) {
 						<div class='seedling-controls'>
 							<a href="${thisWholeSource}/clips" target="_blank"><img src='${thisLogo}' class='seedling-logo'></a>
 							<div class="cutVoteContainer">
-								<div class='seedling-vote'><img class='seedVoter seedControlImg hoverReplacer' src='http://dailies.gg/wp-content/uploads/2017/04/Vote-Icon-line.png' data-replace-src='http://dailies.gg/wp-content/uploads/2016/12/Medal-small-100.png'></div>
+								<div class='seedling-vote'><img class='seedVoter seedControlImg hoverReplacer' src='http://dailies.gg/wp-content/uploads/2017/07/Vote-Icon-light-line-100.png' data-replace-src='http://dailies.gg/wp-content/uploads/2016/12/Medal-small-100.png'></div>
 								<div class='seedling-cross'><img class='seedCutter seedControlImg' src='http://dailies.gg/wp-content/uploads/2017/04/red-x.png'></div>
 							</div>
 							${nuke}

@@ -19,6 +19,7 @@ if ( $user_id == 0 ) {
 			<?php do_action( 'wordpress_social_login' ); ?>
 		<?php } else { ?>
 			<p class="userbox"><a href="<?php echo $thisDomain; ?>/your-votes">Your Votes</a></p>
+			<p class="userbox"><a href="<?php echo $thisDomain; ?>/secret-garden">Secret Garden</a></p>
 			<p class="userbox"><a href="<?php echo wp_logout_url(); ?>">Logout</a></p>
 		<?php }; 
 		?>
