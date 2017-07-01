@@ -1013,7 +1013,7 @@ img.thumb {
 }
 
 p.attribution {
-	font-size: $plusQuarter;
+	font-size: $plusHalf;
 	line-height: 1.4em;
 	padding: 0px;
 	max-width: none;
@@ -1032,13 +1032,18 @@ p.attribution.source {
 img.starpic {
 	width: auto;
 	height: $triple;
-	border-radius: $quarter;
+	border-radius: $plusHalf;
 	&.nostars {
 		margin-right: $half;
 	}
 }
+img.sourcepic {
+	width: auto;
+	height: $triple;
+	border-radius: $quarter;
+}
 a.starsourceLink {
-	padding: 0px $baseline 0px $quarter;
+	padding: 0px $baseline 0px $half;
 }
 p.attribution.full-clip {
 	float: right;
@@ -1163,7 +1168,7 @@ input#comment-submit {
 /*----------- 3e: tagbox ----------- */
 .tagbox {
 	padding: $baseline 0;
-	font-size: $plusQuarter;
+	font-size: $plusHalf;
 	text-align: center;
 	a {
     	color: $light;
@@ -1227,7 +1232,7 @@ a.earlier.nomore.thing {
 	height: 150px;
 	position: relative;
 	background: url('http://therocketdailies.com/wp-content/uploads/2017/02/Faceoff-black.jpg') center/cover;
-	margin: 0px auto $baseline;
+	margin: 0px $double 0 0;
 	@media #{$bpMedium} {
 		margin: 0px auto $plusHalf;
 	}
@@ -1239,6 +1244,7 @@ a.earlier.nomore.thing {
 }
 #userbox-wrapper {
 	width: 15%;
+	min-width: 200px;
 }
 
 .propaganda {
@@ -1872,7 +1878,7 @@ p.cctitle-instructions {
 	justify-content: center;
 	white-space: pre-wrap;
 	color: $light;
-	background: $evenLighterBlack;
+	background: $black;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -1936,7 +1942,7 @@ a.liveNowLink {
 	align-items: center;
 	justify-content: center;
 	vertical-align: top;
-	background: $black;
+	background: $lighterBlack;
 	color: $light;
 	border-radius: $roundedBot;
 	cursor: pointer;
@@ -1958,7 +1964,7 @@ a.liveNowLink {
 		}
 	}
 	&:hover {
-		background: $evenLighterBlack;
+		background: $black;
 		transition: background .1s;
 	}
 }
@@ -2040,6 +2046,12 @@ a.liveNowLink {
 .little-title{
 	width: calc(100% - 120px);
 	padding: 0;
+	& h3 {
+		font-size: $double;
+	}
+	& .votecount {
+		font-size: $double;
+	}
 }
 .little-votebox {
 	height: $quad;;

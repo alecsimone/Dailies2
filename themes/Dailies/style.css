@@ -823,7 +823,7 @@ img.thumb {
       padding: 1.4em 1em; } }
 
 p.attribution {
-  font-size: 15px;
+  font-size: 18px;
   line-height: 1.4em;
   padding: 0px;
   max-width: none; }
@@ -842,12 +842,17 @@ p.attribution.source {
 img.starpic {
   width: auto;
   height: 36px;
-  border-radius: 3px; }
+  border-radius: 18px; }
   img.starpic.nostars {
     margin-right: 6px; }
 
+img.sourcepic {
+  width: auto;
+  height: 36px;
+  border-radius: 3px; }
+
 a.starsourceLink {
-  padding: 0px 12px 0px 3px; }
+  padding: 0px 12px 0px 6px; }
 
 p.attribution.full-clip {
   float: right;
@@ -968,7 +973,7 @@ input#comment-submit {
 /*----------- 3e: tagbox ----------- */
 .tagbox {
   padding: 12px 0;
-  font-size: 15px;
+  font-size: 18px;
   text-align: center; }
   .tagbox a {
     color: rgba(255, 253, 249, 0.9); }
@@ -1033,7 +1038,7 @@ a.earlier.nomore.thing {
   height: 150px;
   position: relative;
   background: url("http://therocketdailies.com/wp-content/uploads/2017/02/Faceoff-black.jpg") center/cover;
-  margin: 0px auto 12px; }
+  margin: 0px 24px 0 0; }
   @media screen and (min-width: 687px) {
     #propbox {
       margin: 0px auto 18px; } }
@@ -1044,7 +1049,8 @@ a.earlier.nomore.thing {
       margin: 0; } }
 
 #userbox-wrapper {
-  width: 15%; }
+  width: 15%;
+  min-width: 200px; }
 
 .propaganda {
   position: absolute;
@@ -1637,7 +1643,7 @@ p.cctitle-instructions {
   justify-content: center;
   white-space: pre-wrap;
   color: rgba(255, 253, 249, 0.9);
-  background: #333;
+  background: #121212;
   position: absolute;
   top: 0;
   left: 0;
@@ -1698,7 +1704,7 @@ a.liveNowLink {
   align-items: center;
   justify-content: center;
   vertical-align: top;
-  background: #121212;
+  background: #262626;
   color: rgba(255, 253, 249, 0.9);
   border-radius: 0px 0px 2px 2px;
   cursor: pointer; }
@@ -1718,7 +1724,7 @@ a.liveNowLink {
         width: 72px;
         padding: 24px 12px; } }
   #filter-button:hover, #sort-button:hover {
-    background: #333;
+    background: #121212;
     transition: background .1s; }
 
 #sort-button {
@@ -1795,6 +1801,10 @@ a.liveNowLink {
 .little-title {
   width: calc(100% - 120px);
   padding: 0; }
+  .little-title h3 {
+    font-size: 24px; }
+  .little-title .votecount {
+    font-size: 24px; }
 
 .little-votebox {
   height: 48px;

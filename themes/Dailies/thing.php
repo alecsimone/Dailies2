@@ -107,7 +107,7 @@ if (has_category('noms')) { ?>
 				if ( empty($sourcepic) ) {
 					$sourcepic = $defaultPic;
 				}; ?>
-				<a class="starsourceImgLink" href="<?php echo $thisDomain; ?>/source/<?php echo $source[0]->slug; ?>"><img class="starpic" src="<?php echo $sourcepic; ?>"></a><a class="starsourceLink" href="<?php echo $thisDomain; ?>/source/<?php echo $source[0]->slug; ?>"><?php echo $source[0]->name; ?></a>
+				<a class="starsourceImgLink" href="<?php echo $thisDomain; ?>/source/<?php echo $source[0]->slug; ?>"><img class="sourcepic" src="<?php echo $sourcepic; ?>"></a><a class="starsourceLink" href="<?php echo $thisDomain; ?>/source/<?php echo $source[0]->slug; ?>"><?php echo $source[0]->name; ?></a>
 			<?php } ?>
 		</p>
 		<?php if ( !$tournament && (!is_home() || $underdogs) ) { ?>
