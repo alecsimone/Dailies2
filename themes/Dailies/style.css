@@ -32,20 +32,16 @@ body:before {
   background: #e5e3e1; }
   @media screen and (min-width: 687px) {
     body:before {
-      background: #f2f6fa;
+      background: #262626;
       /* Old browsers */
-      background: -moz-radial-gradient(center, ellipse cover, #f2f6fa 2%, #dedae0 100%);
-      /* FF3.6-15 */
-      background: -webkit-radial-gradient(center, ellipse cover, #f2f6fa 2%, #dedae0 100%);
-      /* Chrome10-25,Safari5.1-6 */
-      background: radial-gradient(ellipse at center, #f2f6fa 2%, #dedae0 100%);
+      background: radial-gradient(ellipse at center, #444 2%, #161616 100%);
       /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */ } }
 
 a, a:visited {
   color: #10508f; }
 
 h3 {
-  font-size: 24px;
+  font-size: 30px;
   line-height: 1.1em;
   margin: 0px; }
 
@@ -84,13 +80,12 @@ The site uses infinite scroll and thus has no footer
 ---------------------------------------------------------*/
 /*----------- 1A: header ----------- */
 #menu-links-wrapper {
-  background: #121212;
+  background: #000;
   opacity: .9;
   z-index: 3;
   position: relative;
   width: 100%;
-  top: 0px;
-  margin-bottom: 18px; }
+  top: 0px; }
 
 .headroom {
   will-change: transform;
@@ -374,8 +369,7 @@ a#lessbar {
 /*----------- 1C: wrapper ----------- */
 @media screen and (min-width: 850px) {
   .wrapper {
-    width: calc(100% - 24px);
-    max-width: 1280px;
+    width: 100%;
     margin: auto;
     position: relative; } }
 
@@ -385,10 +379,10 @@ a#lessbar {
   overflow: hidden; }
   @media screen and (min-width: 850px) {
     .contentContainer {
-      position: absolute;
-      left: 0px;
-      width: calc(75% - 6px);
-      max-width: 1280px;
+      margin-top: 24px;
+      width: 90%;
+      background: #101010;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
       display: inline-block; } }
 
 @media screen and (min-width: 850px) {
@@ -627,20 +621,15 @@ a.earlier.nomore {
 	E- tagbox
 ---------------------------------------------------------*/
 .thing {
-  background: #fff;
-  box-shadow: 0 1px 1px rgba(173, 168, 168, 0.1);
-  border: 1px solid rgba(0, 0, 0, 0.1);
   border-left: none;
   border-right: none;
-  width: 100%;
-  max-width: 980px;
+  width: 90%;
   box-sizing: border-box;
-  margin: 15px auto;
-  border-top: 2px solid #121212;
+  margin: 15px auto 48px;
   border-radius: 2px;
-  color: #121212;
+  color: rgba(255, 253, 249, 0.9);
   text-align: left;
-  padding: 12px; }
+  padding: 12px 0; }
   @media screen and (min-width: 687px) {
     .thing {
       font-size: 20px; } }
@@ -650,7 +639,7 @@ a.earlier.nomore {
       border-right: 1px solid rgba(0, 0, 0, 0.1); } }
   @media screen and (min-width: 941px) {
     .thing {
-      padding: 0px 15px 15px; } }
+      padding: 0px 0 15px; } }
   .thing.winner {
     border-top: none; }
 
@@ -686,11 +675,11 @@ a.earlier.nomore {
 
 /*----------- 3Ai: votecount ----------- */
 .votecount {
-  font-size: 24px;
+  font-size: 36px;
   font-weight: bold;
   display: inline-block;
   padding-right: 6px;
-  color: #10508f; }
+  color: #ecc15b; }
 
 /*----------- 3Aii: votebox ----------- */
 .votebox {
@@ -800,7 +789,8 @@ img.thumb {
 .storybox {
   height: auto;
   padding: 6px 0px;
-  line-height: 1.5em; }
+  line-height: 1.5em;
+  text-align: center; }
   .storybox p, .storybox ol {
     margin: 0px;
     padding: .5em 0px;
@@ -820,9 +810,9 @@ img.thumb {
 .titlebox {
   display: inline-block;
   box-sizing: border-box;
-  padding: 0 0 6px; }
+  padding: 1.2em 1em; }
   .titlebox a {
-    color: #121212;
+    color: rgba(255, 253, 249, 0.9);
     text-decoration: none; }
     .titlebox a:hover {
       text-decoration: underline; }
@@ -830,7 +820,7 @@ img.thumb {
     display: inline; }
   @media screen and (min-width: 850px) {
     .titlebox {
-      padding: 15px 0 12px; } }
+      padding: 1.4em 1em; } }
 
 p.attribution {
   font-size: 15px;
@@ -840,7 +830,8 @@ p.attribution {
 
 p.attribution.stars, p.attribution.source {
   align-items: center;
-  margin-bottom: 6px; }
+  justify-content: center;
+  margin: 12px; }
 
 p.attribution.stars {
   display: inline-flex; }
@@ -877,7 +868,7 @@ p.attribution.playcount {
   margin: 0; }
 
 p.attribution a, p.attribution a:visited {
-  color: #10508f; }
+  color: #3b8fd9; }
 
 .addScore-input {
   height: 24px;
@@ -978,14 +969,11 @@ input#comment-submit {
 .tagbox {
   padding: 12px 0;
   font-size: 15px;
-  text-align: center;
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between; }
+  text-align: center; }
   .tagbox a {
-    color: #10508f; }
+    color: rgba(255, 253, 249, 0.9); }
     .tagbox a:visited {
-      color: #7c0a43; }
+      color: #3b8fd9; }
 
 .tags {
   display: inline-block; }
@@ -1033,8 +1021,15 @@ a.earlier.nomore.thing {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg); } }
 /*----------- 3Ai: propbox ----------- */
+#homeheader {
+  width: 90%;
+  margin: 24px auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; }
+
 #propbox {
-  width: 100%;
+  width: 10%;
   height: 150px;
   position: relative;
   background: url("http://therocketdailies.com/wp-content/uploads/2017/02/Faceoff-black.jpg") center/cover;
@@ -1045,7 +1040,11 @@ a.earlier.nomore.thing {
   @media screen and (min-width: 850px) {
     #propbox {
       height: 240px;
-      margin: 0px auto 12px; } }
+      width: 80%;
+      margin: 0; } }
+
+#userbox-wrapper {
+  width: 15%; }
 
 .propaganda {
   position: absolute;
@@ -1072,15 +1071,16 @@ a.earlier.nomore.thing {
   text-align: right; }
 
 /*----------- 3Aii: daytitles ----------- */
-.daytitle {
+.daytitle, #order-selector {
   padding: 1.2em;
   box-sizing: border-box;
   text-align: center;
-  color: #121212;
+  color: rgba(255, 253, 249, 0.9);
   display: inline-block;
   width: 100%;
   margin: 0px auto;
-  font-size: 22px; }
+  font-size: 24px;
+  background: #161616; }
 
 /*----------- 3B: Single Page stuff ----------- */
 .thing.recapSingle, .single-comments.recapSingle {
@@ -1094,7 +1094,7 @@ a.earlier.nomore.thing {
   background: rgba(255, 253, 249, 0.5); }
 
 .thing.recapSingle .titlebox a {
-  color: #121212; }
+  color: rgba(255, 253, 249, 0.9); }
 
 .thing.singlething {
   margin: 0 auto 15px; }
@@ -1194,19 +1194,13 @@ h4.recap {
   display: table-cell;
   vertical-align: middle; }
 
-#order-selector {
-  background: #FFF;
-  font-size: 18px;
-  padding: 12px;
-  margin: 12px 0; }
-
 a.orderLink {
-  color: #121212; }
+  color: rgba(255, 253, 249, 0.9); }
   a.orderLink:hover {
-    color: #10508f; }
+    color: #3b8fd9; }
 
 a.orderLink.currentOrder {
-  color: #10508f; }
+  color: #3b8fd9; }
 
 /*----------- 3D: Stars page stuff ----------- */
 #team-header, #player-header {
@@ -1398,13 +1392,15 @@ h3.stringName {
 
 /*----------- 3F: Rules page stuff ----------- */
 #rulespage {
-  background: none;
+  background: #e5e5e5;
   width: 100%;
   max-width: 80%;
-  margin: auto;
+  margin: 24px auto 0;
   text-align: left;
-  padding: 1em 2em;
-  font-size: 18px; }
+  padding: .5em 2em 1em;
+  font-size: 18px;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5); }
 
 p.rules.privacy {
   font-size: 15px; }
@@ -1421,19 +1417,17 @@ p.onboardText.your-votes-error {
   margin: 12px 0px; }
 
 /*----------- 3H: Live Page ----------- */
-body.page-id-3801:before {
-  background: #222;
-  /* Old browsers */
-  background: -moz-radial-gradient(center, ellipse cover, #262626 2%, #161616 100%);
-  /* FF3.6-15 */
-  background: -webkit-radial-gradient(center, ellipse cover, #262626 2%, #161616 100%);
-  /* Chrome10-25,Safari5.1-6 */
-  background: radial-gradient(ellipse at center, #262626 2%, #161616 100%);
-  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */ }
-body.page-id-3801 .thing {
-  background: #e5e5e5;
-  background-size: 100% auto;
-  background-position: center; }
+body.page-id-3801 {
+  	/*&:before {
+     		background: #222;
+  		background: -moz-radial-gradient(center, ellipse cover, #262626 2%, #161616 100%);
+  		background: -webkit-radial-gradient(center, ellipse cover, #262626 2%,#161616 100%);
+  		background: radial-gradient(ellipse at center, #262626 2%, #161616 100%);
+  	} */ }
+  body.page-id-3801 .thing {
+    background: #121212;
+    background-size: 100% auto;
+    background-position: center; }
 
 .live-header {
   display: flex;
@@ -1776,10 +1770,11 @@ a.liveNowLink {
   min-width: 350px;
   width: 98%;
   display: inline-block;
-  margin: 9px 0;
+  margin: 12px 0;
   line-height: 0;
   border-radius: 2px;
-  border-top: none; }
+  border-top: none;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.5); }
   @media screen and (min-width: 850px) {
     .little-thing {
       width: calc(50% - 9px); } }
@@ -1802,8 +1797,8 @@ a.liveNowLink {
   padding: 0; }
 
 .little-votebox {
-  width: 48px;
   height: 48px;
+  width: 48px;
   text-align: center; }
 
 .little-votebox img {

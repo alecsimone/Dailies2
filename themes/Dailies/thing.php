@@ -8,7 +8,7 @@ if (has_category('noms')) { ?>
 		<section id="winnerbanner<?php echo $thisID; ?>" class="winnerbanner">
 			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/02/Winner-banner-black.jpg" class="winnerbannerIMG">
 		</section>
-	<?php } else {}; ?>
+	<?php }; ?>
 
 	<header class="titlebox" id="thing<?php echo $thisID; ?>-titlebox">
 		<div id="thing<?php echo $thisID; ?>-votecount" class="votecount">
@@ -63,17 +63,24 @@ if (has_category('noms')) { ?>
 		<?php } ?>
 	</section>
 
+	<section class="tagbox" id="thing<?php echo $thisID; ?>-tagbox">
+		<div class="tags" id="thing<?php echo $thisID; ?>-tags">
+			<?php $tag_list = get_the_tag_list( 'More: ', ',  ', '', $thisID);
+			$skill_list = get_the_terms($thisID, 'skills');
+			echo $tag_list;
+			foreach ($skill_list as $skill) { ?>, <a href="<?php echo $thisDomain; ?>/skills/<?php echo $skill->slug; ?>" ><?php echo $skill->name; ?></a><?php }; ?>
+		</div>
+	</section>
+
+	<section class="votebar" id="thing<?php echo $thisID; ?>-votebar">
+		<?php if ( ( $user_id == 0 && !in_array($client_ip, $guestlist) ) || ( $user_id != 0 && !array_key_exists($user_id, $voteledger) ) ) { ?>
+			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/Vote-Icon-line-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon hoverReplacer" data-id="<?php echo $thisID; ?>" data-vote="up" data-replace-src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Medal-small-100.png" onclick="vote(<?php echo $thisID; ?>)">
+		<?php } elseif ( ( $user_id == 0 && in_array($client_ip, $guestlist) ) || ( $user_id != 0 && array_key_exists($user_id, $voteledger) ) ) { ?>
+			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Medal-small-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon hoverReplacer" data-id="<?php echo $thisID; ?>" data-vote="down" data-replace-src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/Vote-Icon-line-100.png" onclick="vote(<?php echo $thisID; ?>)">
+		<?php }; ?>
+	</section>
+
 	<section class="storybox" id="thing<?php echo $thisID; ?>-storybox">
-		<?php if (!empty($twitchcode)) {
-			$fullClip = 'https://clips.twitch.tv/' . $twitchcode;
-		} else {
-			$fullClip = get_post_meta($thisID, 'FullClip', true);
-		}
-		if ( !empty($fullClip) ) { ?>
-			<p class="attribution full-clip">
-				<a href="<?php echo $fullClip; ?>" target="_blank" class="fullClipLink">Full Clip</a>
-			</p>
-		<?php } ?>
 		<p class="attribution stars">
 			<?php $attribution = get_post_meta($thisID, 'Attribution', true); // For a brief period I lumped all attributions into one custom field. This is to support that
 			$stars = get_the_terms( $post->ID, 'stars' );
@@ -125,13 +132,6 @@ if (has_category('noms')) { ?>
 		</div>
 	<?php } ?>
 
-	<section class="votebar" id="thing<?php echo $thisID; ?>-votebar">
-		<?php if ( ( $user_id == 0 && !in_array($client_ip, $guestlist) ) || ( $user_id != 0 && !array_key_exists($user_id, $voteledger) ) ) { ?>
-			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/Vote-Icon-line-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon hoverReplacer" data-id="<?php echo $thisID; ?>" data-vote="up" data-replace-src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Medal-small-100.png" onclick="vote(<?php echo $thisID; ?>)">
-		<?php } elseif ( ( $user_id == 0 && in_array($client_ip, $guestlist) ) || ( $user_id != 0 && array_key_exists($user_id, $voteledger) ) ) { ?>
-			<img src="<?php echo $thisDomain; ?>/wp-content/uploads/2016/12/Medal-small-100.png" id="voteIcon<?php echo $thisID; ?>" class="voteIcon hoverReplacer" data-id="<?php echo $thisID; ?>" data-vote="down" data-replace-src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/Vote-Icon-line-100.png" onclick="vote(<?php echo $thisID; ?>)">
-		<?php }; ?>
-	</section>
 	<div class="onboardbox" id="thing<?php echo $thisID; ?>-onboardbox">
 		<?php if ( !is_user_logged_in() ) { ?>
 			<p class="onboardText">Your votes count as much as your rep. New members get 1</p>
@@ -142,15 +142,7 @@ if (has_category('noms')) { ?>
 
 	<?php include( locate_template('commentbox.php') ); ?>
 
-	<section class="tagbox" id="thing<?php echo $thisID; ?>-tagbox">
-		<div class="tags" id="thing<?php echo $thisID; ?>-tags">
-			<?php $tag_list = get_the_tag_list( 'More: ', ',  ', '', $thisID);
-			$skill_list = get_the_terms($thisID, 'skills');
-			echo $tag_list;
-			foreach ($skill_list as $skill) { ?>, <a href="<?php echo $thisDomain; ?>/skills/<?php echo $skill->slug; ?>" ><?php echo $skill->name; ?></a><?php }; ?>
-		</div>
-		<div class="discuss-button-container"><img src="<?php echo $thisDomain; ?>/wp-content/uploads/2017/04/comment-icon-outline.png" class="discuss-button" onclick="showCommentForm(<?php echo $thisID; echo ", "; echo $hash; echo $thisID; ?>)"></div>
-	</section>
+
 </article>
 
 <?php } else { ?>

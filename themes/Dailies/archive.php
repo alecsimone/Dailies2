@@ -47,6 +47,6 @@
 	} else { ?>
 		<a class="earlier nomore pull">That's all, folks</a>
 	<?php }; ?>
-</div><?php include(locate_template('sidebar.php')); ?>
+</div>
 </div>
 <?php get_footer(); ?>

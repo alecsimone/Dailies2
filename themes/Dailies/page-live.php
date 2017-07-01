@@ -14,9 +14,7 @@ include( locate_template('schedule.php') );
 		<section class="streamlabs-bar">
 			<iframe src="https://streamlabs.com/widgets/donation-goal?token=8BE4E105DA0C64096FD6" height="100%" width="100%" name="donation-bar" frameborder="0" scrolling="no" id="donation-bar">You need an iframes capable browser to view this content.</iframe>
 		</section>
-	</section><section id="live-userbox">
-		<?php include( locate_template('userbox.php') ); ?>
-	</section>
+	</section><?php include( locate_template('userbox.php') ); ?>
 </section>
 
 <!--<p class="channel-changer-title">Today's Shows:</p>-->

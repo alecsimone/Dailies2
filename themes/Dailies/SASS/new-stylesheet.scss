@@ -191,10 +191,13 @@ body:before { /* Background hack to play a little nicer on mobile */
 	  	z-index: -10;
 	  	background: $lightGrayRed;
 	  	@media #{$bpMedium} {
-		  	background: #f2f6fa; /* Old browsers */
-			background: -moz-radial-gradient(center, ellipse cover, #f2f6fa 2%, #dedae0 100%); /* FF3.6-15 */
-			background: -webkit-radial-gradient(center, ellipse cover, #f2f6fa 2%,#dedae0 100%); /* Chrome10-25,Safari5.1-6 */
-			background: radial-gradient(ellipse at center, #f2f6fa 2%,#dedae0 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+		  	background: #262626; /* Old browsers */
+			//background: -moz-radial-gradient(center, ellipse cover, #f2f6fa 2%, #dedae0 100%); /* FF3.6-15 */
+			//background: -webkit-radial-gradient(center, ellipse cover, #f2f6fa 2%,#dedae0 100%); /* Chrome10-25,Safari5.1-6 */
+			//background: radial-gradient(ellipse at center, #f2f6fa 2%,#dedae0 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	  		//background: -webkit-radial-gradient(center, ellipse cover, #262626 2%,#161616 100%); /* Chrome10-25,Safari5.1-6 */
+			background: radial-gradient(ellipse at center, #444 2%, #161616 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+			//background: linear-gradient(to right, #323232 0%,#121212 50%,#323232 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 	  };
 }
 a, a:visited {
@@ -202,7 +205,7 @@ a, a:visited {
 }
 
 h3 {
-    font-size: $double;
+    font-size: $doublePlusHalf;
     line-height: 1.1em;
     margin: 0px;
 }
@@ -245,13 +248,12 @@ The site uses infinite scroll and thus has no footer
 
 /*----------- 1A: header ----------- */
 #menu-links-wrapper {
-	background: $black;
+	background: #000;
 	opacity: .9;
 	z-index: 3;
 	position: relative;
 	width: 100%;
 	top: 0px;
-	margin-bottom: $plusHalf;
 }
 .headroom {
     will-change: transform;
@@ -520,8 +522,7 @@ a#lessbar {
 /*----------- 1C: wrapper ----------- */
 .wrapper {
 	@media #{$bpLarge} {
-		width: calc(100% - #{$double});
-		max-width: 1280px;
+		width: 100%;
 		margin: auto;
 		position: relative;
 	}
@@ -532,10 +533,10 @@ a#lessbar {
 	padding-bottom: 150px;
 	overflow: hidden;
 	@media #{$bpLarge} {
-		position: absolute;
-		left: 0px;
-		width: calc(75% - #{$half});
-		max-width: $maxestWidth;
+		margin-top: $double;
+		width: 90%;
+		background: #101010;
+		box-shadow: 0 0 12px rgba(0,0,0,.8);
 		display: inline-block;
 	}
 }
@@ -787,18 +788,16 @@ a.earlier.nomore {
 	E- tagbox
 ---------------------------------------------------------*/
 .thing {
-	@include card();
+	//@include card();
 	border-left: none;
 	border-right: none;
-	width: 100%;
-	max-width: $bigWidth;
+	width: 90%;
 	box-sizing: border-box;
-	margin: $plusQuarter auto;
-	border-top: 2px solid $black;
+	margin: $plusQuarter auto $quad;
 	border-radius: $rounded;
-	color: $black;
+	color: $light;
 	text-align: left;
-	padding: $baseline;
+	padding: $baseline 0;
 	@media #{$bpMedium} {
 		font-size: $mediumFontSize;
 	}
@@ -807,7 +806,7 @@ a.earlier.nomore {
 		border-right: 1px solid rgba(0,0,0,.1);
 	}
 	@media #{$bpXL} {
-		padding: 0px $plusQuarter $plusQuarter;
+		padding: 0px 0 $plusQuarter;
 	}
 	&.winner {
 		border-top: none;
@@ -850,11 +849,11 @@ a.earlier.nomore {
 
 /*----------- 3Ai: votecount ----------- */
 .votecount {
-	font-size: $double;
+	font-size: $triple;
 	font-weight: bold;
 	display: inline-block;
 	padding-right: $half;
-	color: $blue;
+	color: $gold;
 }
 
 /*----------- 3Aii: votebox ----------- */
@@ -972,6 +971,7 @@ img.thumb {
 	height: auto;
 	padding: $half 0px;
 	line-height: 1.5em;
+	text-align: center;
 	p, ol {
 		margin: 0px;
 		padding: .5em 0px;
@@ -996,9 +996,9 @@ img.thumb {
 .titlebox {
 	display: inline-block;
 	box-sizing: border-box;
-	padding: 0 0 $half;
+	padding: 1.2em 1em;
 	a {
-    	color: $black;
+    	color: $light;
     	text-decoration: none;
     	&:hover {
     		text-decoration: underline;
@@ -1008,7 +1008,7 @@ img.thumb {
     	display: inline;
     }
     @media #{$bpLarge} {
-		padding: $plusQuarter 0 $baseline;
+		padding: 1.4em 1em;
     }
 }
 
@@ -1020,7 +1020,8 @@ p.attribution {
 }
 p.attribution.stars, p.attribution.source {
 	align-items: center;
-	margin-bottom: $half;
+	justify-content: center;
+	margin: $baseline;
 }
 p.attribution.stars {
 	display: inline-flex;
@@ -1054,7 +1055,7 @@ p.attribution.playcount {
 	margin: 0;
 }
 p.attribution a, p.attribution a:visited {
-	color: $blue;
+	color: $lighterblue;
 }
 
 .addScore-input {
@@ -1164,13 +1165,10 @@ input#comment-submit {
 	padding: $baseline 0;
 	font-size: $plusQuarter;
 	text-align: center;
-	display: flex;
-	align-items: baseline;
-	justify-content: space-between;
 	a {
-    	color: $blue;
+    	color: $light;
     	&:visited {
-			color: $purple;
+			color: $lighterblue;
 		}
     }
 }
@@ -1216,8 +1214,16 @@ a.earlier.nomore.thing {
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 
 /*----------- 3Ai: propbox ----------- */
+#homeheader {
+	width: 90%;
+	margin: $double auto 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
 #propbox {
-	width: 100%;
+	width: 10%;
 	height: 150px;
 	position: relative;
 	background: url('http://therocketdailies.com/wp-content/uploads/2017/02/Faceoff-black.jpg') center/cover;
@@ -1227,8 +1233,12 @@ a.earlier.nomore.thing {
 	}
 	@media #{$bpLarge} {
 		height: 240px;
-		margin: 0px auto $baseline;
+		width: 80%;
+		margin: 0;
 	}
+}
+#userbox-wrapper {
+	width: 15%;
 }
 
 .propaganda {
@@ -1259,15 +1269,16 @@ a.earlier.nomore.thing {
 }
 
 /*----------- 3Aii: daytitles ----------- */
-.daytitle {
+.daytitle, #order-selector {
 	padding: 1.2em;
 	box-sizing: border-box;
 	text-align: center;
-	color: $black;
+	color: $light;
 	display: inline-block;
 	width: 100%;
 	margin: 0px auto;
-	font-size: 22px;
+	font-size: $double;
+	background: #161616;
 }
 
 /*----------- 3B: Single Page stuff ----------- */
@@ -1284,7 +1295,7 @@ a.earlier.nomore.thing {
 }
 
 .thing.recapSingle .titlebox a {
-    	color: $black;
+    	color: $light;
 }
 
 .thing.singlething {
@@ -1395,20 +1406,14 @@ h4.recap {
 	display: table-cell;
 	vertical-align: middle;
 }
-#order-selector {
-    background: #FFF;
-    font-size: $plusHalf;
-    padding: $baseline;
-	margin: $baseline 0;
-}
 a.orderLink {
-	color: $black;
+	color: $light;
 	&:hover {
-		color: $blue;
+		color: $lighterblue;
 	}
 }
 a.orderLink.currentOrder {
-	color: $blue;
+	color: $lighterblue;
 }
 /*----------- 3D: Stars page stuff ----------- */
 #team-header, #player-header {
@@ -1602,13 +1607,15 @@ a.stringNameLink {
 
 /*----------- 3F: Rules page stuff ----------- */
 #rulespage {
-    	background: none;
+    	background: $lightGray;
     	width: 100%;
     	max-width: 80%;
-    	margin: auto;
+    	margin: 24px auto 0;
     	text-align: left;
-    	padding: 1em 2em;
+    	padding: .5em 2em 1em;
     	font-size: $plusHalf;
+    	border-radius: 2px;
+    	box-shadow: 0 1px 4px rgba(0,0,0,.5);
 }
 p.rules.privacy {
     	font-size: $plusQuarter;
@@ -1628,14 +1635,14 @@ p.onboardText.your-votes-error {
 
 /*----------- 3H: Live Page ----------- */
 body.page-id-3801{
-	&:before {
-   		background: #222; /* Old browsers */
-		background: -moz-radial-gradient(center, ellipse cover, #262626 2%, #161616 100%); /* FF3.6-15 */
-		background: -webkit-radial-gradient(center, ellipse cover, #262626 2%,#161616 100%); /* Chrome10-25,Safari5.1-6 */
-		background: radial-gradient(ellipse at center, #262626 2%, #161616 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-	}
+	/*&:before {
+   		background: #222;
+		background: -moz-radial-gradient(center, ellipse cover, #262626 2%, #161616 100%);
+		background: -webkit-radial-gradient(center, ellipse cover, #262626 2%,#161616 100%);
+		background: radial-gradient(ellipse at center, #262626 2%, #161616 100%);
+	} */
 	& .thing {
-		background: $lightGray;
+		background: $black;
 		background-size: 100% auto;
 		background-position: center;
 	}
@@ -2007,10 +2014,11 @@ a.liveNowLink {
 	min-width: 350px;
 	width: 98%;
 	display: inline-block;
-	margin: $minusQuarter 0;
+	margin: $baseline 0;
 	line-height: 0;
 	border-radius: 2px;
 	border-top: none;
+	box-shadow: 0 1px $half rgba(0,0,0,.5);
 	@media #{$bpLarge} {
 		width: calc(50% - 9px);
 	}
@@ -2034,11 +2042,11 @@ a.liveNowLink {
 	padding: 0;
 }
 .little-votebox {
-	width: $quad;
 	height: $quad;;
+	width: $quad;
 	text-align: center;
 }
-.little-votebox img, {
+.little-votebox img {
 	width: $quad;
 	height: $quad;
 }

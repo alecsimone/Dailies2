@@ -1,13 +1,17 @@
 <?php get_header(); ?>
 <div class="wrapper">
-<div class="contentContainer">
 
+<header id="homeheader">
 	<div id="propbox">
 		<div class="propaganda" id="propLeft">Today's Prize: $25.00</div>
 		<div class="propaganda" id="propRight">More Coming Soon...</div>
 	</div>
-
 	<?php include( locate_template('userbox.php') ); ?>
+</header>
+	
+
+<div class="contentContainer">
+
 
 	<div id="winnersection">
 
@@ -87,9 +91,7 @@
 		}; ?> 
 	</div>
 
-	<?php $adCounter = 0;
-	$adsCounted = 0;
-	foreach ( $postDataNoms as $post) : setup_postdata($post);
+	<?php foreach ( $postDataNoms as $post) : setup_postdata($post);
 		include(locate_template('thing.php'));
 	endforeach;
 	$my_page++; ?>
@@ -97,7 +99,7 @@
 	<a href="<?php echo $thisDomain; ?>/page/<?php echo $my_page; ?>" class="earlier more pull"><img src='<?php echo $thisDomain; ?>/wp-content/uploads/2016/09/More.png' class='earlierIMG'></a>
 	<?php }; ?>
 	
-</div><?php include(locate_template('sidebar.php')); ?>
+</div>
 </div>
 
 <?php get_footer(); ?>
