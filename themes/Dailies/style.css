@@ -29,9 +29,7 @@ body:before {
   width: 100%;
   height: 100%;
   z-index: -10;
-  background: #e5e3e1;
-  background: #26262C;
-  /* Old browsers */ }
+  background: #22262a; }
 
 a, a:visited {
   color: #3b8fd9; }
@@ -1298,7 +1296,7 @@ body.page-id-3801 {
 .live-header {
   display: flex;
   justify-content: space-around;
-  align-items: baseline;
+  align-items: center;
   flex-wrap: wrap;
   width: 95%;
   margin: 12px auto 24px; }
