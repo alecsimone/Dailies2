@@ -1,4 +1,4 @@
-F<?php get_header();
+<?php get_header();
 $currentUser = get_current_user_id();
 if ( !current_user_can('edit_posts') ) {
 	echo "There's nothing here. How did you get here? Turn back now. Maybe try logging in and coming back. But there's definitely nothing here.";
@@ -92,8 +92,8 @@ function clipGetter(queryCursorPairsArray) {
 	var canPublish = garden.attr('data-user-can-publish');
 	if (canPublish === 'true') {
 		var nuke = "<button class='universalCut'>Nuke</button>";
-		var nukeAndNext = "<button class='nukeAndNext extraButton'>N</button>"
-		var keep = "<div class='seedlingAddTitleBox'><input type='text' class='seedling-title-input' name='addTitleBox' placeholder='Who and Why?'><button class='keepbutton'>nom</button></div>"
+		var nukeAndNext = "<button class='nukeAndNext extraButton'>N</button>";
+		var keep = "<div class='seedlingAddTitleBox'><input type='text' class='seedling-title-input' name='addTitleBox' placeholder='Who and Why?'><button class='keepbutton'>nom</button></div>";
 	} else {
 		var nuke = '';
 		var nukeAndNext = '';
@@ -131,13 +131,14 @@ function clipGetter(queryCursorPairsArray) {
 			}
 			if (queryCursorPairsArray[this] !== 'done') {
 				var queryURL = `https://api.twitch.tv/kraken/clips/top?${this}&period=day&limit=100${queryCursor}`;
+				console.log(queryURL);
 				var ajax = jQuery.ajax({
 					type: 'GET',
 					url: queryURL,
 					headers: {
 						'Client-ID' : 'r7cqs4kgrg1sknyz32brgy9agivw9n',
 						'Accept' : 'application/vnd.twitchtv.v5+json',
-					},
+					}
 				});
 				datas.push(ajax);
 		 	} else {

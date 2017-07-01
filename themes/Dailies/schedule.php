@@ -46,8 +46,8 @@
 		//'me' => ['The Dailies', 'rocket-dailies', 688, 'Nom Stream', 'Midnight EDT'],
 	),
 	'Friday' => array(
-		'OCE' => ['Vapour', 'oce-rocket-league', 654, 'Friday Night Lights 3v3', '5:30AM EDT'],
 		'gfinity' => ['GFinity', 'rocket-league-central', 547, 'EU 3v3 / NA 2v2', '1 PM EST / 7PM EDT'],
+		'OCE' => ['Vapour', 'oce-rocket-league', 654, 'Friday Night Lights 3v3', '5:30AM EDT'],
 		//'baguette' => ['Baguette', 'rocket-baguette', 585, 'EU GFinity, French Cast', '2PM EDT'],
 		'rocketstreet' => ['RocketStreet', 'rocketstreet', 518, 'SAM - 3v3', '5:30PM EDT'],
 		//'mld' => ['MLD', 'mld', 750, 'Playoffs!', '8PM EDT'],
