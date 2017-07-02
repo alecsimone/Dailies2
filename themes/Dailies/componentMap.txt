@@ -1,0 +1,112 @@
+**Main Bundle**
+	*Homepage, Archive, Single*
+		Userbox
+			- Prop: UserID
+			- Prop: CurrentRep
+		Thing
+			TopBar
+				VoteCount
+					- Prop: currentScore
+				Title
+					- Prop: Title
+			ContentBox
+				- Prop: Thumb
+				- Prop: EmbedType
+				- Prop: EmbedCode
+			TagBox
+				- Prop: Skills
+				- Prop: Tags
+			VoteButton
+				- Prop: VoteLedger
+				- Prop: UserID
+				- Prop: GuestList
+				- Prop: ClientIP
+				- Prop: UserRep
+			Stars
+				- Prop: For Each Star: [StarPic, StarName, StarLink]
+			Sources
+				- Prop: Fore Each Source: [SourcePic, SourceName, SourceLink]
+			AdminPanel
+				- Prop: AddScore Function
+				- Prop: VoteLedger
+				- Prop: GuestList
+				- Prop: PlayCount
+	*Homepage*
+		DayContainer
+			= State: ThingList {Object of Objects of ThingData}
+			= State: Date
+			- Prop: NextQuery
+	*Archive*
+		*Tax Page*
+			Archive Header
+				SocialBar
+					- Prop: For Each site {Site: Link}
+				- Prop: Logo
+				- Prop: Name
+				- Prop: Win Count
+		*Your Votes*
+			ThingContainer
+				- Prop: ThingList
+				- Prop: NextQuery
+			Thing (See Above)
+		ThingContainer
+			- Prop: ThingList
+			- Prop: NextQuery
+			Thing (See Above)
+		OrderBar
+			= State: CurrentSort
+	*Single*
+		Thing
+
+**Secret Garden Bundle**
+	Garden
+		= State: ClipsArray
+		= State: QueryCursorArray
+		= State: CutSlugsArray
+		= State: CutMomentsArray
+		Header
+			- Prop: ClipCount
+			- Prop: CutCount
+			- Prop: AddStream Function
+			- Prop: AddRL Function
+		Seedling
+			- Prop: CanPublish
+			- Prop: Source
+			- Prop: SourceLogo
+			- Prop: ClipTitle
+			- Prop: ViewCount
+			- Prop: ClippedBy
+			- Prop: Timestamp
+			- Prop: VODLink
+			- Prop: Slug
+		MoreButton
+			-Prop: QueryCursorArray
+
+**Live Bundle**
+	UserBox (See Above)
+	ChannelChanger
+	Little-Thing-Container
+		= State: LittleThingList
+		- Prop: ClientIP (passed as data attr through PHP)
+		Little-Thing
+			- Prop: SourceObject {Logo, Name, Link}
+			- Prop: Object of StarObjects {Logo, Name, Link}
+			- Prop: Title
+			- Prop: Score
+			- Prop: VoteLedger
+			- Prop: GuestList
+			- Prop: UserID
+			- Prop: ClientIP
+			- Prop: CutFunction
+
+**Schedule Bundle**
+	Container
+		= State: ScheduleArray
+		Day
+			- Prop: DayArray
+			Tournament
+				- Prop: SourceLogo
+				- Prop: TournamentName
+				- Prop: TournamentDetails
+				- Prop: TournamentTime
+				- Prop: TwitchURL

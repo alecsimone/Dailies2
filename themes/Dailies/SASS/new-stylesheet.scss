@@ -191,7 +191,7 @@ body:before { /* Background hack to play a little nicer on mobile */
 	  	width: 100%;
 	  	height: 100%;
 	  	z-index: -10;
-	  	background: hsla(210, 10%, 15%, 1);
+	  	background: hsla(210, 10%, 10%, 1);
 		//background: radial-gradient(ellipse at center, #444450 2%, #262626 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 a, a:visited {
@@ -676,19 +676,18 @@ a.earlier.nomore {
 
 /*----------- 3A: Topbar ----------- */
 .winnerbanner {
-	width: calc(100% + #{$double});
+	width: 100%;
 	line-height: 0px;
 	border-radius: $roundedTop;
 	opacity: 1;
-	margin-left: -$baseline;
 	margin-top: -$baseline;
 	img {
 		@include byWidth();
 		border-radius: $roundedTop;
 	}
 	@media #{$bpXL} {
-		width: calc(100% + #{$doublePlusHalf});
-		margin-left: -$plusQuarter;
+		width: 106%;
+		margin-left: -3%;
 		margin-top: 0;
 	}
 }
@@ -699,7 +698,7 @@ a.earlier.nomore {
 	position: relative;
 	height: $oct;
 	border-radius: $roundedTop;
-	padding: $half 0;
+	padding: $plusHalf 0;
 }
 
 /*----------- 3Ai: votecount ----------- */
@@ -852,7 +851,7 @@ img.thumb {
 .titlebox {
 	display: inline-block;
 	box-sizing: border-box;
-	padding: 1.2em 1em;
+	padding: 1.2em 0;
 	a {
     	color: $light;
     	text-decoration: none;
@@ -864,7 +863,7 @@ img.thumb {
     	display: inline;
     }
     @media #{$bpLarge} {
-		padding: 1.4em 1em;
+		padding: 2em 0;
     }
 }
 
@@ -1023,7 +1022,7 @@ input#comment-submit {
 
 /*----------- 3e: tagbox ----------- */
 .tagbox {
-	padding: $baseline 0;
+	padding: 2em 0;
 	font-size: $plusHalf;
 	text-align: center;
 	a {
@@ -1083,7 +1082,7 @@ a.earlier.nomore.thing {
 	@media #{$bpMedium} {
 		width: 90%;
 		justify-content: space-between;
-		margin: $double auto 0;
+		margin: $quad auto $double;
 	}
 }
 
@@ -1148,7 +1147,7 @@ a.earlier.nomore.thing {
 	width: 100%;
 	margin: 0px auto;
 	font-size: $double;
-	background: #161616;
+	background: $blackTrans5;
 }
 
 /*----------- 3B: Single Page stuff ----------- */
@@ -1208,11 +1207,11 @@ h4.recap {
 
 /*----------- 3C: Archive/Search Page stuff ----------- */
 .section-head.archive, #team-header, #player-header, #archive-header {
-	@include card();
 	box-sizing: border-box;
-	background: $black;
 	padding: $baseline;
 	border-radius: $roundedTop;
+	width: 90%;
+	margin: 0 auto $double;
 	h2 {
 		display: inline-block;
 		font-size: $doublePlusHalf;
@@ -1275,6 +1274,7 @@ h4.recap {
 #archive-right, #archive-left {
 	display: table-cell;
 	vertical-align: middle;
+	text-align: center;
 }
 a.orderLink {
 	color: $light;
@@ -1512,8 +1512,8 @@ body.page-id-3801{
 		background: radial-gradient(ellipse at center, #262626 2%, #161616 100%);
 	} */
 	& .thing {
-		background: $blackTrans5;
-		border: 3px solid $black;
+		background: $blackTrans4;
+		border: 3px solid rgba(255,255,255,.05);
 		background-size: 100% auto;
 		background-position: center;
 	}
@@ -1880,7 +1880,7 @@ a.liveNowLink {
 }
 
 .little-thing {
-	padding: $half;
+	padding: $baseline;
 	max-width: 980px;
 	min-width: 350px;
 	width: 98%;
@@ -1906,7 +1906,7 @@ a.liveNowLink {
 	align-items: center;
 	width: 100%;
 	line-height: 1em;
-	margin-bottom: $half;
+	margin-bottom: $plusHalf;
 }
 .little-title{
 	width: calc(100% - 120px);
@@ -2020,11 +2020,11 @@ p.clipCount {
 
 .seedling {
 	background: $blackTrans5;
-	border: 3px solid $black;
+	border: 3px solid rgba(255,255,255,.07);
 	position: relative;
 	margin: $double 0;
 	font-size: $plusHalf;
-	padding: $baseline;
+	padding: $plusHalf;
 	width: 100%;
 	box-sizing: border-box;
 	border-radius: $quarter;
@@ -2048,7 +2048,7 @@ p.clipCount {
 	width: $sevenfold;
 	flex-wrap: wrap;
 	justify-content: space-around;
-	padding-right: $baseline;
+	padding-right: $double;
 }
 img.seedling-logo {
 	width: $sex;
@@ -2062,7 +2062,7 @@ img.seedling-logo {
 	display: inline-block;
 }
 .seedling-title {
-	padding-top: $half;
+	margin: $baseline 0;
 	& a {
 		font-size: $double;
 		color: $light;
@@ -2072,6 +2072,7 @@ img.seedling-logo {
 }
 .seedling-views {
 	font-size: $plusQuarter;
+	padding-bottom: $quarter;
 }
 .seedling-source {
 	display: inline-block;
@@ -2079,7 +2080,7 @@ img.seedling-logo {
 
 .seedlingAddTitleBox {
 	flex-basis: 100%;
-	margin: $baseline 0 $plusHalf;
+	margin: $baseline 0;
 }
 input.seedling-title-input {
 	height: $double;

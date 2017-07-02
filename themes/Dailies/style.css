@@ -29,7 +29,7 @@ body:before {
   width: 100%;
   height: 100%;
   z-index: -10;
-  background: #22262a; }
+  background: #171a1c; }
 
 a, a:visited {
   color: #3b8fd9; }
@@ -497,11 +497,10 @@ a.earlier.nomore {
 
 /*----------- 3A: Topbar ----------- */
 .winnerbanner {
-  width: calc(100% + 24px);
+  width: 100%;
   line-height: 0px;
   border-radius: 2px 2px 0px 0px;
   opacity: 1;
-  margin-left: -12px;
   margin-top: -12px; }
   .winnerbanner img {
     width: 100%;
@@ -509,8 +508,8 @@ a.earlier.nomore {
     border-radius: 2px 2px 0px 0px; }
   @media screen and (min-width: 941px) {
     .winnerbanner {
-      width: calc(100% + 30px);
-      margin-left: -15px;
+      width: 106%;
+      margin-left: -3%;
       margin-top: 0; } }
 
 .votebar {
@@ -519,7 +518,7 @@ a.earlier.nomore {
   position: relative;
   height: 96px;
   border-radius: 2px 2px 0px 0px;
-  padding: 6px 0; }
+  padding: 18px 0; }
 
 /*----------- 3Ai: votecount ----------- */
 .votecount {
@@ -659,7 +658,7 @@ img.thumb {
 .titlebox {
   display: inline-block;
   box-sizing: border-box;
-  padding: 1.2em 1em; }
+  padding: 1.2em 0; }
   .titlebox a {
     color: rgba(255, 253, 249, 0.9);
     text-decoration: none; }
@@ -669,7 +668,7 @@ img.thumb {
     display: inline; }
   @media screen and (min-width: 850px) {
     .titlebox {
-      padding: 1.4em 1em; } }
+      padding: 2em 0; } }
 
 p.attribution {
   font-size: 18px;
@@ -821,7 +820,7 @@ input#comment-submit {
 
 /*----------- 3e: tagbox ----------- */
 .tagbox {
-  padding: 12px 0;
+  padding: 2em 0;
   font-size: 18px;
   text-align: center; }
   .tagbox a {
@@ -884,7 +883,7 @@ a.earlier.nomore.thing {
     #homeheader {
       width: 90%;
       justify-content: space-between;
-      margin: 24px auto 0; } }
+      margin: 48px auto 24px; } }
 
 #propbox {
   width: 100%;
@@ -943,7 +942,7 @@ a.earlier.nomore.thing {
   width: 100%;
   margin: 0px auto;
   font-size: 24px;
-  background: #161616; }
+  background: rgba(0, 0, 0, 0.25); }
 
 /*----------- 3B: Single Page stuff ----------- */
 .thing.recapSingle, .single-comments.recapSingle {
@@ -994,13 +993,11 @@ h4.recap {
 
 /*----------- 3C: Archive/Search Page stuff ----------- */
 .section-head.archive, #team-header, #player-header, #archive-header {
-  background: #fff;
-  box-shadow: 0 1px 1px rgba(173, 168, 168, 0.1);
-  border: 1px solid rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
-  background: #121212;
   padding: 12px;
-  border-radius: 2px 2px 0px 0px; }
+  border-radius: 2px 2px 0px 0px;
+  width: 90%;
+  margin: 0 auto 24px; }
   .section-head.archive h2, #team-header h2, #player-header h2, #archive-header h2 {
     display: inline-block;
     font-size: 30px;
@@ -1055,7 +1052,8 @@ h4.recap {
 
 #archive-right, #archive-left {
   display: table-cell;
-  vertical-align: middle; }
+  vertical-align: middle;
+  text-align: center; }
 
 a.orderLink {
   color: rgba(255, 253, 249, 0.9); }
@@ -1288,8 +1286,8 @@ body.page-id-3801 {
   		background: radial-gradient(ellipse at center, #262626 2%, #161616 100%);
   	} */ }
   body.page-id-3801 .thing {
-    background: rgba(0, 0, 0, 0.25);
-    border: 3px solid #121212;
+    background: rgba(12, 12, 12, 0.4);
+    border: 3px solid rgba(255, 255, 255, 0.05);
     background-size: 100% auto;
     background-position: center; }
 
@@ -1629,7 +1627,7 @@ a.liveNowLink {
     color: #3b8fd9; }
 
 .little-thing {
-  padding: 6px;
+  padding: 12px;
   max-width: 980px;
   min-width: 350px;
   width: 98%;
@@ -1654,7 +1652,7 @@ a.liveNowLink {
   align-items: center;
   width: 100%;
   line-height: 1em;
-  margin-bottom: 6px; }
+  margin-bottom: 18px; }
 
 .little-title {
   width: calc(100% - 120px);
@@ -1754,11 +1752,11 @@ p.clipCount {
 
 .seedling {
   background: rgba(0, 0, 0, 0.25);
-  border: 3px solid #121212;
+  border: 3px solid rgba(255, 255, 255, 0.07);
   position: relative;
   margin: 24px 0;
   font-size: 18px;
-  padding: 12px;
+  padding: 18px;
   width: 100%;
   box-sizing: border-box;
   border-radius: 3px;
@@ -1780,7 +1778,7 @@ p.clipCount {
   width: 84px;
   flex-wrap: wrap;
   justify-content: space-around;
-  padding-right: 12px; }
+  padding-right: 24px; }
 
 img.seedling-logo {
   width: 72px;
@@ -1794,7 +1792,7 @@ img.seedling-logo {
   display: inline-block; }
 
 .seedling-title {
-  padding-top: 6px; }
+  margin: 12px 0; }
   .seedling-title a {
     font-size: 24px;
     color: rgba(255, 253, 249, 0.9);
@@ -1802,14 +1800,15 @@ img.seedling-logo {
     font-weight: bold; }
 
 .seedling-views {
-  font-size: 15px; }
+  font-size: 15px;
+  padding-bottom: 3px; }
 
 .seedling-source {
   display: inline-block; }
 
 .seedlingAddTitleBox {
   flex-basis: 100%;
-  margin: 12px 0 18px; }
+  margin: 12px 0; }
 
 input.seedling-title-input {
   height: 24px;

@@ -71,6 +71,7 @@
 		//'cca' => ['CCA', 'cca', 736, 'CCA Weekend Matches', '8:00PM EDT'],
 		'nexus' => ['Nexus', 'nexus-gaming', 389, 'Nexus Invitational - $1,000', 'SAT 7PM EDT'],
 		'mld' => ['MLD', 'mld', 750, 'NA - 2v2 - League Play', 'SAT 7PM EDT'],
+		'eslaunz' => ['ESL AUS', 'esl-australia', 616, 'OCE - 3v3- ESL', 'SAT 10PM EDT'],
 		'mind' => ['MindGames', 'mindgames-esports', 777, 'EU - 3v3 - &euro;15', 'SUN 2PM EDT'],
 		'flightclub' => ['Flight Club', 'flight-club', 855, 'NA - 2v2 - $30', '8PM EDT'],
 		//'throwdown' => ['Throwdown', 'throwdowntv', 531, 'OCE RLCS Qualifiers', '10PM EDT'],

@@ -12,28 +12,26 @@
 
 <div class="contentContainer">
 
-
 	<div id="winnersection">
-
-	<?php $winnerSection = true;
-		$winnerArgs = array(
-		'tag' => 'winners',
-		'category_name' => 'noms',
-		'posts_per_page' => 1,
-		);
-	$postDataWinners = get_posts($winnerArgs);
-	foreach ( $postDataWinners as $post) : setup_postdata($post); 
-		include(locate_template('thing.php'));
-	endforeach;
-	$winnerSection = false; ?>
+		<?php $winnerSection = true;
+			$winnerArgs = array(
+			'tag' => 'winners',
+			'category_name' => 'noms',
+			'posts_per_page' => 1,
+			);
+		$postDataWinners = get_posts($winnerArgs);
+		foreach ( $postDataWinners as $post) : setup_postdata($post); 
+			include(locate_template('thing.php'));
+		endforeach;
+		$winnerSection = false; ?>
 	</div>
 
-	<?php date_default_timezone_set('America/Chicago'); // So this midnight is my midnight
-	$today = getdate(); //returns an array with the following keys
+	<?php date_default_timezone_set('America/Chicago');
+	$today = getdate();
 	$year = $today[year];
 	$month = $today[mon];
-	$day = $today[mday]; //day as a number
-	$weekday = $today[wday]; //day as day of the week (monday, tuesday, thursday, wednesday, sunday, saturday)
+	$day = $today[mday];
+	$weekday = $today[wday];
 	($paged == 0 ) ? $my_page = 0 : $my_page = $paged - 1;
 	stepBackDate($my_page); // Go back a day for each page that we've scrolled, because each page is a day
 	$my_page++;
@@ -53,7 +51,7 @@
 	);
 	$postDataNoms = get_posts($nomArgs); 
 	$i = 0;
-	while ( !$postDataNoms && $i < 14 ) : // If there's no posts for the day, go back up to 14 more days looking for posts. If we get to a period of 14 days without posts, that's probably the end of the line
+	while ( !$postDataNoms && $i < 14 ) :
 		stepBackDate(1);
 		$newNomArgs = array(
 			'category_name' => 'noms',
@@ -77,7 +75,7 @@
 	<?php } else {
 
 	$dateObj   = DateTime::createFromFormat('!m', $month); 
-	$monthName = $dateObj->format('F'); // These two lines turn $month into the name of the month, but I've forgotten how the syntax works exactly ?>
+	$monthName = $dateObj->format('F'); ?>
 
 	<div class="daytitle pull">Nominees for <?php echo $monthName; echo " "; echo $day; 
 		if ( $day == 1 || $day == 31 || $day == 21 ) {
