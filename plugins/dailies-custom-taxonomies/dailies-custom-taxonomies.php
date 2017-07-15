@@ -33,18 +33,42 @@ function create_stars_taxonomy() {
 		'post',
 		array(
 			'hierarchical' => true,
-			'labels' => $labels
+			'labels' => $labels,
+			'show_in_rest' => true,
+			'rest_base' => 'stars',
 		)
 	);
 };
 
 add_action( 'init', 'create_skills_taxonomy' );
 function create_skills_taxonomy() {
+
+	$labels = array(
+		'name'                           => 'Skills',
+		'singular_name'                  => 'Skill',
+		'search_items'                   => 'Search Skills',
+		'all_items'                      => 'All Skills',
+		'edit_item'                      => 'Edit Skills',
+		'update_item'                    => 'Update Skills',
+		'add_new_item'                   => 'Add New Skill',
+		'new_item_name'                  => 'New Skill Name',
+		'menu_name'                      => 'Skills',
+		'view_item'                      => 'View Skill',
+		'popular_items'                  => 'Popular Skills',
+		'separate_items_with_commas'     => 'Separate skills with commas',
+		'add_or_remove_items'            => 'Add or remove skills',
+		'choose_from_most_used'          => 'Choose from the most used skills',
+		'not_found'                      => 'No skills found'
+	);
+
 	register_taxonomy(
 		'skills',
 		'post',
 		array(
-			'label' => 'Skills',
+			'hierarchical' => false,
+			'labels' => $labels,
+			'show_in_rest' => true,
+			'rest_base' => 'skills',
 		)
 	);
 }
@@ -75,7 +99,9 @@ function create_source_taxonomy() {
 		'post',
 		array(
 			'labels' => $labels,
-			'hierarchical' => true
+			'hierarchical' => true,
+			'show_in_rest' => true,
+			'rest_base' => 'source',
 		)
 	);
 }

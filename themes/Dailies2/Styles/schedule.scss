@@ -1,0 +1,98 @@
+@import '../Styles/vars.scss';
+
+.schedule-day-title {
+	font-weight: bold;
+	font-size: 48px;
+	padding-left: 24px;
+	margin-left: 5%;
+	margin-top: 24px;
+	text-align: left;
+	@media #{$bp500} {
+		font-size: 60px;	
+	}
+}
+.schedule-day {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 12px 5% 96px;
+	text-align: left;
+	width: 90%;
+	box-sizing: border-box;
+	padding: 12px;
+	border-radius: 3px;
+	background: rgba(59, 143, 217, 0.6);
+    background: -moz-linear-gradient(left, rgba(59, 143, 217, 0.6) 0%, transparent 93%);
+    background: -webkit-linear-gradient(left, rgba(59, 143, 217, 0.6) 0%, transparent 93%);
+    background: linear-gradient(to right, rgba(59, 143, 217, 0.6) 0%, transparent 93%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#262626', endColorstr='#000000',GradientType=1 );
+}
+.schedule-entry {
+	font-size: 15px;
+	display: inline-flex;
+	justify-content: flex-start;
+	align-items: center;
+	margin: 12px;
+	padding: 18px 15px 12px;
+	border-radius: 3px;
+	background: #020a12;
+	background: -moz-linear-gradient(top,  #020a12 0%, #000000 100%);
+	background: -webkit-linear-gradient(top,  #020a12 0%, #000000 100%);
+	background: linear-gradient(to bottom,  #020a12 0%, #000000 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#020a12', endColorstr='#000000',GradientType=0 );
+	@media #{$bp500} {
+		width: 480px;
+		font-size: 18px;	
+	}
+	@media #{$bp1280} {
+		padding: 24px 18px 15px;
+	}
+	&-info {
+		padding: 0 12px;
+		flex-grow: .33;
+		line-height: 1.5em;
+		font-size: 18px;
+		@media #{$bp500} {
+			padding: 0 24px;
+		}
+	}
+	&-source {
+		color: $gold;
+		font-weight: bold;
+		font-size: 24px;
+		@media #{$bp500} {
+			padding-bottom: 6px;
+			font-size: 36px;
+		}
+	}
+	&-twitch-link {
+		display: flex;
+		align-items: center;
+		padding: 3px 0;
+		font-weight: bold;
+		font-size: 18px;
+		@media #{$bp500} {
+			font-size: 24px;
+		}
+		& img {
+			width: 24px;
+			height: 24px;
+			@media #{$bp500} {
+				width: 30px;
+				height: 30px;
+			}
+		}
+
+	}
+}
+img.schedule-entry-logo {
+	width: 72px;
+	height: 72px;
+	@media #{$bp500} {
+		width: 144px;
+		height: 144px;
+	}
+}
+a.schedule-entry-link {
+	color: $white;
+	text-decoration: none;
+}

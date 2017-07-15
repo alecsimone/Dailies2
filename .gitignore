@@ -21,6 +21,7 @@ plugins/wp-smushit/
 plugins/github-updater/
 plugins/wp-sync-db-1.5/
 plugins/redirection/
+plugins/rest-api/
 
 plugins\decomments\
 plugins\drag0drop-featured-image\
@@ -33,6 +34,10 @@ plugins\wp-smushit\
 plugins\github-updater\
 plugins\wp-sync-db-1.5\
 plugins\redirection\
+plugins\rest-api\
+
+themes\Dailies2\node_modules\
+themes/Dailies2/node_modules/
 
 themes\Dailies\js\jquery.dfp.js
 uploads\

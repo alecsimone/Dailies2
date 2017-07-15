@@ -1,0 +1,268 @@
+@import '../Styles/vars.scss';
+
+#hometop, #archivetop {
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	margin: 24px auto;
+	flex-wrap: wrap;
+	@media #{$bp800} {
+		width: 95%;
+		flex-wrap: nowrap;
+	}
+}
+
+#propbox{
+	display: inline-block;
+	width: 100%;
+	height: 150px;
+	position: relative;
+	background: url('http://dailies.gg/wp-content/uploads/2017/02/Faceoff-black.jpg') center/cover;
+	margin-bottom: 24px;
+	@media #{$bp500} {
+		height: 200px;
+	}
+	@media #{$bp800} {
+		width: 75%;
+		height: 250px;
+		flex-shrink: 1;
+		margin-bottom: 0;
+	}
+}
+.propaganda {
+	position: absolute;
+	font-size: 15px;
+	font-weight: bold;
+	color: $white;
+	bottom: .4em;
+	max-width: 50%;
+	text-shadow: 0 0 6px $blackTrans90;
+	@media #{$bp500} {
+		font-size: 18px;
+	}
+	@media #{$bp800} {
+		font-size: 24px;
+	}
+}
+#propLeft {
+	left: .6em;
+	text-align: left;
+}
+#propRight {
+	right: .6em;
+	text-align: right;
+}
+
+.thing {
+	position: relative;
+	width: 90%;
+	max-width: 1280px;
+	margin: 48px auto;
+	border-top: 3px solid $whiteTrans25;
+	border-radius: 3px;
+	padding-bottom: 36px;
+	@media #{$bp1280} {
+		background: hsla(0, 0%, 0%, 0.3);
+		box-shadow: $lowShadow;
+	}
+}
+.thing.noise:before {
+	background: none;
+	@media #{$bp1280} {
+		background: url('http://localhost/dailieslocal/wp-content/uploads/2017/07/noise.png');
+		border-radius: 0 0 3px 3px;
+		max-width: 1280px;
+	}
+}
+
+.WinnerBanner {
+	width: 108%;
+	margin: 0 0 0 -4%;
+	@media #{$bp1280} {
+		width: 100%;
+		margin: 0;
+	}
+	img {
+		width: 100%;
+		height: auto;
+		border-radius: 2px;
+	}
+}
+
+.titlebox {
+	padding: 2em 0;
+	text-align: left;
+	max-width: 1080px;
+	margin: auto;
+	a {
+		color: $white;
+		text-decoration: none;
+		&:hover {
+			text-decoration: underline;
+		}
+		&:visited {
+			color: $white;
+		}
+	}
+}
+.votecount {
+	font-weight: bold;
+	font-size: 36px;
+	display: inline-block;
+	padding-right: 6px;
+	color: $gold;
+}
+h3 {
+	display: inline;
+	font-size: 36px;
+	margin: 0;
+}
+
+.contentbox {
+	position: relative;
+	max-width: 1080px;
+	margin: auto;
+	box-shadow: $lowShadow;
+	background: #000;
+	line-height: 0;
+}
+img.thumb {
+	width: 100%;
+	max-width: 100%;
+	height: auto;
+}
+.playbutton {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+	pointer-events: none;
+}
+.embed-container {
+	position: relative;
+	padding-bottom: 56.25%;
+	height: 0;
+	overflow: hidden;
+	max-width: 100%;
+	& iframe {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+}
+
+.tagbox {
+	padding: 2em 0;
+	font-size: 18px;
+}
+.tagLink {
+	display: inline-block;
+	margin: 0 4px;
+	color: $white;
+	&:visited {
+		color: $blue;
+	}
+}
+
+.voteBox {
+	margin: 12px 0;
+}
+.voteIcon {
+	width: 96px;
+	cursor: pointer;
+}
+
+.source {
+	display: inline;
+}
+.stars.inline {
+	display: inline;
+}
+
+img.starpic, img.sourcepic {
+	width: auto;
+	height: 36px;
+}
+img.starpic {
+	border-radius: 18px;
+}
+img.sourcepic {
+	border-radius: 3px;
+}
+a.starSourceLink {
+	padding: 0 24px 0 6px;
+}
+p.attribution {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin: 12px 0;
+}
+p.attribution a {
+	color: $blue;
+	&:visited {
+		color: $blue;
+	}
+}
+
+.daytitle, #sortbar {
+	padding: 1.2em;
+	font-size: 24px;
+	background: $blackTrans25;
+}
+
+#archive-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    flex-grow: 0.5;
+    align-items: center;
+    max-width: 100%;
+    margin-bottom: 36px;
+    @media #{$bp800} {
+	    margin-right: 36px;
+    	flex-wrap: nowrap;
+    }
+}
+#archive-right {
+	max-width: 100%;
+	padding: 24px 0;
+	@media #{$bp500} {
+		padding: 24px;
+	}
+}
+#archive-logo {
+	max-width: 300px;
+	img {
+		width: 100%;
+		height: auto;
+	}
+}
+#archive-title h2 {
+	font-size: 36px;
+	margin: 12px;
+	@media #{$bp500} {
+		font-size: 60px;
+	}
+}
+#archive-data img {
+	width: 36px;
+	height: auto;
+	margin: 0 9px;
+	@media #{$bp500} {
+		width: 48px;
+		margin: 0 12px;
+	}
+}
+
+a.orderLink {
+	color: $white;
+	margin: 0 6px;
+	&.currentSort {
+		color: $blue;
+	}
+}

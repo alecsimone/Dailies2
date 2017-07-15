@@ -60,7 +60,7 @@ $bpStupidLarge: "screen and (min-width: 1864px)";
 $baseline: 12px;
 $half: $baseline / 2; // 6
 $quarter: $baseline /4; // 3
-$minusQuarter: $baseline - $quarter; //9
+$inusQuarter: $baseline - $quarter; //9
 $plusHalf: $baseline + $baseline / 2; // 18
 $plusQuarter: $baseline + $baseline /4; // 15
 $double: 2 * $baseline; // 24
@@ -182,26 +182,35 @@ html, body {
 	text-align: center;
 	transition: all .25s ease-out;
 }
+
+$edgeColor: hsla(30, 20%, 4%, 1);
+$mainBGColor: hsla(210, 10%, 10%, 1);
+
 body:before { /* Background hack to play a little nicer on mobile */
-	  	content: "";
-	  	display: block;
-	  	position: fixed;
-	  	left: 0;
-	  	top: 0;
-	  	width: 100%;
-	  	height: 100%;
-	  	z-index: -10;
-	  	background: hsla(210, 10%, 10%, 1);
-		//background: radial-gradient(ellipse at center, #444450 2%, #262626 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	content: "";
+	display: block;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: -10;
+	background: $mainBGColor;
+	background: -moz-linear-gradient(left, $edgeColor 0%, $mainBGColor 2%, $mainBGColor 98%, $edgeColor 100%);
+	background: -webkit-linear-gradient(left, $edgeColor 0%,$mainBGColor 2%,$mainBGColor 98%,$edgeColor 100%);
+	background: linear-gradient(to right, $edgeColor 0%,$mainBGColor 2%,$mainBGColor 98%,$edgeColor 100%);
 }
 a, a:visited {
     color: $lighterblue;
 }
 
 h3 {
-    font-size: $doublePlusHalf;
+    font-size: $double;
     line-height: 1.1em;
     margin: 0px;
+    @media #{$bpMedium} {
+    	font-size: $triple;
+    }
 }
 
 button {
@@ -478,6 +487,7 @@ a#twitter, a#youtube, a#twitch {
 #userbox {
 	@include flexbox();
 	background: #fff;
+	color: #000;
 	flex-direction: column;
 	justify-content: center;
 	height: auto;
@@ -686,8 +696,8 @@ a.earlier.nomore {
 		border-radius: $roundedTop;
 	}
 	@media #{$bpXL} {
-		width: 106%;
-		margin-left: -3%;
+		width: 108%;
+		margin-left: -4%;
 		margin-top: 0;
 	}
 }
@@ -703,11 +713,14 @@ a.earlier.nomore {
 
 /*----------- 3Ai: votecount ----------- */
 .votecount {
-	font-size: $doublePlusHalf;
+	font-size: $double;
 	font-weight: bold;
 	display: inline-block;
 	padding-right: $half;
 	color: $gold;
+	@media #{$bpMedium} {
+		font-size: $triple;
+	}
 }
 
 /*----------- 3Aii: votebox ----------- */
@@ -1081,8 +1094,12 @@ a.earlier.nomore.thing {
 	flex-wrap: wrap;
 	@media #{$bpMedium} {
 		width: 90%;
-		justify-content: space-between;
+		justify-content: center;
 		margin: $quad auto $double;
+	}
+	@media #{$bpLarge} {
+		flex-wrap: nowrap;
+		justify-content: space-around;
 	}
 }
 
@@ -1094,12 +1111,12 @@ a.earlier.nomore.thing {
 	background: url('http://therocketdailies.com/wp-content/uploads/2017/02/Faceoff-black.jpg') center/cover;
 	@media #{$bpMedium} {
 		margin: 0px auto $plusHalf;
-		width: 10%;
+		width: 100%;
 	}
 	@media #{$bpLarge} {
 		height: 240px;
 		width: 80%;
-		margin: 0;
+		margin: 0 $double 0 0;
 	}
 }
 #userbox-wrapper {
@@ -1478,6 +1495,7 @@ a.stringNameLink {
 /*----------- 3F: Rules page stuff ----------- */
 #rulespage {
     	background: $lightGray;
+    	color: #000;
     	width: 100%;
     	max-width: 80%;
     	margin: 24px auto 0;
@@ -1512,8 +1530,9 @@ body.page-id-3801{
 		background: radial-gradient(ellipse at center, #262626 2%, #161616 100%);
 	} */
 	& .thing {
-		background: $blackTrans4;
-		border: 3px solid rgba(255,255,255,.05);
+		//background: $blackTrans4;
+		background: hsla(30, 20%, 4%, .25);
+		border: 3px solid hsla(30, 80%, 95%, .05);
 		background-size: 100% auto;
 		background-position: center;
 	}
@@ -1688,6 +1707,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#262626', end
 	white-space: nowrap;
 	//overflow: hidden;
 	padding-left: $half;
+	margin: 60px 0;
 }
 p.channel-changer-title {
 	color: #fff;
@@ -1866,7 +1886,7 @@ a.liveNowLink {
 #live-posts-loop {
 	margin-top: $plusHalf;
 	@media #{$bpLarge} {
-		width: 98%;
+		width: 95%;
 		margin: 18px auto 0;
 	}
 }
@@ -1912,10 +1932,10 @@ a.liveNowLink {
 	width: calc(100% - 120px);
 	padding: 0;
 	& h3 {
-		font-size: $double;
+		font-size: $doublePlusHalf;
 	}
 	& .votecount {
-		font-size: $double;
+		font-size: $doublePlusHalf;
 	}
 }
 .little-votebox {
@@ -2098,8 +2118,6 @@ input.seedling-title-input {
 	box-sizing: border-box;
 	font-size: $plusQuarter;
 	padding: $quarter;
-	border: 1px solid $blackTrans;
-	color: $blackTrans3;
 }
 .cutVoteContainer {
 	width: 100%;
@@ -2183,6 +2201,7 @@ img.seedVoter {
     	padding-left: $double;
     	width: 85%;
     	margin-left: 5%;
+    	margin-top: $double;
     	text-align: left;
     }
 }
@@ -2195,13 +2214,18 @@ img.seedVoter {
 	justify-content: space-around;
 	align-items: center;
     margin: $baseline;
-    padding: $baseline;
+    padding: $plusHalf $plusQuarter $baseline;
     border-radius: 3px;
 	background: #041323; /* Old browsers */
 	background: -moz-linear-gradient(top,  #020a12 0%, #000000 100%); /* FF3.6-15 */
 	background: -webkit-linear-gradient(top,  #020a12 0%,#000000 100%); /* Chrome10-25,Safari5.1-6 */
 	background: linear-gradient(to bottom,  #020a12 0%,#000000 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#020a12', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
+	@media #{$bpXXL} {
+		width: 43%;
+		justify-content: flex-start;
+		padding: $double $plusHalf $plusQuarter;
+	}
 	&-top {
 		display: inline-flex;
     	align-items: center;

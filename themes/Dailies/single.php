@@ -10,7 +10,4 @@ include(locate_template('thing.php')); ?>
 	<?php comments_template(); ?>
 </section>
 
-</div><?php include(locate_template('sidebar.php')); ?>
-</div>
-
 <?php get_footer(); ?>

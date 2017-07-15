@@ -32,31 +32,33 @@
 				- Prop: GuestList
 				- Prop: PlayCount
 	*Homepage*
-		DayContainer
+		WinnerSection
+			Thing - Pass data for first thing via PHP, not AJAX 
+		DayContainer (First one populate via PHP, subsequent via API)
 			= State: ThingList {Object of Objects of ThingData}
 			= State: Date
 			- Prop: NextQuery
 	*Archive*
 		*Tax Page*
-			Archive Header
+			Archive Header (Passed through PHP, not API)
 				SocialBar
 					- Prop: For Each site {Site: Link}
 				- Prop: Logo
 				- Prop: Name
 				- Prop: Win Count
-		*Your Votes*
-			ThingContainer
-				- Prop: ThingList
-				- Prop: NextQuery
-			Thing (See Above)
-		ThingContainer
+		ThingContainer (First one populate with data via PHP that loads with page, subsequent add in through setState and API calls)
 			- Prop: ThingList
 			- Prop: NextQuery
 			Thing (See Above)
 		OrderBar
 			= State: CurrentSort
+		*Your Votes*
+			ThingContainer (First via PHP, subsequent via API)
+				- Prop: ThingList
+				- Prop: NextQuery
+				Thing (See Above)
 	*Single*
-		Thing
+		Thing (Populated via PHP)
 
 **Secret Garden Bundle**
 	Garden

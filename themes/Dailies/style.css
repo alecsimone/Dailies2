@@ -29,15 +29,21 @@ body:before {
   width: 100%;
   height: 100%;
   z-index: -10;
-  background: #171a1c; }
+  background: #171a1c;
+  background: -moz-linear-gradient(left, #0c0a08 0%, #171a1c 2%, #171a1c 98%, #0c0a08 100%);
+  background: -webkit-linear-gradient(left, #0c0a08 0%, #171a1c 2%, #171a1c 98%, #0c0a08 100%);
+  background: linear-gradient(to right, #0c0a08 0%, #171a1c 2%, #171a1c 98%, #0c0a08 100%); }
 
 a, a:visited {
   color: #3b8fd9; }
 
 h3 {
-  font-size: 30px;
+  font-size: 24px;
   line-height: 1.1em;
   margin: 0px; }
+  @media screen and (min-width: 687px) {
+    h3 {
+      font-size: 36px; } }
 
 button {
   -webkit-appearance: none;
@@ -320,6 +326,7 @@ a#twitter, a#youtube, a#twitch {
   display: -webkit-flex;
   display: flex;
   background: #fff;
+  color: #000;
   flex-direction: column;
   justify-content: center;
   height: auto;
@@ -508,8 +515,8 @@ a.earlier.nomore {
     border-radius: 2px 2px 0px 0px; }
   @media screen and (min-width: 941px) {
     .winnerbanner {
-      width: 106%;
-      margin-left: -3%;
+      width: 108%;
+      margin-left: -4%;
       margin-top: 0; } }
 
 .votebar {
@@ -522,11 +529,14 @@ a.earlier.nomore {
 
 /*----------- 3Ai: votecount ----------- */
 .votecount {
-  font-size: 30px;
+  font-size: 24px;
   font-weight: bold;
   display: inline-block;
   padding-right: 6px;
   color: #ecc15b; }
+  @media screen and (min-width: 687px) {
+    .votecount {
+      font-size: 36px; } }
 
 /*----------- 3Aii: votebox ----------- */
 .votebox {
@@ -882,8 +892,12 @@ a.earlier.nomore.thing {
   @media screen and (min-width: 687px) {
     #homeheader {
       width: 90%;
-      justify-content: space-between;
+      justify-content: center;
       margin: 48px auto 24px; } }
+  @media screen and (min-width: 850px) {
+    #homeheader {
+      flex-wrap: nowrap;
+      justify-content: space-around; } }
 
 #propbox {
   width: 100%;
@@ -894,12 +908,12 @@ a.earlier.nomore.thing {
   @media screen and (min-width: 687px) {
     #propbox {
       margin: 0px auto 18px;
-      width: 10%; } }
+      width: 100%; } }
   @media screen and (min-width: 850px) {
     #propbox {
       height: 240px;
       width: 80%;
-      margin: 0; } }
+      margin: 0 24px 0 0; } }
 
 #userbox-wrapper {
   width: 100%; }
@@ -1254,6 +1268,7 @@ h3.stringName {
 /*----------- 3F: Rules page stuff ----------- */
 #rulespage {
   background: #e5e5e5;
+  color: #000;
   width: 100%;
   max-width: 80%;
   margin: 24px auto 0;
@@ -1286,8 +1301,8 @@ body.page-id-3801 {
   		background: radial-gradient(ellipse at center, #262626 2%, #161616 100%);
   	} */ }
   body.page-id-3801 .thing {
-    background: rgba(12, 12, 12, 0.4);
-    border: 3px solid rgba(255, 255, 255, 0.05);
+    background: rgba(12, 10, 8, 0.25);
+    border: 3px solid rgba(252, 242, 232, 0.05);
     background-size: 100% auto;
     background-position: center; }
 
@@ -1448,7 +1463,8 @@ h3.live {
   position: relative;
   text-align: center;
   white-space: nowrap;
-  padding-left: 6px; }
+  padding-left: 6px;
+  margin: 60px 0; }
 
 p.channel-changer-title {
   color: #fff;
@@ -1616,7 +1632,7 @@ a.liveNowLink {
   margin-top: 18px; }
   @media screen and (min-width: 850px) {
     #live-posts-loop {
-      width: 98%;
+      width: 95%;
       margin: 18px auto 0; } }
 
 .noPosts {
@@ -1658,9 +1674,9 @@ a.liveNowLink {
   width: calc(100% - 120px);
   padding: 0; }
   .little-title h3 {
-    font-size: 24px; }
+    font-size: 30px; }
   .little-title .votecount {
-    font-size: 24px; }
+    font-size: 30px; }
 
 .little-votebox {
   height: 48px;
@@ -1825,9 +1841,7 @@ input.seedling-title-input {
   margin-left: 12px;
   box-sizing: border-box;
   font-size: 15px;
-  padding: 3px;
-  border: 1px solid rgba(12, 12, 12, 0.6);
-  color: rgba(12, 12, 12, 0.9); }
+  padding: 3px; }
 
 .cutVoteContainer {
   width: 100%;
@@ -1912,6 +1926,7 @@ img.seedVoter {
     padding-left: 24px;
     width: 85%;
     margin-left: 5%;
+    margin-top: 24px;
     text-align: left; }
 
 .schedule-entry {
@@ -1922,7 +1937,7 @@ img.seedVoter {
   justify-content: space-around;
   align-items: center;
   margin: 12px;
-  padding: 12px;
+  padding: 18px 15px 12px;
   border-radius: 3px;
   background: #041323;
   /* Old browsers */
@@ -1934,6 +1949,11 @@ img.seedVoter {
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#020a12', endColorstr='#000000',GradientType=0 );
   /* IE6-9 */ }
+  @media screen and (min-width: 1280px) {
+    .schedule-entry {
+      width: 43%;
+      justify-content: flex-start;
+      padding: 24px 18px 15px; } }
   .schedule-entry-top {
     display: inline-flex;
     align-items: center; }

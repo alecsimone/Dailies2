@@ -1,0 +1,36 @@
+$gold: hsla(42, 79%, 64%, 1);
+$blue: hsla(210, 68%, 54%, 1);
+$red: hsla(0, 68%, 54%, 1);
+$white: hsla(0, 0%, 90%, 1);
+
+$whiteTrans25: hsla(0, 0%, 94%, .25);
+$whiteTrans07: hsla(0, 0%, 94%, .07);
+
+$blackTrans90: hsla(0, 0%, 0%, 90%);
+$blackTrans50: hsla(0, 0%, 0%, .5);
+$blackTrans25: hsla(0, 0%, 0%, .25);
+
+$lighterblueTrans: hsla(210, 90%, 90%, 0.2);
+
+$backgroundEdge: hsla(30, 30%, 5%, 1);
+//$backgroundCore: hsla(210, 10%, 10%, 1);
+$backgroundCore: hsla(210, 15%, 15%, 1);
+
+$bp350: "screen and (min-width: 350px)";
+$bp500: "screen and (min-width: 500px)";
+$bp800: "screen and (min-width: 800px)";
+$bp850: "screen and (min-width: 850px)";
+$bp1280: "screen and (min-width: 1280px)";
+
+$lowShadow: 0 0 6px rgba(0,0,0,.25);
+
+.noise:before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: url('http://localhost/dailieslocal/wp-content/uploads/2017/07/noise.png');
+    z-index: -1;
+}
