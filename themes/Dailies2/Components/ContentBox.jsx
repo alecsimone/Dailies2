@@ -31,6 +31,8 @@ export default class ContentBox extends React.Component {
 			var replaceCode = <div class='embed-container'><iframe width='1280' height='720' src={clipSrc} frameBorder='0' allowFullScreen="true"></iframe></div>;
 		} else if (this.props.embeds.EmbedCode !== '') {
 			var replaceCode = this.props.embeds.EmbedCode;
+		} else if (this.props.embeds.TwitterCode !== '') {
+			var replaceCode = <div id={this.props.embeds.TwitterCode}></div>;
 		} else {
 			var replaceCode = null;
 			return
@@ -39,6 +41,17 @@ export default class ContentBox extends React.Component {
 			content: replaceCode,
 			playButton: '',
 		});
+	}
+
+	componentDidUpdate() {
+		var twitterVideo = jQuery('#' + this.props.embeds.TwitterCode);
+		if (twitterVideo.length) {
+			console.log(this.props.embeds.TwitterCode);
+			twttr.widgets.createVideo(
+  				this.props.embeds.TwitterCode,
+  				document.getElementById(this.props.embeds.TwitterCode)
+			);
+		}
 	}
 
 	render() {

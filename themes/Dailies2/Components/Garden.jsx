@@ -3,30 +3,27 @@ import Seedling from './Seedling.jsx';
 
 export default class Garden extends React.Component{
 	render() {
+		var cutSlug = this.props.cutSlug;
+		var voteSlug = this.props.voteSlug;
+		var keepSlug = this.props.keepSlug;
+
 		var clips = this.props.clips;
 		function clipsByViews(a,b) {
 			return b.views - a.views
 		}
 		var sortedClips = clips.sort(clipsByViews);
+
 		var seedlingsArray = Object.keys(sortedClips);
-		var tickUpCut = this.props.tickUpCut;
-		var cutSlug = this.props.cutSlug;
-		var voteSlug = this.props.voteSlug;
-		var keepSlug = this.props.keepSlug;
-		var cutSlugs = this.props.cutSlugs;
+		var voters = this.props.voters;
 		var seedlingComponents = seedlingsArray.map(function(key) {
-			let seedlingData = clips[key];
+			let seedlingData = sortedClips[key];
 			let slug = seedlingData.slug;
-			var voters = [];
-			if (cutSlugs[slug] !== undefined) {
-				if (cutSlugs[slug].cutBoolean === true || cutSlugs[slug].cutBoolean === 'true') {
-					return '';
-				} else if (cutSlugs[slug].likeIDs !== undefined) {
-					voters = cutSlugs[slug].likeIDs;
-				}
+			var thisSeedlingVoters = [];
+			if (voters[slug] !== undefined) {
+				thisSeedlingVoters = voters[slug];
 			}
 			return(
-				<Seedling seedlingData={seedlingData} key={slug} cutSlug={cutSlug} voteSlug={voteSlug} keepSlug={keepSlug} voters={voters} />
+				<Seedling seedlingData={seedlingData} key={slug} cutSlug={cutSlug} voteSlug={voteSlug} keepSlug={keepSlug} voters={thisSeedlingVoters} />
 			)
 		});
 		return(

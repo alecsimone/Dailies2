@@ -1,1 +1,1 @@
-console.log("and we're on the live page");
+import Live from '../Components/Live.jsx';

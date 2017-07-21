@@ -1,1 +1,171 @@
 @import '../Styles/vars.scss';
+
+#channelChanger {
+	width: 95%;
+	margin: 48px auto;
+}
+.channelChangerButton {
+	display: inline-block;
+	position: relative;
+	background: $darkBlack;
+	padding: 3px;
+	margin: 0 3px;
+	border-radius: 2px;
+	line-height: 0;
+}
+
+.channelChangerLogo {
+	display: inline-block;
+	max-width: 120px;
+	max-height: 144px;
+	img {
+		width: 100%;
+		height: auto;
+	}
+}
+
+.channelChangerDetails {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	white-space: pre-wrap;
+	background: $darkBlack;
+	line-height: 1.5em;
+	opacity: 0;
+	transition: opacity .1s;
+	cursor: pointer;
+	&:hover {
+		opacity: 1;
+	}
+}
+.channelChangerButton.active .channelChangerDetails {
+	opacity: 1;
+}
+.channelDisplayName {
+	color: $gold;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+#sortButton {
+	background: $lightBlack;
+	padding: 3px 12px;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	vertical-align: top;
+	width: 126px;
+	height: 126px;
+	box-sizing: border-box;
+	border: 3px solid $darkBlack;
+	img {
+		width: 72px;
+		height: 72px;
+	}
+	&:hover {
+		background: $darkBlack;
+	}
+}
+
+#livePostsLoop {
+	width: 95%;
+	margin: auto;
+}
+
+.LittleThing {
+	background: $blueGlass;
+	border: 3px solid $whiteTrans07;
+	display: inline-block;
+	border-radius: 2px;
+	box-shadow: 0 1px 6px $blackTrans25;
+	width: 100%;
+	margin: 9px 0;
+	padding: 1em;
+	box-sizing: border-box;
+	text-align: left;
+	font-size: 24px;
+	& img.sourcepic {
+		width: 48px;
+		height: 48px;
+		margin-right: 12px;
+	}
+	& h3 {
+		font-size: 1.25em;
+		font-weight: normal;
+	}
+	& .voteBox {
+		margin: 0 0 0 12px;
+		img {
+			width: 48px;
+			height: 48px;
+		}
+	}
+	& p.attribution {
+		margin: 0;
+		font-size: 15px;
+		a {
+			color: $white;
+		}
+	}
+	@media #{$bp850} {
+		width: calc(50% - 9px);
+	}
+}
+
+.littleThingTop, .littleThingBottom, .liveAdminControls {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.littleThingTop {
+	margin-bottom: 18px;
+}
+.titleBox {
+	flex-grow: 1;
+}
+a.littleThingTitleLink {
+	color: $white;
+	text-decoration: none;
+	&:hover {
+		text-decoration: underline;
+	}
+}
+.littleThingVotecount {
+	font-size: 1.25em;
+	color: $gold;
+	display: inline-block;
+	margin-left: 3px;
+}
+
+.littleThingBottom {
+	margin-top: 6px;
+}
+.liveAdminControls {
+	flex-grow: 1;
+	font-size: .625em;
+	a {
+		color: $blue;
+	}
+}
+
+img.littleThingTrasher {
+	width: 24px;
+	height: 24px;
+}
+img.editThisImg {
+	width: 18px;
+	height: 18px;
+}
+img.littleThingAuthor {
+	width: 30px;
+	height: 30px;
+	border-radius: 15px;
+	margin-left: 12px;
+	margin-right: 9px;
+}

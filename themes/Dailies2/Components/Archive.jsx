@@ -9,16 +9,11 @@ class Archive extends React.Component{
 	constructor() {
 		super();
 		this.state = {
-			headerData: JSON.parse(jQuery('#dataDrop').attr("data-archive-header")),
-			user: {
-				id: jQuery('#dataDrop').attr("data-user-id"),
-				clientIP: jQuery('#dataDrop').attr("data-client-ip"),
-				rep: jQuery('#dataDrop').attr("data-rep"),
-				repTime: jQuery('#dataDrop').attr("data-rep-time"),
-			}
+			headerData: dailiesMainData.headerData,
+			user: dailiesGlobalData.userData,
 		};
-		this.state.postData = JSON.parse(jQuery('#dataDrop').attr("data-initial-postdata"));
-		this.state.voteData = JSON.parse(jQuery('#dataDrop').attr("data-initial-votedata"));
+		this.state.postData = dailiesMainData.initialArchiveData.postData;
+		this.state.voteData = dailiesMainData.initialArchiveData.voteData;
 		this.state.order = jQuery('#dataDrop').attr("data-order");
 		this.state.orderby = jQuery('#dataDrop').attr("data-orderby");
 	}

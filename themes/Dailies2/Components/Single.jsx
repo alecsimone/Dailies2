@@ -6,14 +6,9 @@ export default class Single extends React.Component{
 	constructor() {
 		super();
 		this.state = {
-			user: {
-				id: jQuery('#dataDrop').attr("data-user-id"),
-				clientIP: jQuery('#dataDrop').attr("data-client-ip"),
-				rep: jQuery('#dataDrop').attr("data-rep"),
-				repTime: jQuery('#dataDrop').attr("data-rep-time"),
-			},
-			postData: JSON.parse(jQuery('#dataDrop').attr("data-postdata")),
-			voteData: JSON.parse(jQuery('#dataDrop').attr("data-votedata")),
+			user: dailiesGlobalData.userData,
+			postData: dailiesMainData.singleData.postData,
+			voteData: dailiesMainData.singleData.voteData,
 		};
 	}
 	render() {

@@ -3,26 +3,44 @@ $blue: hsla(210, 68%, 54%, 1);
 $red: hsla(0, 68%, 54%, 1);
 $white: hsla(0, 0%, 90%, 1);
 
+$whiteTrans50: hsla(0, 0%, 94%, .50);
 $whiteTrans25: hsla(0, 0%, 94%, .25);
+$whiteTrans15: hsla(0, 0%, 94%, .15);
 $whiteTrans07: hsla(0, 0%, 94%, .07);
 
-$blackTrans90: hsla(0, 0%, 0%, 90%);
+$blackTrans90: hsla(0, 0%, 0%, .9);
+$blackTrans75: hsla(0, 0%, 0%, .75);
+$blackTrans60: hsla(0, 0%, 0%, .6);
 $blackTrans50: hsla(0, 0%, 0%, .5);
 $blackTrans25: hsla(0, 0%, 0%, .25);
+$darkBlack: #121212;
+$lightBlack: #262626;
 
-$lighterblueTrans: hsla(210, 90%, 90%, 0.2);
+$blueTrans50: hsla(210, 68%, 54%, .5);
+$lighterblueTrans: hsla(210, 90%, 90%, .2);
+
+$goldTrans90: hsla(42, 79%, 64%, .9);
+$goldTrans50: hsla(42, 79%, 64%, .5);
 
 $backgroundEdge: hsla(30, 30%, 5%, 1);
-//$backgroundCore: hsla(210, 10%, 10%, 1);
-$backgroundCore: hsla(210, 15%, 15%, 1);
+//$backgroundCore: hsla(210, 15%, 15%, 1);
+$backgroundCore: hsla(210, 6%, 14%, 1);
+//$backgroundCore: hsla(42, 35%, 40%, 1);
+
+$goldGlow: hsla(42, 79%, 20%, .1);
+$blueGlow: hsla(210, 30%, 15%, .8);
+
+$blueGlass: hsla(210, 40%, 3%, .9);
 
 $bp350: "screen and (min-width: 350px)";
 $bp500: "screen and (min-width: 500px)";
 $bp800: "screen and (min-width: 800px)";
 $bp850: "screen and (min-width: 850px)";
+$bp1080: "screen and (min-width: 1080px)";
 $bp1280: "screen and (min-width: 1280px)";
 
 $lowShadow: 0 0 6px rgba(0,0,0,.25);
+$lowShadowFromAbove: 0 2px 6px rgba(0,0,0,.25);
 
 .noise:before {
     content: '';

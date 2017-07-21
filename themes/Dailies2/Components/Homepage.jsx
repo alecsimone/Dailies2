@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from 'react-dom';
-import Userbox from './Userbox.jsx';
+import HomeTop from './HomeTop.jsx';
 import Thing from './Thing.jsx';
 import DayContainer from './DayContainer.jsx';
 
@@ -8,17 +8,12 @@ class Homepage extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			winner: JSON.parse(jQuery('#dataDrop').attr("data-winnerobject")),
+			winner: JSON.parse(dailiesMainData.firstWinner.postData),
 			dayContainers: {
-				0: JSON.parse(jQuery('#dataDrop').attr("data-dayoneobject")),
+				0: dailiesMainData.dayOne,
 			},
 		}
-		this.state.user = {
-			id: jQuery('#dataDrop').attr("data-user-id"),
-			clientIP: jQuery('#dataDrop').attr("data-client-ip"),
-			rep: jQuery('#dataDrop').attr("data-rep"),
-			repTime: jQuery('#dataDrop').attr("data-rep-time"),
-		}
+		this.state.user = dailiesGlobalData.userData;
 		this.handleScroll = this.handleScroll.bind(this);
 		window.addEventListener("scroll", this.handleScroll);
 	}
@@ -116,7 +111,7 @@ class Homepage extends React.Component {
 
 	render() {
 		var userData = this.state.user;
-		var winnerVoteData = JSON.parse(jQuery('#dataDrop').attr("data-winnervotedata"));
+		var winnerVoteData = dailiesMainData.firstWinner.voteData;
 		var dayContainers = this.state.dayContainers;
 		var dayContainersArray = Object.keys(dayContainers);
 		var dayContainerComponents = dayContainersArray.map(function(key) {
@@ -140,13 +135,7 @@ class Homepage extends React.Component {
 
 		return(
 			<div id="appContainer">
-				<section id="hometop">
-					<div id="propbox">
-						<div className="propaganda" id="propLeft">Today's Prize: $25.00</div>
-						<div className="propaganda" id="propRight">More Coming Soon...</div>
-					</div>
-					<Userbox userData={this.state.user} />
-				</section>
+				<HomeTop user={this.state.user} />
 				<Thing thingData={this.state.winner} userData={this.state.user} voteData={winnerVoteData} />
 				{dayContainerComponents}
 			</div>

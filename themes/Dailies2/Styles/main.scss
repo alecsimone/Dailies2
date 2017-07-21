@@ -57,12 +57,13 @@
 	position: relative;
 	width: 90%;
 	max-width: 1280px;
-	margin: 48px auto;
+	margin: 24px auto 144px;
 	border-top: 3px solid $whiteTrans25;
 	border-radius: 3px;
 	padding-bottom: 36px;
 	@media #{$bp1280} {
-		background: hsla(0, 0%, 0%, 0.3);
+		//background: $darkBlack;
+		background: $blueGlass;
 		box-shadow: $lowShadow;
 	}
 }
@@ -90,7 +91,7 @@
 }
 
 .titlebox {
-	padding: 2em 0;
+	padding: 3em 0 2em;
 	text-align: left;
 	max-width: 1080px;
 	margin: auto;
@@ -194,13 +195,18 @@ img.sourcepic {
 	border-radius: 3px;
 }
 a.starSourceLink {
-	padding: 0 24px 0 6px;
+	padding: 0 6px;
+	text-decoration: none;
+	&:hover {
+		text-decoration: underline;
+	}
 }
 p.attribution {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	margin: 12px 0;
+	padding-right: 18px;
 }
 p.attribution a {
 	color: $blue;
@@ -211,8 +217,10 @@ p.attribution a {
 
 .daytitle, #sortbar {
 	padding: 1.2em;
-	font-size: 24px;
-	background: $blackTrans25;
+	font-size: 48px;
+	//background: $blackTrans25;
+	text-shadow: 0px 0px 3px $darkBlack;
+	font-weight: bold;
 }
 
 #archive-header {
@@ -230,9 +238,15 @@ p.attribution a {
 }
 #archive-right {
 	max-width: 100%;
-	padding: 24px 0;
+	padding: 24px;
 	@media #{$bp500} {
 		padding: 24px;
+	}
+	@media #{$bp1280} {
+		padding: 24px 96px;
+		background: $blueGlass;
+		border-radius: 5px;
+		border: 2px solid hsla(0, 15%, 75%, .15);
 	}
 }
 #archive-logo {

@@ -15,6 +15,7 @@
 	  ga('create', 'UA-5992564-7', 'auto');
 	  ga('send', 'pageview');
 	</script>
+	<script src="//platform.twitter.com/widgets.js" charSet="utf-8"></script>
 </head>
 
 <body <?php body_class(); ?> >

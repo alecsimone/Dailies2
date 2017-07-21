@@ -13,7 +13,7 @@ export default class Thing extends React.Component {
 	}
 
 	vote() {
-		let userID = this.props.userData.id;
+		let userID = this.props.userData.userID.toString(10);
 		let rep = parseFloat(this.state.rep);
 		var votecount = parseFloat(this.state.votecount);
 		var currentState = this.state;
@@ -84,8 +84,8 @@ export default class Thing extends React.Component {
 
 	render() {
 		this.state = this.props.voteData;
-		this.state.rep = this.props.userData.rep;
-		this.state.repTime = JSON.parse(this.props.userData.repTime);
+		this.state.rep = this.props.userData.userRep;
+		this.state.repTime = this.props.userData.userRepTime;
 		var thingID = 'thing' + this.props.thingData.id;
 		var guestlist = [];
 		if (this.props.voteData.guestlist) {

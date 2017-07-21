@@ -3,7 +3,7 @@ import React from "react";
 export default class SeedlingMeta extends React.Component{
 	render() {
 		if (this.props.vodLink !== 'null') {
-			var vodlink = <a href={this.props.vodlink} target="_blank" className="VODLink">VOD Link</a>
+			var vodlink = <a href={this.props.vodLink} target="_blank" className="VODLink">VOD Link</a>
 		} else {
 			var vodlink = '';
 		}

@@ -6,11 +6,11 @@ export default class DayContainer extends React.Component {
 		var date = this.props.dayData.date;
 		var monthsArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 		if (date.day === 1 || date.day === 21 || date.day === 31) {
-			var dayString = '1st';
+			var dayString = date.day + 'st';
 		} else if (date.day === 2 || date.day === 22) {
-			var dayString = '2nd';
+			var dayString = date.day + 'nd';
 		} else if (date.day === 3 || date.day === 23) {
-			var dayString = '3rd'
+			var dayString = date.day + 'rd'
 		} else {
 			var dayString = date.day + 'th';
 		}
@@ -35,7 +35,7 @@ export default class DayContainer extends React.Component {
 		})
 		return(
 			<section className="dayContainer">
-				<div className="daytitle">Nominees for {monthsArray[date.month - 1]} {dayString}</div>
+				<div className="daytitle">NOMINEES FOR {monthsArray[date.month - 1].toUpperCase()} {dayString.toUpperCase()}</div>
 				{thingComponents}
 			</section>
 		)

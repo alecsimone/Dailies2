@@ -21,8 +21,8 @@ export default class Userbox extends React.Component {
 				);
 				jQuery('#wp-social-login').appendTo('#userbox-links');
 			}
-			if (this.props.userData.rep !== '') {
-				var rep = this.props.userData.rep;
+			if (this.props.userData.userRep !== '') {
+				var rep = this.props.userData.userRep;
 			} else {
 				var rep = 0.1;
 			}

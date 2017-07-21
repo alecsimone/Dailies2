@@ -15,26 +15,7 @@ export default class SeedlingControls extends React.Component{
 		} else {
 			var timestampIndex = vodLink.lastIndexOf('t=');
 			var VODBase = vodLink.substring(29, timestampIndex - 1);
-			var timestamp = vodLink.substring(timestampIndex + 2);
-			var hourMark = timestamp.lastIndexOf('h');
-			if (hourMark > -1) {
-				var hourCount = timestamp.substring(0, hourMark);
-			} else {
-				var hourCount = 0;
-			}
-			var minuteMark = timestamp.lastIndexOf('m');
-			if (minuteMark > -1) {
-				var minuteCount = timestamp.substring(hourMark + 1, minuteMark);
-			} else {
-				var minuteCount = 0;
-			}
-			var secondMark = timestamp.lastIndexOf('s');
-			if (secondMark > -1) {
-				var secondCount = timestamp.substring(minuteMark + 1, secondMark);
-			} else {
-				var secondCount = 0;
-			}
-			var VODTime = 3600 * hourCount + 60 * minuteCount + 1 * secondCount;
+			var VODTime = window.vodLinkTimeParser(vodLink);
 		}
 		let slugObj = {
 			slug: this.props.slug,

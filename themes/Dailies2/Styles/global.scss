@@ -19,10 +19,11 @@
 	width: 100%;
 	height: 100%;
 	z-index: -10;
-	background: $backgroundCore;
-	background: -moz-linear-gradient(left, $backgroundEdge 0%, $backgroundCore 2%, $backgroundCore 98%, $backgroundEdge 100%);
-    background: -webkit-linear-gradient(left, $backgroundEdge 0%, $backgroundCore 2%, $backgroundCore 98%, $backgroundEdge 100%);
-    background: linear-gradient(to right, $backgroundEdge 0%, $backgroundCore 2%, $backgroundCore 98%, $backgroundEdge 100%);
+	background: url(http://localhost/dailieslocal/wp-content/uploads/2017/NewUtopia9.jpg) center/cover;
+	//background: $backgroundCore;
+	//background: -moz-linear-gradient(left, $backgroundEdge 0%, $backgroundCore 2%, $backgroundCore 98%, $backgroundEdge 100%);
+    //background: -webkit-linear-gradient(left, $backgroundEdge 0%, $backgroundCore 2%, $backgroundCore 98%, $backgroundEdge 100%);
+    //background: linear-gradient(to right, $backgroundEdge 0%, $backgroundCore 2%, $backgroundCore 98%, $backgroundEdge 100%);
  }
 
  button {
@@ -72,7 +73,7 @@
  }
 
  #menu-links {
- 	background: #121212;
+ 	background: $blueGlass;
  	z-index: 3;
  	position: relative;
  	width: 100%;

@@ -1,31 +1,5 @@
 import React from "react";
-
-class Stars extends React.Component {
-	render() {
-		var stars = this.props.stars;
-		let starKeys = Object.keys(stars);
-
-		var starElements = starKeys.map(function(key) {
-			let thisID = "Star" + key;
-			let starLink = dailiesGlobalData.thisDomain + "/stars/" + stars[key]['slug'];
-			return(
-				<p key={thisID} className="attribution stars">
-					<a className="starSourceImgLink" href={starLink}><img className="starpic" src={stars[key]['logo']}></img></a><a className="starSourceLink" href={starLink}>{stars[key]['name']}</a> 
-				</p>
-			)
-		});
-		if (starKeys.length > 1) {
-			var inline = "";
-		} else {
-			var inline = " inline";
-		}
-		let classes =  "stars" + inline;
-
-		return(
-			<div className={classes}>{starElements}</div>
-		)
-	}
-}
+import StarBox from './StarBox.jsx';
 
 class Source extends React.Component {
 	render() {
@@ -54,7 +28,7 @@ export default class AttributionBox extends React.Component {
 		return(
 			<section className="attributionBox" id={attributionBoxID}>
 				<Source source={this.props.source} />
-				<Stars stars={this.props.stars} />
+				<StarBox stars={this.props.stars} />
 			</section>
 		)
 	}

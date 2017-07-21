@@ -25,6 +25,15 @@ function script_setup() {
 		$main_script_data = array(
 			'nonce' => $nonce,
 		);
+		if (is_home()) {
+			$main_script_data['dayOne'] = generateDayOneData();
+			$main_script_data['firstWinner'] = generateFirstWinner();
+		} elseif (is_single()) {
+			$main_script_data['singleData'] = generateSingleData();
+		} else {
+			$main_script_data['headerData'] = generateArchiveHeaderData();
+			$main_script_data['initialArchiveData'] = generateInitialArchivePostData();
+		}
 		wp_localize_script('mainScripts', 'dailiesMainData', $main_script_data);
 		wp_enqueue_script( 'mainScripts' );
 	} else if (is_page('Secret Garden')) {
@@ -36,7 +45,15 @@ function script_setup() {
 		wp_localize_script('secretGardenScripts', 'gardenData', $secretGardenData);
 		wp_enqueue_script('secretGardenScripts');
 	} else if (is_page('Live')) {
-		wp_enqueue_script( 'liveScripts', get_template_directory_uri() . '/Bundles/live-bundle.js', ['jquery'], '', true );
+		wp_register_script( 'liveScripts', get_template_directory_uri() . '/Bundles/live-bundle.js', ['jquery'], '', true );
+		$liveData = array(
+			'channels' => generateChannelChangerData(),
+			'postData' => generateLivePostsData(),
+			'voteData' => generateLiveVoteData(),
+		);
+		wp_localize_script('liveScripts', 'liveData', $liveData);
+		wp_enqueue_script('liveScripts');
+		wp_enqueue_script('isotope', 'https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js');
 	} /*else if (is_page('Schedule')) {
 		wp_enqueue_script( 'scheduleScripts', get_template_directory_uri() . '/Bundles/schedule-bundle.js', ['jquery'], '', true );
 	} */
@@ -89,6 +106,8 @@ add_action( 'rest_api_init', function() {
 		)
 	);
 });
+
+add_action('edit_post', 'buildPostDataObject', 10, 1);
 function buildPostDataObject($id) {
 	$postDataObject = [];
 	$postDataObject['id'] = $id;
@@ -106,11 +125,15 @@ function buildPostDataObject($id) {
 		'name' => get_user_meta($authorID, 'nickname', true),
 		'logo' => get_user_meta($authorID, 'customProfilePic', true), 
 	);
-	//$postDataObject['votecount'] = get_post_meta($id, 'votecount', true);
+	$postDataObject['votecount'] = get_post_meta($id, 'votecount', true);
+	if ($postDataObject['votecount'] === '') {$postDataObject['votecount'] = 0;}
+	$postDataObject['voteledger'] = get_post_meta($id, 'voteledger', true);
+	$postDataObject['guestlist'] = get_post_meta($id, 'guestlist', true);
 	$postDataObject['EmbedCodes'] = array(
 		'TwitchCode' => get_post_meta($id, 'TwitchCode', true),
 		'GFYtitle' => get_post_meta($id, 'GFYtitle', true),
 		'YouTubeCode' => get_post_meta($id, 'YouTubeCode', true),
+		'TwitterCode' => get_post_meta($id, 'TwitterCode', true),
 		'EmbedCode' => get_post_meta($id, 'EmbedCode', true),
 	);
 	$postDataObject['taxonomies'] = array(
@@ -136,9 +159,15 @@ function buildPostDataObject($id) {
 	//$postDataObject['guestlist'] = get_post_meta($id, 'guestlist', true);
 	$postDataObject['playCount'] =  get_post_meta($id, 'fullClipViewcount', true);
 	$postDataObject['addedScore'] =  get_post_meta($id, 'addedScore', true);
-	$postDataBlob = json_encode($postDataObject);
+	$postDataBlob = html_entity_decode(json_encode($postDataObject, JSON_HEX_QUOT));
 	update_post_meta( $id, 'postDataObj', $postDataBlob);
 }
+
+add_action('publish_post', 'set_default_custom_fields');
+function set_default_custom_fields($ID){
+	global $wpdb;
+    if( !wp_is_post_revision($ID) ) {add_post_meta($ID, 'votecount', 0, true);};
+};
 
 function stepBackDate($steps) {
 	global $year;
@@ -406,9 +435,178 @@ function generateUserData() {
 		'userID' => $userID,
 		'userRep' => $userRep,
 		'userRepTime' => $userRepTime,
+		'clientIP' => $_SERVER['REMOTE_ADDR'],
 	);
 	return $userData;
 }
+
+function generateDayOneData() {
+	date_default_timezone_set('America/Chicago');
+	$today = getdate();
+	$year = $today[year];
+	$month = $today[mon];
+	$day = $today[mday];
+	($paged === 0) ? $my_page = 0 : $my_page = $paged - 1;
+	stepBackDate($my_page);
+
+	$dayOneArgs = array(
+		'category_name' => 'noms',
+		'posts_per_page' => 10,
+		'orderby' => 'meta_value_num',
+		'meta_key' => 'votecount',
+		'date_query' => array(
+			array(
+				'year'  => $year,
+				'month' => $month,
+				'day'   => $day,
+				),
+			),
+		);
+	$postDataNoms = get_posts($dayOneArgs);
+
+	$i = 0;
+	while ( !$postDataNoms && $i < 14 ) :
+		stepBackDate(1);
+	$newNomArgs = array(
+		'category_name' => 'noms',
+		'posts_per_page' => 10,
+		'orderby' => 'meta_value_num',
+		'meta_key' => 'votecount',
+		'date_query' => array(
+			array(
+				'year'  => $year,
+				'month' => $month,
+				'day'   => $day,
+				),
+			),
+		);
+	$postDataNoms = get_posts($newNomArgs);
+	$i++;
+	$my_page++; //Since pages are how we keep track of the day, we need to tick up my_page even for days with no posts
+	endwhile;
+	$dayOnePostDatas = [];
+	$dayOneVoteDataArray = [];
+	foreach ($postDataNoms as $post) {
+		setup_postdata($post);
+		$postData = get_post_meta($post->ID, 'postDataObj', true);
+		$dayOnePostDatas[] = $postData;
+		$dayOneVoteDataArray[$post->ID] = array(
+			'voteledger' => get_post_meta($post->ID, 'voteledger', true),
+			'guestlist' => get_post_meta($post->ID, 'guestlist', true),
+			'votecount' => get_post_meta($post->ID, 'votecount', true),
+			);
+		$dayOneVoteData = json_encode($dayOneVoteDataArray);
+	}	
+	$dayOnePostData = array(
+		'date' => array(
+			'year'  => $year,
+			'month' => $month,
+			'day'   => $day,
+			),
+		'postDatas' => $dayOnePostDatas,
+		'voteDatas' => $dayOneVoteData,
+		);
+	return $dayOnePostData;
+}
+
+function generateFirstWinner() {
+	$winnerArgs = array(
+		'tag' => 'winners',
+		'category_name' => 'noms',
+		'posts_per_page' => 1,
+		);
+	$postDataWinners = get_posts($winnerArgs);
+	$post = $postDataWinners[0];
+	setup_postdata($post); 
+	$winnerDataObject = get_post_meta($post->ID, 'postDataObj', true);
+	$winnerVoteData = array(
+		'voteledger' => get_post_meta($post->ID, 'voteledger', true),
+		'guestlist' => get_post_meta($post->ID, 'guestlist', true),
+		'votecount' => get_post_meta($post->ID, 'votecount', true),
+		);
+	$firstWinnerData = array(
+		'voteData' => $winnerVoteData,
+		'postData' => $winnerDataObject,
+	);
+	return $firstWinnerData;
+}
+
+function generateArchiveHeaderData() {
+	$thisTerm = get_queried_object();
+	$headerData = array(
+		'thisTerm' => $thisTerm,
+		'logo_url' => get_term_meta($thisTerm->term_id, 'logo', true),
+		'twitter' => get_term_meta($thisTerm->term_id, 'twitter', true),
+		'twitch' => get_term_meta($thisTerm->term_id, 'twitch', true),
+		'youtube' => get_term_meta($thisTerm->term_id, 'youtube', true),
+		'website' => get_term_meta($thisTerm->term_id, 'website', true),
+		'discord' => get_term_meta($thisTerm->term_id, 'discord', true),
+		'donate' => get_term_meta($thisTerm->term_id, 'donate', true),
+	);
+	return $headerData;
+}
+
+function generateInitialArchivePostData() {
+	$thisTerm = get_queried_object();
+	$orderby = get_query_var('orderby', 'date');
+	$order = get_query_var('order', 'ASC');
+
+	$archiveArgs = array(
+		'posts_per_page' => 10,
+		'category_name' => 'noms',
+		'paged' => $paged,
+		'orderby' => $orderby,
+		'order' => $order,
+		'meta_key' => 'votecount',
+		'tax_query' => array(
+			array(
+				'taxonomy' => $thisTerm->taxonomy,
+				'field' => 'slug',
+				'terms' => $thisTerm->slug,
+				)
+			), 
+		);
+	if ($thisTerm->taxonomy === 'post_tag') {
+		unset($archiveArgs['tax_query']);
+		$archiveArgs['tag'] = $thisTerm->slug;
+	}
+	$archivePostDatas = get_posts($archiveArgs);
+	$initialPostData = [];
+	$initialVoteDataArray = [];
+	foreach ($archivePostDatas as $post) {
+		setup_postdata($post);
+		$postData = get_post_meta($post->ID, 'postDataObj', true);
+		$initialPostDatas[] = $postData;
+		$initialVoteDataArray[$post->ID] = array(
+			'voteledger' => get_post_meta($post->ID, 'voteledger', true),
+			'guestlist' => get_post_meta($post->ID, 'guestlist', true),
+			'votecount' => get_post_meta($post->ID, 'votecount', true),
+			);
+	}
+	$initialVoteData = $initialVoteDataArray;
+	$initialPostData = $initialPostDatas;
+	$initialArchiveData = array(
+		'voteData' => $initialVoteData,
+		'postData' => $initialPostData,
+	);
+	return $initialArchiveData;
+}
+
+function generateSingleData() {
+	$post = get_post();
+	$postData = get_post_meta($post->ID, 'postDataObj', true);
+	$voteData[$post->ID] = array(
+		'voteledger' => get_post_meta($post->ID, 'voteledger', true),
+		'guestlist' => get_post_meta($post->ID, 'guestlist', true),
+		'votecount' => get_post_meta($post->ID, 'votecount', true),
+	);
+	$singleData = array(
+		'postData' => $postData,
+		'voteData' => $voteData,
+	);
+	return $singleData;
+}
+
 function generateStreamList() {
 	include( locate_template('schedule.php') );
 	$todaysChannels = $schedule[$todaysSchedule];
@@ -473,6 +671,64 @@ function generateCutSlugs() {
 	}
 
 	return $slugList;
+}
+
+function generateChannelChangerData() {
+	include( locate_template('schedule.php') );
+	$todaysChannels = $schedule[$todaysSchedule];
+	$channelData = [];
+	foreach ($todaysChannels as $name => $channel) {
+		$channelData[$name]['displayName'] = $channel[0];
+		$channelData[$name]['slug'] = $channel[1];
+		$channelData[$name]['logo'] = get_term_meta($channel[2], 'logo', true);
+		$channelData[$name]['details'] = $channel[3];
+		$channelData[$name]['time'] = $channel[4];
+		$channelData[$name]['twitchURL'] = get_term_meta($channel[2], 'twitch', true);
+		$channelData[$name]['active'] = false;
+	}
+	return $channelData;
+}
+
+function generateLivePostsData() {
+	$livePostArgs = array(
+		'category__not_in' => 4,
+		'posts_per_page' => 50,
+		'date_query' => array(
+			array(
+				'after' => '240 hours ago',
+			)
+		)
+	);
+	$postDataLive = get_posts($livePostArgs);
+	$postDatas = [];
+	foreach ($postDataLive as $post) {
+		$postID = $post->ID;
+		$postDatas[$postID] = get_post_meta($postID, 'postDataObj', true);
+	}
+	return $postDatas;
+}
+
+function generateLiveVoteData() {
+	$livePostArgs = array(
+		'category__not_in' => 4,
+		'posts_per_page' => 50,
+		'date_query' => array(
+			array(
+				'after' => '240 hours ago',
+			)
+		)
+	);
+	$postDataLive = get_posts($livePostArgs);
+	$voteDatas = [];
+	foreach ($postDataLive as $post) {
+		$postID = $post->ID;
+		$voteDatas[$postID] = array(
+			'score' => get_post_meta($postID, 'votecount', true),
+			'voteledger' => get_post_meta($postID, 'voteledger', true),
+			'guestlist' => get_post_meta($postID, 'guestlist', true),
+		);
+	}
+	return $voteDatas;
 }
 
 ?>
