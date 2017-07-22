@@ -1,23 +1,63 @@
 Everything needs doing
 
-Live
-activate little thing vote button
-activate channel changer filter
-Post trasher
-Replace "edit this" with a pen icon
-CoHosts section
+Make userbox login links into images
 
-Thing admin controls
--Addscore
--viewcounts
--Declare Winner
--Edit this
-fix JSON encode so it can handle embed codes
+Fix stepBackDate
 
 404 page
-
-Make a propbox with just the ball and text
+Search Page
+Rules Page
 
 Build post objects for every post
 Organize components folder
 DRY out code
+SSL certificate
+
+
+
+
+Component Map
+Things
+=Thing
+--In: ThingData
+=LittleThing
+--In: ThingData
+=Titlebox
+--In: Title, optional score
+=VoteButton
+--In: Voteledger, guestlist
+=AttributionPair
+--In: Logo, Taxonomy, Slug, Name
+=EditButton
+--In: PostID
+=TagBar
+--In: Skills, Tags
+=PostTrasher
+--In: PostID
+
+SecretGarden
+=Garden
+--In: ClipDatas
+=Seedling
+--In: ClipData, canPublish
+=SeedlingControls
+--In: userID, canPublish
+=LoadMore
+--In: queryCursor objects
+
+PageHeaders
+=ArchiveHeader
+--In: headerData
+=UserBox
+--In: userData, loginLinks
+=DayContainer
+--In: Date, ThingDatas
+=SortBar
+--In: QueryVars
+
+TopLevel
+=Homepage
+=Archive
+=SecretGarden
+=Live
+=Single

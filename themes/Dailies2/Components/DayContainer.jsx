@@ -20,8 +20,8 @@ export default class DayContainer extends React.Component {
 		function thingsByScore(a,b) {
 			let parsedA = JSON.parse(a);
 			let parsedB = JSON.parse(b);
-			let scoreA = parseInt(parsedA.votecount, 10);
-			let scoreB = parseInt(parsedB.votecount, 10);
+			let scoreA = parseFloat(parsedA.votecount, 10);
+			let scoreB = parseFloat(parsedB.votecount, 10);
 			return scoreB - scoreA;
 		}
 		var thingsSorted = things.sort(thingsByScore);

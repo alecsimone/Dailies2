@@ -22541,17 +22541,27 @@ var HomeTop = function (_React$Component) {
 				{ id: "hometop" },
 				_react2.default.createElement(
 					"div",
-					{ id: "propbox" },
+					{ className: "propaganda", id: "propLeft" },
 					_react2.default.createElement(
 						"div",
-						{ className: "propaganda", id: "propLeft" },
-						"Today's Prize: $25.00"
+						{ className: "propbutton" },
+						"Today's Prize: $25"
 					),
 					_react2.default.createElement(
-						"div",
-						{ className: "propaganda", id: "propRight" },
-						"More Coming Soon..."
+						"a",
+						{ className: "propbutton img", href: "https://www.patreon.com/rocket_dailies", target: "_blank" },
+						_react2.default.createElement("img", { className: "patreonImg", src: dailiesGlobalData.thisDomain + '/wp-content/uploads/2017/04/Patreon.png' })
+					),
+					_react2.default.createElement(
+						"a",
+						{ className: "propbutton", href: "https://twitch.streamlabs.com/the_rocket_dailies#/", target: "_blank" },
+						"Donate"
 					)
+				),
+				_react2.default.createElement(
+					"div",
+					{ className: "propaganda", id: "propRight" },
+					_react2.default.createElement("img", { src: dailiesGlobalData.thisDomain + '/wp-content/uploads/2017/Choose-Excellence-textonly.png', className: "chooseExcellence" })
 				),
 				_react2.default.createElement(_Userbox2.default, { userData: this.props.user })
 			);
@@ -22671,19 +22681,22 @@ var Live = function (_React$Component) {
 		var _this = _possibleConstructorReturn(this, (Live.__proto__ || Object.getPrototypeOf(Live)).call(this));
 
 		_this.state = {
-			user: dailiesGlobalData.userData,
+			userData: dailiesGlobalData.userData,
 			channels: liveData.channels,
-			postData: liveData.postData
+			cohosts: liveData.cohosts,
+			postData: liveData.postData,
+			sort: false
 		};
 		_this.changeChannel = _this.changeChannel.bind(_this);
 		_this.updatePostData = _this.updatePostData.bind(_this);
+		_this.sortLive = _this.sortLive.bind(_this);
+		_this.postTrasher = _this.postTrasher.bind(_this);
 		return _this;
 	}
 
 	_createClass(Live, [{
 		key: 'changeChannel',
 		value: function changeChannel(key) {
-			console.log(key);
 			var currentState = this.state;
 			if (currentState.channels[key].active === false) {
 				currentState.channels[key].active = true;
@@ -22691,6 +22704,15 @@ var Live = function (_React$Component) {
 				currentState.channels[key].active = false;
 			}
 			this.setState(currentState);
+		}
+	}, {
+		key: 'sortLive',
+		value: function sortLive() {
+			if (this.state.sort === true) {
+				this.setState({ sort: false });
+			} else {
+				this.setState({ sort: true });
+			}
 		}
 	}, {
 		key: 'updatePostData',
@@ -22729,9 +22751,33 @@ var Live = function (_React$Component) {
 			});
 		}
 	}, {
+		key: 'postTrasher',
+		value: function postTrasher(id) {
+			var currentState = this.state;
+			delete currentState.postData[id];
+			this.setState(currentState);
+			jQuery.ajax({
+				type: "POST",
+				url: dailiesGlobalData.ajaxurl,
+				dataType: 'json',
+				data: {
+					id: id,
+					action: 'post_trasher'
+				},
+				error: function error(one, two, three) {
+					console.log(one);
+					console.log(two);
+					console.log(three);
+				},
+				success: function success(data) {
+					//console.log(data);
+				}
+			});
+		}
+	}, {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
-			window.setInterval(this.updatePostData, 5000);
+			window.setInterval(this.updatePostData, 3000);
 			window.grid = jQuery('#livePostsLoop').isotope({
 				itemSelector: '.LittleThing',
 				masonry: {
@@ -22755,13 +22801,31 @@ var Live = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
+			var activeFilter = [];
+			var postData = jQuery.extend({}, this.state.postData);
+			jQuery.each(this.state.channels, function () {
+				if (this.active === true) {
+					activeFilter.push(this.slug);
+				}
+			});
+			if (activeFilter.length > 0) {
+				jQuery.each(postData, function () {
+					if (activeFilter.indexOf(JSON.parse(this).taxonomies.source[0].slug) === -1) {
+						delete postData[JSON.parse(this).id];
+					}
+				});
+			}
+			var CoHosts;
+			if (this.state.cohosts.length !== 0) {
+				var CoHosts = _react2.default.createElement(_CoHostsPanel2.default, { cohosts: this.state.cohosts });
+			}
 			return _react2.default.createElement(
 				'section',
 				{ id: 'Live' },
-				_react2.default.createElement(_HomeTop2.default, { user: this.state.user }),
-				_react2.default.createElement(_ChannelChanger2.default, { channels: this.state.channels, changeChannel: this.changeChannel }),
-				_react2.default.createElement(_CoHostsPanel2.default, null),
-				_react2.default.createElement(_LivePostsLoop2.default, { user: this.state.user, postData: this.state.postData })
+				_react2.default.createElement(_HomeTop2.default, { user: this.state.userData }),
+				_react2.default.createElement(_ChannelChanger2.default, { channels: this.state.channels, changeChannel: this.changeChannel, sortLive: this.sortLive, sort: this.state.sort }),
+				CoHosts,
+				_react2.default.createElement(_LivePostsLoop2.default, { userData: this.state.userData, postData: postData, sort: this.state.sort, postTrasher: this.postTrasher })
 			);
 		}
 	}]);
@@ -22829,7 +22893,7 @@ var ChannelChanger = function (_React$Component) {
 			return _react2.default.createElement(
 				'section',
 				{ id: 'channelChanger' },
-				_react2.default.createElement(_SortButton2.default, null),
+				_react2.default.createElement(_SortButton2.default, { sortLive: this.props.sortLive, sort: this.props.sort }),
 				channelComponents
 			);
 		}
@@ -22877,9 +22941,14 @@ var SortButton = function (_React$Component) {
 	_createClass(SortButton, [{
 		key: "render",
 		value: function render() {
+			if (this.props.sort === true) {
+				var classes = "channelChangerButton active";
+			} else {
+				var classes = "channelChangerButton";
+			}
 			return _react2.default.createElement(
 				"div",
-				{ id: "sortButton", className: "channelChangerButton" },
+				{ id: "sortButton", className: classes, onClick: this.props.sortLive },
 				_react2.default.createElement(
 					"div",
 					{ className: "channelChangerLogo" },
@@ -23021,10 +23090,20 @@ var CoHostsPanel = function (_React$Component) {
 	_createClass(CoHostsPanel, [{
 		key: "render",
 		value: function render() {
+			var cohosts = this.props.cohosts;
+			var cohostsArray = Object.keys(cohosts);
+			var cohostComponents = cohostsArray.map(function (cohost) {
+				return _react2.default.createElement(_CoHostButton2.default, { key: cohost, cohostData: cohosts[cohost] });
+			});
 			return _react2.default.createElement(
 				"section",
 				{ id: "coHostsPanel" },
-				_react2.default.createElement(_CoHostButton2.default, null)
+				_react2.default.createElement(
+					"div",
+					{ id: "coHostsPanelTitle" },
+					"TONIGHT'S COHOSTS"
+				),
+				cohostComponents
 			);
 		}
 	}]);
@@ -23069,12 +23148,49 @@ var CoHostButton = function (_React$Component) {
 	}
 
 	_createClass(CoHostButton, [{
-		key: "render",
+		key: 'render',
 		value: function render() {
+			var cohostLinks = [];
+			jQuery.each(this.props.cohostData.links, function (key) {
+				if (this !== '') {
+					if (key === 'twitter_url') {
+						var iconsrc = '/wp-content/uploads/2017/01/Twitter-logo.png';
+					} else if (key === 'twitch_url') {
+						var iconsrc = '/wp-content/uploads/2017/01/Twitch-purple-logo.png';
+					} else if (key === 'donate_url') {
+						var iconsrc = '/wp-content/uploads/2017/03/Donate-logo.png';
+					} else if (key === 'youtube_url') {
+						var iconsrc = '/wp-content/uploads/2017/01/youtube-logo.png';
+					}
+					cohostLinks.push(_react2.default.createElement(
+						'a',
+						{ key: key, href: this, target: '_blank', className: 'cohostSocialLink' },
+						_react2.default.createElement('img', { src: dailiesGlobalData.thisDomain + iconsrc, className: 'cohostSocialLinkImg' })
+					));
+				}
+			});
 			return _react2.default.createElement(
-				"div",
-				null,
-				"CoHostButton"
+				'div',
+				{ className: 'cohostButton' },
+				_react2.default.createElement(
+					'div',
+					{ className: 'cohostLogo' },
+					_react2.default.createElement('img', { src: this.props.cohostData.logo_url })
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: 'cohostMeta' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'cohostName' },
+						this.props.cohostData.hostName
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'cohostLinks' },
+						cohostLinks
+					)
+				)
 			);
 		}
 	}]);
@@ -23125,12 +23241,24 @@ var LivePostsLoop = function (_React$Component) {
 	_createClass(LivePostsLoop, [{
 		key: "render",
 		value: function render() {
-			var userData = this.props.user;
+			var userData = this.props.userData;
 			var postDatas = this.props.postData;
 			var postIDs = Object.keys(postDatas).reverse();
+			var postTrasher = this.props.postTrasher;
+			if (this.props.sort === true) {
+				var littleThingSort = function littleThingSort(a, b) {
+					var parsedA = JSON.parse(postDatas[a]);
+					var parsedB = JSON.parse(postDatas[b]);
+					var scoreA = parseFloat(parsedA.votecount, 10);
+					var scoreB = parseFloat(parsedB.votecount, 10);
+					return scoreB - scoreA;
+				};
+
+				postIDs = postIDs.sort(littleThingSort);
+			}
 			var littleThingComponents = postIDs.map(function (postID) {
 				var postData = JSON.parse(postDatas[postID]);
-				return _react2.default.createElement(_LittleThing2.default, { key: postID, user: userData, postData: postData });
+				return _react2.default.createElement(_LittleThing2.default, { key: postID, userData: userData, postData: postData, postTrasher: postTrasher });
 			});
 			return _react2.default.createElement(
 				"section",
@@ -23206,6 +23334,7 @@ var LittleThing = function (_React$Component) {
 			isEmbedding: false
 		};
 		_this.toggleEmbed = _this.toggleEmbed.bind(_this);
+		_this.vote = _this.vote.bind(_this);
 		return _this;
 	}
 
@@ -23216,6 +23345,81 @@ var LittleThing = function (_React$Component) {
 			var currentState = this.state;
 			currentState.isEmbedding = !currentState.isEmbedding;
 			this.setState(currentState);
+		}
+	}, {
+		key: "vote",
+		value: function vote() {
+			var userID = this.props.userData.userID.toString(10);
+			var rep = parseFloat(this.state.rep);
+			var votecount = parseFloat(this.state.votecount);
+			var guestlist = this.state.guestlist;
+			var clientIP = this.props.userData.clientIP;
+			var repTime = this.state.repTime;
+			var currentState = this.state;
+			if (userID !== "0") {
+				var voteledger = this.state.voteledger;
+				if (Object.keys(voteledger).indexOf(userID) > -1) {
+					currentState.votecount = (votecount - voteledger[userID]).toFixed(1);
+					delete currentState.voteledger[userID];
+					if (jQuery.inArray(clientIP, guestlist) > -1) {
+						var guestIndex = jQuery.inArray(clientIP, guestlist);
+						guestlist.splice(guestIndex, 1);
+						if (guestlist.length === 0) {
+							guestlist = '';
+						}
+						currentState.guestlist = guestlist;
+						currentState.votecount = (currentState.votecount - .1).toFixed(1);
+					}
+				} else {
+					var currentTime = Date.now() / 1000;
+					if (currentTime > repTime) {
+						rep = rep + .1;
+					};
+					currentState.voteledger[userID] = rep;
+					currentState.votecount = (votecount + rep).toFixed(1);
+					currentState.repTime = { 0: currentTime };
+					currentState.rep = rep;
+				}
+			} else if (jQuery.inArray(clientIP, guestlist) > -1) {
+				var _guestIndex = jQuery.inArray(clientIP, guestlist);
+				guestlist.splice(_guestIndex, 1);
+				if (guestlist.length === 0) {
+					guestlist = '';
+				}
+				currentState.guestlist = guestlist;
+				currentState.votecount = (votecount - .1).toFixed(1);
+			} else {
+				if (guestlist === '' || guestlist == null) {
+					var newGuestlist = [clientIP];
+				} else {
+					guestlist.push(clientIP);
+					var newGuestlist = guestlist;
+				}
+				currentState.guestlist = newGuestlist;
+				currentState.votecount = (votecount + .1).toFixed(1);
+			}
+			currentState.justVoted = true;
+			this.setState(currentState);
+			var postID = this.props.postData.id;
+			jQuery('#LittleThing' + this.props.postData.id).find('.voteIcon').addClass("replaceHold");
+			jQuery.ajax({
+				type: "POST",
+				url: dailiesGlobalData.ajaxurl,
+				dataType: 'json',
+				data: {
+					id: this.props.postData.id,
+					action: 'official_vote',
+					vote_nonce: liveData.nonce
+				},
+				error: function error(one, two, three) {
+					console.log(one);
+					console.log(two);
+					console.log(three);
+				},
+				success: function success(data) {
+					//console.log(data);
+				}
+			});
 		}
 	}, {
 		key: "componentDidUpdate",
@@ -23232,6 +23436,23 @@ var LittleThing = function (_React$Component) {
 		key: "render",
 		value: function render() {
 			var linkout = '';
+			if (this.props.postData.voteledger === '') {
+				var voteledger = [];
+			} else {
+				var voteledger = this.props.postData.voteledger;
+			}
+			if (this.state.justVoted != true) {
+				this.state = {
+					votecount: this.props.postData.votecount,
+					voteledger: voteledger,
+					guestlist: this.props.postData.guestlist,
+					rep: dailiesGlobalData.userData.userRep,
+					repTime: dailiesGlobalData.userData.userRepTime,
+					isEmbedding: this.state.isEmbedding
+				};
+			} else {
+				this.state.justVoted = false;
+			}
 			var twitchcode = this.props.postData.EmbedCodes.TwitchCode;
 			var youtubecode = this.props.postData.EmbedCodes.YouTubeCode;
 			var gfycode = this.props.postData.EmbedCodes.GFYtitle;
@@ -23248,9 +23469,14 @@ var LittleThing = function (_React$Component) {
 			} else {
 				var embedder = '';
 			}
+			if (dailiesGlobalData.userData.userID === 1) {
+				var adminControls = _react2.default.createElement(_LiveAdminControls2.default, { thisID: this.props.postData.id, postTrasher: this.props.postTrasher });
+			} else {
+				var adminControls = '';
+			}
 			return _react2.default.createElement(
 				"article",
-				{ className: "LittleThing" },
+				{ className: "LittleThing", id: 'LittleThing' + this.props.postData.id },
 				_react2.default.createElement(
 					"div",
 					{ className: "littleThingTop" },
@@ -23259,15 +23485,15 @@ var LittleThing = function (_React$Component) {
 						{ className: "littleThingSourceImgLink", href: dailiesGlobalData.thisDomain + '/source/' + this.props.postData.taxonomies.source[0].slug },
 						_react2.default.createElement("img", { className: "sourcepic", src: this.props.postData.taxonomies.source[0].logo })
 					),
-					_react2.default.createElement(_Titlebox2.default, { title: this.props.postData.title, score: this.props.postData.votecount, linkout: linkout, toggleEmbed: this.toggleEmbed }),
-					_react2.default.createElement(_VoteBox2.default, { thisID: "{this.props.thingData.id}", user: this.props.user, voteledger: "{this.props.voteData.voteledger}", guestlist: "{guestlist}", vote: "{this.vote}" })
+					_react2.default.createElement(_Titlebox2.default, { title: this.props.postData.title, score: this.state.votecount, linkout: linkout, toggleEmbed: this.toggleEmbed }),
+					_react2.default.createElement(_VoteBox2.default, { thisID: this.props.postData.id, userData: this.props.userData, voteledger: this.state.voteledger, guestlist: this.state.guestlist, vote: this.vote })
 				),
 				embedder,
 				_react2.default.createElement(
 					"div",
 					{ className: "littleThingBottom" },
 					_react2.default.createElement(_StarBox2.default, { stars: this.props.postData.taxonomies.stars }),
-					_react2.default.createElement(_LiveAdminControls2.default, { thisID: this.props.postData.id }),
+					adminControls,
 					_react2.default.createElement(_AuthorBubble2.default, { authorData: this.props.postData.author })
 				)
 			);
@@ -23385,9 +23611,9 @@ var Votebox = function (_React$Component) {
 			var _this2 = this;
 
 			var vote = this.props.vote;
-			var userID = this.props.user.userID.toString(10);
-			var rep = this.props.user.userRep;
-			var IP = this.props.user.clientIP;
+			var userID = this.props.userData.userID.toString(10);
+			var rep = this.props.userData.userRep;
+			var IP = this.props.userData.clientIP;
 			var voters = Object.keys(this.props.voteledger);
 			var voted = voters.includes(userID);
 			var guestlist = this.props.guestlist;
@@ -23549,15 +23775,19 @@ var LiveAdminControls = function (_React$Component) {
 	_createClass(LiveAdminControls, [{
 		key: "render",
 		value: function render() {
+			var _this2 = this;
+
 			return _react2.default.createElement(
 				"div",
 				{ className: "liveAdminControls" },
+				_react2.default.createElement("img", { src: dailiesGlobalData.thisDomain + '/wp-content/uploads/2017/04/red-x.png', className: "littleThingTrasher", onClick: function onClick(e) {
+						return _this2.props.postTrasher(_this2.props.thisID);
+					} }),
 				_react2.default.createElement(
 					"a",
 					{ href: dailiesGlobalData.thisDomain + '/wp-admin/post.php?post=' + this.props.thisID + '&action=edit', className: "editLittleThingLink", target: "_blank" },
 					_react2.default.createElement("img", { src: dailiesGlobalData.thisDomain + '/wp-content/uploads/2017/07/edit-this.png', className: "editThisImg" })
-				),
-				_react2.default.createElement("img", { src: dailiesGlobalData.thisDomain + '/wp-content/uploads/2017/04/red-x.png', className: "littleThingTrasher" })
+				)
 			);
 		}
 	}]);

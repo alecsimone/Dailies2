@@ -15,7 +15,7 @@ export default class ChannelChanger extends React.Component{
 		});
 		return(
 			<section id="channelChanger">
-				<SortButton />
+				<SortButton sortLive={this.props.sortLive} sort={this.props.sort} />
 				{channelComponents}
 			</section>
 		)

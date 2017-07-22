@@ -3,9 +3,9 @@ import React from "react";
 export default class Votebox extends React.Component {
 	render() {
 		var vote = this.props.vote;
-		var userID = this.props.user.userID.toString(10);
-		var rep = this.props.user.userRep;
-		var IP = this.props.user.clientIP;
+		var userID = this.props.userData.userID.toString(10);
+		var rep = this.props.userData.userRep;
+		var IP = this.props.userData.clientIP;
 		var voters = Object.keys(this.props.voteledger);
 		var voted = voters.includes(userID);
 		var guestlist = this.props.guestlist;

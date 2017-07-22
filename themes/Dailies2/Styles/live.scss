@@ -2,7 +2,7 @@
 
 #channelChanger {
 	width: 95%;
-	margin: 48px auto;
+	margin: 48px auto 36px;
 }
 .channelChangerButton {
 	display: inline-block;
@@ -72,6 +72,53 @@
 		background: $darkBlack;
 	}
 }
+#sortButton.active {
+	background: $darkBlack;
+}
+
+#coHostsPanel {
+	margin-bottom: 48px;
+}
+#coHostsPanelTitle {
+	font-size: 24px;
+	font-weight: bold;
+	color: $gold;
+	text-shadow: 0 0 6px $darkBlack;
+}
+.cohostButton {
+	display: inline-flex;
+	background: $blueGlass;
+	border: 3px solid $darkBlack;
+	box-shadow: $lowShadow;
+	align-items: center;
+	padding: 12px;
+	margin: 12px;
+}
+.cohostLogo {
+	width: 96px;
+	height: 96px;
+	border-raidus: 48px;
+	margin-right: 12px;
+	img {
+		width: 100%;
+		height: 100%;
+		border-radius: 50%;
+	}
+}
+.cohostMeta {
+	margin: 0 12px;
+}
+.cohostName {
+	font-size: 36px;
+	font-weight: bold;
+	color: $white;
+	margin-bottom: 6px;
+}
+.cohostSocialLinkImg {
+	width: 42px;
+	height: 42px;
+	margin: 0 6px;
+}
 
 #livePostsLoop {
 	width: 95%;
@@ -85,8 +132,8 @@
 	border-radius: 2px;
 	box-shadow: 0 1px 6px $blackTrans25;
 	width: 100%;
-	margin: 9px 0;
-	padding: 1em;
+	margin: 12px 0;
+	padding: 15px;
 	box-sizing: border-box;
 	text-align: left;
 	font-size: 24px;
@@ -97,7 +144,6 @@
 	}
 	& h3 {
 		font-size: 1.25em;
-		font-weight: normal;
 	}
 	& .voteBox {
 		margin: 0 0 0 12px;
@@ -108,7 +154,7 @@
 	}
 	& p.attribution {
 		margin: 0;
-		font-size: 15px;
+		font-size: 18px;
 		a {
 			color: $white;
 		}
@@ -124,10 +170,11 @@
 	justify-content: space-between;
 }
 .littleThingTop {
-	margin-bottom: 18px;
+	margin-bottom: 9px;
 }
 .titleBox {
 	flex-grow: 1;
+	line-height: 1.25em;
 }
 a.littleThingTitleLink {
 	color: $white;
@@ -138,6 +185,7 @@ a.littleThingTitleLink {
 }
 .littleThingVotecount {
 	font-size: 1.25em;
+	font-weight: bold;
 	color: $gold;
 	display: inline-block;
 	margin-left: 3px;
@@ -145,27 +193,26 @@ a.littleThingTitleLink {
 
 .littleThingBottom {
 	margin-top: 6px;
+	margin-left: 6px;
 }
 .liveAdminControls {
 	flex-grow: 1;
 	font-size: .625em;
+	line-height: 0;
 	a {
 		color: $blue;
 	}
 }
 
-img.littleThingTrasher {
+img.littleThingTrasher, img.editThisImg {
 	width: 24px;
 	height: 24px;
-}
-img.editThisImg {
-	width: 18px;
-	height: 18px;
+	cursor: pointer;
 }
 img.littleThingAuthor {
 	width: 30px;
 	height: 30px;
 	border-radius: 15px;
-	margin-left: 12px;
+	margin-left: 18px;
 	margin-right: 9px;
 }

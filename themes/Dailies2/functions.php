@@ -21,7 +21,7 @@ function script_setup() {
 	wp_enqueue_style( 'globalStyles', get_template_directory_uri() . '/style.css');
 	if ( !is_page() && !is_attachment() ) {
 		wp_register_script( 'mainScripts', get_template_directory_uri() . '/Bundles/main-bundle.js', ['jquery'], '', true );
-		$nonce = wp_create_nonce('main_script_nonce');
+		$nonce = wp_create_nonce('vote_nonce');
 		$main_script_data = array(
 			'nonce' => $nonce,
 		);
@@ -46,10 +46,13 @@ function script_setup() {
 		wp_enqueue_script('secretGardenScripts');
 	} else if (is_page('Live')) {
 		wp_register_script( 'liveScripts', get_template_directory_uri() . '/Bundles/live-bundle.js', ['jquery'], '', true );
+		$nonce = wp_create_nonce('vote_nonce');
 		$liveData = array(
+			'nonce' => $nonce,
 			'channels' => generateChannelChangerData(),
 			'postData' => generateLivePostsData(),
 			'voteData' => generateLiveVoteData(),
+			'cohosts' => generateCohostData(),
 		);
 		wp_localize_script('liveScripts', 'liveData', $liveData);
 		wp_enqueue_script('liveScripts');
@@ -182,7 +185,7 @@ function stepBackDate($steps) {
 			$month = 12;
 			$year = $year - 1;
 		} else {
-			$month = $month - 1;
+			//$month = $month - 1;
 		}
 		if ( in_array($month, $thirtyDays) ) {
 			$day = 30 + $extraSteps;
@@ -199,7 +202,7 @@ add_action( 'wp_ajax_nopriv_official_vote', 'official_vote' );
 
 function official_vote() {
 	$nonce = $_POST['vote_nonce'];
-	if (!wp_verify_nonce($nonce, 'main_script_nonce')) {
+	if (!wp_verify_nonce($nonce, 'vote_nonce')) {
 		die("Busted!");
 	}
 	$postID = $_POST['id'];
@@ -298,7 +301,44 @@ function official_vote() {
 		$newScore = $currentScore - $guestRep;
 		update_post_meta($postID, 'votecount', $newScore);
 	}
-	echo json_encode($return);
+	buildPostDataObject($postID);
+	echo json_encode($newScore);
+	wp_die();
+}
+
+add_action( 'wp_ajax_declare_winner', 'declare_winner' );
+function declare_winner() {
+	$nonce = $_POST['vote_nonce'];
+	if (!wp_verify_nonce($nonce, 'vote_nonce')) {
+		die("Busted!");
+	}
+	$postID = $_POST['id'];
+	if (!current_user_can('edit_others_posts', $postID)) {
+		die("You can't do that!");
+	}
+	wp_set_post_tags($postID, 'Winners', true);
+	buildPostDataObject($postID);
+	wp_die();
+}
+
+add_action( 'wp_ajax_add_score', 'add_score' );
+function add_score() {
+	$nonce = $_POST['vote_nonce'];
+	if (!wp_verify_nonce($nonce, 'vote_nonce')) {
+		die("Busted!");
+	}
+	$postID = $_POST['id'];
+	if (!current_user_can('edit_others_posts', $postID)) {
+		die("You can't do that!");
+	}
+	$currentScore = get_post_meta($postID, 'votecount', true);
+	$scoreToAdd = $_POST['scoreToAdd'];
+	$newScore = $currentScore + $scoreToAdd;
+	update_post_meta($postID, 'votecount', $newScore);
+	$oldAddedScore = get_post_meta($postID, 'addedScore', true);
+	$newAddedScore = $oldAddedScore + $scoreToAdd;
+	update_post_meta($postID, 'addedScore', $newAddedScore);
+	echo json_encode($newScore);
 	wp_die();
 }
 
@@ -424,6 +464,16 @@ function plant_seed() {
 	);
 	$didPost = wp_insert_post($seedArray, true);
 	echo json_encode($didPost);
+	wp_die();
+}
+
+add_action( 'wp_ajax_post_trasher', 'post_trasher' );
+function post_trasher() {
+	$postID = $_POST['id'];
+	if (current_user_can('delete_published_posts', $postID)) {
+		wp_trash_post($postID);
+	};
+	echo json_encode($postID);
 	wp_die();
 }
 
@@ -729,6 +779,24 @@ function generateLiveVoteData() {
 		);
 	}
 	return $voteDatas;
+}
+
+function generateCohostData() {
+	//cohost slugs: 'dazerin', 'inanimatej', 'ninjarider'
+	$cohosts = ['dazerin', 'inanimatej', 'ninjarider'];
+	$cohostData = [];
+	foreach ($cohosts as $cohost) {
+		$hostObject = get_term_by('slug', $cohost, 'stars');
+		$hostID = $hostObject->term_id;
+		$cohostData[$cohost]['hostName'] = $hostObject->name;
+		$cohostData[$cohost]['slug'] = $cohost;
+		$cohostData[$cohost]['logo_url'] = get_term_meta($hostID, 'logo', true);
+		$cohostData[$cohost]['links']['twitter_url'] = get_term_meta($hostID, 'twitter', true);
+		$cohostData[$cohost]['links']['twitch_url'] = get_term_meta($hostID, 'twitch', true);
+		$cohostData[$cohost]['links']['youtube_url'] = get_term_meta($hostID, 'youtube', true);
+		$cohostData[$cohost]['links']['donate_url'] = get_term_meta($hostID, 'donate', true);
+	}
+	return $cohostData;
 }
 
 ?>

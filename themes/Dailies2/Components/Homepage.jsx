@@ -136,8 +136,10 @@ class Homepage extends React.Component {
 		return(
 			<div id="appContainer">
 				<HomeTop user={this.state.user} />
-				<Thing thingData={this.state.winner} userData={this.state.user} voteData={winnerVoteData} />
-				{dayContainerComponents}
+				<section id="homePagePosts">
+					<Thing thingData={this.state.winner} userData={this.state.user} voteData={winnerVoteData} />
+					{dayContainerComponents}
+				</section>
 			</div>
 		)
 	}

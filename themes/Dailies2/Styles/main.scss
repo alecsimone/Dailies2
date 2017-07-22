@@ -3,54 +3,60 @@
 #hometop, #archivetop {
 	display: flex;
 	align-items: center;
-	justify-content: space-around;
+	justify-content: center;
 	margin: 24px auto;
+	padding: 18px;
+	box-sizing: border-box;
 	flex-wrap: wrap;
 	@media #{$bp800} {
+		justify-content: space-between;
+		padding: 36px;
 		width: 95%;
 		flex-wrap: nowrap;
 	}
 }
 
-#propbox{
-	display: inline-block;
-	width: 100%;
-	height: 150px;
-	position: relative;
-	background: url('http://dailies.gg/wp-content/uploads/2017/02/Faceoff-black.jpg') center/cover;
-	margin-bottom: 24px;
-	@media #{$bp500} {
-		height: 200px;
-	}
-	@media #{$bp800} {
-		width: 75%;
-		height: 250px;
-		flex-shrink: 1;
-		margin-bottom: 0;
-	}
-}
-.propaganda {
-	position: absolute;
-	font-size: 15px;
-	font-weight: bold;
-	color: $white;
-	bottom: .4em;
-	max-width: 50%;
-	text-shadow: 0 0 6px $blackTrans90;
-	@media #{$bp500} {
-		font-size: 18px;
-	}
-	@media #{$bp800} {
-		font-size: 24px;
-	}
-}
 #propLeft {
-	left: .6em;
-	text-align: left;
+	width: 100%;
+	@media #{$bp800} {
+		width: 20%;
+	}
 }
-#propRight {
-	right: .6em;
-	text-align: right;
+.propbutton {
+	padding: 12px;
+	font-size: 30px;
+	font-weight: bold;
+	border-radius: 3px;
+	&.img {
+		line-height: 0;
+	}
+	@media #{$bp800} {
+		background: $blueGlass;
+		display: block;
+		margin: 18px auto;
+	}
+}
+a.propbutton {
+	text-decoration: none;
+	color: $gold;
+	&:hover {
+		text-decoration: underline;
+		@media #{$bp800} {
+			background: $lightBlack;
+		}
+	}
+}
+.patreonImg {
+	width: 36px;
+}
+
+.chooseExcellence {
+	width: 100%;
+	margin: 24px 0;
+}
+
+#homePagePosts {
+	margin-top: 72px;
 }
 
 .thing {
@@ -77,8 +83,8 @@
 }
 
 .WinnerBanner {
-	width: 108%;
-	margin: 0 0 0 -4%;
+	//width: 108%;
+	//margin: 0 0 0 -4%;
 	@media #{$bp1280} {
 		width: 100%;
 		margin: 0;
@@ -91,7 +97,7 @@
 }
 
 .titlebox {
-	padding: 3em 0 2em;
+	padding: 1.5em 0 1em;
 	text-align: left;
 	max-width: 1080px;
 	margin: auto;
@@ -104,6 +110,9 @@
 		&:visited {
 			color: $white;
 		}
+	}
+	@media #{$bp800} {
+		padding: 3em 0 2em;
 	}
 }
 .votecount {
@@ -195,7 +204,7 @@ img.sourcepic {
 	border-radius: 3px;
 }
 a.starSourceLink {
-	padding: 0 6px;
+	padding: 0 9px;
 	text-decoration: none;
 	&:hover {
 		text-decoration: underline;
@@ -214,6 +223,22 @@ p.attribution a {
 		color: $blue;
 	}
 }
+.adminControls {
+	display: inline-flex;
+	align-items: center;
+	margin: 15px auto;
+}
+.addScoreBox {
+	margin-right: 24px;
+	font-size: 24px;
+	height: 36px;
+	width: 120px;
+	text-align: center;
+}
+.declareWinner {
+	width: 36px;
+	margin-right: 24px;
+}
 
 .daytitle, #sortbar {
 	padding: 1.2em;
@@ -226,12 +251,12 @@ p.attribution a {
 #archive-header {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
     flex-grow: 0.5;
     align-items: center;
+    justify-content: center;
     max-width: 100%;
-    margin-bottom: 36px;
     @media #{$bp800} {
+    	justify-content: space-between;
 	    margin-right: 36px;
     	flex-wrap: nowrap;
     }
@@ -244,9 +269,7 @@ p.attribution a {
 	}
 	@media #{$bp1280} {
 		padding: 24px 96px;
-		background: $blueGlass;
 		border-radius: 5px;
-		border: 2px solid hsla(0, 15%, 75%, .15);
 	}
 }
 #archive-logo {
@@ -259,6 +282,7 @@ p.attribution a {
 #archive-title h2 {
 	font-size: 36px;
 	margin: 12px;
+	text-shadow: 0 0 12px black;
 	@media #{$bp500} {
 		font-size: 60px;
 	}

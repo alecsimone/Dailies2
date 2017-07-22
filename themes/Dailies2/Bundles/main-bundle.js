@@ -22552,6 +22552,8 @@ var Thing = function (_React$Component) {
 		var _this = _possibleConstructorReturn(this, (Thing.__proto__ || Object.getPrototypeOf(Thing)).call(this));
 
 		_this.vote = _this.vote.bind(_this);
+		_this.declareWinner = _this.declareWinner.bind(_this);
+		_this.addScore = _this.addScore.bind(_this);
 		return _this;
 	}
 
@@ -22629,6 +22631,63 @@ var Thing = function (_React$Component) {
 			});
 		}
 	}, {
+		key: 'declareWinner',
+		value: function declareWinner() {
+			jQuery.ajax({
+				type: "POST",
+				url: dailiesGlobalData.ajaxurl,
+				dataType: 'json',
+				data: {
+					id: this.props.thingData.id,
+					action: 'declare_winner',
+					vote_nonce: dailiesMainData.nonce
+				},
+				error: function error(one, two, three) {
+					console.log(one);
+					console.log(two);
+					console.log(three);
+				},
+				success: function success(data) {
+					console.log(data);
+				}
+			});
+		}
+	}, {
+		key: 'addScore',
+		value: function addScore(e) {
+			if (e.which === 13) {
+				var target = e.target;
+				var scoreToAdd = parseFloat(target.value, 10);
+				if (!isNaN(scoreToAdd)) {
+					var currentState = this.state;
+					currentState.votecount = parseFloat(currentState.votecount) + scoreToAdd;
+					this.setState(currentState);
+					jQuery.ajax({
+						type: "POST",
+						url: dailiesGlobalData.ajaxurl,
+						dataType: 'json',
+						data: {
+							id: this.props.thingData.id,
+							action: 'add_score',
+							scoreToAdd: scoreToAdd,
+							vote_nonce: dailiesMainData.nonce
+						},
+						error: function error(one, two, three) {
+							console.log(one);
+							console.log(two);
+							console.log(three);
+						},
+						success: function success(data) {
+							console.log(data);
+							target.value = '';
+						}
+					});
+				} else {
+					e.target.value = 'NaN!';
+				}
+			}
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			this.state = this.props.voteData;
@@ -22639,7 +22698,8 @@ var Thing = function (_React$Component) {
 			if (this.props.voteData.guestlist) {
 				guestlist = this.props.voteData.guestlist;
 			}
-			var WinnerBanner = '';
+			var WinnerBanner;
+			var isWinner;
 			for (var i = this.props.thingData.taxonomies.tags.length - 1; i >= 0; i--) {
 				if (this.props.thingData.taxonomies.tags[i].slug === 'winners') {
 					var WinnerBanner = _react2.default.createElement(
@@ -22647,7 +22707,12 @@ var Thing = function (_React$Component) {
 						{ className: 'WinnerBanner' },
 						_react2.default.createElement('img', { src: 'http://dailies.gg/wp-content/uploads/2017/02/Winner-banner-black.jpg', className: 'winnerbannerIMG' })
 					);
+					var isWinner = true;
 				}
+			}
+			var adminControls;
+			if (dailiesGlobalData.userData.userID === 1) {
+				var adminControls = _react2.default.createElement(_AdminControls2.default, { thisID: this.props.thingData.id, declareWinner: this.declareWinner, isWinner: isWinner, addScore: this.addScore });
 			}
 			return _react2.default.createElement(
 				'article',
@@ -22656,9 +22721,9 @@ var Thing = function (_React$Component) {
 				_react2.default.createElement(_ThingHeader2.default, { thisID: this.props.thingData.id, score: this.props.voteData.votecount, link: this.props.thingData.link, title: this.props.thingData.title }),
 				_react2.default.createElement(_ContentBox2.default, { thisID: this.props.thingData.id, embeds: this.props.thingData.EmbedCodes, thumbs: this.props.thingData.thumbs, link: this.props.thingData.link }),
 				_react2.default.createElement(_Tagbox2.default, { thisID: this.props.thingData.id, tags: this.props.thingData.taxonomies.tags, skills: this.props.thingData.taxonomies.skills }),
-				_react2.default.createElement(_Votebox2.default, { thisID: this.props.thingData.id, user: this.props.userData, voteledger: this.props.voteData.voteledger, guestlist: guestlist, vote: this.vote }),
+				_react2.default.createElement(_Votebox2.default, { thisID: this.props.thingData.id, userData: this.props.userData, voteledger: this.props.voteData.voteledger, guestlist: guestlist, vote: this.vote }),
 				_react2.default.createElement(_AttributionBox2.default, { thisID: this.props.thingData.id, stars: this.props.thingData.taxonomies.stars, source: this.props.thingData.taxonomies.source }),
-				_react2.default.createElement(_AdminControls2.default, { thisID: this.props.thingData.id })
+				adminControls
 			);
 		}
 	}]);
@@ -22714,17 +22779,27 @@ var HomeTop = function (_React$Component) {
 				{ id: "hometop" },
 				_react2.default.createElement(
 					"div",
-					{ id: "propbox" },
+					{ className: "propaganda", id: "propLeft" },
 					_react2.default.createElement(
 						"div",
-						{ className: "propaganda", id: "propLeft" },
-						"Today's Prize: $25.00"
+						{ className: "propbutton" },
+						"Today's Prize: $25"
 					),
 					_react2.default.createElement(
-						"div",
-						{ className: "propaganda", id: "propRight" },
-						"More Coming Soon..."
+						"a",
+						{ className: "propbutton img", href: "https://www.patreon.com/rocket_dailies", target: "_blank" },
+						_react2.default.createElement("img", { className: "patreonImg", src: dailiesGlobalData.thisDomain + '/wp-content/uploads/2017/04/Patreon.png' })
+					),
+					_react2.default.createElement(
+						"a",
+						{ className: "propbutton", href: "https://twitch.streamlabs.com/the_rocket_dailies#/", target: "_blank" },
+						"Donate"
 					)
+				),
+				_react2.default.createElement(
+					"div",
+					{ className: "propaganda", id: "propRight" },
+					_react2.default.createElement("img", { src: dailiesGlobalData.thisDomain + '/wp-content/uploads/2017/Choose-Excellence-textonly.png', className: "chooseExcellence" })
 				),
 				_react2.default.createElement(_Userbox2.default, { userData: this.props.user })
 			);
@@ -22950,8 +23025,12 @@ var Homepage = function (_React$Component) {
 				'div',
 				{ id: 'appContainer' },
 				_react2.default.createElement(_HomeTop2.default, { user: this.state.user }),
-				_react2.default.createElement(_Thing2.default, { thingData: this.state.winner, userData: this.state.user, voteData: winnerVoteData }),
-				dayContainerComponents
+				_react2.default.createElement(
+					'section',
+					{ id: 'homePagePosts' },
+					_react2.default.createElement(_Thing2.default, { thingData: this.state.winner, userData: this.state.user, voteData: winnerVoteData }),
+					dayContainerComponents
+				)
 			);
 		}
 	}]);
@@ -23275,9 +23354,9 @@ var Votebox = function (_React$Component) {
 			var _this2 = this;
 
 			var vote = this.props.vote;
-			var userID = this.props.user.userID.toString(10);
-			var rep = this.props.user.userRep;
-			var IP = this.props.user.clientIP;
+			var userID = this.props.userData.userID.toString(10);
+			var rep = this.props.userData.userRep;
+			var IP = this.props.userData.clientIP;
 			var voters = Object.keys(this.props.voteledger);
 			var voted = voters.includes(userID);
 			var guestlist = this.props.guestlist;
@@ -23452,10 +23531,20 @@ var AdminControls = function (_React$Component) {
 	_createClass(AdminControls, [{
 		key: "render",
 		value: function render() {
+			var declareWinnerButton;
+			if (this.props.isWinner !== true) {
+				declareWinnerButton = _react2.default.createElement("img", { className: "declareWinner", src: dailiesGlobalData.thisDomain + '/wp-content/uploads/2016/12/Medal-small-100.png', onClick: this.props.declareWinner });
+			}
 			return _react2.default.createElement(
 				"div",
-				null,
-				"Admin Controls"
+				{ className: "adminControls" },
+				_react2.default.createElement("input", { type: "text", placeholder: "+Score", className: "addScoreBox", onKeyDown: this.props.addScore }),
+				declareWinnerButton,
+				_react2.default.createElement(
+					"a",
+					{ href: dailiesGlobalData.thisDomain + '/wp-admin/post.php?post=' + this.props.thisID + '&action=edit', className: "editLittleThingLink", target: "_blank" },
+					_react2.default.createElement("img", { src: dailiesGlobalData.thisDomain + '/wp-content/uploads/2017/07/edit-this.png', className: "editThisImg" })
+				)
 			);
 		}
 	}]);
@@ -23523,8 +23612,8 @@ var DayContainer = function (_React$Component) {
 			function thingsByScore(a, b) {
 				var parsedA = JSON.parse(a);
 				var parsedB = JSON.parse(b);
-				var scoreA = parseInt(parsedA.votecount, 10);
-				var scoreB = parseInt(parsedB.votecount, 10);
+				var scoreA = parseFloat(parsedA.votecount, 10);
+				var scoreB = parseFloat(parsedB.votecount, 10);
 				return scoreB - scoreA;
 			}
 			var thingsSorted = things.sort(thingsByScore);

@@ -10,6 +10,8 @@ export default class Thing extends React.Component {
 	constructor() {
 		super();
 		this.vote = this.vote.bind(this);
+		this.declareWinner = this.declareWinner.bind(this);
+		this.addScore = this.addScore.bind(this);
 	}
 
 	vote() {
@@ -82,6 +84,61 @@ export default class Thing extends React.Component {
 		});
 	}
 
+	declareWinner() {
+		jQuery.ajax({
+			type: "POST",
+			url: dailiesGlobalData.ajaxurl,
+			dataType: 'json',
+			data: {
+				id: this.props.thingData.id,
+				action: 'declare_winner',
+				vote_nonce: dailiesMainData.nonce,
+			},
+			error: function(one, two, three) {
+				console.log(one);
+				console.log(two);
+				console.log(three);
+			},
+			success: function(data) {
+				console.log(data);
+			}
+		});
+	}
+
+	addScore(e) {
+		if (e.which === 13) {
+			var target = e.target;
+			var scoreToAdd = parseFloat(target.value, 10);
+			if (!isNaN(scoreToAdd)) {
+				var currentState = this.state;
+				currentState.votecount = parseFloat(currentState.votecount) + scoreToAdd;
+				this.setState(currentState);
+				jQuery.ajax({
+					type: "POST",
+					url: dailiesGlobalData.ajaxurl,
+					dataType: 'json',
+					data: {
+						id: this.props.thingData.id,
+						action: 'add_score',
+						scoreToAdd,
+						vote_nonce: dailiesMainData.nonce,
+					},
+					error: function(one, two, three) {
+						console.log(one);
+						console.log(two);
+						console.log(three);
+					},
+					success: function(data) {
+						console.log(data);
+						target.value = '';
+					}
+				});
+			} else {
+				e.target.value = 'NaN!';
+			}
+		}
+	}
+
 	render() {
 		this.state = this.props.voteData;
 		this.state.rep = this.props.userData.userRep;
@@ -91,11 +148,17 @@ export default class Thing extends React.Component {
 		if (this.props.voteData.guestlist) {
 			guestlist = this.props.voteData.guestlist;
 		}
-		var WinnerBanner = '';
+		var WinnerBanner;
+		var isWinner;
 		for (var i = this.props.thingData.taxonomies.tags.length - 1; i >= 0; i--) {
 			if (this.props.thingData.taxonomies.tags[i].slug === 'winners') {
 				var WinnerBanner = <section className="WinnerBanner"><img src="http://dailies.gg/wp-content/uploads/2017/02/Winner-banner-black.jpg" className="winnerbannerIMG"></img></section>
+				var isWinner = true;
 			}
+		}
+		var adminControls;
+		if (dailiesGlobalData.userData.userID === 1) {
+			var adminControls = <AdminControls thisID={this.props.thingData.id} declareWinner={this.declareWinner} isWinner={isWinner} addScore={this.addScore} />
 		}
 		return(
 			<article className="thing noise" id={thingID}>
@@ -103,9 +166,9 @@ export default class Thing extends React.Component {
 				<ThingHeader thisID={this.props.thingData.id} score={this.props.voteData.votecount} link={this.props.thingData.link} title={this.props.thingData.title}/>
 				<ContentBox thisID={this.props.thingData.id} embeds={this.props.thingData.EmbedCodes} thumbs={this.props.thingData.thumbs} link={this.props.thingData.link} />
 				<Tagbox thisID={this.props.thingData.id} tags={this.props.thingData.taxonomies.tags} skills={this.props.thingData.taxonomies.skills} />
-				<Votebox thisID={this.props.thingData.id} user={this.props.userData} voteledger={this.props.voteData.voteledger} guestlist={guestlist} vote={this.vote} />
+				<Votebox thisID={this.props.thingData.id} userData={this.props.userData} voteledger={this.props.voteData.voteledger} guestlist={guestlist} vote={this.vote} />
 				<AttributionBox thisID={this.props.thingData.id} stars={this.props.thingData.taxonomies.stars} source={this.props.thingData.taxonomies.source} />
-				<AdminControls thisID={this.props.thingData.id} />
+				{adminControls}
 			</article>
 		)
 	}
