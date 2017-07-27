@@ -2,6 +2,12 @@
 
 $bottomBorder: 8px solid $blue;
 
+#schedule-container {
+	margin-top: 48px;
+	@media #{$bp800} {
+		margin-top: 96px;
+	}
+}
 .schedule-day {
 	display: flex;
 	flex-wrap: wrap;

@@ -18,8 +18,12 @@
 
 #propLeft {
 	width: 100%;
+	max-width: 300px;
 	@media #{$bp800} {
 		width: 20%;
+		background: $blueGlass;
+		border: 3px solid $whiteTrans07;
+		border-radius: 3px;
 	}
 }
 .propbutton {
@@ -27,11 +31,14 @@
 	font-size: 30px;
 	font-weight: bold;
 	border-radius: 3px;
+	&:first-child {
+		margin-top: 0;
+	}
 	&.img {
 		line-height: 0;
 	}
 	@media #{$bp800} {
-		background: $blueGlass;
+		//background: $blueGlass;
 		display: block;
 		margin: 18px auto;
 	}
@@ -53,6 +60,7 @@ a.propbutton {
 .chooseExcellence {
 	width: 100%;
 	margin: 24px 0;
+	opacity: .9;
 }
 
 #homePagePosts {
@@ -67,10 +75,39 @@ a.propbutton {
 	border-top: 3px solid $whiteTrans25;
 	border-radius: 3px;
 	padding-bottom: 36px;
+	& .titleBox {
+		padding: 1.5em 0 1em;
+		max-width: 1080px;
+		margin: auto;
+		text-align: left;
+		a {
+			color: $white;
+			text-decoration: none;
+			&:hover {
+				text-decoration: underline;
+			}
+			&:visited {
+				color: $white;
+			}
+		}
+		@media #{$bp800} {
+			padding: 3em 0 2em;
+		}
+	}
+	& .votecount {
+		font-weight: bold;
+		font-size: 36px;
+		display: inline-block;
+		padding-right: 8px;
+		color: $gold;
+	}
 	@media #{$bp1280} {
 		//background: $darkBlack;
 		background: $blueGlass;
 		box-shadow: $lowShadow;
+		border-right: 3px solid $whiteTrans07;
+		border-left: 3px solid $whiteTrans07;	
+		border-bottom: 3px solid $whiteTrans07;
 	}
 }
 .thing.noise:before {
@@ -96,32 +133,6 @@ a.propbutton {
 	}
 }
 
-.titlebox {
-	padding: 1.5em 0 1em;
-	text-align: left;
-	max-width: 1080px;
-	margin: auto;
-	a {
-		color: $white;
-		text-decoration: none;
-		&:hover {
-			text-decoration: underline;
-		}
-		&:visited {
-			color: $white;
-		}
-	}
-	@media #{$bp800} {
-		padding: 3em 0 2em;
-	}
-}
-.votecount {
-	font-weight: bold;
-	font-size: 36px;
-	display: inline-block;
-	padding-right: 6px;
-	color: $gold;
-}
 h3 {
 	display: inline;
 	font-size: 36px;
@@ -150,7 +161,7 @@ img.thumb {
 	margin: auto;
 	pointer-events: none;
 }
-.embed-container {
+.thing .embed-container, .LittleThing .embed-container {
 	position: relative;
 	padding-bottom: 56.25%;
 	height: 0;

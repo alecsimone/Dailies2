@@ -4,7 +4,7 @@ import VoteBox from "./VoteBox.jsx";
 import StarBox from "./StarBox.jsx";
 import LiveAdminControls from "./LiveAdminControls.jsx";
 import AuthorBubble from "./AuthorBubble.jsx";
-import LittleThingEmbedder from "./LittleThingEmbedder.jsx";
+import EmbedBox from "./EmbedBox.jsx";
 
 export default class LittleThing extends React.Component{
 	constructor() {
@@ -134,8 +134,16 @@ export default class LittleThing extends React.Component{
 		} else if (gfycode !== '') {
 			linkout = "http://gfycat.com/" + gfycode;
 		}
+		var embedCodes = this.props.postData.EmbedCodes;
+		var embedCodeKeys = Object.keys(embedCodes);
+		for (var i = 0; i < embedCodeKeys.length; i++) {
+			if (embedCodes[embedCodeKeys[i]] !== '') {
+				var embedCode = embedCodes[embedCodeKeys[i]];
+				var embedSource = embedCodeKeys[i];
+			}
+		}
 		if (this.state.isEmbedding === true) {
-			var embedder = <LittleThingEmbedder embeds={this.props.postData.EmbedCodes} />;
+			var embedder = <EmbedBox embedCode={embedCode} embedSource={embedSource}/>;
 		} else {
 			var embedder = '';
 		}

@@ -1,8 +1,13 @@
-Everything needs doing
+--Everything needs doing--
+
+Figure out what's wrong with July 18th
 
 Make userbox login links into images
 
-Fix stepBackDate
+Sizify the ChannelChanger
+-minWidth: 96
+-maxWidth: 192
+-width = viewportWidth/numberOfChannels
 
 404 page
 Search Page
@@ -10,11 +15,7 @@ Rules Page
 
 Build post objects for every post
 Organize components folder
-DRY out code
 SSL certificate
-
-
-
 
 Component Map
 Things

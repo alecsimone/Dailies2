@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 186);
+/******/ 	return __webpack_require__(__webpack_require__.s = 187);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -22511,27 +22511,27 @@ var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _ThingHeader = __webpack_require__(189);
+var _ThingHeader = __webpack_require__(190);
 
 var _ThingHeader2 = _interopRequireDefault(_ThingHeader);
 
-var _ContentBox = __webpack_require__(190);
+var _EmbedBox = __webpack_require__(249);
 
-var _ContentBox2 = _interopRequireDefault(_ContentBox);
+var _EmbedBox2 = _interopRequireDefault(_EmbedBox);
 
-var _Tagbox = __webpack_require__(191);
+var _Tagbox = __webpack_require__(192);
 
 var _Tagbox2 = _interopRequireDefault(_Tagbox);
 
-var _Votebox = __webpack_require__(192);
+var _Votebox = __webpack_require__(193);
 
 var _Votebox2 = _interopRequireDefault(_Votebox);
 
-var _AttributionBox = __webpack_require__(193);
+var _AttributionBox = __webpack_require__(194);
 
 var _AttributionBox2 = _interopRequireDefault(_AttributionBox);
 
-var _AdminControls = __webpack_require__(194);
+var _AdminControls = __webpack_require__(195);
 
 var _AdminControls2 = _interopRequireDefault(_AdminControls);
 
@@ -22714,12 +22714,20 @@ var Thing = function (_React$Component) {
 			if (dailiesGlobalData.userData.userID === 1) {
 				var adminControls = _react2.default.createElement(_AdminControls2.default, { thisID: this.props.thingData.id, declareWinner: this.declareWinner, isWinner: isWinner, addScore: this.addScore });
 			}
+			var embedCodes = this.props.thingData.EmbedCodes;
+			var embedCodeKeys = Object.keys(embedCodes);
+			for (var i = 0; i < embedCodeKeys.length; i++) {
+				if (embedCodes[embedCodeKeys[i]] !== '') {
+					var embedCode = embedCodes[embedCodeKeys[i]];
+					var embedSource = embedCodeKeys[i];
+				}
+			}
 			return _react2.default.createElement(
 				'article',
 				{ className: 'thing noise', id: thingID },
 				WinnerBanner,
-				_react2.default.createElement(_ThingHeader2.default, { thisID: this.props.thingData.id, score: this.props.voteData.votecount, link: this.props.thingData.link, title: this.props.thingData.title }),
-				_react2.default.createElement(_ContentBox2.default, { thisID: this.props.thingData.id, embeds: this.props.thingData.EmbedCodes, thumbs: this.props.thingData.thumbs, link: this.props.thingData.link }),
+				_react2.default.createElement(_ThingHeader2.default, { score: this.props.voteData.votecount, link: this.props.thingData.link, title: this.props.thingData.title }),
+				_react2.default.createElement(_EmbedBox2.default, { thumbs: this.props.thingData.thumbs, embedCode: embedCode, embedSource: embedSource }),
 				_react2.default.createElement(_Tagbox2.default, { thisID: this.props.thingData.id, tags: this.props.thingData.taxonomies.tags, skills: this.props.thingData.taxonomies.skills }),
 				_react2.default.createElement(_Votebox2.default, { thisID: this.props.thingData.id, userData: this.props.userData, voteledger: this.props.voteData.voteledger, guestlist: guestlist, vote: this.vote }),
 				_react2.default.createElement(_AttributionBox2.default, { thisID: this.props.thingData.id, stars: this.props.thingData.taxonomies.stars, source: this.props.thingData.taxonomies.source }),
@@ -22818,7 +22826,86 @@ exports.default = HomeTop;
 "use strict";
 
 
-__webpack_require__(187);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(7);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var StarBox = function (_React$Component) {
+	_inherits(StarBox, _React$Component);
+
+	function StarBox() {
+		_classCallCheck(this, StarBox);
+
+		return _possibleConstructorReturn(this, (StarBox.__proto__ || Object.getPrototypeOf(StarBox)).apply(this, arguments));
+	}
+
+	_createClass(StarBox, [{
+		key: "render",
+		value: function render() {
+			var stars = this.props.stars;
+			if (stars !== undefined) {
+				var starKeys = Object.keys(stars);
+
+				var starElements = starKeys.map(function (key) {
+					var thisID = "Star" + key;
+					var starLink = dailiesGlobalData.thisDomain + "/stars/" + stars[key]['slug'];
+					return _react2.default.createElement(
+						"p",
+						{ key: thisID, className: "attribution stars" },
+						_react2.default.createElement(
+							"a",
+							{ className: "starSourceImgLink", href: starLink },
+							_react2.default.createElement("img", { className: "starpic", src: stars[key]['logo'] })
+						),
+						_react2.default.createElement(
+							"a",
+							{ className: "starSourceLink", href: starLink },
+							stars[key]['name']
+						)
+					);
+				});
+				if (starKeys.length > 1) {
+					var inline = "";
+				} else {
+					var inline = " inline";
+				}
+				var classes = "stars" + inline;
+			} else {
+				var classes = "stars";
+				var thisID = "emptyStar";
+				starElements = _react2.default.createElement(
+					"p",
+					{ key: thisID, className: "attribution stars" },
+					_react2.default.createElement("img", { className: "starpic", src: dailiesGlobalData.thisDomain + '/wp-content/uploads/2017/03/default_pic.jpg' })
+				);
+			}
+
+			return _react2.default.createElement(
+				"div",
+				{ className: classes },
+				starElements
+			);
+		}
+	}]);
+
+	return StarBox;
+}(_react2.default.Component);
+
+exports.default = StarBox;
 
 /***/ }),
 /* 187 */
@@ -22827,15 +22914,24 @@ __webpack_require__(187);
 "use strict";
 
 
-var _Homepage = __webpack_require__(188);
+__webpack_require__(188);
+
+/***/ }),
+/* 188 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _Homepage = __webpack_require__(189);
 
 var _Homepage2 = _interopRequireDefault(_Homepage);
 
-var _Archive = __webpack_require__(196);
+var _Archive = __webpack_require__(197);
 
 var _Archive2 = _interopRequireDefault(_Archive);
 
-var _Single = __webpack_require__(199);
+var _Single = __webpack_require__(200);
 
 var _Single2 = _interopRequireDefault(_Single);
 
@@ -22849,7 +22945,7 @@ jQuery(window).load(function () {
 });
 
 /***/ }),
-/* 188 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22873,7 +22969,7 @@ var _Thing = __webpack_require__(184);
 
 var _Thing2 = _interopRequireDefault(_Thing);
 
-var _DayContainer = __webpack_require__(195);
+var _DayContainer = __webpack_require__(196);
 
 var _DayContainer2 = _interopRequireDefault(_DayContainer);
 
@@ -22919,54 +23015,43 @@ var Homepage = function (_React$Component) {
 				var lastDayContainer = this.state.dayContainers[dayContainerCount - 1];
 				var currentDay = lastDayContainer['date']['day'];
 				var currentMonth = lastDayContainer['date']['month'];
+				if (currentMonth < 10 && currentMonth.charAt(0) !== '0') {
+					currentMonth = '0' + currentMonth;
+				}
 				var currentYear = lastDayContainer['date']['year'];
-				var thirtyDays = [4, 6, 9, 11];
-				if (currentDay === 1) {
-					if (currentMonth === 1) {
-						var newMonth = 12;
-						var newYear = currentYear - 1;
-						var newDay = 31;
-					} else if (thirtyDays.indexOf(currentMonth) > -1) {
-						var newMonth = currentMonth - 1;
-						var newYear = currentYear;
-						var newDay = 30;
+				var currentDayObject = new Date(currentYear, currentMonth, currentDay);
+
+				this.stepBackDayAndQuery(currentDayObject, currentYear, currentMonth, currentDay);
+			}
+		}
+	}, {
+		key: 'stepBackDayAndQuery',
+		value: function stepBackDayAndQuery(currentDayObject, currentYear, currentMonth, currentDay) {
+			var newDayObject = currentDayObject - 1000 * 60 * 60 * 24;
+			newDayObject = new Date(newDayObject);
+			var newYear = newDayObject.getFullYear().toString();
+			var newMonth = newDayObject.getMonth();
+			if (newMonth < 10) {
+				newMonth = '0' + newMonth;
+			} else {
+				newMonth = newMonth.toString();
+			}
+			var newDay = newDayObject.getDate();
+			if (newDay < 10) {
+				newDay = '0' + newDay;
+			} else {
+				newDay = newDay.toString();
+			}
+			var currentFormattedDate = currentYear + '-' + currentMonth + '-' + currentDay;
+			var nextFormattedDate = newYear + '-' + newMonth + '-' + newDay;
+			var nextDateQuery = dailiesGlobalData.thisDomain + '/wp-json/wp/v2/posts?after=' + nextFormattedDate + 'T00:00:00&before=' + currentFormattedDate + 'T00:00:00&categories=4';
+			jQuery.get({
+				url: nextDateQuery,
+				dataType: 'json',
+				success: function (data) {
+					if (data.length === 0) {
+						this.stepBackDayAndQuery(newDayObject, newYear, newMonth, newDay);
 					} else {
-						var newMonth = currentMonth - 1;
-						var newYear = currentYear;
-						var newDay = 31;
-					}
-				} else {
-					var newDay = currentDay - 1;
-					var newMonth = currentMonth;
-					var newYear = currentYear;
-				}
-				if (currentMonth < 10) {
-					var currentMonthString = '0' + currentMonth;
-				} else {
-					var currentMonthString = currentMonth.toString();
-				}
-				if (newMonth < 10) {
-					var newMonthString = '0' + newMonth;
-				} else {
-					var newMonthString = newMonth.toString();
-				}
-				if (currentDay < 10) {
-					var currentDayString = '0' + currentDay;
-				} else {
-					var currentDayString = currentDay.toString();
-				}
-				if (newDay < 10) {
-					var newDayString = '0' + newDay;
-				} else {
-					var newDayString = newDay.toString();
-				}
-				var currentFormattedDate = currentYear + '-' + currentMonthString + '-' + currentDayString;
-				var nextFormattedDate = newYear + '-' + newMonthString + '-' + newDayString;
-				var nextDateQuery = dailiesGlobalData.thisDomain + '/wp-json/wp/v2/posts?after=' + nextFormattedDate + 'T00:00:00&before=' + currentFormattedDate + 'T00:00:00&categories=4';
-				jQuery.get({
-					url: nextDateQuery,
-					dataType: 'json',
-					success: function (data) {
 						var newPostDatas = [];
 						var newVoteDatas = {};
 						jQuery.each(data, function (index, allData) {
@@ -22993,9 +23078,9 @@ var Homepage = function (_React$Component) {
 							dayContainers: oldDayContainers,
 							loadingMore: false
 						});
-					}.bind(this)
-				});
-			}
+					}
+				}.bind(this)
+			});
 		}
 	}, {
 		key: 'render',
@@ -23043,7 +23128,7 @@ if (jQuery('#homepageApp').length) {
 }
 
 /***/ }),
-/* 189 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23081,26 +23166,24 @@ var ThingHeader = function (_React$Component) {
 	}
 
 	_createClass(ThingHeader, [{
-		key: 'render',
+		key: "render",
 		value: function render() {
-			var thingID = 'thing' + this.props.thisID + '-titlebox';
-			var votecountID = 'thing' + this.props.thisID + '-votecount';
 			return _react2.default.createElement(
-				'header',
-				{ className: 'titlebox', id: thingID },
+				"header",
+				{ className: "titleBox", id: 'thing' + this.props.thisID + '-titlebox' },
 				_react2.default.createElement(
-					'div',
-					{ id: votecountID, className: 'votecount' },
-					'(+',
+					"div",
+					{ className: "votecount" },
+					"(+",
 					this.props.score,
-					')'
+					")"
 				),
-				' ',
+				" ",
 				_react2.default.createElement(
-					'h3',
+					"h3",
 					null,
 					_react2.default.createElement(
-						'a',
+						"a",
 						{ href: this.props.link },
 						this.props.title
 					)
@@ -23115,124 +23198,8 @@ var ThingHeader = function (_React$Component) {
 exports.default = ThingHeader;
 
 /***/ }),
-/* 190 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(7);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = __webpack_require__(33);
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var ContentBox = function (_React$Component) {
-	_inherits(ContentBox, _React$Component);
-
-	function ContentBox(props) {
-		_classCallCheck(this, ContentBox);
-
-		var _this = _possibleConstructorReturn(this, (ContentBox.__proto__ || Object.getPrototypeOf(ContentBox)).call(this));
-
-		_this.thumbReplacer = _this.thumbReplacer.bind(_this);
-		var windowWidth = jQuery(window).width();
-		if (windowWidth < 400) {
-			var thumbSrc = props.thumbs.small[0];
-		} else if (windowWidth < 650) {
-			var thumbSrc = props.thumbs.medium[0];
-		} else {
-			var thumbSrc = props.thumbs.large[0];
-		}
-		_this.state = {
-			content: _react2.default.createElement("img", { src: thumbSrc, className: "thumb", onClick: _this.thumbReplacer }),
-			playButton: _react2.default.createElement("img", { src: "http://dailies.gg/wp-content/uploads/2016/08/playbutton.png", className: "playbutton" })
-		};
-		return _this;
-	}
-
-	_createClass(ContentBox, [{
-		key: "thumbReplacer",
-		value: function thumbReplacer() {
-			if (this.props.embeds.TwitchCode !== '') {
-				var clipSrc = "https://clips.twitch.tv/embed?clip=" + this.props.embeds.TwitchCode + "&autoplay=true";
-				var replaceCode = _react2.default.createElement(
-					"div",
-					{ className: "embed-container" },
-					_react2.default.createElement("iframe", { src: clipSrc, width: "640", height: "360", frameBorder: "0", scrolling: "no", allowFullScreen: "true" })
-				);
-			} else if (this.props.embeds.GFYtitle !== '') {
-				var _clipSrc = "https://gfycat.com/ifr/" + this.props.embed.GFYtitle;
-				var replaceCode = _react2.default.createElement(
-					"div",
-					{ "class": "embed-container" },
-					_react2.default.createElement("iframe", { src: _clipSrc, frameBorder: "0", scrolling: "no", width: "100%", height: "100%", style: "position:absolute;top:0;left:0;", allowFullScreen: "true" })
-				);
-			} else if (this.props.embeds.YouTubeCode !== '') {
-				var _clipSrc2 = "https://www.youtube.com/embed/" + this.props.embeds.YouTubeCode + "?showinfo=0&autoplay=1";
-				var replaceCode = _react2.default.createElement(
-					"div",
-					{ "class": "embed-container" },
-					_react2.default.createElement("iframe", { width: "1280", height: "720", src: _clipSrc2, frameBorder: "0", allowFullScreen: "true" })
-				);
-			} else if (this.props.embeds.EmbedCode !== '') {
-				var replaceCode = this.props.embeds.EmbedCode;
-			} else if (this.props.embeds.TwitterCode !== '') {
-				var replaceCode = _react2.default.createElement("div", { id: this.props.embeds.TwitterCode });
-			} else {
-				var replaceCode = null;
-				return;
-			}
-			this.setState({
-				content: replaceCode,
-				playButton: ''
-			});
-		}
-	}, {
-		key: "componentDidUpdate",
-		value: function componentDidUpdate() {
-			var twitterVideo = jQuery('#' + this.props.embeds.TwitterCode);
-			if (twitterVideo.length) {
-				console.log(this.props.embeds.TwitterCode);
-				twttr.widgets.createVideo(this.props.embeds.TwitterCode, document.getElementById(this.props.embeds.TwitterCode));
-			}
-		}
-	}, {
-		key: "render",
-		value: function render() {
-			var contentboxID = 'thing' + this.props.thisID + '-contentbox';
-			return _react2.default.createElement(
-				"section",
-				{ className: "contentbox", id: contentboxID },
-				this.state.content,
-				this.state.playButton
-			);
-		}
-	}]);
-
-	return ContentBox;
-}(_react2.default.Component);
-
-exports.default = ContentBox;
-
-/***/ }),
-/* 191 */
+/* 191 */,
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23315,7 +23282,7 @@ var Tagbox = function (_React$Component) {
 exports.default = Tagbox;
 
 /***/ }),
-/* 192 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23394,7 +23361,7 @@ var Votebox = function (_React$Component) {
 exports.default = Votebox;
 
 /***/ }),
-/* 193 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23410,7 +23377,7 @@ var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _StarBox = __webpack_require__(228);
+var _StarBox = __webpack_require__(186);
 
 var _StarBox2 = _interopRequireDefault(_StarBox);
 
@@ -23495,7 +23462,7 @@ var AttributionBox = function (_React$Component2) {
 exports.default = AttributionBox;
 
 /***/ }),
-/* 194 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23555,7 +23522,7 @@ var AdminControls = function (_React$Component) {
 exports.default = AdminControls;
 
 /***/ }),
-/* 195 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23597,11 +23564,11 @@ var DayContainer = function (_React$Component) {
 		value: function render() {
 			var date = this.props.dayData.date;
 			var monthsArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-			if (date.day === 1 || date.day === 21 || date.day === 31) {
+			if (date.day === '1' || date.day === '21' || date.day === '31') {
 				var dayString = date.day + 'st';
-			} else if (date.day === 2 || date.day === 22) {
+			} else if (date.day === '2' || date.day === '22') {
 				var dayString = date.day + 'nd';
-			} else if (date.day === 3 || date.day === 23) {
+			} else if (date.day === '3' || date.day === '23') {
 				var dayString = date.day + 'rd';
 			} else {
 				var dayString = date.day + 'th';
@@ -23645,7 +23612,7 @@ var DayContainer = function (_React$Component) {
 exports.default = DayContainer;
 
 /***/ }),
-/* 196 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23661,7 +23628,7 @@ var _reactDom = __webpack_require__(33);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _ArchiveHeader = __webpack_require__(197);
+var _ArchiveHeader = __webpack_require__(198);
 
 var _ArchiveHeader2 = _interopRequireDefault(_ArchiveHeader);
 
@@ -23669,7 +23636,7 @@ var _Userbox = __webpack_require__(183);
 
 var _Userbox2 = _interopRequireDefault(_Userbox);
 
-var _SortBar = __webpack_require__(198);
+var _SortBar = __webpack_require__(199);
 
 var _SortBar2 = _interopRequireDefault(_SortBar);
 
@@ -23740,7 +23707,7 @@ if (jQuery('#archiveApp').length) {
 }
 
 /***/ }),
-/* 197 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23834,7 +23801,7 @@ var ArchiveHeader = function (_React$Component) {
 exports.default = ArchiveHeader;
 
 /***/ }),
-/* 198 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23919,7 +23886,7 @@ var SortBar = function (_React$Component) {
 exports.default = SortBar;
 
 /***/ }),
-/* 199 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23987,7 +23954,6 @@ if (jQuery('#singleApp').length) {
 }
 
 /***/ }),
-/* 200 */,
 /* 201 */,
 /* 202 */,
 /* 203 */,
@@ -24015,7 +23981,28 @@ if (jQuery('#singleApp').length) {
 /* 225 */,
 /* 226 */,
 /* 227 */,
-/* 228 */
+/* 228 */,
+/* 229 */,
+/* 230 */,
+/* 231 */,
+/* 232 */,
+/* 233 */,
+/* 234 */,
+/* 235 */,
+/* 236 */,
+/* 237 */,
+/* 238 */,
+/* 239 */,
+/* 240 */,
+/* 241 */,
+/* 242 */,
+/* 243 */,
+/* 244 */,
+/* 245 */,
+/* 246 */,
+/* 247 */,
+/* 248 */,
+/* 249 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24039,68 +24026,104 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var StarBox = function (_React$Component) {
-	_inherits(StarBox, _React$Component);
+var EmbedBox = function (_React$Component) {
+	_inherits(EmbedBox, _React$Component);
 
-	function StarBox() {
-		_classCallCheck(this, StarBox);
+	function EmbedBox(props) {
+		_classCallCheck(this, EmbedBox);
 
-		return _possibleConstructorReturn(this, (StarBox.__proto__ || Object.getPrototypeOf(StarBox)).apply(this, arguments));
+		var _this = _possibleConstructorReturn(this, (EmbedBox.__proto__ || Object.getPrototypeOf(EmbedBox)).call(this));
+
+		_this.state = {
+			content: ''
+		};
+		if (props.thumbs !== undefined) {
+			var windowWidth = jQuery(window).width();
+			if (windowWidth < 400) {
+				var size = 'small';
+			} else if (windowWidth < 650) {
+				var size = 'medium';
+			} else {
+				var size = 'large';
+			}
+			_this.state.content = [_react2.default.createElement('img', { src: props.thumbs[size][0], key: 'thumb' + props.embedCode, className: 'thumb', onClick: function onClick() {
+					return _this.thumbReplacer();
+				} }), _react2.default.createElement('img', { src: dailiesGlobalData.thisDomain + '/wp-content/uploads/2016/08/playbutton.png', key: 'playbutton' + props.embedCode, className: 'playbutton' })];
+		} else if (props.embedCode !== undefined) {
+			var embed = _this.generateEmbed(props);
+			_this.state.content = embed;
+		};
+		_this.generateEmbed = _this.generateEmbed.bind(_this);
+		_this.thumbReplacer = _this.thumbReplacer.bind(_this);
+		return _this;
 	}
 
-	_createClass(StarBox, [{
-		key: "render",
-		value: function render() {
-			var stars = this.props.stars;
-			if (stars !== undefined) {
-				var starKeys = Object.keys(stars);
-
-				var starElements = starKeys.map(function (key) {
-					var thisID = "Star" + key;
-					var starLink = dailiesGlobalData.thisDomain + "/stars/" + stars[key]['slug'];
-					return _react2.default.createElement(
-						"p",
-						{ key: thisID, className: "attribution stars" },
-						_react2.default.createElement(
-							"a",
-							{ className: "starSourceImgLink", href: starLink },
-							_react2.default.createElement("img", { className: "starpic", src: stars[key]['logo'] })
-						),
-						_react2.default.createElement(
-							"a",
-							{ className: "starSourceLink", href: starLink },
-							stars[key]['name']
-						)
-					);
-				});
-				if (starKeys.length > 1) {
-					var inline = "";
-				} else {
-					var inline = " inline";
-				}
-				var classes = "stars" + inline;
-			} else {
-				var classes = "stars";
-				var thisID = "emptyStar";
-				starElements = _react2.default.createElement(
-					"p",
-					{ key: thisID, className: "attribution stars" },
-					_react2.default.createElement("img", { className: "starpic", src: dailiesGlobalData.thisDomain + '/wp-content/uploads/2017/03/default_pic.jpg' })
-				);
+	_createClass(EmbedBox, [{
+		key: 'componentDidUpdate',
+		value: function componentDidUpdate() {
+			var twitterVideo = jQuery('#twitterVideo' + this.props.embedCode);
+			if (twitterVideo.length && !jQuery('#twitter-widget-0').length) {
+				twttr.widgets.createVideo(this.props.embedCode, document.getElementById('twitterVideo' + this.props.embedCode));
 			}
-
+		}
+	}, {
+		key: 'generateEmbed',
+		value: function generateEmbed(props) {
+			if (props.embedSource === 'TwitchCode') {
+				var seedlingInfo = jQuery('.seedlingInfo');
+				if (seedlingInfo.length) {
+					var seedlingInfoWidth = jQuery('.seedlingInfo').width();
+					var heightByWidth = seedlingInfoWidth / 16 * 9;
+					var viewportHeight = jQuery(window).height();
+					var baseSeedlingHeight = jQuery('.seedlingMeta').outerHeight();
+					var heightByViewport = viewportHeight - baseSeedlingHeight - 144;
+					if (heightByViewport < heightByWidth) {
+						var height = heightByViewport + 'px';
+					} else {
+						var height = heightByWidth + 'px';
+					}
+					var width = seedlingInfoWidth + 'px';
+				} else {
+					var width = "640";
+					var height = "360";
+				}
+				var embed = _react2.default.createElement('iframe', { src: "https://clips.twitch.tv/embed?clip=" + props.embedCode + "&autoplay=true", width: width, height: height, frameBorder: '0', scrolling: 'no', allowFullScreen: 'true' });
+			} else if (props.embedSource === 'GFYtitle') {
+				var embed = _react2.default.createElement('iframe', { src: 'https://gfycat.com/ifr/' + props.embedCode, frameBorder: '0', scrolling: 'no', width: '100%', height: '100%', allowFullScreen: true });
+			} else if (props.embedSource === 'TwitterCode') {
+				var embed = _react2.default.createElement('div', { id: 'twitterVideo' + props.embedCode });
+			} else if (props.embedSource === 'YouTubeCode') {
+				var embed = _react2.default.createElement('iframe', { width: '1280', height: '720', src: "https://www.youtube.com/embed/" + props.embedCode + "?showinfo=0&autoplay=1", frameBorder: '0', allowFullScreen: true });
+			} else if (props.embedSource === 'TwitchLive') {
+				var embed = 'Soon TM';
+			}
+			return embed;
+		}
+	}, {
+		key: 'thumbReplacer',
+		value: function thumbReplacer() {
+			var embed = this.generateEmbed(this.props);
+			this.setState({ content: embed });
+		}
+	}, {
+		key: 'render',
+		value: function render() {
 			return _react2.default.createElement(
-				"div",
-				{ className: classes },
-				starElements
+				'section',
+				{ className: 'contentbox', id: this.props.embedCode },
+				_react2.default.createElement(
+					'div',
+					{ className: 'embed-container' },
+					this.state.content
+				)
 			);
 		}
 	}]);
 
-	return StarBox;
+	return EmbedBox;
 }(_react2.default.Component);
 
-exports.default = StarBox;
+exports.default = EmbedBox;
 
 /***/ })
 /******/ ]);

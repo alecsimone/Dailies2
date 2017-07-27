@@ -30,54 +30,42 @@ class Homepage extends React.Component {
 			let lastDayContainer = this.state.dayContainers[dayContainerCount - 1];
 			var currentDay = lastDayContainer['date']['day'];
 			var currentMonth = lastDayContainer['date']['month'];
+			if (currentMonth < 10 && currentMonth.charAt(0) !== '0') {
+				currentMonth = '0' + currentMonth;
+			}
 			var currentYear = lastDayContainer['date']['year'];
-			var thirtyDays = [4, 6, 9, 11];
-			if (currentDay === 1) {
-				if (currentMonth === 1) {
-					var newMonth = 12;
-					var newYear = currentYear - 1;
-					var newDay = 31;
-				} else if (thirtyDays.indexOf(currentMonth) > -1) {
-					var newMonth = currentMonth - 1;
-					var newYear = currentYear;
-					var newDay = 30;
+			var currentDayObject = new Date(currentYear, currentMonth, currentDay);
+			
+			this.stepBackDayAndQuery(currentDayObject, currentYear, currentMonth, currentDay);
+		}
+	}
+
+	stepBackDayAndQuery(currentDayObject, currentYear, currentMonth, currentDay) {
+		var newDayObject = currentDayObject - 1000 * 60 * 60 * 24;
+		newDayObject = new Date(newDayObject);
+		let newYear = newDayObject.getFullYear().toString();
+		let newMonth = newDayObject.getMonth();
+		if (newMonth < 10) {
+			newMonth = '0' + newMonth;
+		} else {
+			newMonth = newMonth.toString();
+		}
+		let newDay = newDayObject.getDate();
+		if (newDay < 10) {
+			newDay = '0' + newDay;
+		} else {
+			newDay = newDay.toString();
+		}
+		let currentFormattedDate = currentYear + '-' + currentMonth + '-' + currentDay;
+		let nextFormattedDate = newYear + '-' + newMonth + '-' + newDay;
+		let nextDateQuery = dailiesGlobalData.thisDomain + '/wp-json/wp/v2/posts?after=' + nextFormattedDate + 'T00:00:00&before=' + currentFormattedDate + 'T00:00:00&categories=4';
+		jQuery.get({
+			url: nextDateQuery,
+			dataType: 'json',
+			success: function(data) {
+				if (data.length === 0) {
+					this.stepBackDayAndQuery(newDayObject, newYear, newMonth, newDay);
 				} else {
-					var newMonth = currentMonth - 1;
-					var newYear = currentYear;
-					var newDay = 31;
-				}
-			} else {
-				var newDay = currentDay - 1;
-				var newMonth = currentMonth;
-				var newYear = currentYear;
-			}
-			if (currentMonth < 10) {
-				var currentMonthString = '0' + currentMonth;
-			} else {
-				var currentMonthString = currentMonth.toString();
-			}
-			if (newMonth < 10) {
-				var newMonthString = '0' + newMonth;
-			} else {
-				var newMonthString = newMonth.toString();
-			}
-			if (currentDay < 10) {
-				var currentDayString = '0' + currentDay;
-			} else {
-				var currentDayString = currentDay.toString();
-			}
-			if (newDay < 10) {
-				var newDayString = '0' + newDay;
-			} else {
-				var newDayString = newDay.toString();
-			}
-			let currentFormattedDate = currentYear + '-' + currentMonthString + '-' + currentDayString;
-			let nextFormattedDate = newYear + '-' + newMonthString + '-' + newDayString;
-			let nextDateQuery = dailiesGlobalData.thisDomain + '/wp-json/wp/v2/posts?after=' + nextFormattedDate + 'T00:00:00&before=' + currentFormattedDate + 'T00:00:00&categories=4';
-			jQuery.get({
-				url: nextDateQuery,
-				dataType: 'json',
-				success: function(data) {
 					let newPostDatas = [];
 					let newVoteDatas = {};
 					jQuery.each(data, function(index, allData) {
@@ -103,10 +91,10 @@ class Homepage extends React.Component {
 					this.setState({
 						dayContainers: oldDayContainers,
 						loadingMore: false,
-					})
-				}.bind(this)
-			})
-		}
+					});
+				}
+			}.bind(this)
+		});
 	}
 
 	render() {

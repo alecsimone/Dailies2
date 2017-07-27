@@ -1,6 +1,6 @@
 import React from "react";
 import ThingHeader from './ThingHeader.jsx';
-import ContentBox from './ContentBox.jsx';
+import EmbedBox from './EmbedBox.jsx';
 import Tagbox from './Tagbox.jsx';
 import Votebox from './Votebox.jsx';
 import AttributionBox from './AttributionBox.jsx';
@@ -160,11 +160,19 @@ export default class Thing extends React.Component {
 		if (dailiesGlobalData.userData.userID === 1) {
 			var adminControls = <AdminControls thisID={this.props.thingData.id} declareWinner={this.declareWinner} isWinner={isWinner} addScore={this.addScore} />
 		}
+		var embedCodes = this.props.thingData.EmbedCodes;
+		var embedCodeKeys = Object.keys(embedCodes);
+		for (var i = 0; i < embedCodeKeys.length; i++) {
+			if (embedCodes[embedCodeKeys[i]] !== '') {
+				var embedCode = embedCodes[embedCodeKeys[i]];
+				var embedSource = embedCodeKeys[i];
+			}
+		}
 		return(
 			<article className="thing noise" id={thingID}>
 				{WinnerBanner}
-				<ThingHeader thisID={this.props.thingData.id} score={this.props.voteData.votecount} link={this.props.thingData.link} title={this.props.thingData.title}/>
-				<ContentBox thisID={this.props.thingData.id} embeds={this.props.thingData.EmbedCodes} thumbs={this.props.thingData.thumbs} link={this.props.thingData.link} />
+				<ThingHeader score={this.props.voteData.votecount} link={this.props.thingData.link} title={this.props.thingData.title}/>
+				<EmbedBox thumbs={this.props.thingData.thumbs} embedCode={embedCode} embedSource={embedSource} />
 				<Tagbox thisID={this.props.thingData.id} tags={this.props.thingData.taxonomies.tags} skills={this.props.thingData.taxonomies.skills} />
 				<Votebox thisID={this.props.thingData.id} userData={this.props.userData} voteledger={this.props.voteData.voteledger} guestlist={guestlist} vote={this.vote} />
 				<AttributionBox thisID={this.props.thingData.id} stars={this.props.thingData.taxonomies.stars} source={this.props.thingData.taxonomies.source} />

@@ -492,12 +492,10 @@ function generateUserData() {
 
 function generateDayOneData() {
 	date_default_timezone_set('America/Chicago');
-	$today = getdate();
-	$year = $today[year];
-	$month = $today[mon];
-	$day = $today[mday];
-	($paged === 0) ? $my_page = 0 : $my_page = $paged - 1;
-	stepBackDate($my_page);
+	$today = new DateTime();
+	$year = $today->format('Y');
+	$month = $today->format('n');
+	$day = $today->format('j');
 
 	$dayOneArgs = array(
 		'category_name' => 'noms',
@@ -516,23 +514,25 @@ function generateDayOneData() {
 
 	$i = 0;
 	while ( !$postDataNoms && $i < 14 ) :
-		stepBackDate(1);
-	$newNomArgs = array(
-		'category_name' => 'noms',
-		'posts_per_page' => 10,
-		'orderby' => 'meta_value_num',
-		'meta_key' => 'votecount',
-		'date_query' => array(
-			array(
-				'year'  => $year,
-				'month' => $month,
-				'day'   => $day,
+		$today->add(DateInterval::createFromDateString('yesterday'));
+		$year = $today->format('Y');
+		$month = $today->format('n');
+		$day = $today->format('j');
+		$newNomArgs = array(
+			'category_name' => 'noms',
+			'posts_per_page' => 10,
+			'orderby' => 'meta_value_num',
+			'meta_key' => 'votecount',
+			'date_query' => array(
+				array(
+					'year'  => $year,
+					'month' => $month,
+					'day'   => $day,
+					),
 				),
-			),
-		);
-	$postDataNoms = get_posts($newNomArgs);
-	$i++;
-	$my_page++; //Since pages are how we keep track of the day, we need to tick up my_page even for days with no posts
+			);
+		$postDataNoms = get_posts($newNomArgs);
+		$i++;
 	endwhile;
 	$dayOnePostDatas = [];
 	$dayOneVoteDataArray = [];

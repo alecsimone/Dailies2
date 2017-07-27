@@ -1,7 +1,7 @@
 import React from "react";
 import SeedlingControls from './SeedlingControls.jsx';
 import KeepBar from './KeepBar.jsx';
-import SeedlingEmbedBox from './SeedlingEmbedBox.jsx';
+import EmbedBox from './EmbedBox.jsx';
 
 export default class SeedlingContent extends React.Component{
 	render() {
@@ -13,7 +13,7 @@ export default class SeedlingContent extends React.Component{
 					<SeedlingControls slug={this.props.slug} embed={this.props.embed} cutSlug={this.props.cutSlug} voteSlug={this.props.voteSlug} voters={this.props.voters} vodLink={this.props.vodLink} clipTime={this.props.clipTime}/>
 					<div className="seedlingContentRight">
 						<KeepBar slug={this.props.slug} embed={this.props.embed} keepSlug={this.props.keepSlug} vodLink={this.props.vodLink} clipTime={this.props.clipTime} voters={this.props.voters} source={this.props.source} />
-						<SeedlingEmbedBox embed={this.props.embed} />
+						<EmbedBox embedCode={this.props.embed} embedSource='TwitchCode' />
 					</div>
 				</div>
 			)

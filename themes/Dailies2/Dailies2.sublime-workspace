@@ -207,6 +207,77 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/schedule.php",
+			"settings":
+			{
+				"buffer_size": 8293,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Styles/live.scss",
+			"settings":
+			{
+				"buffer_size": 3506,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Components/LittleThing.jsx",
+			"settings":
+			{
+				"buffer_size": 5766,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Components/Thing.jsx",
+			"settings":
+			{
+				"buffer_size": 6035,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Components/ThingHeader.jsx",
+			"settings":
+			{
+				"buffer_size": 467,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Components/ChannelChanger.jsx",
+			"settings":
+			{
+				"buffer_size": 744,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "--Everything needs doing--\n\nMake Thing lateral instead of vertical on very wide screens\n\nMake TitleBox universal. Takes Title, Link, and Score. Presents them as two elements. Use CSS to make them a flexbox, reverse order when inside LittleThing\nMove Vote functions up in the hierarchy so you don't need to duplicate state in thing/littlething/seedling\n\nMake userbox login links into images\n\nFix stepBackDate\n\n404 page\nSearch Page\nRules Page\n\nBuild post objects for every post\nOrganize components folder\nDRY out code\nSSL certificate\nExplore React Transitions\n\n\n\n\nComponent Map\nThings\n=Thing\n--In: ThingData\n=LittleThing\n--In: ThingData\n=Titlebox\n--In: Title, optional score\n=VoteButton\n--In: Voteledger, guestlist\n=AttributionPair\n--In: Logo, Taxonomy, Slug, Name\n=EditButton\n--In: PostID\n=TagBar\n--In: Skills, Tags\n=PostTrasher\n--In: PostID\n\nSecretGarden\n=Garden\n--In: ClipDatas\n=Seedling\n--In: ClipData, canPublish\n=SeedlingControls\n--In: userID, canPublish\n=LoadMore\n--In: queryCursor objects\n\nPageHeaders\n=ArchiveHeader\n--In: headerData\n=UserBox\n--In: userData, loginLinks\n=DayContainer\n--In: Date, ThingDatas\n=SortBar\n--In: QueryVars\n\nTopLevel\n=Homepage\n=Archive\n=SecretGarden\n=Live\n=Single",
+			"file": "Everything needs doing",
+			"file_size": 901,
+			"file_write_time": 131452353801578296,
+			"settings":
+			{
+				"buffer_size": 1194,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Components/SeedlingEmbedBox.jsx",
+			"settings":
+			{
+				"buffer_size": 959,
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -256,17 +327,28 @@
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/page-templates",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/SASS",
 		"/F/XAMP/htdocs/alecsimone/wp-content/themes/asc",
-		"/F/XAMP/htdocs/alecsimone/wp-content/themes/asc/js",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-rep-and-voting"
+		"/F/XAMP/htdocs/alecsimone/wp-content/themes/asc/js"
 	],
 	"file_history":
 	[
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/AddStreamBox.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/LittleThing.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Seedling.jsx",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/main.scss",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/secret-garden.scss",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/SeedlingContent.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/EmbedBox.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/LittleThingEmbedder.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/ContentBox.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/header.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Titlebox.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/LittleThing.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/schedule.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/vars.scss",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/schedule.scss",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/live.scss",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/global.scss",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/AddStreamBox.jsx",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/HomeTop.jsx",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/page-live.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/vars.scss",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Everything needs doing",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/functions.php",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Thing.jsx",
@@ -278,12 +360,9 @@
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Live.jsx",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/CoHostsPanel.jsx",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/CoHostButton.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/live.scss",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/ArchiveHeader.jsx",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Garden.jsx",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Votebox.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Titlebox.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/schedule.php",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/functions.php",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/LivePostsLoop.jsx",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/DayContainer.jsx",
@@ -292,14 +371,10 @@
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/SortButton.jsx",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/ChannelChangerButton.jsx",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Userbox.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/global.scss",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/AttributionBox.jsx",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/footer.php",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/thing.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/LittleThingEmbedder.jsx",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/single.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/header.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/ContentBox.jsx",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Single.jsx",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/page-templates/live-template.php",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/StarBox.jsx",
@@ -308,12 +383,9 @@
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Archive.jsx",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/archive.php",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/index.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/secret-garden.scss",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/schedule.scss",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/header.php",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/SASS/new-stylesheet.scss",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/AuthorBubble.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Seedling.jsx",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/SeedlingControls.jsx",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/SeedlingMeta.jsx",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/page-templates/schedule-template.php",
@@ -328,7 +400,6 @@
 		"/F/XAMP/htdocs/alecsimone/wp-content/themes/asc/js/Features.jsx",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/.gitignore",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/js/secret_garden.js",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/SeedlingContent.jsx",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/KeepBar.jsx",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Scripts/global.js",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/page-templates/secret-garden-template.php",
@@ -387,8 +458,7 @@
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/package.json",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/Pieces/allSizeThings.scss",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/Pieces/global.scss",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/Pieces/live.scss",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/Pieces/main.scss"
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/Pieces/live.scss"
 	],
 	"find":
 	{
@@ -406,6 +476,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"reactdom",
+			"india",
+			"vapour",
+			"propaganda",
 			"propa",
 			"liveAdminControls",
 			"return",
@@ -529,11 +603,7 @@
 			"little-thing",
 			"p.attribution a",
 			"propbox",
-			"spellslot",
-			"`",
-			"e",
-			"={",
-			"ajax"
+			"spellslot"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -554,13 +624,254 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/schedule.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8293,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3831,
+								3831
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2106.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Styles/live.scss",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3506,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1273,
+								1273
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Agila Monokai Extended (SL).tmTheme",
+							"syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2132.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "Components/LittleThing.jsx",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5766,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								259,
+								259
+							],
+							[
+								276,
+								276
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Agila Monokai Extended (SL).tmTheme",
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 5733.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "Components/Thing.jsx",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6035,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5230,
+								5230
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Agila Monokai Extended (SL).tmTheme",
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "Components/ThingHeader.jsx",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 467,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								467,
+								467
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "Components/ChannelChanger.jsx",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 744,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								470,
+								470
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
 			]
 		},
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 6,
+					"file": "Everything needs doing",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1194,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								351,
+								351
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Agila Monokai Extended (SL).tmTheme",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "Components/SeedlingEmbedBox.jsx",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 959,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								929,
+								929
+							]
+						],
+						"settings":
+						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Agila Monokai Extended (SL).tmTheme",
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 644.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -592,7 +903,7 @@
 		"cols":
 		[
 			0.0,
-			0.61481975968,
+			0.62728081887,
 			1.0
 		],
 		"rows":

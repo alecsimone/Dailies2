@@ -2,7 +2,7 @@
 
 #channelChanger {
 	width: 95%;
-	margin: 48px auto 36px;
+	margin: 144px auto 84px;
 }
 .channelChangerButton {
 	display: inline-block;
@@ -17,10 +17,12 @@
 .channelChangerLogo {
 	display: inline-block;
 	max-width: 120px;
-	max-height: 144px;
 	img {
 		width: 100%;
 		height: auto;
+	}
+	@media #{$bp800} {
+		max-width: 192px;
 	}
 }
 
@@ -71,13 +73,17 @@
 	&:hover {
 		background: $darkBlack;
 	}
+	@media #{$bp800} {
+		width: 198px;
+		height: 198px;
+	}
 }
 #sortButton.active {
 	background: $darkBlack;
 }
 
 #coHostsPanel {
-	margin-bottom: 48px;
+	margin-bottom: 84px;
 }
 #coHostsPanelTitle {
 	font-size: 24px;
@@ -91,14 +97,13 @@
 	border: 3px solid $darkBlack;
 	box-shadow: $lowShadow;
 	align-items: center;
-	padding: 12px;
-	margin: 12px;
+	padding: 18px;
+	margin: 18px;
 }
 .cohostLogo {
 	width: 96px;
 	height: 96px;
-	border-raidus: 48px;
-	margin-right: 12px;
+	margin-right: 18px;
 	img {
 		width: 100%;
 		height: 100%;
@@ -112,7 +117,7 @@
 	font-size: 36px;
 	font-weight: bold;
 	color: $white;
-	margin-bottom: 6px;
+	margin-bottom: 12px;
 }
 .cohostSocialLinkImg {
 	width: 42px;
@@ -123,6 +128,10 @@
 #livePostsLoop {
 	width: 95%;
 	margin: auto;
+	margin-bottom: 600px;
+	@media #{$bp800} {
+		width: 90%;
+	}
 }
 
 .LittleThing {
@@ -144,6 +153,24 @@
 	}
 	& h3 {
 		font-size: 1.25em;
+	}
+	& .titleBox {
+		flex-grow: 1;
+		line-height: 1.25em;
+	}
+	& a.titleLink {
+		color: $white;
+		text-decoration: none;
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+	& .votecount {
+		font-size: 1.25em;
+		font-weight: bold;
+		color: $gold;
+		display: inline-block;
+		margin-left: 8px;
 	}
 	& .voteBox {
 		margin: 0 0 0 12px;
@@ -171,24 +198,6 @@
 }
 .littleThingTop {
 	margin-bottom: 9px;
-}
-.titleBox {
-	flex-grow: 1;
-	line-height: 1.25em;
-}
-a.littleThingTitleLink {
-	color: $white;
-	text-decoration: none;
-	&:hover {
-		text-decoration: underline;
-	}
-}
-.littleThingVotecount {
-	font-size: 1.25em;
-	font-weight: bold;
-	color: $gold;
-	display: inline-block;
-	margin-left: 3px;
 }
 
 .littleThingBottom {
