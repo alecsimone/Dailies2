@@ -1,24 +1,27 @@
---Everything needs doing--
+##Everything needs doing##
 
+**Fri**
+New Schedule Page
+
+Build post objects for every post
 Figure out what's wrong with July 18th
+
+Organize components folder
 
 Make userbox login links into images
 
-Sizify the ChannelChanger
--minWidth: 96
--maxWidth: 192
--width = viewportWidth/numberOfChannels
-
-404 page
-Search Page
-Rules Page
-
-Build post objects for every post
-Organize components folder
+**Sun**
+Push Live
 SSL certificate
 
-Component Map
-Things
+
+
+
+
+
+
+#Component Map
+*Things*
 =Thing
 --In: ThingData
 =LittleThing
@@ -36,7 +39,7 @@ Things
 =PostTrasher
 --In: PostID
 
-SecretGarden
+*SecretGarden*
 =Garden
 --In: ClipDatas
 =Seedling
@@ -46,7 +49,7 @@ SecretGarden
 =LoadMore
 --In: queryCursor objects
 
-PageHeaders
+*PageHeaders*
 =ArchiveHeader
 --In: headerData
 =UserBox
@@ -56,7 +59,7 @@ PageHeaders
 =SortBar
 --In: QueryVars
 
-TopLevel
+*TopLevel*
 =Homepage
 =Archive
 =SecretGarden

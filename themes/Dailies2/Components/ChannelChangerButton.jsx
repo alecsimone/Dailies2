@@ -8,7 +8,7 @@ export default class ChannelChangerButton extends React.Component{
 			var classes = "channelChangerButton";
 		}
 		return(
-			<div className={classes} onClick={(e) => this.props.changeChannel(this.props.channelKey)}>
+			<div className={classes} onClick={(e) => this.props.changeChannel(this.props.channelKey)} style={{width: this.props.size}}>
 				<div className="channelChangerLogo">
 					<a href={dailiesGlobalData.thisDomain + "/source/" + this.props.channelData.slug} target="_blanK"><img src={this.props.channelData.logo} /></a>
 				</div>

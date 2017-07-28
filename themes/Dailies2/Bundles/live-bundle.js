@@ -22974,14 +22974,28 @@ var ChannelChanger = function (_React$Component) {
 			var channelData = this.props.channels;
 			var channels = Object.keys(channelData);
 			var changeChannel = this.props.changeChannel;
+			var channelChangerWidth = jQuery('#menu-links').width() * .95;
+			if (!jQuery('#channelChanger').length) {
+				//if the contents of the page haven't loaded yet we need to pretend there's a scrollbar
+				channelChangerWidth = channelChangerWidth - 17 * .95;
+			}
+			var channelCount = channels.length + 1;
+			var totalButtonSize = channelChangerWidth / channelCount;
+			var actualButtonSize = totalButtonSize - 12;
+			var size = actualButtonSize;
+			if (actualButtonSize < 120) {
+				size = 120;
+			} else if (actualButtonSize > 192) {
+				size = 192;
+			}
 			var channelComponents = channels.map(function (key) {
 				var thisID = key + "channelChangerButton";
-				return _react2.default.createElement(_ChannelChangerButton2.default, { key: thisID, channelKey: key, channelData: channelData[key], changeChannel: changeChannel });
+				return _react2.default.createElement(_ChannelChangerButton2.default, { key: thisID, channelKey: key, channelData: channelData[key], changeChannel: changeChannel, size: size });
 			});
 			return _react2.default.createElement(
 				'section',
 				{ id: 'channelChanger' },
-				_react2.default.createElement(_SortButton2.default, { sortLive: this.props.sortLive, sort: this.props.sort }),
+				_react2.default.createElement(_SortButton2.default, { sortLive: this.props.sortLive, sort: this.props.sort, size: size }),
 				channelComponents
 			);
 		}
@@ -23036,7 +23050,7 @@ var SortButton = function (_React$Component) {
 			}
 			return _react2.default.createElement(
 				"div",
-				{ id: "sortButton", className: classes, onClick: this.props.sortLive },
+				{ id: "sortButton", className: classes, onClick: this.props.sortLive, style: { width: this.props.size + 6, height: this.props.size + 6 } },
 				_react2.default.createElement(
 					"div",
 					{ className: "channelChangerLogo" },
@@ -23099,7 +23113,7 @@ var ChannelChangerButton = function (_React$Component) {
 				"div",
 				{ className: classes, onClick: function onClick(e) {
 						return _this2.props.changeChannel(_this2.props.channelKey);
-					} },
+					}, style: { width: this.props.size } },
 				_react2.default.createElement(
 					"div",
 					{ className: "channelChangerLogo" },

@@ -30,6 +30,9 @@ function script_setup() {
 			$main_script_data['firstWinner'] = generateFirstWinner();
 		} elseif (is_single()) {
 			$main_script_data['singleData'] = generateSingleData();
+		} elseif (is_search()) {
+			$main_script_data['headerData'] = generateSearchHeaderData();
+			$main_script_data['initialArchiveData'] = generateSearchResultsData();
 		} else {
 			$main_script_data['headerData'] = generateArchiveHeaderData();
 			$main_script_data['initialArchiveData'] = generateInitialArchivePostData();
@@ -596,6 +599,14 @@ function generateArchiveHeaderData() {
 	return $headerData;
 }
 
+function generateSearchHeaderData() {
+	$thisTerm = get_search_query();
+	$headerData = array(
+		'thisTerm' => $thisTerm,
+	);
+	return $headerData;
+}
+
 function generateInitialArchivePostData() {
 	$thisTerm = get_queried_object();
 	$orderby = get_query_var('orderby', 'date');
@@ -631,7 +642,7 @@ function generateInitialArchivePostData() {
 			'voteledger' => get_post_meta($post->ID, 'voteledger', true),
 			'guestlist' => get_post_meta($post->ID, 'guestlist', true),
 			'votecount' => get_post_meta($post->ID, 'votecount', true),
-			);
+		);
 	}
 	$initialVoteData = $initialVoteDataArray;
 	$initialPostData = $initialPostDatas;
@@ -640,6 +651,31 @@ function generateInitialArchivePostData() {
 		'postData' => $initialPostData,
 	);
 	return $initialArchiveData;
+}
+
+function generateSearchResultsData() {
+	global $wp_query;
+	$searchResultPostObjects = $wp_query->posts;
+	$searchResultIDs = [];
+	foreach ($searchResultPostObjects as $post) {
+		$searchResultIDs[] = $post->ID;
+	}
+	$initialPostDatas = [];
+	$initialVoteData = [];
+	foreach ($searchResultIDs as $postID) {
+		$postData = get_post_meta($postID, 'postDataObj', true);
+		$initialPostDatas[] = $postData;
+		$initialVoteData[$postID] = array(
+			'voteledger' => get_post_meta($postID, 'voteledger', true),
+			'guestlist' => get_post_meta($postID, 'guestlist', true),
+			'votecount' => get_post_meta($postID, 'votecount', true),
+		);
+	}
+	$initialSearchData = array(
+		'voteData' => $initialVoteData,
+		'postData' => $initialPostDatas,
+	);
+	return $initialSearchData;
 }
 
 function generateSingleData() {
