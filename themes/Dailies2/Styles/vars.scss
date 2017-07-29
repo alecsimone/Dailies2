@@ -34,6 +34,11 @@ $blueGlass: hsla(210, 9%, 6%, 1);
 //$blueGlass: hsla(210, 6%, 12%, 1);
 $thinBlueGlass: hsla(210, 8%, 8%, .5);
 
+$lighterGlass: hsla(212, 38%, 18%, 1);
+$darkerGlass: hsla(222, 16%, 10%, 1);
+//$blueGlass: linear-gradient(240deg, $darkerGlass 0%, $lighterGlass 100%);
+
+
 $bp350: "screen and (min-width: 350px)";
 $bp500: "screen and (min-width: 500px)";
 $bp800: "screen and (min-width: 800px)";

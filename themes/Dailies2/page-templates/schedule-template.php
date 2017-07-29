@@ -5,8 +5,15 @@ include(locate_template('schedule.php'));
 
 <section id="schedule-container">
 	<?php $scheduleCounter = 0;
+	date_default_timezone_set('America/Chicago');
+	$firstDayString = $latestNomDate . '-' . $latestNomMonth . '-' . $latestNomYear;
+	$date = new DateTime($firstDayString);
 	foreach ($shiftedSchedule as $day => $daySchedule) { ?>
-		<div class="schedule-day-title"><div id="scheduleFor">SCHEDULE FOR</div><span id="day"><?php echo strtoupper($day);?></span>, <span id="month"><?php echo strtoupper($latestNomMonth); ?></span> <span id="date"><?php echo strtoupper($latestNomDate + $scheduleCounter); $scheduleCounter++; ?></span><span id="suffix"><?php echo strtoupper($latestNomDateSuffix);?></span></div>
+		<div class="schedule-day-title"><div id="scheduleFor"><?php echo $date->format('l') === 'Saturday' ? 'SCHEDULE FOR THE' : 'SCHEDULE FOR' ?></div><?php echo $date->format('l') === 'Saturday' ? 'WEEKEND OF' : strtoupper($date->format('l')) . ','; ?> <?php echo strtoupper($date->format('F')); ?> <?php echo strtoupper($date->format('j')); ?><span id="suffix"><?php echo strtoupper($date->format('S'));?></span></div>
+		<?php $date->add(DateInterval::createFromDateString('tomorrow')); 
+		if ($date->format('l') === 'Sunday') {
+			$date->add(DateInterval::createFromDateString('tomorrow'));
+		} ?>
 		<div class="schedule-day">
 		<?php foreach($daySchedule as $dayScheduleEntry) { ?>
 			<div class="schedule-entry">

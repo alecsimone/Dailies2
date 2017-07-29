@@ -19,11 +19,21 @@
 #propLeft {
 	width: 100%;
 	max-width: 300px;
+	order: 2;
+	margin-bottom: 48px;
 	@media #{$bp800} {
+		order: 0;
+		margin-bottom: 0;
 		width: 20%;
 		background: $blueGlass;
 		border: 3px solid $whiteTrans07;
 		border-radius: 3px;
+	}
+}
+#propRight {
+	order: 1;
+	@media #{$bp800} {
+		order: 0;
 	}
 }
 .propbutton {
@@ -101,13 +111,15 @@ a.propbutton {
 		padding-right: 8px;
 		color: $gold;
 	}
-	@media #{$bp1280} {
+	@media #{$bp800} {
 		//background: $darkBlack;
 		background: $blueGlass;
 		box-shadow: $lowShadow;
 		border-right: 3px solid $whiteTrans07;
 		border-left: 3px solid $whiteTrans07;	
 		border-bottom: 3px solid $whiteTrans07;
+		box-sizing: border-box;
+		padding: 0 1.5em 1em;
 	}
 }
 .thing.noise:before {

@@ -95,6 +95,7 @@ $latestNomDay = date('l', $latestNomTime);
 $latestNomDate = date('j', $latestNomTime);
 $latestNomDateSuffix = date('S', $latestNomTime);
 $latestNomMonth = date('F', $latestNomTime);
+$latestNomYear = date('Y', $latestNomTime);
 if ($latestNomDay == 'Saturday' || $latestNomDay == 'Sunday') {
 	$todaysSchedule = 'Weekend';
 } else {
