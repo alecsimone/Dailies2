@@ -65,6 +65,10 @@ $textShadow: 0 0 8px #000;
 	@media #{$bp1080} {
 		width: 48.5%;
 		padding: 18px 24px;
+		background: linear-gradient(120deg, $darkerGlass 0%, $lighterGlass 100%);
+	}
+	@media #{$bp1900} {
+		width: calc(98% / 3);
 	}
 	&-info {
 		color: $whiteTrans50;
@@ -104,27 +108,26 @@ $textShadow: 0 0 8px #000;
 }
 @media #{$bp1080} {
 	.schedule-entry:nth-child(2n) { //right side
-		background: linear-gradient(240deg, $darkerGlass 0%, $lighterGlass 100%);
-		//flex-direction: row-reverse;
 		margin: 12px 0 12px 1.5%;
-		& .schedule-entry-info {
-			//text-align: right;
-		}
-		& .schedule-entry-twitch-link {
-			//justify-content: flex-end;
-		}
 	}
 	.schedule-entry:nth-child(2n+1) {
-		background: linear-gradient(120deg, $darkerGlass 0%, $lighterGlass 100%);
 		margin: 12px 1.5% 12px 0;
 	}
-	/*.schedule-entry:last-child:nth-child(2n+1),*/ .schedule-day-title {
+	.schedule-day-title {
 		background: radial-gradient(at top, $lighterGlass 5%, $darkerGlass 100%);
 		justify-content: center;
 	}
-	/*.schedule-entry:last-child:nth-child(2n+1) {
-		width: 75%;
-	}*/
+}
+@media #{$bp1900} {
+	.schedule-entry:nth-child(3n) {
+		margin: 12px 0 12px .5%;
+	}
+	.schedule-entry:nth-child(3n+1) {
+		margin: 12px .5% 12px 0;
+	}
+	.schedule-entry:nth-child(3n+2) {
+		margin: 12px .5% 12px;
+	}
 }
 img.schedule-entry-logo {
 	width: 72px;

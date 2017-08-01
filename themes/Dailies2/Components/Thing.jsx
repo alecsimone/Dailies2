@@ -140,6 +140,7 @@ export default class Thing extends React.Component {
 	}
 
 	render() {
+		this.state = {};
 		this.state = this.props.voteData;
 		this.state.rep = this.props.userData.userRep;
 		this.state.repTime = this.props.userData.userRepTime;

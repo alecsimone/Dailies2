@@ -300,6 +300,9 @@ p.attribution a {
 	img {
 		width: 100%;
 		height: auto;
+		&.stars {
+			border-radius: 50%;
+		}
 	}
 }
 #archive-title h2 {
@@ -352,4 +355,10 @@ p.rules {
 	margin: 36px auto;
 	font-size: 24px;
 	line-height: 1.5em;
+}
+
+.thatsAll {
+	font-size: 36px;
+	margin-bottom: 144px;
+	text-shadow: 0 0 6px $darkBlack;
 }

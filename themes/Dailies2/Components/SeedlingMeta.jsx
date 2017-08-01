@@ -18,7 +18,7 @@ export default class SeedlingMeta extends React.Component{
 		}
 		return(
 			<div className='seedlingMeta'>
-				<div className='seedlingLogo'><img src={this.props.broadcaster.logo} /></div>
+				<div className='seedlingLogo'><a href={this.props.broadcaster.channel_url}><img src={this.props.broadcaster.logo} /></a></div>
 				<div className='seedlingInfo'>
 					<div className='seedlingTitle'><a href={this.props.permalink} target="_blank" onClick={this.props.embedder}><span className="score">{score}</span>{this.props.title}</a></div>
 					<div className='seedlingDetails'>{this.props.viewCount} views. Clipped by {this.props.clipper} about {hoursAgo} hours ago. {vodlink}</div>

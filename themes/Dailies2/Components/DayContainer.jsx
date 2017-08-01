@@ -5,14 +5,17 @@ export default class DayContainer extends React.Component {
 	render() {
 		var date = this.props.dayData.date;
 		var monthsArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-		if (date.day === '1' || date.day === '21' || date.day === '31') {
+		if (date.day === '1' || date.day === '01' || date.day === '21' || date.day === '31') {
 			var dayString = date.day + 'st';
-		} else if (date.day === '2' || date.day === '22') {
+		} else if (date.day === '2' || date.day === '02' || date.day === '22') {
 			var dayString = date.day + 'nd';
-		} else if (date.day === '3' || date.day === '23') {
+		} else if (date.day === '3' || date.day === '03' || date.day === '23') {
 			var dayString = date.day + 'rd'
 		} else {
 			var dayString = date.day + 'th';
+		}
+		if (dayString.charAt(0) === '0') {
+			dayString = dayString.substring(1);
 		}
 		var userData = this.props.userData;
 		var voteDataObj = JSON.parse(this.props.dayData.voteDatas);

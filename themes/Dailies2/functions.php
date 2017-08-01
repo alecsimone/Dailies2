@@ -113,8 +113,23 @@ add_action( 'rest_api_init', function() {
 	);
 });
 
+add_filter('rest_endpoints', 'my_modify_rest_routes');
+function my_modify_rest_routes( $routes ) {
+  array_push( $routes['/wp/v2/posts'][0]['args']['orderby']['enum'], 'meta_value_num' );
+  return $routes;
+}
+
+// add custom fields query to WP REST API v2
+// https://1fix.io/blog/2015/07/20/query-vars-wp-api/
+function my_allow_meta_query( $valid_vars ) {
+    $valid_vars = array_merge( $valid_vars, array( 'meta_key', 'meta_value' ) );
+    return $valid_vars;
+}
+add_filter( 'rest_query_vars', 'my_allow_meta_query' );
+
 add_action('edit_post', 'buildPostDataObject', 10, 1);
 function buildPostDataObject($id) {
+	print_r($id . ', ');
 	$postDataObject = [];
 	$postDataObject['id'] = $id;
 	$postDataObject['date'] = get_the_date('F jS, Y', $id);
@@ -147,18 +162,31 @@ function buildPostDataObject($id) {
 		'skills' => get_the_terms($id, 'skills'),
 	);
 	$stars = get_the_terms($id, 'stars');
-	foreach ($stars as $star) {
-		$postDataObject['taxonomies']['stars'][] = array(
-			'name' => $star->name,
-			'logo' => get_term_meta($star->term_taxonomy_id, 'logo', true),
-			'slug' => $star->slug,
-		);
-	}$source = get_the_terms($id, 'source');
-	foreach ($source as $singleSource) {
+	if ($stars !== false) {
+		foreach ($stars as $star) {
+			$postDataObject['taxonomies']['stars'][] = array(
+				'name' => $star->name,
+				'logo' => get_term_meta($star->term_taxonomy_id, 'logo', true),
+				'slug' => $star->slug,
+			);
+		}
+	} else {
+		$postDataObject['taxonomies']['stars'][] = array();
+	}
+	$source = get_the_terms($id, 'source');
+	if ($source !== false) {
+		foreach ($source as $singleSource) {
+			$postDataObject['taxonomies']['source'][] = array(
+				'name' => $singleSource->name,
+				'logo' => get_term_meta($singleSource->term_taxonomy_id, 'logo', true),
+				'slug' => $singleSource->slug,
+			);
+		}
+	} else {
 		$postDataObject['taxonomies']['source'][] = array(
-			'name' => $singleSource->name,
-			'logo' => get_term_meta($singleSource->term_taxonomy_id, 'logo', true),
-			'slug' => $singleSource->slug,
+			'name' => 'User Submits',
+			'logo' => get_term_meta(632, 'logo', true),
+			'slug' => 'user-submits',
 		);
 	}
 	//$postDataObject['voteledger'] = get_post_meta($id, 'voteledger', true);
@@ -646,9 +674,15 @@ function generateInitialArchivePostData() {
 	}
 	$initialVoteData = $initialVoteDataArray;
 	$initialPostData = $initialPostDatas;
+	$orderby = get_query_var('orderby', 'date');
+	if ($orderby = 'meta_value_num') {
+		$orderby = 'meta_value_num&filter[meta_key]=votecount';
+	}
 	$initialArchiveData = array(
 		'voteData' => $initialVoteData,
 		'postData' => $initialPostData,
+		'orderby' => $orderby,
+		'order' => get_query_var('order', 'ASC'),
 	);
 	return $initialArchiveData;
 }

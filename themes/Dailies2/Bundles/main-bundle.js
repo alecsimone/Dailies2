@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 187);
+/******/ 	return __webpack_require__(__webpack_require__.s = 188);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -2517,7 +2517,7 @@ var createFactory = ReactElement.createFactory;
 var cloneElement = ReactElement.cloneElement;
 
 if (process.env.NODE_ENV !== 'production') {
-  var lowPriorityWarning = __webpack_require__(34);
+  var lowPriorityWarning = __webpack_require__(33);
   var canDefineProperty = __webpack_require__(25);
   var ReactElementValidator = __webpack_require__(55);
   var didWarnPropTypesDeprecated = false;
@@ -4687,16 +4687,6 @@ module.exports = ReactBrowserEventEmitter;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
-
-module.exports = __webpack_require__(98);
-
-
-/***/ }),
-/* 34 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -4762,6 +4752,16 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = lowPriorityWarning;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = __webpack_require__(98);
+
 
 /***/ }),
 /* 35 */
@@ -6599,7 +6599,7 @@ var ReactNoopUpdateQueue = __webpack_require__(52);
 var canDefineProperty = __webpack_require__(25);
 var emptyObject = __webpack_require__(26);
 var invariant = __webpack_require__(1);
-var lowPriorityWarning = __webpack_require__(34);
+var lowPriorityWarning = __webpack_require__(33);
 
 /**
  * Base class helpers for the updating state of a component.
@@ -6928,7 +6928,7 @@ var checkReactTypeSpec = __webpack_require__(88);
 var canDefineProperty = __webpack_require__(25);
 var getIteratorFn = __webpack_require__(54);
 var warning = __webpack_require__(2);
-var lowPriorityWarning = __webpack_require__(34);
+var lowPriorityWarning = __webpack_require__(33);
 
 function getDeclarationErrorAddendum() {
   if (ReactCurrentOwner.current) {
@@ -22395,7 +22395,131 @@ var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(33);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var EmbedBox = function (_React$Component) {
+	_inherits(EmbedBox, _React$Component);
+
+	function EmbedBox(props) {
+		_classCallCheck(this, EmbedBox);
+
+		var _this = _possibleConstructorReturn(this, (EmbedBox.__proto__ || Object.getPrototypeOf(EmbedBox)).call(this));
+
+		_this.state = {
+			content: ''
+		};
+		if (props.thumbs !== undefined) {
+			var windowWidth = jQuery(window).width();
+			if (windowWidth < 400) {
+				var size = 'small';
+			} else if (windowWidth < 650) {
+				var size = 'medium';
+			} else {
+				var size = 'large';
+			}
+			_this.state.content = [_react2.default.createElement('img', { src: props.thumbs[size][0], key: 'thumb' + props.embedCode, className: 'thumb', onClick: function onClick() {
+					return _this.thumbReplacer();
+				} }), _react2.default.createElement('img', { src: dailiesGlobalData.thisDomain + '/wp-content/uploads/2016/08/playbutton.png', key: 'playbutton' + props.embedCode, className: 'playbutton' })];
+		} else if (props.embedCode !== undefined) {
+			var embed = _this.generateEmbed(props);
+			_this.state.content = embed;
+		};
+		_this.generateEmbed = _this.generateEmbed.bind(_this);
+		_this.thumbReplacer = _this.thumbReplacer.bind(_this);
+		return _this;
+	}
+
+	_createClass(EmbedBox, [{
+		key: 'componentDidUpdate',
+		value: function componentDidUpdate() {
+			var twitterVideo = jQuery('#twitterVideo' + this.props.embedCode);
+			if (twitterVideo.length && !jQuery('#twitter-widget-0').length) {
+				twttr.widgets.createVideo(this.props.embedCode, document.getElementById('twitterVideo' + this.props.embedCode));
+			}
+		}
+	}, {
+		key: 'generateEmbed',
+		value: function generateEmbed(props) {
+			if (props.embedSource === 'TwitchCode') {
+				var seedlingInfo = jQuery('.seedlingInfo');
+				if (seedlingInfo.length) {
+					var seedlingInfoWidth = jQuery('.seedlingInfo').width();
+					var heightByWidth = seedlingInfoWidth / 16 * 9;
+					var viewportHeight = jQuery(window).height();
+					var baseSeedlingHeight = jQuery('.seedlingMeta').outerHeight();
+					var heightByViewport = viewportHeight - baseSeedlingHeight - 144;
+					if (heightByViewport < heightByWidth) {
+						var height = heightByViewport + 'px';
+					} else {
+						var height = heightByWidth + 'px';
+					}
+					var width = seedlingInfoWidth + 'px';
+				} else {
+					var width = "640";
+					var height = "360";
+				}
+				var embed = _react2.default.createElement('iframe', { src: "https://clips.twitch.tv/embed?clip=" + props.embedCode + "&autoplay=true", width: width, height: height, frameBorder: '0', scrolling: 'no', allowFullScreen: 'true' });
+			} else if (props.embedSource === 'GFYtitle') {
+				var embed = _react2.default.createElement('iframe', { src: 'https://gfycat.com/ifr/' + props.embedCode, frameBorder: '0', scrolling: 'no', width: '100%', height: '100%', allowFullScreen: true });
+			} else if (props.embedSource === 'TwitterCode') {
+				var embed = _react2.default.createElement('div', { id: 'twitterVideo' + props.embedCode });
+			} else if (props.embedSource === 'YouTubeCode') {
+				var embed = _react2.default.createElement('iframe', { width: '1280', height: '720', src: "https://www.youtube.com/embed/" + props.embedCode + "?showinfo=0&autoplay=1", frameBorder: '0', allowFullScreen: true });
+			} else if (props.embedSource === 'TwitchLive') {
+				var embed = 'Soon TM';
+			}
+			return embed;
+		}
+	}, {
+		key: 'thumbReplacer',
+		value: function thumbReplacer() {
+			var embed = this.generateEmbed(this.props);
+			this.setState({ content: embed });
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'section',
+				{ className: 'contentbox', id: this.props.embedCode },
+				_react2.default.createElement(
+					'div',
+					{ className: 'embed-container' },
+					this.state.content
+				)
+			);
+		}
+	}]);
+
+	return EmbedBox;
+}(_react2.default.Component);
+
+exports.default = EmbedBox;
+
+/***/ }),
+/* 184 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(7);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(34);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -22495,7 +22619,7 @@ var Userbox = function (_React$Component) {
 exports.default = Userbox;
 
 /***/ }),
-/* 184 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22511,11 +22635,11 @@ var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _ThingHeader = __webpack_require__(190);
+var _ThingHeader = __webpack_require__(191);
 
 var _ThingHeader2 = _interopRequireDefault(_ThingHeader);
 
-var _EmbedBox = __webpack_require__(249);
+var _EmbedBox = __webpack_require__(183);
 
 var _EmbedBox2 = _interopRequireDefault(_EmbedBox);
 
@@ -22690,6 +22814,7 @@ var Thing = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
+			this.state = {};
 			this.state = this.props.voteData;
 			this.state.rep = this.props.userData.userRep;
 			this.state.repTime = this.props.userData.userRepTime;
@@ -22742,7 +22867,7 @@ var Thing = function (_React$Component) {
 exports.default = Thing;
 
 /***/ }),
-/* 185 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22758,7 +22883,7 @@ var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Userbox = __webpack_require__(183);
+var _Userbox = __webpack_require__(184);
 
 var _Userbox2 = _interopRequireDefault(_Userbox);
 
@@ -22820,7 +22945,7 @@ var HomeTop = function (_React$Component) {
 exports.default = HomeTop;
 
 /***/ }),
-/* 186 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22908,22 +23033,22 @@ var StarBox = function (_React$Component) {
 exports.default = StarBox;
 
 /***/ }),
-/* 187 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-__webpack_require__(188);
-
-/***/ }),
 /* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _Homepage = __webpack_require__(189);
+__webpack_require__(189);
+
+/***/ }),
+/* 189 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _Homepage = __webpack_require__(190);
 
 var _Homepage2 = _interopRequireDefault(_Homepage);
 
@@ -22945,7 +23070,7 @@ jQuery(window).load(function () {
 });
 
 /***/ }),
-/* 189 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22957,15 +23082,15 @@ var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(33);
+var _reactDom = __webpack_require__(34);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _HomeTop = __webpack_require__(185);
+var _HomeTop = __webpack_require__(186);
 
 var _HomeTop2 = _interopRequireDefault(_HomeTop);
 
-var _Thing = __webpack_require__(184);
+var _Thing = __webpack_require__(185);
 
 var _Thing2 = _interopRequireDefault(_Thing);
 
@@ -23128,7 +23253,7 @@ if (jQuery('#homepageApp').length) {
 }
 
 /***/ }),
-/* 190 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23144,7 +23269,7 @@ var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(33);
+var _reactDom = __webpack_require__(34);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -23198,7 +23323,6 @@ var ThingHeader = function (_React$Component) {
 exports.default = ThingHeader;
 
 /***/ }),
-/* 191 */,
 /* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23215,7 +23339,7 @@ var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(33);
+var _reactDom = __webpack_require__(34);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -23324,7 +23448,11 @@ var Votebox = function (_React$Component) {
 			var userID = this.props.userData.userID.toString(10);
 			var rep = this.props.userData.userRep;
 			var IP = this.props.userData.clientIP;
-			var voters = Object.keys(this.props.voteledger);
+			if (this.props.voteledger === undefined) {
+				var voters = '';
+			} else {
+				var voters = Object.keys(this.props.voteledger);
+			}
 			var voted = voters.includes(userID);
 			var guestlist = this.props.guestlist;
 			if (Array.isArray(guestlist)) {
@@ -23377,7 +23505,7 @@ var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _StarBox = __webpack_require__(186);
+var _StarBox = __webpack_require__(187);
 
 var _StarBox2 = _interopRequireDefault(_StarBox);
 
@@ -23538,7 +23666,7 @@ var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Thing = __webpack_require__(184);
+var _Thing = __webpack_require__(185);
 
 var _Thing2 = _interopRequireDefault(_Thing);
 
@@ -23564,14 +23692,17 @@ var DayContainer = function (_React$Component) {
 		value: function render() {
 			var date = this.props.dayData.date;
 			var monthsArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-			if (date.day === '1' || date.day === '21' || date.day === '31') {
+			if (date.day === '1' || date.day === '01' || date.day === '21' || date.day === '31') {
 				var dayString = date.day + 'st';
-			} else if (date.day === '2' || date.day === '22') {
+			} else if (date.day === '2' || date.day === '02' || date.day === '22') {
 				var dayString = date.day + 'nd';
-			} else if (date.day === '3' || date.day === '23') {
+			} else if (date.day === '3' || date.day === '03' || date.day === '23') {
 				var dayString = date.day + 'rd';
 			} else {
 				var dayString = date.day + 'th';
+			}
+			if (dayString.charAt(0) === '0') {
+				dayString = dayString.substring(1);
 			}
 			var userData = this.props.userData;
 			var voteDataObj = JSON.parse(this.props.dayData.voteDatas);
@@ -23624,7 +23755,7 @@ var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(33);
+var _reactDom = __webpack_require__(34);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -23632,7 +23763,7 @@ var _ArchiveHeader = __webpack_require__(198);
 
 var _ArchiveHeader2 = _interopRequireDefault(_ArchiveHeader);
 
-var _Userbox = __webpack_require__(183);
+var _Userbox = __webpack_require__(184);
 
 var _Userbox2 = _interopRequireDefault(_Userbox);
 
@@ -23640,7 +23771,7 @@ var _SortBar = __webpack_require__(199);
 
 var _SortBar2 = _interopRequireDefault(_SortBar);
 
-var _Thing = __webpack_require__(184);
+var _Thing = __webpack_require__(185);
 
 var _Thing2 = _interopRequireDefault(_Thing);
 
@@ -23668,10 +23799,52 @@ var Archive = function (_React$Component) {
 		_this.state.voteData = dailiesMainData.initialArchiveData.voteData;
 		_this.state.order = jQuery('#dataDrop').attr("data-order");
 		_this.state.orderby = jQuery('#dataDrop').attr("data-orderby");
+		_this.state.page = 0;
+		_this.handleScroll = _this.handleScroll.bind(_this);
+		window.addEventListener("scroll", _this.handleScroll);
 		return _this;
 	}
 
 	_createClass(Archive, [{
+		key: 'handleScroll',
+		value: function handleScroll() {
+			var windowHeight = jQuery(window).height();
+			var pageHeight = jQuery(document).height();
+			var scrollTop = jQuery(window).scrollTop();
+			if (scrollTop + 2 * windowHeight > pageHeight && !this.state.loadingMore) {
+				this.setState({
+					loadingMore: true
+				});
+				var currentState = this.state;
+				var queryURL = dailiesGlobalData.thisDomain + '/wp-json/wp/v2/posts?categories=4&' + this.state.headerData.thisTerm.taxonomy + '=' + this.state.headerData.thisTerm.term_id + '&offset=' + (this.state.page + 1) * 10 + '&filter[orderby]=' + dailiesMainData.initialArchiveData.orderby + '&order=' + dailiesMainData.initialArchiveData.order.toLowerCase();
+				jQuery.get({
+					url: queryURL,
+					dataType: 'json',
+					success: function (data) {
+						if (data.length > 0) {
+							var newPostDatas = [];
+							var newVoteDatas = {};
+							jQuery.each(data, function (index, allData) {
+								currentState.postData.push(allData.postDataObj[0]);
+								currentState.voteData[allData.id] = {
+									votecount: allData.votecount[0],
+									voteledger: allData.voteledger[0],
+									guestlist: allData.guestlist[0]
+								};
+							});
+							currentState.loadingMore = false;
+							currentState.page++;
+							this.setState(currentState);
+						} else {
+							this.setState({
+								tappedOut: true
+							});
+						}
+					}.bind(this)
+				});
+			}
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			var voteDataObj = this.state.voteData;
@@ -23683,6 +23856,14 @@ var Archive = function (_React$Component) {
 				var voteData = voteDataObj[parsedThingData['id']];
 				return _react2.default.createElement(_Thing2.default, { thingData: parsedThingData, userData: userData, voteData: voteData, key: parsedThingData.id });
 			});
+			var thatsAll;
+			if (this.state.tappedOut === true) {
+				var thatsAll = _react2.default.createElement(
+					'div',
+					{ className: 'thatsAll' },
+					'That\'s all, folks!'
+				);
+			}
 
 			return _react2.default.createElement(
 				'div',
@@ -23694,7 +23875,8 @@ var Archive = function (_React$Component) {
 					_react2.default.createElement(_Userbox2.default, { userData: this.state.user })
 				),
 				_react2.default.createElement(_SortBar2.default, { orderby: this.state.orderby, order: this.state.order, tax: this.state.headerData.thisTerm.taxonomy, slug: this.state.headerData.thisTerm.slug }),
-				thingComponents
+				thingComponents,
+				thatsAll
 			);
 		}
 	}]);
@@ -23770,7 +23952,7 @@ var ArchiveHeader = function (_React$Component) {
 					_react2.default.createElement(
 						'div',
 						{ id: 'archive-logo' },
-						_react2.default.createElement('img', { src: logosrc, className: 'archive-logo-img' })
+						_react2.default.createElement('img', { src: logosrc, className: "archive-logo-img " + this.props.headerData.thisTerm.taxonomy })
 					)
 				),
 				_react2.default.createElement(
@@ -23902,11 +24084,11 @@ var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(33);
+var _reactDom = __webpack_require__(34);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _Thing = __webpack_require__(184);
+var _Thing = __webpack_require__(185);
 
 var _Thing2 = _interopRequireDefault(_Thing);
 
@@ -23952,178 +24134,6 @@ exports.default = Single;
 if (jQuery('#singleApp').length) {
 	_reactDom2.default.render(_react2.default.createElement(Single, null), document.getElementById('singleApp'));
 }
-
-/***/ }),
-/* 201 */,
-/* 202 */,
-/* 203 */,
-/* 204 */,
-/* 205 */,
-/* 206 */,
-/* 207 */,
-/* 208 */,
-/* 209 */,
-/* 210 */,
-/* 211 */,
-/* 212 */,
-/* 213 */,
-/* 214 */,
-/* 215 */,
-/* 216 */,
-/* 217 */,
-/* 218 */,
-/* 219 */,
-/* 220 */,
-/* 221 */,
-/* 222 */,
-/* 223 */,
-/* 224 */,
-/* 225 */,
-/* 226 */,
-/* 227 */,
-/* 228 */,
-/* 229 */,
-/* 230 */,
-/* 231 */,
-/* 232 */,
-/* 233 */,
-/* 234 */,
-/* 235 */,
-/* 236 */,
-/* 237 */,
-/* 238 */,
-/* 239 */,
-/* 240 */,
-/* 241 */,
-/* 242 */,
-/* 243 */,
-/* 244 */,
-/* 245 */,
-/* 246 */,
-/* 247 */,
-/* 248 */,
-/* 249 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(7);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var EmbedBox = function (_React$Component) {
-	_inherits(EmbedBox, _React$Component);
-
-	function EmbedBox(props) {
-		_classCallCheck(this, EmbedBox);
-
-		var _this = _possibleConstructorReturn(this, (EmbedBox.__proto__ || Object.getPrototypeOf(EmbedBox)).call(this));
-
-		_this.state = {
-			content: ''
-		};
-		if (props.thumbs !== undefined) {
-			var windowWidth = jQuery(window).width();
-			if (windowWidth < 400) {
-				var size = 'small';
-			} else if (windowWidth < 650) {
-				var size = 'medium';
-			} else {
-				var size = 'large';
-			}
-			_this.state.content = [_react2.default.createElement('img', { src: props.thumbs[size][0], key: 'thumb' + props.embedCode, className: 'thumb', onClick: function onClick() {
-					return _this.thumbReplacer();
-				} }), _react2.default.createElement('img', { src: dailiesGlobalData.thisDomain + '/wp-content/uploads/2016/08/playbutton.png', key: 'playbutton' + props.embedCode, className: 'playbutton' })];
-		} else if (props.embedCode !== undefined) {
-			var embed = _this.generateEmbed(props);
-			_this.state.content = embed;
-		};
-		_this.generateEmbed = _this.generateEmbed.bind(_this);
-		_this.thumbReplacer = _this.thumbReplacer.bind(_this);
-		return _this;
-	}
-
-	_createClass(EmbedBox, [{
-		key: 'componentDidUpdate',
-		value: function componentDidUpdate() {
-			var twitterVideo = jQuery('#twitterVideo' + this.props.embedCode);
-			if (twitterVideo.length && !jQuery('#twitter-widget-0').length) {
-				twttr.widgets.createVideo(this.props.embedCode, document.getElementById('twitterVideo' + this.props.embedCode));
-			}
-		}
-	}, {
-		key: 'generateEmbed',
-		value: function generateEmbed(props) {
-			if (props.embedSource === 'TwitchCode') {
-				var seedlingInfo = jQuery('.seedlingInfo');
-				if (seedlingInfo.length) {
-					var seedlingInfoWidth = jQuery('.seedlingInfo').width();
-					var heightByWidth = seedlingInfoWidth / 16 * 9;
-					var viewportHeight = jQuery(window).height();
-					var baseSeedlingHeight = jQuery('.seedlingMeta').outerHeight();
-					var heightByViewport = viewportHeight - baseSeedlingHeight - 144;
-					if (heightByViewport < heightByWidth) {
-						var height = heightByViewport + 'px';
-					} else {
-						var height = heightByWidth + 'px';
-					}
-					var width = seedlingInfoWidth + 'px';
-				} else {
-					var width = "640";
-					var height = "360";
-				}
-				var embed = _react2.default.createElement('iframe', { src: "https://clips.twitch.tv/embed?clip=" + props.embedCode + "&autoplay=true", width: width, height: height, frameBorder: '0', scrolling: 'no', allowFullScreen: 'true' });
-			} else if (props.embedSource === 'GFYtitle') {
-				var embed = _react2.default.createElement('iframe', { src: 'https://gfycat.com/ifr/' + props.embedCode, frameBorder: '0', scrolling: 'no', width: '100%', height: '100%', allowFullScreen: true });
-			} else if (props.embedSource === 'TwitterCode') {
-				var embed = _react2.default.createElement('div', { id: 'twitterVideo' + props.embedCode });
-			} else if (props.embedSource === 'YouTubeCode') {
-				var embed = _react2.default.createElement('iframe', { width: '1280', height: '720', src: "https://www.youtube.com/embed/" + props.embedCode + "?showinfo=0&autoplay=1", frameBorder: '0', allowFullScreen: true });
-			} else if (props.embedSource === 'TwitchLive') {
-				var embed = 'Soon TM';
-			}
-			return embed;
-		}
-	}, {
-		key: 'thumbReplacer',
-		value: function thumbReplacer() {
-			var embed = this.generateEmbed(this.props);
-			this.setState({ content: embed });
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			return _react2.default.createElement(
-				'section',
-				{ className: 'contentbox', id: this.props.embedCode },
-				_react2.default.createElement(
-					'div',
-					{ className: 'embed-container' },
-					this.state.content
-				)
-			);
-		}
-	}]);
-
-	return EmbedBox;
-}(_react2.default.Component);
-
-exports.default = EmbedBox;
 
 /***/ })
 /******/ ]);

@@ -22,7 +22,7 @@ export default class ArchiveHeader extends React.Component{
 			<header id="archive-header">
 				<div id="archive-left">
 					<div id="archive-logo">
-						<img src={logosrc} className="archive-logo-img"></img>
+						<img src={logosrc} className={"archive-logo-img " + this.props.headerData.thisTerm.taxonomy}></img>
 					</div>
 				</div><div id="archive-right">
 					<div id="archive-title">
