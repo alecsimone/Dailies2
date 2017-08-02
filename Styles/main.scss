@@ -1,0 +1,367 @@
+@import '../Styles/vars.scss';
+
+#hometop, #archivetop {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 24px auto;
+	padding: 18px;
+	box-sizing: border-box;
+	flex-wrap: wrap;
+	@media #{$bp800} {
+		justify-content: space-between;
+		padding: 36px;
+		width: 95%;
+		flex-wrap: nowrap;
+	}
+}
+
+#propLeft {
+	width: 100%;
+	max-width: 300px;
+	order: 2;
+	margin-bottom: 48px;
+	@media #{$bp800} {
+		order: 0;
+		margin-bottom: 0;
+		width: 20%;
+		background: $blueGlass;
+		border: 3px solid $whiteTrans07;
+		border-radius: 3px;
+	}
+}
+#propRight {
+	order: 1;
+	@media #{$bp800} {
+		order: 0;
+	}
+}
+.propbutton {
+	padding: 12px;
+	font-size: 30px;
+	font-weight: bold;
+	border-radius: 3px;
+	&:first-child {
+		margin-top: 0;
+	}
+	&.img {
+		line-height: 0;
+	}
+	@media #{$bp800} {
+		//background: $blueGlass;
+		display: block;
+		margin: 18px auto;
+	}
+}
+a.propbutton {
+	text-decoration: none;
+	color: $gold;
+	&:hover {
+		text-decoration: underline;
+		@media #{$bp800} {
+			background: $lightBlack;
+		}
+	}
+}
+.patreonImg {
+	width: 36px;
+}
+
+.chooseExcellence {
+	width: 100%;
+	margin: 24px 0;
+	opacity: .9;
+}
+
+#homePagePosts {
+	margin-top: 72px;
+}
+
+.thing {
+	position: relative;
+	width: 90%;
+	max-width: 1280px;
+	margin: 24px auto 144px;
+	border-top: 3px solid $whiteTrans25;
+	border-radius: 3px;
+	padding-bottom: 36px;
+	& .titleBox {
+		padding: 1.5em 0 1em;
+		max-width: 1080px;
+		margin: auto;
+		text-align: left;
+		a {
+			color: $white;
+			text-decoration: none;
+			&:hover {
+				text-decoration: underline;
+			}
+			&:visited {
+				color: $white;
+			}
+		}
+		@media #{$bp800} {
+			padding: 3em 0 2em;
+		}
+	}
+	& .votecount {
+		font-weight: bold;
+		font-size: 36px;
+		display: inline-block;
+		padding-right: 8px;
+		color: $gold;
+	}
+	@media #{$bp800} {
+		//background: $darkBlack;
+		background: $blueGlass;
+		box-shadow: $lowShadow;
+		border-right: 3px solid $whiteTrans07;
+		border-left: 3px solid $whiteTrans07;	
+		border-bottom: 3px solid $whiteTrans07;
+		box-sizing: border-box;
+		padding: 0 1.5em 1em;
+	}
+}
+.thing.noise:before {
+	background: none;
+	@media #{$bp1280} {
+		background: url('http://localhost/dailieslocal/wp-content/uploads/2017/07/noise.png');
+		border-radius: 0 0 3px 3px;
+		max-width: 1280px;
+	}
+}
+
+.WinnerBanner {
+	//width: 108%;
+	//margin: 0 0 0 -4%;
+	@media #{$bp1280} {
+		width: 100%;
+		margin: 0;
+	}
+	img {
+		width: 100%;
+		height: auto;
+		border-radius: 2px;
+	}
+}
+
+h3 {
+	display: inline;
+	font-size: 36px;
+	margin: 0;
+}
+
+.contentbox {
+	position: relative;
+	max-width: 1080px;
+	margin: auto;
+	box-shadow: $lowShadow;
+	background: #000;
+	line-height: 0;
+}
+img.thumb {
+	width: 100%;
+	max-width: 100%;
+	height: auto;
+}
+.playbutton {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+	pointer-events: none;
+}
+.thing .embed-container, .LittleThing .embed-container {
+	position: relative;
+	padding-bottom: 56.25%;
+	height: 0;
+	overflow: hidden;
+	max-width: 100%;
+	& iframe {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+}
+
+.tagbox {
+	padding: 2em 0;
+	font-size: 18px;
+}
+.tagLink {
+	display: inline-block;
+	margin: 0 4px;
+	color: $white;
+	&:visited {
+		color: $blue;
+	}
+}
+
+.voteBox {
+	margin: 12px 0;
+}
+.voteIcon {
+	width: 96px;
+	cursor: pointer;
+}
+
+.source {
+	display: inline;
+}
+.stars.inline {
+	display: inline;
+}
+
+img.starpic, img.sourcepic {
+	width: auto;
+	height: 36px;
+}
+img.starpic {
+	border-radius: 18px;
+}
+img.sourcepic {
+	border-radius: 3px;
+}
+a.starSourceLink {
+	padding: 0 9px;
+	text-decoration: none;
+	&:hover {
+		text-decoration: underline;
+	}
+}
+p.attribution {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin: 12px 0;
+	padding-right: 18px;
+}
+p.attribution a {
+	color: $blue;
+	&:visited {
+		color: $blue;
+	}
+}
+.adminControls {
+	display: inline-flex;
+	align-items: center;
+	margin: 15px auto;
+}
+.addScoreBox {
+	margin-right: 24px;
+	font-size: 24px;
+	height: 36px;
+	width: 120px;
+	text-align: center;
+}
+.declareWinner {
+	width: 36px;
+	margin-right: 24px;
+}
+
+.daytitle, #sortbar {
+	padding: 1.2em;
+	font-size: 48px;
+	//background: $blackTrans25;
+	text-shadow: 0px 0px 3px $darkBlack;
+	font-weight: bold;
+}
+
+#archive-header {
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 0.5;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    @media #{$bp800} {
+    	justify-content: space-between;
+	    margin-right: 36px;
+    	flex-wrap: nowrap;
+    }
+}
+#archive-right {
+	max-width: 100%;
+	padding: 24px;
+	@media #{$bp500} {
+		padding: 24px;
+	}
+	@media #{$bp1280} {
+		padding: 24px 96px;
+		border-radius: 5px;
+	}
+}
+#archive-logo {
+	max-width: 300px;
+	img {
+		width: 100%;
+		height: auto;
+		&.stars {
+			border-radius: 50%;
+		}
+	}
+}
+#archive-title h2 {
+	font-size: 36px;
+	margin: 12px;
+	text-shadow: 0 0 12px black;
+	@media #{$bp500} {
+		font-size: 60px;
+	}
+}
+#archive-data img {
+	width: 36px;
+	height: auto;
+	margin: 0 9px;
+	@media #{$bp500} {
+		width: 48px;
+		margin: 0 12px;
+	}
+}
+
+a.orderLink {
+	color: $white;
+	margin: 0 6px;
+	&.currentSort {
+		color: $blue;
+	}
+}
+
+#rulespage {
+	background: $blueGlass;
+	width: 90%;
+	max-width: 1080px;
+	margin: 48px auto;
+	padding: 24px;
+	box-sizing: border-box;
+	border-radius: 4px;
+	h2 {
+		font-size: 48px;
+	}
+	span.highlight {
+		font-weight: bold;
+		color: $gold;
+	}
+	@media #{$bp800} {
+		padding: 24px 48px;
+	}
+}
+p.rules {
+	text-align: left;
+	margin: 36px auto;
+	font-size: 24px;
+	line-height: 1.5em;
+}
+
+.thatsAll {
+	font-size: 36px;
+	margin-bottom: 144px;
+	text-shadow: 0 0 6px $darkBlack;
+	a {
+		color: $blue;
+	}
+}

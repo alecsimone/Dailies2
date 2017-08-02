@@ -1,0 +1,26 @@
+/*
+ Theme Name:   Dailies 2.0
+ Theme URI:    http://dailes.gg/wp-content/themes/Dailies2
+ Description:  It's been a year, I've learned a lot, time to rebuild this thing from the ground up.
+ Author:       Alec Simone
+ Version:      2.0.0 
+ ---------------- Theme customization starts here -------------------------------------------------------------- */
+body {
+  color: red; }
+
+#return-to-top {
+  position: fixed;
+  bottom: 24px;
+  right: 12px;
+  width: 48px;
+  height: 48px;
+  display: none;
+  opacity: .75;
+  z-index: 2; }
+  #return-to-top img {
+    width: 48px;
+    height: 48px; }
+  #return-to-top:hover {
+    opacity: 1; }
+
+/*# sourceMappingURL=global.css.map*/

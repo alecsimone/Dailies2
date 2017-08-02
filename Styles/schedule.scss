@@ -1,0 +1,147 @@
+@import '../Styles/vars.scss';
+
+$bottomBorder: 8px solid $blue;
+$lighterGlass: hsla(212, 38%, 18%, 1);
+$darkerGlass: hsla(222, 16%, 10%, 1);
+$textShadow: 0 0 8px #000;
+
+#schedule-container {
+	margin-top: 48px;
+	@media #{$bp800} {
+		margin: 60px auto;
+		width: 90%;
+	}
+}
+.schedule-day {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin: 12px 5% 96px;
+	text-align: left;
+	width: 90%;
+	box-sizing: border-box;
+	&-title {
+		width: 100%;
+		font-weight: 500;
+		font-size: 36px;
+		margin: 24px auto 12px;
+		padding: 1em 0;
+		border-bottom: $bottomBorder;
+		background: $blueGlass;
+		box-shadow: $lowShadowFromAbove;
+		& #suffix {
+			vertical-align: super;
+			font-size: .5em;
+		}
+	}
+	@media #{$bp800} {
+		width: 100%;
+		margin: 12px auto 96px;
+	}
+}
+#scheduleFor {
+	font-size: .5em;
+	line-height: .5em;
+	font-weight: 300;
+	color: $blue;
+}
+.schedule-entry {
+	font-size: 15px;
+	font-weight: 300;
+	display: inline-flex;
+	justify-content: flex-start;
+	align-items: center;
+	margin: 12px 1%;
+	padding: 18px 15px 12px;
+	width: 100%;
+	box-sizing: border-box;
+	border-bottom: $bottomBorder;
+	background: $blueGlass;
+	box-shadow: $lowShadowFromAbove;
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#020a12', endColorstr='#000000',GradientType=0 );
+	@media #{$bp500} {
+		font-size: 18px;	
+	}
+	@media #{$bp1080} {
+		width: 48.5%;
+		padding: 18px 24px;
+		background: linear-gradient(120deg, $darkerGlass 0%, $lighterGlass 100%);
+	}
+	@media #{$bp1900} {
+		width: calc(98% / 3);
+	}
+	&-info {
+		color: $whiteTrans50;
+		padding: 0 12px;
+		line-height: 1.8em;
+		font-size: 18px;
+		@media #{$bp500} {
+			padding: 0 24px;
+		}
+	}
+	&-source {
+		font-size: 24px;
+		text-shadow: $textShadow;
+		@media #{$bp500} {
+			//padding-bottom: 6px;
+			font-size: 36px;
+		}
+	}
+	&-time {
+		color: $white;
+		text-shadow: $textShadow;
+	}
+	&-twitch-link {
+		display: flex;
+		align-items: center;
+		font-size: 18px;
+		height: 1.2em;
+		text-shadow: $textShadow;
+		& img {
+			width: 1em;
+			height: 1em;
+		}
+	}
+}
+.schedule-entry-title, .schedule-entry-time {
+	display: inline-block;
+}
+@media #{$bp1080} {
+	.schedule-entry:nth-child(2n) { //right side
+		margin: 12px 0 12px 1.5%;
+	}
+	.schedule-entry:nth-child(2n+1) {
+		margin: 12px 1.5% 12px 0;
+	}
+	.schedule-day-title {
+		background: radial-gradient(at top, $lighterGlass 5%, $darkerGlass 100%);
+		justify-content: center;
+	}
+}
+@media #{$bp1900} {
+	.schedule-entry:nth-child(3n) {
+		margin: 12px 0 12px .5%;
+	}
+	.schedule-entry:nth-child(3n+1) {
+		margin: 12px .5% 12px 0;
+	}
+	.schedule-entry:nth-child(3n+2) {
+		margin: 12px .5% 12px;
+	}
+}
+img.schedule-entry-logo {
+	width: 72px;
+	height: 72px;
+	opacity: .85;
+	@media #{$bp500} {
+		width: 96px;
+		height: 96px;
+	}
+}
+a.schedule-entry-link {
+	color: $white;
+	text-decoration: none;
+	&.twitch {
+		color: $blue;
+	}
+}
