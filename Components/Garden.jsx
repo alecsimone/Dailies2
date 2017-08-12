@@ -9,7 +9,13 @@ export default class Garden extends React.Component{
 
 		var clips = this.props.clips;
 		function clipsByViews(a,b) {
-			return b.views - a.views
+			if (b.views === a.views) {
+				let bDate = Date.parse(b.created_at);
+				let aDate = Date.parse(a.created_at);
+				return bDate - aDate;
+			} else {
+				return b.views - a.views;
+			}
 		}
 		var sortedClips = clips.sort(clipsByViews);
 

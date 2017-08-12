@@ -59,7 +59,7 @@ function script_setup() {
 		);
 		wp_localize_script('liveScripts', 'liveData', $liveData);
 		wp_enqueue_script('liveScripts');
-		wp_enqueue_script('isotope', 'https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js');
+		wp_enqueue_script('isotope', 'http://dailies.gg/wp-content/themes/Dailies2/js/isotope.pkgd.min.js');
 	} /*else if (is_page('Schedule')) {
 		wp_enqueue_script( 'scheduleScripts', get_template_directory_uri() . '/Bundles/schedule-bundle.js', ['jquery'], '', true );
 	} */
@@ -148,6 +148,7 @@ function buildPostDataObject($id) {
 	$postDataObject['votecount'] = get_post_meta($id, 'votecount', true);
 	if ($postDataObject['votecount'] === '') {$postDataObject['votecount'] = 0;}
 	$postDataObject['voteledger'] = get_post_meta($id, 'voteledger', true);
+	if ($postDataObject['voteledger'] === '') {$postDataObject['voteledger'] = [];}
 	$postDataObject['guestlist'] = get_post_meta($id, 'guestlist', true);
 	$postDataObject['EmbedCodes'] = array(
 		'TwitchCode' => get_post_meta($id, 'TwitchCode', true),
@@ -823,7 +824,7 @@ function generateLivePostsData() {
 	$postDatas = [];
 	foreach ($postDataLive as $post) {
 		$postID = $post->ID;
-		$postDatas[$postID] = get_post_meta($postID, 'postDataObj', true);
+		$postDatas[$postID] = json_decode(get_post_meta($postID, 'postDataObj', true));
 	}
 	return $postDatas;
 }

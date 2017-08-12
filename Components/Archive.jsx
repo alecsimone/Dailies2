@@ -31,6 +31,7 @@ class Archive extends React.Component{
 			});
 			var currentState = this.state;
 			var queryURL = dailiesGlobalData.thisDomain + '/wp-json/wp/v2/posts?categories=4&' + this.state.headerData.thisTerm.taxonomy + '=' + this.state.headerData.thisTerm.term_id + '&offset=' + (this.state.page + 1) * 10 + '&filter[orderby]=' + dailiesMainData.initialArchiveData.orderby + '&order=' + dailiesMainData.initialArchiveData.order.toLowerCase();
+			console.log(queryURL);
 			jQuery.get({
 				url: queryURL,
 				dataType: 'json',

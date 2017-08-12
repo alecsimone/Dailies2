@@ -100,7 +100,7 @@ export default class Thing extends React.Component {
 				console.log(three);
 			},
 			success: function(data) {
-				console.log(data);
+				console.log(this.props);
 			}
 		});
 	}

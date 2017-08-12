@@ -7,6 +7,7 @@ export default class LivePostsLoop extends React.Component{
 		var postDatas = this.props.postData;
 		var postIDs = Object.keys(postDatas).reverse();
 		var postTrasher = this.props.postTrasher;
+		var vote = this.props.vote;
 		if (this.props.sort === true) {
 			function littleThingSort(a,b) {
 				let parsedA = JSON.parse(postDatas[a]);
@@ -18,9 +19,9 @@ export default class LivePostsLoop extends React.Component{
 			postIDs = postIDs.sort(littleThingSort);
 		}
 		var littleThingComponents = postIDs.map(function(postID) {
-			let postData = JSON.parse(postDatas[postID]);
+			let postData = postDatas[postID];
 			return (
-				<LittleThing key={postID} userData={userData} postData={postData} postTrasher={postTrasher} />
+				<LittleThing key={postID} userData={userData} postData={postData} postTrasher={postTrasher} vote={vote} />
 			)
 		});
 		if (postIDs.length === 0) {

@@ -51,7 +51,7 @@ export default class SecretGarden extends React.Component{
 				console.log(three);
 			},
 			success: function(data) {
-				console.log(data);
+				//console.log(data);
 			}
 		});
 	}

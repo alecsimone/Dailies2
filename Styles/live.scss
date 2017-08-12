@@ -17,6 +17,7 @@
 .channelChangerLogo {
 	display: inline-block;
 	max-width: 120px;
+	width: 100%;
 	img {
 		width: 100%;
 		height: auto;
@@ -37,6 +38,8 @@
 	align-items: center;
 	justify-content: center;
 	white-space: pre-wrap;
+	padding: 8px;
+	box-sizing: border-box;
 	background: $darkBlack;
 	line-height: 1.5em;
 	opacity: 0;

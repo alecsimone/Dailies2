@@ -14,11 +14,13 @@ export default class Live extends React.Component{
 			cohosts: liveData.cohosts,
 			postData: liveData.postData,
 			sort: false,
+			cutPostIDs: [],
 		}
 		this.changeChannel = this.changeChannel.bind(this);
 		this.updatePostData = this.updatePostData.bind(this);
 		this.sortLive = this.sortLive.bind(this);
 		this.postTrasher = this.postTrasher.bind(this);
+		this.littleThingVote = this.littleThingVote.bind(this);
 	}
 
 	changeChannel(key) {
@@ -37,6 +39,76 @@ export default class Live extends React.Component{
 		} else {
 			this.setState({sort: true});
 		}
+	}
+
+	littleThingVote(id) {
+		let userID = this.state.userData.userID.toString(10);
+		let rep = parseFloat(this.state.userData.userRep);
+		var votecount = parseFloat(this.state.postData[id].votecount);
+		let guestlist = this.state.postData[id].guestlist;
+		let clientIP = this.state.userData.clientIP;
+		let repTime = this.state.userData.userRepTime;
+		var currentState = this.state;
+		if (userID !== "0") {
+			var voteledger = this.state.postData[id].voteledger;
+			if( Object.keys(voteledger).indexOf(userID) > -1 ) {
+				currentState.postData[id].votecount = (votecount - voteledger[userID]).toFixed(1);
+				delete currentState.postData[id].voteledger[userID];
+				if (jQuery.inArray(clientIP, guestlist) > -1) {
+					let guestIndex = jQuery.inArray(clientIP, guestlist);
+					guestlist.splice(guestIndex, 1);
+					if (guestlist.length === 0) {
+						guestlist = '';
+					}
+					currentState.postData[id].guestlist = guestlist;
+					currentState.postData[id].votecount = (currentState.postData[id].votecount - .1).toFixed(1);
+				}
+			} else {
+				var currentTime = Date.now() / 1000;
+				if (currentTime > repTime + 24 * 60 * 60) {rep = rep + .1};
+				currentState.postData[id].voteledger[userID] = rep;
+				currentState.postData[id].votecount = (votecount + rep).toFixed(1);
+				currentState.userData.userRepTime = {0: currentTime};
+				currentState.userData.userRep = rep;
+			}
+		} else if (jQuery.inArray(clientIP, guestlist) > -1) {
+			let guestIndex = jQuery.inArray(clientIP, guestlist);
+			guestlist.splice(guestIndex, 1);
+			if (guestlist.length === 0) {
+				guestlist = '';
+			}
+			currentState.postData[id].guestlist = guestlist;
+			currentState.postData[id].votecount = (votecount - .1).toFixed(1);
+		} else {
+			if (guestlist === '' || guestlist == null) {
+				var newGuestlist = [clientIP];
+			} else {
+				guestlist.push(clientIP);
+				var newGuestlist = guestlist;
+			}
+			currentState.postData[id].guestlist = newGuestlist;
+			currentState.postData[id].votecount = (votecount + .1).toFixed(1);
+		}
+		this.setState(currentState);
+		jQuery('#LittleThing' + id).find('.voteIcon').addClass("replaceHold");
+		jQuery.ajax({
+			type: "POST",
+			url: dailiesGlobalData.ajaxurl,
+			dataType: 'json',
+			data: {
+				id: id,
+				action: 'official_vote',
+				vote_nonce: liveData.nonce,
+			},
+			error: function(one, two, three) {
+				console.log(one);
+				console.log(two);
+				console.log(three);
+			},
+			success: function(data) {
+				//console.log(data);
+			}
+		});
 	}
 
 	updatePostData() {
@@ -59,16 +131,91 @@ export default class Live extends React.Component{
 		let tenDaysAgoFormatted = tenDaysAgoYear + '-' + tenDaysAgoMonth + '-' + tenDaysAgoDay + 'T00:00:00';
 		let liveDataQuery = dailiesGlobalData.thisDomain + '/wp-json/wp/v2/posts?categories_exclude=4&per_page=50&after=' + tenDaysAgoFormatted;
 		var currentState = this.state;
+		var cutPosts = this.state.cutPostIDs;
 		var boundThis = this;
 		jQuery.get({
 			url: liveDataQuery,
 			dataType: 'json',
 			success: function(data) {
-				currentState.postData = {};
+				var newPostData = {};
 				for (var i = 0; i < data.length; i++) {
-					let postDataObj = data[i].postDataObj;
-					currentState.postData[data[i].id] = postDataObj;
+					let postDataObject = JSON.parse(data[i].postDataObj);
+					//Before we go any further, we need to check if the post has been cut client-side since the server update
+					//So we're going to grab the state array holding the IDs of cut posts
+					//And check if this post's ID is in it
+					let currentID = postDataObject.id;
+					if (cutPosts.indexOf(currentID) > -1) {
+						//If it is, return, else keep going
+						return;
+					} else {
+						//See who the server thinks has voted on the post
+						let serverVoteLedger = postDataObject.voteledger;
+						let serverGuestList = postDataObject.guestlist;
+						if (serverGuestList === null) {serverGuestList = ''};
+						//See who the client thinks has voted on the post. Basically we're checking to see if the user has voted since the server updated
+						let localDataObject = currentState.postData[currentID];
+						let localVoteLedger = localDataObject.voteledger;
+						let localGuestList = localDataObject.guestlist;
+						if (localGuestList === null) {localGuestList = ''};
+						let userID = dailiesGlobalData.userData.userID;
+						let clientIP = dailiesGlobalData.userData.clientIP;
+						//Next we need a bunch of conditionals
+						//If the user has voted on both the server and the client, just pass the object through normally
+						if (dailiesGlobalData.userData.userID !== 0) { 
+							if ( (localVoteLedger.hasOwnProperty(userID) && serverVoteLedger.hasOwnProperty(userID)) || (localVoteLedger.length === 0 && serverVoteLedger.length === 0) || (Object.keys(localVoteLedger).length === 0 && Object.keys(serverVoteLedger).length === 0) ) {
+								newPostData[currentID] = postDataObject;
+							}
+							//If the user has voted on the client but not the server, add the user's rep to the score and pass
+							if ( localVoteLedger.hasOwnProperty(userID) && (!serverVoteLedger.hasOwnProperty(userID) || serverVoteLedger.length === 0 || Object.keys(serverVoteLedger).length === 0) ) {
+								console.log("1");
+								console.log("local");
+								console.log(localVoteLedger);
+								console.log("server");
+								console.log(serverVoteLedger);
+								newPostData[currentID] = postDataObject;
+								newPostData[currentID].votecount = parseFloat(newPostData[currentID].votecount) + parseFloat(currentState.userData.userRep);
+								newPostData[currentID].voteledger[userID] = currentState.userData.userRep;
+							}
+							//If the user has voted on the server but not the client, subtract the user's rep from the score and pass
+							if ( (!localVoteLedger.hasOwnProperty(userID) || localVoteLedger.length === 0 || Object.keys(localVoteLedger).length === 0) && serverVoteLedger.hasOwnProperty(userID)) {
+								console.log("2");
+								console.log("local");
+								console.log(localVoteLedger);
+								console.log("server");
+								console.log(serverVoteLedger);
+								newPostData[currentID] = postDataObject;
+								newPostData[currentID].votecount = parseFloat(newPostData[currentID].votecount) - parseFloat(currentState.userData.userRep);
+								delete newPostData[currentID].voteledger[userID]; 
+							}
+						} else {
+							//Same trio of conditionals, but for IP addresses and the guestlist
+							if ( (localGuestList.indexOf(clientIP) > -1 && serverGuestList.indexOf(clientIP) > -1) || (localGuestList === '' && serverGuestList === '') ) {
+								newPostData[currentID] = postDataObject;
+							}
+							if ( localGuestList.indexOf(clientIP) > -1 && (serverGuestList.indexOf(clientIP) === -1 || serverGuestList === '') ) {
+								console.log("3");
+								console.log("local");
+								console.log(localVoteLedger);
+								console.log("server");
+								console.log(serverVoteLedger);
+								newPostData[currentID] = postDataObject;
+								newPostData[currentID].votecount = parseFloat(newPostData[currentID].votecount) + .1;
+							}
+							if ( (localGuestList.indexOf(clientIP) === -1 || localGuestList === '') && serverGuestList.indexOf(clientIP) > -1) {
+								console.log("4");
+								console.log("local");
+								console.log(localVoteLedger);
+								console.log("server");
+								console.log(serverVoteLedger);
+								newPostData[currentID] = postDataObject;
+								newPostData[currentID].votecount = parseFloat(newPostData[currentID].votecount) - .1;
+							}
+						}
+					}
+					//let postDataObj = JSON.parse(data[i].postDataObj);
+					//currentState.postData[data[i].id] = postDataObj;
 				}
+				currentState.postData = newPostData;
 				boundThis.setState(currentState);
 			},
 		});
@@ -143,7 +290,7 @@ export default class Live extends React.Component{
 				<HomeTop user={this.state.userData} />
 				<ChannelChanger channels={this.state.channels} changeChannel={this.changeChannel} sortLive={this.sortLive} sort={this.state.sort} />
 				{CoHosts}
-				<LivePostsLoop userData={this.state.userData} postData={postData} sort={this.state.sort} postTrasher={this.postTrasher} />
+				<LivePostsLoop userData={this.state.userData} postData={postData} sort={this.state.sort} postTrasher={this.postTrasher} vote={this.littleThingVote} />
 			</section>
 		)
 	}
