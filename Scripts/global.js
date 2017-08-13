@@ -33,3 +33,11 @@ function replaceImage(thisIMG) {
 	thisIMG.attr("src", thisNewSrc);
 	thisIMG.attr("data-replace-src", thisOldSrc);
 }
+
+window.imageError = function imageError(e, type) {
+	if (type === 'source') {
+		e.target.src=dailiesGlobalData.thisDomain + "/wp-content/uploads/2017/07/rl-logo-med.png";
+	} else {
+		e.target.src=dailiesGlobalData.thisDomain + "/wp-content/uploads/2017/03/default_pic.jpg";
+	}
+};

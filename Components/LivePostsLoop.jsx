@@ -10,8 +10,8 @@ export default class LivePostsLoop extends React.Component{
 		var vote = this.props.vote;
 		if (this.props.sort === true) {
 			function littleThingSort(a,b) {
-				let parsedA = JSON.parse(postDatas[a]);
-				let parsedB = JSON.parse(postDatas[b]);
+				let parsedA = postDatas[a];
+				let parsedB = postDatas[b];
 				let scoreA = parseFloat(parsedA.votecount, 10);
 				let scoreB = parseFloat(parsedB.votecount, 10);
 				return scoreB - scoreA;

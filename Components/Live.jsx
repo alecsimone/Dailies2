@@ -249,7 +249,7 @@ export default class Live extends React.Component{
 		window.grid = jQuery('#livePostsLoop').isotope({
 			itemSelector: '.LittleThing',
 			masonry: {
-				gutter: 18,
+				gutter: 24,
 				horizontalOrder: true,
 			},
 		});
@@ -260,7 +260,7 @@ export default class Live extends React.Component{
 		jQuery('#livePostsLoop').isotope({
 			itemSelector: '.LittleThing',
 			masonry: {
-				gutter: 18,
+				gutter: 24,
 				horizontalOrder: true,
 			},
 		});
@@ -276,8 +276,8 @@ export default class Live extends React.Component{
 		})
 		if (activeFilter.length > 0) {
 			jQuery.each(postData, function() {
-				if (activeFilter.indexOf(JSON.parse(this).taxonomies.source[0].slug) === -1) {
-					delete postData[JSON.parse(this).id];
+				if (activeFilter.indexOf(this.taxonomies.source[0].slug) === -1) {
+					delete postData[this.id];
 				}
 			}) 
 		}

@@ -10,7 +10,7 @@ export default class StarBox extends React.Component{
 				let starLink = dailiesGlobalData.thisDomain + "/stars/" + stars[key]['slug'];
 				return(
 					<p key={thisID} className="attribution stars">
-						<a className="starSourceImgLink" href={starLink}><img className="starpic" src={stars[key]['logo']}></img></a><a className="starSourceLink" href={starLink}>{stars[key]['name']}</a> 
+						<a className="starSourceImgLink" href={starLink}><img className="starpic" src={stars[key]['logo']} onError={(e) => window.imageError(e)}></img></a><a className="starSourceLink" href={starLink}>{stars[key]['name']}</a> 
 					</p>
 				)
 			});

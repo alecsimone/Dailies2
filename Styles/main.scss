@@ -284,6 +284,9 @@ p.attribution a {
     	flex-wrap: nowrap;
     }
 }
+#archive-left {
+	max-width: 80%;
+}
 #archive-right {
 	max-width: 100%;
 	padding: 24px;
@@ -296,13 +299,17 @@ p.attribution a {
 	}
 }
 #archive-logo {
-	max-width: 300px;
+	width: 200px;
+	max-width: 100%;
 	img {
 		width: 100%;
 		height: auto;
 		&.stars {
 			border-radius: 50%;
 		}
+	}
+	@media #{$bp1280} {
+		width: 300px;
 	}
 }
 #archive-title h2 {

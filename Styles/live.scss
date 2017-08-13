@@ -9,7 +9,7 @@
 	position: relative;
 	background: $darkBlack;
 	padding: 3px;
-	margin: 0 3px;
+	margin: 6px 3px;
 	border-radius: 2px;
 	line-height: 0;
 }
@@ -144,8 +144,8 @@
 	border-radius: 2px;
 	box-shadow: 0 1px 6px $blackTrans25;
 	width: 100%;
-	margin: 12px 0;
-	padding: 15px;
+	margin: 15px 0;
+	padding: 12px;
 	box-sizing: border-box;
 	text-align: left;
 	font-size: 24px;
@@ -156,6 +156,7 @@
 	}
 	& h3 {
 		font-size: 1.25em;
+		font-weight: 500;
 	}
 	& .titleBox {
 		flex-grow: 1;
@@ -170,7 +171,7 @@
 	}
 	& .votecount {
 		font-size: 1.25em;
-		font-weight: bold;
+		font-weight: 500;
 		color: $gold;
 		display: inline-block;
 		margin-left: 8px;
@@ -185,15 +186,16 @@
 	& p.attribution {
 		margin: 0;
 		font-size: 18px;
+		font-weight: 300;
 		a {
 			color: $white;
 		}
 	}
 	@media #{$bp850} {
-		width: calc(50% - 9px);
+		width: calc(50% - 12px);
 	}
 	@media #{$bp1900} {
-		width: calc(33% - 9px);
+		width: calc(33% - 12px);
 	}
 }
 

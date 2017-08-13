@@ -1,5 +1,4 @@
 <?php get_header();
-wp_suspend_cache_addition(true);
 
 /*function bigQuery($i) {	
 	$bigQueryOffset = $i * 200;

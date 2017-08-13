@@ -26,7 +26,7 @@ export default class LittleThing extends React.Component{
 		jQuery('#livePostsLoop').isotope({
 			itemSelector: '.LittleThing',
 			masonry: {
-				gutter: 18,
+				gutter: 24,
 				horizontalOrder: true,
 			},
 		});

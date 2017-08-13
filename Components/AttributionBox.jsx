@@ -11,7 +11,7 @@ class Source extends React.Component {
 			let sourceLink = dailiesGlobalData.thisDomain + "/source/" + source[key]['slug'];
 			return(
 				<p key={thisID} className="attribution source">
-					<a className="starSourceImgLink" href={sourceLink}><img className="sourcepic" src={source[key]['logo']}></img></a><a className="starSourceLink" href={sourceLink}>{source[key]['name']}</a> 
+					<a className="starSourceImgLink" href={sourceLink}><img className="sourcepic" src={source[key]['logo']} onError={(e) => window.imageError(e, 'source')}></img></a><a className="starSourceLink" href={sourceLink}>{source[key]['name']}</a> 
 				</p>
 			)
 		})

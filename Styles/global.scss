@@ -186,6 +186,7 @@
 	border-radius: 3px;
 	width: 100%;
 	max-width: 300px;
+	min-width: 264px;
 	color: black;
 	order: 3;
 	@media #{$bp800} {
