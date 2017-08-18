@@ -146,7 +146,7 @@ export default class Live extends React.Component{
 					let currentID = postDataObject.id;
 					if (cutPosts.indexOf(currentID) > -1) {
 						//If it is, return, else keep going
-						return;
+						continue;
 					} else {
 						//See who the server thinks has voted on the post
 						let serverVoteLedger = postDataObject.voteledger;
@@ -154,6 +154,10 @@ export default class Live extends React.Component{
 						if (serverGuestList === null) {serverGuestList = ''};
 						//See who the client thinks has voted on the post. Basically we're checking to see if the user has voted since the server updated
 						let localDataObject = currentState.postData[currentID];
+						if (localDataObject === undefined) {
+							newPostData[currentID] = postDataObject;
+							continue;
+						}
 						let localVoteLedger = localDataObject.voteledger;
 						let localGuestList = localDataObject.guestlist;
 						if (localGuestList === null) {localGuestList = ''};
@@ -167,25 +171,18 @@ export default class Live extends React.Component{
 							}
 							//If the user has voted on the client but not the server, add the user's rep to the score and pass
 							if ( localVoteLedger.hasOwnProperty(userID) && (!serverVoteLedger.hasOwnProperty(userID) || serverVoteLedger.length === 0 || Object.keys(serverVoteLedger).length === 0) ) {
-								console.log("1");
-								console.log("local");
-								console.log(localVoteLedger);
-								console.log("server");
-								console.log(serverVoteLedger);
 								newPostData[currentID] = postDataObject;
 								newPostData[currentID].votecount = parseFloat(newPostData[currentID].votecount) + parseFloat(currentState.userData.userRep);
 								newPostData[currentID].voteledger[userID] = currentState.userData.userRep;
 							}
 							//If the user has voted on the server but not the client, subtract the user's rep from the score and pass
 							if ( (!localVoteLedger.hasOwnProperty(userID) || localVoteLedger.length === 0 || Object.keys(localVoteLedger).length === 0) && serverVoteLedger.hasOwnProperty(userID)) {
-								console.log("2");
-								console.log("local");
-								console.log(localVoteLedger);
-								console.log("server");
-								console.log(serverVoteLedger);
 								newPostData[currentID] = postDataObject;
 								newPostData[currentID].votecount = parseFloat(newPostData[currentID].votecount) - parseFloat(currentState.userData.userRep);
 								delete newPostData[currentID].voteledger[userID]; 
+							}
+							if ( (!localVoteLedger.hasOwnProperty(userID) && (localVoteLedger.length !== 0 || Object.keys(localVoteLedger).length !== 0)) && !serverVoteLedger.hasOwnProperty(userID)) {
+								newPostData[currentID] = postDataObject;
 							}
 						} else {
 							//Same trio of conditionals, but for IP addresses and the guestlist

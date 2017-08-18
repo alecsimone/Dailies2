@@ -32,7 +32,9 @@ export default class Votebox extends React.Component {
 		}
 		var voteButton = <img className="voteIcon hoverReplacer" onClick={(e) => vote(this.props.thisID)} src={voteButtonSrc} data-replace-src={voteButtonReplaceSrc}></img>;
 		return(
-			<section className="voteBox">{voteButton}</section>
+			<section className="voteBox">
+				{voteButton}
+			</section>
 		)
 	}
 }

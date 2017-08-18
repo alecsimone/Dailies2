@@ -24,3 +24,29 @@ window.vodLinkTimeParser = function(vodLink) {
 	var VODTime = 3600 * hourCount + 60 * minuteCount + 1 * secondCount;
 	return VODTime;
 }
+
+jQuery("body").on('mouseenter', '.streamListItem', function() {
+	if (jQuery(this).hasClass('deactivated')) {
+		jQuery(this).css('opacity', 1);
+	} else {
+		jQuery(this).css('opacity', .1);
+	}
+});
+jQuery("body").on('mouseout', '.streamListItem', function() {
+	if (jQuery(this).hasClass('deactivated')) {
+		jQuery(this).css('opacity', '');
+	} else {
+		jQuery(this).css('opacity', '');
+	}
+});
+window.ctrlIsPressed = false;
+jQuery(document).keydown(function(e) {
+	if (e.which=="17") {
+		window.ctrlIsPressed = true;
+	}
+});
+jQuery(document).keyup(function(e) {
+	if (e.which=="17") {
+		window.ctrlIsPressed = false;
+	}
+});

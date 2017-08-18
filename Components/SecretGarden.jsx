@@ -23,6 +23,7 @@ export default class SecretGarden extends React.Component{
 			clips: gardenData.clips,
 			cursors,
 			cutSlugs: gardenData.cutSlugs,
+			streamFilter: [],
 		};
 		this.addStream = this.addStream.bind(this);
 		this.setState = this.setState.bind(this);
@@ -30,6 +31,7 @@ export default class SecretGarden extends React.Component{
 		this.voteSlug = this.voteSlug.bind(this);
 		this.keepSlug = this.keepSlug.bind(this);
 		this.pushStreamQueryFurther = this.pushStreamQueryFurther.bind(this);
+		this.filterStreams = this.filterStreams.bind(this);
 	}
 
 	cutSlug(slugObj, scope) {
@@ -213,9 +215,36 @@ export default class SecretGarden extends React.Component{
 		});
 	}
 
+	filterStreams(streamName) {
+		var currentFilter = this.state.streamFilter;
+		if (window.ctrlIsPressed === false) {
+			if (currentFilter.indexOf(streamName) > -1) {
+				currentFilter.splice(currentFilter.indexOf(streamName), 1)
+			} else {
+				currentFilter.push(streamName);
+			}
+		} else {
+			var originalFilterLength = currentFilter.length;
+			currentFilter = []
+			var streamListLength = 0;
+			jQuery.each(this.state.streamList, function(index) {
+				streamListLength++;
+				if (index !== streamName) {
+					currentFilter.push(index);
+				}
+			})
+			 if (originalFilterLength === streamListLength - 1) {
+			 	currentFilter = [];
+			 };
+		}
+		this.setState({streamFilter: currentFilter});
+	}
+
 	render() {
 		var clips = this.state.clips;
 		var cutSlugs = this.state.cutSlugs;
+		var filteredStreams = this.state.streamFilter;
+		var streamList = this.state.streamList;
 
 		var cutMoments = {};
 		jQuery.each(cutSlugs, function() {
@@ -259,6 +288,26 @@ export default class SecretGarden extends React.Component{
 					cutThisSlug = true;
 				}
 			}
+			var channelURL = seedlingData.broadcaster.channel_url;
+			var channelNameStartPosition = channelURL.lastIndexOf('/') + 1;
+			var channelName = channelURL.substring(channelNameStartPosition);
+			var lowerCaseStreamFilter = filteredStreams.map(function(streamName) {
+				return streamName.toLowerCase();
+			});
+			if (lowerCaseStreamFilter.indexOf(channelName) > -1) {
+				cutThisSlug = true;
+			}
+			if (filteredStreams.indexOf('Rocket League') > -1) {
+				var streamsArray = [];
+				jQuery.each(streamList, function(index) {
+					if (index !== 'Rocket League') {
+						streamsArray.push(index.toLowerCase())
+					}
+				});
+				if (streamsArray.indexOf(channelName) === -1) {
+					cutThisSlug = true;
+				}
+			}
 			if (cutThisSlug !== true) {
 				seedsToPlant.push(seedlingData);
 			}
@@ -283,8 +332,8 @@ export default class SecretGarden extends React.Component{
 		return(
 			<section id="secretGarden">
 				<GardenHeader clipCount={clipCount} cutCount={cutCount} addStream={this.addStream} />
-				<Streamlist streamList={this.state.streamList} />
-				<Garden clips={seedsToPlant} voters={voters} cutSlug={this.cutSlug} voteSlug={this.voteSlug} keepSlug={this.keepSlug} />
+				<Streamlist streamList={this.state.streamList} filterStreams={this.filterStreams} streamFilter={this.state.streamFilter} />
+				<Garden clips={seedsToPlant} voters={voters} cutSlug={this.cutSlug} voteSlug={this.voteSlug} keepSlug={this.keepSlug} streamFilter={this.state.streamFilter} />
 				{loadMore}
 			</section>
 		)

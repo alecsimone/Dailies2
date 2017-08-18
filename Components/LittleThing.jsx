@@ -74,7 +74,7 @@ export default class LittleThing extends React.Component{
 			<article className="LittleThing" id={'LittleThing' + this.props.postData.id} >
 				<div className="littleThingTop">
 					<a className="littleThingSourceImgLink" href={dailiesGlobalData.thisDomain + '/source/' + this.props.postData.taxonomies.source[0].slug}><img className="sourcepic" src={this.props.postData.taxonomies.source[0].logo} /></a>
-					<Titlebox title={this.props.postData.title} score={this.props.postData.votecount} linkout={linkout} toggleEmbed={this.toggleEmbed} />
+					<Titlebox title={this.props.postData.title} linkout={linkout} score={this.props.postData.votecount} toggleEmbed={this.toggleEmbed} />
 					<VoteBox thisID={this.props.postData.id} userData={this.props.userData} voteledger={this.props.postData.voteledger} guestlist={this.props.postData.guestlist} vote={this.props.vote}/>
 				</div>
 				{embedder}
