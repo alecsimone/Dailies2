@@ -3,6 +3,8 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
+var version = '-v1.05';
+
 module.exports = {
 	devtool: 'cheap-module-source-map',
     entry: {
@@ -14,7 +16,7 @@ module.exports = {
     },
 	output: {
 		path: __dirname + "/Bundles",
-		filename: "[name]-bundle.js"
+		filename: "[name]-bundle" + version + ".js"
 	},
 	watch: true,
 	module: {
@@ -45,14 +47,14 @@ module.exports = {
 		]
 	},
 		plugins: [
-			new ExtractTextPlugin("../style.css"),
+			new ExtractTextPlugin("../style" + version + ".css"),
 			new OptimizeCssAssetsPlugin(),
-			/*new webpack.DefinePlugin({
+			new webpack.DefinePlugin({
 				'process.env': {
 					'NODE_ENV': JSON.stringify('production')
 				}
 			}),
 			new webpack.optimize.AggressiveMergingPlugin(),
-			new webpack.optimize.UglifyJsPlugin(),*/
+			new webpack.optimize.UglifyJsPlugin(),
 		],
 };

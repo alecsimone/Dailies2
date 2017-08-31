@@ -28,6 +28,18 @@
     //background: -webkit-linear-gradient(left, $backgroundEdge 0%, $backgroundCore 2%, $backgroundCore 98%, $backgroundEdge 100%);
     //background: linear-gradient(to right, $backgroundEdge 0%, $backgroundCore 2%, $backgroundCore 98%, $backgroundEdge 100%);
  }
+ body::-webkit-scrollbar {
+ 	width: 9px;
+ 	background: #000;
+ }
+ body::-webkit-scrollbar-track {
+ 	-webkit-box-shadow: inset 0 0 1px rgba(0,0,0,0.3); 
+ }
+ body::-webkit-scrollbar-thumb {
+ 	border-radius: 3px;
+ 	-webkit-box-shadow: inset 0 0 1px rgba(0,0,0,0.5);
+ 	background: rgba(255,255,255,.25); 
+ }
 
  button {
  	-webkit-appearance: none;

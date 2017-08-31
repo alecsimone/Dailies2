@@ -38,6 +38,7 @@ export default class SecretGarden extends React.Component{
 		var currentState = this.state;
 		currentState.cutSlugs[slugObj.slug] = slugObj;
 		this.setState(currentState);
+		console.log('You just cut clip ' + slugObj.slug + '. If that was a mistake, you can still see it at http://clips.twitch.tv/' + slugObj.slug);
 		jQuery.ajax({
 			type: "POST",
 			url: dailiesGlobalData.ajaxurl,

@@ -189,13 +189,14 @@ img.thumb {
 }
 
 .tagbox {
+	color: $whiteTrans75;
 	padding: 2em 0;
 	font-size: 18px;
 }
 .tagLink {
 	display: inline-block;
 	margin: 0 4px;
-	color: $white;
+	color: $whiteTrans75;
 	&:visited {
 		color: $blue;
 	}

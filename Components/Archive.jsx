@@ -66,7 +66,7 @@ class Archive extends React.Component{
 		var things = this.state.postData;
 		var thingsArray = Object.keys(things);
 		var thingComponents = thingsArray.map(function(key) {
-			var parsedThingData = JSON.parse(things[key]);
+			var parsedThingData = things[key];
 			var voteData = voteDataObj[parsedThingData['id']];
 			return(
 				<Thing thingData={parsedThingData} userData={userData} voteData={voteData} key={parsedThingData.id} />

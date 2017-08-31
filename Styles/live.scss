@@ -154,6 +154,9 @@
 		height: 48px;
 		margin-right: 12px;
 	}
+	& img.starpic {
+		opacity: .75;
+	}
 	& h3 {
 		font-size: 1.25em;
 		font-weight: 500;
@@ -187,8 +190,8 @@
 		margin: 0;
 		font-size: 18px;
 		font-weight: 300;
-		a {
-			color: $white;
+		a, a:visited {
+			color: $whiteTrans75;
 		}
 	}
 	@media #{$bp850} {
@@ -225,6 +228,7 @@ img.littleThingTrasher, img.editThisImg {
 	width: 24px;
 	height: 24px;
 	cursor: pointer;
+	opacity: .8;
 }
 img.littleThingAuthor {
 	width: 30px;
@@ -232,4 +236,5 @@ img.littleThingAuthor {
 	border-radius: 15px;
 	margin-left: 18px;
 	margin-right: 9px;
+	opacity: .6;
 }

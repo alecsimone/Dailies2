@@ -25,7 +25,11 @@ export default class LivePostsLoop extends React.Component{
 			)
 		});
 		if (postIDs.length === 0) {
-			littleThingComponents = <div className="thatsAll">No contenders yet for today. Want to <a href="mailto:submit@therocketdailies.com?subject=Rocket%20Dailies%20Submission">suggest</a> one?</div>
+			if (this.props.unfilteredPostCount === 0) {
+				littleThingComponents = <div className="thatsAll">No contenders yet for today. Want to <a href="mailto:submit@therocketdailies.com?subject=Rocket%20Dailies%20Submission">suggest</a> one?</div>
+			} else {
+				littleThingComponents = <div className="thatsAll">You filtered out all the contenders</div>
+			}
 		}
 		return(
 			<section id="livePostsLoop">

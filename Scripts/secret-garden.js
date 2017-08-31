@@ -39,14 +39,3 @@ jQuery("body").on('mouseout', '.streamListItem', function() {
 		jQuery(this).css('opacity', '');
 	}
 });
-window.ctrlIsPressed = false;
-jQuery(document).keydown(function(e) {
-	if (e.which=="17") {
-		window.ctrlIsPressed = true;
-	}
-});
-jQuery(document).keyup(function(e) {
-	if (e.which=="17") {
-		window.ctrlIsPressed = false;
-	}
-});

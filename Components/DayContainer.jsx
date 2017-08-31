@@ -21,16 +21,18 @@ export default class DayContainer extends React.Component {
 		var voteDataObj = JSON.parse(this.props.dayData.voteDatas);
 		var things = this.props.dayData.postDatas;
 		function thingsByScore(a,b) {
-			let parsedA = JSON.parse(a);
-			let parsedB = JSON.parse(b);
-			let scoreA = parseFloat(parsedA.votecount, 10);
-			let scoreB = parseFloat(parsedB.votecount, 10);
+			//let parsedA = JSON.parse(a);
+			//let parsedB = JSON.parse(b);
+			//let scoreA = parseFloat(parsedA.votecount, 10);
+			//let scoreB = parseFloat(parsedB.votecount, 10);
+			let scoreA = parseFloat(a.votecount, 10);
+			let scoreB = parseFloat(b.votecount, 10);
 			return scoreB - scoreA;
 		}
 		var thingsSorted = things.sort(thingsByScore);
 		var thingsArray = Object.keys(thingsSorted);
 		var thingComponents = thingsArray.map(function(key) {
-			var parsedThingData = JSON.parse(things[key]);
+			var parsedThingData = things[key];
 			var voteData = voteDataObj[parsedThingData['id']];
 			return(
 				<Thing thingData={parsedThingData} userData={userData} voteData={voteData} key={parsedThingData.id} />

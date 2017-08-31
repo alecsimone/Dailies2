@@ -10,7 +10,15 @@ export default class SeedlingMeta extends React.Component{
 		let clipTime = Date.parse(this.props.clipTime);
 		let currentTime = + new Date();
 		let timeSince = currentTime - clipTime;
-		var hoursAgo = Math.floor(timeSince / 1000 / 60 / 60);
+		if (timeSince < 3600000) {
+			var timeAgo = Math.floor(timeSince / 1000 / 60);
+			var timeAgoUnit = 'minutes';
+			if (timeAgo === 1) {var timeAgoUnit = 'minute'};
+		} else {
+			var timeAgo = Math.floor(timeSince / 1000 / 60 / 60);
+			var timeAgoUnit = 'hours';
+			if (timeAgo === 1) {var timeAgoUnit = 'hour'};
+		}
 		var score = '';
 		var voteCount = this.props.voters.length;
 		if (voteCount > 0) {
@@ -21,7 +29,7 @@ export default class SeedlingMeta extends React.Component{
 				<div className='seedlingLogo'><a href={this.props.broadcaster.channel_url}><img src={this.props.broadcaster.logo} /></a></div>
 				<div className='seedlingInfo'>
 					<div className='seedlingTitle'><a href={this.props.permalink} target="_blank" onClick={this.props.embedder}><span className="score">{score}</span>{this.props.title}</a></div>
-					<div className='seedlingDetails'>{this.props.viewCount} views. Clipped by {this.props.clipper} about {hoursAgo} hours ago. {vodlink}</div>
+					<div className='seedlingDetails'>{this.props.viewCount} views. Clipped by {this.props.clipper} about {timeAgo} {timeAgoUnit} ago. {vodlink}</div>
 				</div>
 			</div>
 		)

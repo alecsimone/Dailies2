@@ -25,7 +25,20 @@ export default class Live extends React.Component{
 
 	changeChannel(key) {
 		let currentState = this.state;
-		if (currentState.channels[key].active === false) {
+		var activeCount = 0;
+		jQuery.each(currentState.channels, function(channel, attributes) {
+				if (attributes.active === true) {
+					activeCount++;
+				}
+		});
+		if (window.ctrlIsPressed === false) {
+			jQuery.each(currentState.channels, function(channel, attributes) {
+				if (key != channel) {
+					attributes.active = false;
+				}
+			});
+		}
+		if (currentState.channels[key].active === false || activeCount > 1) {
 			currentState.channels[key].active = true;
 		} else {
 			currentState.channels[key].active = false;
@@ -53,6 +66,10 @@ export default class Live extends React.Component{
 			var voteledger = this.state.postData[id].voteledger;
 			if( Object.keys(voteledger).indexOf(userID) > -1 ) {
 				currentState.postData[id].votecount = (votecount - voteledger[userID]).toFixed(1);
+				var currentScoreLastDigit = currentState.postData[id].votecount.substring(currentState.postData[id].votecount.length - 1);
+				if (currentScoreLastDigit === '0') {
+					currentState.postData[id].votecount = currentState.postData[id].votecount.substring(0, currentState.postData[id].votecount.length - 2);
+				};
 				delete currentState.postData[id].voteledger[userID];
 				if (jQuery.inArray(clientIP, guestlist) > -1) {
 					let guestIndex = jQuery.inArray(clientIP, guestlist);
@@ -65,9 +82,16 @@ export default class Live extends React.Component{
 				}
 			} else {
 				var currentTime = Date.now() / 1000;
+				jQuery.each(repTime, function(index, value) {
+					repTime = value;
+				});
 				if (currentTime > repTime + 24 * 60 * 60) {rep = rep + .1};
 				currentState.postData[id].voteledger[userID] = rep;
 				currentState.postData[id].votecount = (votecount + rep).toFixed(1);
+				var currentScoreLastDigit = currentState.postData[id].votecount.substring(currentState.postData[id].votecount.length - 1);
+				if (currentScoreLastDigit === '0') {
+					currentState.postData[id].votecount = currentState.postData[id].votecount.substring(0, currentState.postData[id].votecount.length - 2);
+				};
 				currentState.userData.userRepTime = {0: currentTime};
 				currentState.userData.userRep = rep;
 			}
@@ -79,6 +103,10 @@ export default class Live extends React.Component{
 			}
 			currentState.postData[id].guestlist = guestlist;
 			currentState.postData[id].votecount = (votecount - .1).toFixed(1);
+			var currentScoreLastDigit = currentState.postData[id].votecount.substring(currentState.postData[id].votecount.length - 1);
+			if (currentScoreLastDigit === '0') {
+				currentState.postData[id].votecount = currentState.postData[id].votecount.substring(0, currentState.postData[id].votecount.length - 2);
+			};
 		} else {
 			if (guestlist === '' || guestlist == null) {
 				var newGuestlist = [clientIP];
@@ -88,6 +116,10 @@ export default class Live extends React.Component{
 			}
 			currentState.postData[id].guestlist = newGuestlist;
 			currentState.postData[id].votecount = (votecount + .1).toFixed(1);
+			var currentScoreLastDigit = currentState.postData[id].votecount.substring(currentState.postData[id].votecount.length - 1);
+			if (currentScoreLastDigit === '0') {
+				currentState.postData[id].votecount = currentState.postData[id].votecount.substring(0, currentState.postData[id].votecount.length - 2);
+			};
 		}
 		this.setState(currentState);
 		jQuery('#LittleThing' + id).find('.voteIcon').addClass("replaceHold");
@@ -139,7 +171,7 @@ export default class Live extends React.Component{
 			success: function(data) {
 				var newPostData = {};
 				for (var i = 0; i < data.length; i++) {
-					let postDataObject = JSON.parse(data[i].postDataObj);
+					let postDataObject = data[i].postDataObj;
 					//Before we go any further, we need to check if the post has been cut client-side since the server update
 					//So we're going to grab the state array holding the IDs of cut posts
 					//And check if this post's ID is in it
@@ -266,6 +298,7 @@ export default class Live extends React.Component{
 	render() {
 		var activeFilter = [];
 		var postData = jQuery.extend({}, this.state.postData);
+		var unfilteredPostCount = Object.keys(postData).length;
 		jQuery.each(this.state.channels, function() {
 			if (this.active === true) {
 				activeFilter.push(this.slug);
@@ -287,7 +320,7 @@ export default class Live extends React.Component{
 				<HomeTop user={this.state.userData} />
 				<ChannelChanger channels={this.state.channels} changeChannel={this.changeChannel} sortLive={this.sortLive} sort={this.state.sort} />
 				{CoHosts}
-				<LivePostsLoop userData={this.state.userData} postData={postData} sort={this.state.sort} postTrasher={this.postTrasher} vote={this.littleThingVote} />
+				<LivePostsLoop userData={this.state.userData} postData={postData} sort={this.state.sort} postTrasher={this.postTrasher} vote={this.littleThingVote} unfilteredPostCount={unfilteredPostCount} />
 			</section>
 		)
 	}

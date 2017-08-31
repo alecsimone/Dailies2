@@ -24,6 +24,7 @@ jQuery("body").on('mouseleave', '.hoverReplacer', function() {
 		replaceImage(jQuery(this));
 	} else {
 		jQuery(this).removeClass('replaceHold');
+		jQuery(this).css('opacity', '1');
 	}
 });
 
@@ -32,6 +33,12 @@ function replaceImage(thisIMG) {
 	var thisNewSrc = thisIMG.attr("data-replace-src");
 	thisIMG.attr("src", thisNewSrc);
 	thisIMG.attr("data-replace-src", thisOldSrc);
+	var thisOpacity = thisIMG.css('opacity');
+	if (thisIMG.css('opacity') === '0.5') {
+		thisIMG.css('opacity', '1');
+	} else {
+		thisIMG.css('opacity', '.5');
+	}
 }
 
 window.imageError = function imageError(e, type) {
@@ -41,3 +48,20 @@ window.imageError = function imageError(e, type) {
 		e.target.src=dailiesGlobalData.thisDomain + "/wp-content/uploads/2017/03/default_pic.jpg";
 	}
 };
+
+window.htmlEntityFix = function(textToFix) {
+	let txt = document.createElement("textarea");
+	txt.innerHTML = textToFix;
+	return txt.value;
+};
+window.ctrlIsPressed = false;
+jQuery(document).keydown(function(e) {
+	if (e.which=="17") {
+		window.ctrlIsPressed = true;
+	}
+});
+jQuery(document).keyup(function(e) {
+	if (e.which=="17") {
+		window.ctrlIsPressed = false;
+	}
+});

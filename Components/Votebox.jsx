@@ -6,7 +6,7 @@ export default class Votebox extends React.Component {
 		var userID = this.props.userData.userID.toString(10);
 		var rep = this.props.userData.userRep;
 		var IP = this.props.userData.clientIP;
-		if (this.props.voteledger === undefined) {
+		if (this.props.voteledger === undefined || this.props.voteledger === null) {
 			var voters = '';
 		} else {
 			var voters = Object.keys(this.props.voteledger);

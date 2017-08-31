@@ -8,7 +8,8 @@ $thisDomain = get_site_url();
 
 add_action("wp_enqueue_scripts", "script_setup");
 function script_setup() {
-	wp_register_script('globalScripts', get_template_directory_uri() . '/Bundles/global-bundle.js', ['jquery'], '', true );
+	$version = '-v1.05';
+	wp_register_script('globalScripts', get_template_directory_uri() . '/Bundles/global-bundle' . $version . '.js', ['jquery'], '', true );
 	$thisDomain = get_site_url();
 	$global_data = array(
 		'thisDomain' => $thisDomain,
@@ -18,9 +19,9 @@ function script_setup() {
 	);
 	wp_localize_script( 'globalScripts', 'dailiesGlobalData', $global_data );
 	wp_enqueue_script( 'globalScripts' );
-	wp_enqueue_style( 'globalStyles', get_template_directory_uri() . '/style.css');
+	wp_enqueue_style( 'globalStyles', get_template_directory_uri() . '/style' . $version . '.css');
 	if ( !is_page() && !is_attachment() ) {
-		wp_register_script( 'mainScripts', get_template_directory_uri() . '/Bundles/main-bundle.js', ['jquery'], '', true );
+		wp_register_script( 'mainScripts', get_template_directory_uri() . '/Bundles/main-bundle' . $version . '.js', ['jquery'], '', true );
 		$nonce = wp_create_nonce('vote_nonce');
 		$main_script_data = array(
 			'nonce' => $nonce,
@@ -40,7 +41,7 @@ function script_setup() {
 		wp_localize_script('mainScripts', 'dailiesMainData', $main_script_data);
 		wp_enqueue_script( 'mainScripts' );
 	} else if (is_page('Secret Garden')) {
-		wp_register_script('secretGardenScripts', get_template_directory_uri() . '/Bundles/secretGarden-bundle.js', ['jquery'], '', true);
+		wp_register_script('secretGardenScripts', get_template_directory_uri() . '/Bundles/secretGarden-bundle' . $version . '.js', ['jquery'], '', true);
 		$secretGardenData = array(
 			'streamList' => generateStreamList(),
 			'cutSlugs' => generateCutSlugs(),
@@ -48,7 +49,7 @@ function script_setup() {
 		wp_localize_script('secretGardenScripts', 'gardenData', $secretGardenData);
 		wp_enqueue_script('secretGardenScripts');
 	} else if (is_page('Live')) {
-		wp_register_script( 'liveScripts', get_template_directory_uri() . '/Bundles/live-bundle.js', ['jquery'], '', true );
+		wp_register_script( 'liveScripts', get_template_directory_uri() . '/Bundles/live-bundle' . $version . '.js', ['jquery'], '', true );
 		$nonce = wp_create_nonce('vote_nonce');
 		$liveData = array(
 			'nonce' => $nonce,
@@ -127,7 +128,7 @@ function my_allow_meta_query( $valid_vars ) {
 }
 add_filter( 'rest_query_vars', 'my_allow_meta_query' );
 
-add_action('edit_post', 'buildPostDataObject', 10, 1);
+//add_action('edit_post', 'buildPostDataObject', 10, 1);
 function buildPostDataObject($id) {
 	$postDataObject = [];
 	$postDataObject['id'] = $id;
@@ -189,13 +190,23 @@ function buildPostDataObject($id) {
 			'slug' => 'user-submits',
 		);
 	}
-	//$postDataObject['voteledger'] = get_post_meta($id, 'voteledger', true);
-	//$postDataObject['guestlist'] = get_post_meta($id, 'guestlist', true);
 	$postDataObject['playCount'] =  get_post_meta($id, 'fullClipViewcount', true);
 	$postDataObject['addedScore'] =  get_post_meta($id, 'addedScore', true);
-	$postDataBlob = html_entity_decode(json_encode($postDataObject, JSON_HEX_QUOT));
-	update_post_meta( $id, 'postDataObj', $postDataBlob);
+	//$postDataBlob = html_entity_decode(json_encode($postDataObject, JSON_HEX_QUOT));
+	//update_post_meta( $id, 'postDataObj', $postDataBlob);
+	return $postDataObject;
 }
+add_action( 'rest_api_init', 'dailies_add_extra_data_to_rest' );
+function dailies_add_extra_data_to_rest() {
+	register_rest_field('post', 'postDataObj', array(
+			'get_callback' => function($postData) {
+				$thisID = $postData[id];
+				$postDataObj = buildPostDataObject($thisID);
+				return $postDataObj;
+			},
+		)
+	);
+};
 
 add_action('publish_post', 'set_default_custom_fields');
 function set_default_custom_fields($ID){
@@ -509,6 +520,101 @@ function post_trasher() {
 	wp_die();
 }
 
+/*
+add_action( 'rest_api_init', 'dailies_add_extra_data_to_rest' );
+function dailies_add_extra_data_to_rest() {
+	register_rest_field('post', 'thumbs', array(
+			'get_callback' => function($postData) {
+				$thisID = $postData[id];
+				$thumbs = array(
+					'smaller' => wp_get_attachment_image_src( get_post_thumbnail_id($thisID), 'small'),
+					'medium' => wp_get_attachment_image_src( get_post_thumbnail_id($thisID), 'medium'),
+					'large' => wp_get_attachment_image_src( get_post_thumbnail_id($thisID), 'large'),
+				);
+				return $thumbs;
+			},
+		)
+	);
+	register_rest_field('post', 'EmbedCodes', array(
+		'get_callback' => function($postData) {
+			$thisID = $postData[id];
+			$EmbedCodes = array(
+				'TwitchCode' => get_post_meta($thisID, 'TwitchCode', true),
+				'GFYtitle' => get_post_meta($thisID, 'GFYtitle', true),
+				'YouTubeCode' => get_post_meta($thisID, 'YouTubeCode', true),
+				'TwitterCode' => get_post_meta($thisID, 'TwitterCode', true),
+				'EmbedCode' => get_post_meta($thisID, 'EmbedCode', true),
+			);
+			return $EmbedCodes;
+		}
+	));
+	register_rest_field('post', 'taxonomies', array(
+		'get_callback' => function($postData) {
+			$thisID = $postData[id];
+			$taxonomies = array(
+				'tags' => get_the_terms($thisID, 'post_tag'),
+				'skills' => get_the_terms($thisID, 'skills'),
+			);
+			$stars = get_the_terms($thisID, 'stars');
+			if ($stars !== false) {
+				foreach ($stars as $star) {
+					$taxonomies['stars'][] = array(
+						'name' => $star->name,
+						'logo' => get_term_meta($star->term_taxonomy_id, 'logo', true),
+						'slug' => $star->slug,
+					);
+				}
+			} else {
+				$taxonomies['stars'][] = array();
+			}
+			$source = get_the_terms($thisID, 'source');
+			if ($source !== false) {
+				foreach ($source as $singleSource) {
+					$taxonomies['source'][] = array(
+						'name' => $singleSource->name,
+						'logo' => get_term_meta($singleSource->term_taxonomy_id, 'logo', true),
+						'slug' => $singleSource->slug,
+					);
+				}
+			} else {
+				$taxonomies['source'][] = array(
+					'name' => 'User Submits',
+					'logo' => get_term_meta(632, 'logo', true),
+					'slug' => 'user-submits',
+				);
+			}
+			return $taxonomies;
+		}
+	));
+	register_rest_field('post', 'author', array(
+		'get_callback' => function($postData) {
+			$thisID = $postData[id];
+			$authorID = get_post_field('post_author', $thisID);
+			$author = array(
+				'id' => $authorID,
+				'name' => get_user_meta($authorID, 'nickname', true),
+				'logo' => get_user_meta($authorID, 'customProfilePic', true), 
+			);
+			return $author;
+		}
+	));
+	register_rest_field('post', 'playCount', array(
+		'get_callback' => function($postData) {
+			$thisID = $postData[id];
+			$playCount = get_post_meta($thisID, 'fullClipViewcount', true);
+			return $playCount;
+		}
+	));
+	register_rest_field('post', 'addedScore', array(
+		'get_callback' => function($postData) {
+			$thisID = $postData[id];
+			$addedScore = get_post_meta($thisID, 'addedScore', true);
+			return $addedScore;
+		}
+	));
+}
+*/
+
 function generateUserData() {
 	$userID = get_current_user_id();
 	$userRep = get_user_meta($userID, 'rep', true);
@@ -570,7 +676,7 @@ function generateDayOneData() {
 	$dayOneVoteDataArray = [];
 	foreach ($postDataNoms as $post) {
 		setup_postdata($post);
-		$postData = get_post_meta($post->ID, 'postDataObj', true);
+		$postData = buildPostDataObject($post->ID);
 		$dayOnePostDatas[] = $postData;
 		$dayOneVoteDataArray[$post->ID] = array(
 			'voteledger' => get_post_meta($post->ID, 'voteledger', true),
@@ -600,7 +706,7 @@ function generateFirstWinner() {
 	$postDataWinners = get_posts($winnerArgs);
 	$post = $postDataWinners[0];
 	setup_postdata($post); 
-	$winnerDataObject = get_post_meta($post->ID, 'postDataObj', true);
+	$winnerDataObject = buildPostDataObject($post->ID);
 	$winnerVoteData = array(
 		'voteledger' => get_post_meta($post->ID, 'voteledger', true),
 		'guestlist' => get_post_meta($post->ID, 'guestlist', true),
@@ -665,7 +771,7 @@ function generateInitialArchivePostData() {
 	$initialVoteDataArray = [];
 	foreach ($archivePostDatas as $post) {
 		setup_postdata($post);
-		$postData = get_post_meta($post->ID, 'postDataObj', true);
+		$postData = buildPostDataObject($post->ID);
 		$initialPostDatas[] = $postData;
 		$initialVoteDataArray[$post->ID] = array(
 			'voteledger' => get_post_meta($post->ID, 'voteledger', true),
@@ -698,7 +804,7 @@ function generateSearchResultsData() {
 	$initialPostDatas = [];
 	$initialVoteData = [];
 	foreach ($searchResultIDs as $postID) {
-		$postData = get_post_meta($postID, 'postDataObj', true);
+		$postData = buildPostDataObject($postID);
 		$initialPostDatas[] = $postData;
 		$initialVoteData[$postID] = array(
 			'voteledger' => get_post_meta($postID, 'voteledger', true),
@@ -715,7 +821,7 @@ function generateSearchResultsData() {
 
 function generateSingleData() {
 	$post = get_post();
-	$postData = get_post_meta($post->ID, 'postDataObj', true);
+	$postData = buildPostDataObject($post->ID);
 	$voteData[$post->ID] = array(
 		'voteledger' => get_post_meta($post->ID, 'voteledger', true),
 		'guestlist' => get_post_meta($post->ID, 'guestlist', true),
@@ -824,7 +930,7 @@ function generateLivePostsData() {
 	$postDatas = [];
 	foreach ($postDataLive as $post) {
 		$postID = $post->ID;
-		$postDatas[$postID] = json_decode(get_post_meta($postID, 'postDataObj', true));
+		$postDatas[$postID] = buildPostDataObject($postID, 'postDataObj', true);
 	}
 	return $postDatas;
 }

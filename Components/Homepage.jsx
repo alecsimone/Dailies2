@@ -8,7 +8,7 @@ class Homepage extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			winner: JSON.parse(dailiesMainData.firstWinner.postData),
+			winner: dailiesMainData.firstWinner.postData,
 			dayContainers: {
 				0: dailiesMainData.dayOne,
 			},
@@ -72,8 +72,8 @@ class Homepage extends React.Component {
 					let newPostDatas = [];
 					let newVoteDatas = {};
 					jQuery.each(data, function(index, allData) {
-						console.log(allData);
-						newPostDatas.push(allData.postDataObj[0]);
+						newPostDatas.push(allData.postDataObj);
+						console.log(allData.postDataObj);
 						newVoteDatas[allData.id] = {
 							votecount: allData.votecount[0],
 							voteledger: allData.voteledger[0],
@@ -102,6 +102,7 @@ class Homepage extends React.Component {
 	}
 
 	render() {
+		console.log("hello");
 		var userData = this.state.user;
 		var winnerVoteData = dailiesMainData.firstWinner.voteData;
 		var dayContainers = this.state.dayContainers;
