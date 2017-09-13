@@ -49,12 +49,12 @@ module.exports = {
 		plugins: [
 			new ExtractTextPlugin("../style" + version + ".css"),
 			new OptimizeCssAssetsPlugin(),
-			new webpack.DefinePlugin({
+			/*new webpack.DefinePlugin({
 				'process.env': {
 					'NODE_ENV': JSON.stringify('production')
 				}
 			}),
 			new webpack.optimize.AggressiveMergingPlugin(),
-			new webpack.optimize.UglifyJsPlugin(),
+			new webpack.optimize.UglifyJsPlugin(),*/
 		],
 };

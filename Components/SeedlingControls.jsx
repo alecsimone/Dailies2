@@ -57,7 +57,6 @@ export default class SeedlingControls extends React.Component{
 					<img className="seedVoter seedControlImg hoverReplacer" src={seedVoterSrc} data-replace-src={seedReplaceSrc} onClick={this.voteHandler} />
 					<img className="seedCutter seedControlImg" src={dailiesGlobalData.thisDomain + '/wp-content/uploads/2017/04/red-x.png'} onClick={this.cutHandler} />
 				</div>
-				<button className="nukeButton" onClick={this.cutHandler}>Nuke</button>
 			</div>
 		)
 	}

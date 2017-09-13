@@ -8,11 +8,15 @@ export default class SeedlingContent extends React.Component{
 		if (this.props.embed === '') {
 			var content = '';
 		} else {
+			var keepBar;
+			if (dailiesGlobalData.userData.userRole === 'administrator' || dailiesGlobalData.userData.userRole === 'editor' || dailiesGlobalData.userData.userRole === 'author') {
+				keepBar = <KeepBar slug={this.props.slug} embed={this.props.embed} keepSlug={this.props.keepSlug} vodLink={this.props.vodLink} clipTime={this.props.clipTime} voters={this.props.voters} source={this.props.source} />;
+			}
 			var content = ( 
 				<div className="seedlingContentComponents">
 					<SeedlingControls slug={this.props.slug} embed={this.props.embed} cutSlug={this.props.cutSlug} voteSlug={this.props.voteSlug} voters={this.props.voters} vodLink={this.props.vodLink} clipTime={this.props.clipTime}/>
 					<div className="seedlingContentRight">
-						<KeepBar slug={this.props.slug} embed={this.props.embed} keepSlug={this.props.keepSlug} vodLink={this.props.vodLink} clipTime={this.props.clipTime} voters={this.props.voters} source={this.props.source} />
+						{keepBar}
 						<EmbedBox embedCode={this.props.embed} embedSource='TwitchCode' />
 					</div>
 				</div>

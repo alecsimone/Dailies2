@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Streamlist from './Streamlist.jsx';
 import Garden from './Garden.jsx';
 import GardenHeader from './GardenHeader.jsx';
+import GardenStatus from './GardenStatus.jsx';
 import LoadMore from './LoadMore.jsx';
 import {privateData} from '../Scripts/privateData.jsx';
 
@@ -24,6 +25,7 @@ export default class SecretGarden extends React.Component{
 			cursors,
 			cutSlugs: gardenData.cutSlugs,
 			streamFilter: [],
+			statusMessage: 'Welcome to the Secret Garden',
 		};
 		this.addStream = this.addStream.bind(this);
 		this.setState = this.setState.bind(this);
@@ -32,13 +34,20 @@ export default class SecretGarden extends React.Component{
 		this.keepSlug = this.keepSlug.bind(this);
 		this.pushStreamQueryFurther = this.pushStreamQueryFurther.bind(this);
 		this.filterStreams = this.filterStreams.bind(this);
+		this.nukeSlug = this.nukeSlug.bind(this);
 	}
 
 	cutSlug(slugObj, scope) {
 		var currentState = this.state;
 		currentState.cutSlugs[slugObj.slug] = slugObj;
+		let clipLink = <a href={'http://clips.twitch.tv/' + slugObj.slug} target="_blank">here</a>
+		let clipPretext = <p>You just cut clip {slugObj.slug}. If that was a mistake, you can still see it </p>;
+		var nuker;
+		if (dailiesGlobalData.userData.userRole === "administrator" || dailiesGlobalData.userData.userRole === "editor") {
+			nuker = <button id="nuker" onClick={(e)=>this.nukeSlug(slugObj.slug)}>Nuke It</button>;
+		}
+		currentState.statusMessage = <h4>{clipPretext} {clipLink} {nuker}</h4>;
 		this.setState(currentState);
-		console.log('You just cut clip ' + slugObj.slug + '. If that was a mistake, you can still see it at http://clips.twitch.tv/' + slugObj.slug);
 		jQuery.ajax({
 			type: "POST",
 			url: dailiesGlobalData.ajaxurl,
@@ -57,6 +66,10 @@ export default class SecretGarden extends React.Component{
 				//console.log(data);
 			}
 		});
+	}
+
+	nukeSlug(slug) {
+		console.log("nuking " + slug);
 	}
 
 	voteSlug(slugObj) {
@@ -334,6 +347,7 @@ export default class SecretGarden extends React.Component{
 			<section id="secretGarden">
 				<GardenHeader clipCount={clipCount} cutCount={cutCount} addStream={this.addStream} />
 				<Streamlist streamList={this.state.streamList} filterStreams={this.filterStreams} streamFilter={this.state.streamFilter} />
+				<GardenStatus message={this.state.statusMessage} />
 				<Garden clips={seedsToPlant} voters={voters} cutSlug={this.cutSlug} voteSlug={this.voteSlug} keepSlug={this.keepSlug} streamFilter={this.state.streamFilter} />
 				{loadMore}
 			</section>

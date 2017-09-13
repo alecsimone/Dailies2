@@ -619,10 +619,13 @@ function generateUserData() {
 	$userID = get_current_user_id();
 	$userRep = get_user_meta($userID, 'rep', true);
 	$userRepTime = get_user_meta($userID, 'repVotes', true);
+	$userData = get_userdata($userID);
+	$userRole = $userData->roles[0];
 	$userData = array(
 		'userID' => $userID,
 		'userRep' => $userRep,
 		'userRepTime' => $userRepTime,
+		'userRole' => $userRole,
 		'clientIP' => $_SERVER['REMOTE_ADDR'],
 	);
 	return $userData;
