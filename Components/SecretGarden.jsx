@@ -44,7 +44,7 @@ export default class SecretGarden extends React.Component{
 		let clipPretext = <p>You just cut clip {slugObj.slug}. If that was a mistake, you can still see it </p>;
 		var nuker;
 		if (dailiesGlobalData.userData.userRole === "administrator" || dailiesGlobalData.userData.userRole === "editor") {
-			nuker = <button id="nuker" onClick={(e)=>this.nukeSlug(slugObj.slug)}>Nuke It</button>;
+			nuker = <button id="nuker" onClick={(e)=>this.nukeSlug(slugObj)}>Nuke It</button>;
 		}
 		currentState.statusMessage = <h4>{clipPretext} {clipLink} {nuker}</h4>;
 		this.setState(currentState);
@@ -68,8 +68,26 @@ export default class SecretGarden extends React.Component{
 		});
 	}
 
-	nukeSlug(slug) {
-		console.log("nuking " + slug);
+	nukeSlug(slugObj) {
+		console.log("we nuking " + slugObj.slug);
+		jQuery.ajax({
+			type: "POST",
+			url: dailiesGlobalData.ajaxurl,
+			dataType: 'json',
+			data: {
+				action: 'nuke_slug',
+				slugObj,
+			},
+			error: function(one, two, three) {
+				console.log(one);
+				console.log(two);
+				console.log(three);
+			},
+			success: function(data) {
+				var nukeButton = jQuery("#nuker");
+				nukeButton.fadeOut();
+			}
+		});
 	}
 
 	voteSlug(slugObj) {

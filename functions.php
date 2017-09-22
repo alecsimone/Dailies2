@@ -8,7 +8,7 @@ $thisDomain = get_site_url();
 
 add_action("wp_enqueue_scripts", "script_setup");
 function script_setup() {
-	$version = '-v1.05';
+	$version = '-v1.06';
 	wp_register_script('globalScripts', get_template_directory_uri() . '/Bundles/global-bundle' . $version . '.js', ['jquery'], '', true );
 	$thisDomain = get_site_url();
 	$global_data = array(
@@ -407,6 +407,21 @@ function cut_slug() {
 		update_user_meta($userID, 'slugList', $newUserSlugList);
 		echo json_encode($newUserSlugList);
 	}
+	wp_die();
+}
+
+add_action( 'wp_ajax_nuke_slug', 'nuke_slug' );
+
+function nuke_slug() {
+	$gardenPostObject = get_page_by_path('secret-garden');
+	$gardenID = $gardenPostObject->ID;
+	$globalSlugList = get_post_meta($gardenID, 'slugList', true);
+	$newGlobalSlugList = $globalSlugList;
+	$slugObj = $_POST['slugObj'];
+	$slug = $slugObj['slug'];
+	$newGlobalSlugList[$slug] = $slugObj;
+	update_post_meta($gardenID, 'slugList', $newGlobalSlugList );
+	//echo json_encode($newGlobalSlugList);
 	wp_die();
 }
 
@@ -977,6 +992,56 @@ function generateCohostData() {
 		$cohostData[$cohost]['links']['donate_url'] = get_term_meta($hostID, 'donate', true);
 	}
 	return $cohostData;
+}
+
+add_action( 'show_user_profile', 'my_show_extra_profile_fields' );
+add_action( 'edit_user_profile', 'my_show_extra_profile_fields' );
+
+function my_show_extra_profile_fields( $user ) { ?>
+ 
+    <h3>Extra profile information</h3> 
+    <table class="form-table">
+        <tr>
+            <th><label for="rep">Rep</label></th>
+            <td>
+                <input type="text" name="rep" id="rep" value="<?php echo esc_attr( get_the_author_meta( 'rep', $user->ID ) ); ?>" class="regular-text" /><br />
+                <span class="description">Your Rep</span>
+            </td>
+        </tr>
+    </table>
+    <table class="form-table">
+        <tr>
+            <th><label for="customProfilePic">Custom Profile Picture</label></th>
+            <td>
+                <input type="text" name="customProfilePic" id="customProfilePic" value="<?php echo esc_attr( get_the_author_meta( 'customProfilePic', $user->ID ) ); ?>" class="regular-text" /><br />
+                <span class="description">Add a profile picture</span>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th><label for="customProfilePic">Here's what that looks like: </label></th>
+            <td>
+            	<img src="<?php echo esc_attr( get_the_author_meta( 'customProfilePic', $user->ID ) ); ?>" class="adminCustomProfilePicture">
+            </td>
+        </tr>
+    </table>    
+<?php }
+
+add_action( 'personal_options_update', 'my_save_extra_profile_fields' );
+add_action( 'edit_user_profile_update', 'my_save_extra_profile_fields' );
+add_action( 'admin_head', 'custom_profile_pic_css');
+function custom_profile_pic_css() {
+	echo '<style>img.adminCustomProfilePicture {max-width: 500px; height: auto;}</style>';
+}
+
+
+function my_save_extra_profile_fields( $user_id ) {
+ 
+    if ( !current_user_can( 'edit_user', $user_id ) )
+        return false;
+    update_user_meta( absint( $user_id ), 'rep', wp_kses_post( $_POST['rep'] ) );
+    update_user_meta( absint( $user_id ), 'customProfilePic', wp_kses_post( $_POST['customProfilePic'] ) );
 }
 
 ?>
