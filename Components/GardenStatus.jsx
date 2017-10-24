@@ -4,7 +4,7 @@ export default class GardenStatus extends React.Component{
 	render() {
 		return(
 			<section id="gardenStatus">
-				{this.props.message}
+			{this.props.message}
 			</section>
 		)
 	}

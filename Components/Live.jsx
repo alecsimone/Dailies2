@@ -253,6 +253,7 @@ export default class Live extends React.Component{
 	postTrasher(id) {
 		var currentState = this.state;
 		delete currentState.postData[id];
+		currentState.cutPostIDs.push(id);
 		this.setState(currentState);
 		jQuery.ajax({
 			type: "POST",

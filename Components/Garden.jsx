@@ -1,4 +1,4 @@
-import React from "react";
+	import React from "react";
 import Seedling from './Seedling.jsx';
 
 export default class Garden extends React.Component{

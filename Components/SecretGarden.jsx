@@ -40,11 +40,11 @@ export default class SecretGarden extends React.Component{
 	cutSlug(slugObj, scope) {
 		var currentState = this.state;
 		currentState.cutSlugs[slugObj.slug] = slugObj;
-		let clipLink = <a href={'http://clips.twitch.tv/' + slugObj.slug} target="_blank">here</a>
-		let clipPretext = <p>You just cut clip {slugObj.slug}. If that was a mistake, you can still see it </p>;
+		let clipLink = <a href={'http://clips.twitch.tv/' + slugObj.slug} target="_blank">{slugObj.slug}</a>
+		let clipPretext = <p>You just cut </p>;
 		var nuker;
 		if (dailiesGlobalData.userData.userRole === "administrator" || dailiesGlobalData.userData.userRole === "editor") {
-			nuker = <button id="nuker" onClick={(e)=>this.nukeSlug(slugObj)}>Nuke It</button>;
+			nuker = <button id="nuker" style={{display: "block"}} onClick={(e)=>this.nukeSlug(slugObj)}>Nuke It</button>;
 		}
 		currentState.statusMessage = <h4>{clipPretext} {clipLink} {nuker}</h4>;
 		this.setState(currentState);
