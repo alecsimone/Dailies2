@@ -194,6 +194,9 @@
 			color: $whiteTrans75;
 		}
 	}
+	& div.stars {
+		display: inline-flex;
+	}
 	@media #{$bp850} {
 		width: calc(50% - 12px);
 	}

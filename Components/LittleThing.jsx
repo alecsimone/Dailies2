@@ -70,16 +70,24 @@ export default class LittleThing extends React.Component{
 		} else {
 			var adminControls = '';
 		}
+		var sourceSlug = this.props.postData.taxonomies.source[0].slug;
+		var sourceLogo = this.props.postData.taxonomies.source[0].logo
+		var starsLogo = this.props.postData.taxonomies.stars[0].logo;
+		if (sourceSlug === 'user-submits') {
+			sourceSlug = this.props.postData.taxonomies.stars[0].slug;
+			sourceLogo = this.props.postData.taxonomies.stars[0].logo;
+		}
+
 		return(
 			<article className="LittleThing" id={'LittleThing' + this.props.postData.id} >
 				<div className="littleThingTop">
-					<a className="littleThingSourceImgLink" href={dailiesGlobalData.thisDomain + '/source/' + this.props.postData.taxonomies.source[0].slug}><img className="sourcepic" src={this.props.postData.taxonomies.source[0].logo} /></a>
+					<a className="littleThingSourceImgLink" href={dailiesGlobalData.thisDomain + '/source/' + sourceSlug}><img className="sourcepic" src={sourceLogo} onError={(e) => window.imageError(e)} /></a>
 					<Titlebox title={this.props.postData.title} linkout={linkout} score={this.props.postData.votecount} toggleEmbed={this.toggleEmbed} />
 					<VoteBox thisID={this.props.postData.id} userData={this.props.userData} voteledger={this.props.postData.voteledger} guestlist={this.props.postData.guestlist} vote={this.props.vote}/>
 				</div>
 				{embedder}
 				<div className="littleThingBottom">
-					<StarBox stars={this.props.postData.taxonomies.stars} />
+					<StarBox stars={this.props.postData.taxonomies.stars} source={this.props.postData.taxonomies.source[0].slug} />
 					{adminControls}
 					<AuthorBubble authorData={this.props.postData.author} />
 				</div>
