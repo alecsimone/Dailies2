@@ -37,13 +37,14 @@ class Homepage extends React.Component {
 				currentMonth = '0' + currentMonth;
 			}
 			var currentYear = lastDayContainer['date']['year'];
-			var currentDayObject = new Date(currentYear, currentMonth, currentDay);
-			
+			var currentDayObject = new Date(currentYear, currentMonth-1, currentDay);
+
 			this.stepBackDayAndQuery(currentDayObject, currentYear, currentMonth, currentDay);
 		}
 	}
 
 	stepBackDayAndQuery(currentDayObject, currentYear, currentMonth, currentDay) {
+		console.log(currentDayObject);
 		var newDayObject = currentDayObject - 1000 * 60 * 60 * 24;
 		newDayObject = new Date(newDayObject);
 		let newYear = newDayObject.getFullYear().toString();
@@ -72,8 +73,7 @@ class Homepage extends React.Component {
 					let newPostDatas = [];
 					let newVoteDatas = {};
 					jQuery.each(data, function(index, allData) {
-						newPostDatas.push(allData.postDataObj);
-						console.log(allData.postDataObj);
+						newPostDatas.push(allData.postDataObj);;
 						newVoteDatas[allData.id] = {
 							votecount: allData.votecount[0],
 							voteledger: allData.voteledger[0],
@@ -102,7 +102,6 @@ class Homepage extends React.Component {
 	}
 
 	render() {
-		console.log("hello");
 		var userData = this.state.user;
 		var winnerVoteData = dailiesMainData.firstWinner.voteData;
 		var dayContainers = this.state.dayContainers;

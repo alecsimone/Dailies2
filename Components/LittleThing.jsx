@@ -73,7 +73,7 @@ export default class LittleThing extends React.Component{
 		var sourceSlug = this.props.postData.taxonomies.source[0].slug;
 		var sourceLogo = this.props.postData.taxonomies.source[0].logo
 		var starsLogo = this.props.postData.taxonomies.stars[0].logo;
-		if (sourceSlug === 'user-submits') {
+		if (sourceSlug === 'user-submits' && this.props.postData.taxonomies.stars[0].logo !== '' && this.props.postData.taxonomies.stars[0].logo !== undefined) {
 			sourceSlug = this.props.postData.taxonomies.stars[0].slug;
 			sourceLogo = this.props.postData.taxonomies.stars[0].logo;
 		}
