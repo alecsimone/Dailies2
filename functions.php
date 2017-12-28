@@ -8,7 +8,7 @@ $thisDomain = get_site_url();
 
 add_action("wp_enqueue_scripts", "script_setup");
 function script_setup() {
-	$version = '-v1.09';
+	$version = '-v1.10';
 	wp_register_script('globalScripts', get_template_directory_uri() . '/Bundles/global-bundle' . $version . '.js', ['jquery'], '', true );
 	$thisDomain = get_site_url();
 	$global_data = array(
@@ -253,7 +253,7 @@ function official_vote() {
 	if (is_user_logged_in()) {
 		$userID = get_current_user_id();
 		$rep = get_user_meta($userID, 'rep', true);
-		if ($rep == '') {$rep = 1;}
+		if ($rep == '') {$rep = 10;}
 
 		$oldVoteledger = get_post_meta($postID, 'voteledger', true);
 		if (!array_key_exists($userID, $oldVoteledger)) {
@@ -275,7 +275,7 @@ function official_vote() {
 				'targetTime' => $targetTime,
 			);
 			if ($targetTime <= $addRepThreshold) {
-				$newRep = $rep + .1;
+				$newRep = $rep + 1;
 				//$repVotes[$postID] = $currentTime;
 				$repVotes = array(
 					$postID => $currentTime
@@ -296,14 +296,6 @@ function official_vote() {
 			$newVoteHistory[] = $postID;
 			update_user_meta($userID, 'voteHistory', $newVoteHistory);
 		} else {
-			/* Transitioning to not losing rep when unvoting a repvote
-			$repVotes = get_user_meta($userID, 'repVotes', true);
-			if (array_key_exists($postID, $repVotes)) {
-				$newRep = $rep - .1;
-				update_user_meta($userID, 'rep', $newRep);
-				unset($repVotes[$postID]);
-				update_user_meta($userID, 'repVotes', $repVotes);
-			} else {$newRep = $rep;} */
 
 			$currentScore = get_post_meta($postID, 'votecount', true);
 			$newScore = $currentScore - $oldVoteledger[$userID];
@@ -319,7 +311,7 @@ function official_vote() {
 		}
 	}
 		
-	$guestRep = .1;
+	$guestRep = 1;
 	$clientIP = $_SERVER['REMOTE_ADDR'];
 
 	$oldGuestlist = get_post_meta($postID, 'guestlist', true);
@@ -502,7 +494,7 @@ function plant_seed() {
 	$voters = $slugObj['likeIDs'];
 	foreach ($voters as $index => $voterID) {
 		$voterRep = get_user_meta($voterID, 'rep', true);
-		if ($voterRep === '') {$voterRep = 1;};
+		if ($voterRep === '') {$voterRep = 10;};
 		$voteledger[$voterID] = $voterRep;
 		$votecount = $votecount + $voterRep;
 	}
@@ -1043,5 +1035,15 @@ function my_save_extra_profile_fields( $user_id ) {
     update_user_meta( absint( $user_id ), 'rep', wp_kses_post( $_POST['rep'] ) );
     update_user_meta( absint( $user_id ), 'customProfilePic', wp_kses_post( $_POST['customProfilePic'] ) );
 }
+
+/*$allUsers = get_users();
+$testAccountRep = get_user_meta(337, 'rep', true);
+if ($testAccountRep === '1.1') {
+	foreach ($allUsers as $key => $data) {
+		$userRep = get_user_meta($data->ID, 'rep', true);
+		$newUserRep = $userRep * 10;
+		update_user_meta($data->ID, 'rep', $newUserRep);
+	}
+}*/
 
 ?>

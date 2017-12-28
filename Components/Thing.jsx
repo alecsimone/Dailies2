@@ -38,7 +38,7 @@ export default class Thing extends React.Component {
 				}
 			} else {
 				var currentTime = Date.now() / 1000;
-				if (currentTime > repTime) {rep = rep + .1};
+				if (currentTime > repTime) {rep = rep + 1};
 				currentState.voteledger[userID] = rep;
 				currentState.votecount = (votecount + rep).toFixed(1);
 				currentState.repTime = {0: currentTime};
