@@ -2,7 +2,7 @@
 
 #channelChanger {
 	width: 95%;
-	margin: 144px auto 84px;
+	margin: 60px auto;
 }
 .channelChangerButton {
 	display: inline-block;
@@ -85,6 +85,27 @@
 	background: $darkBlack;
 }
 
+#StageFilter {
+	margin-bottom: 48px; 
+	.StageFilterButton {
+		display: inline-block;
+		margin: 0 24px;
+		font-size: 2em;
+		line-height: 2em;
+		font-weight: normal;
+		text-shadow: 0 0 3px $darkBlack;
+		text-decoration: underline;
+		cursor: pointer;
+		&:hover {
+			color: $blue;
+		}
+		&.active {
+			color: $blue;
+			font-weight: bold;
+		}
+	}
+}
+
 #coHostsPanel {
 	margin-bottom: 84px;
 }
@@ -128,13 +149,26 @@
 	margin: 0 6px;
 }
 
+#LivePostsLoops {
+	margin: 60px auto;
+	width: 90%;
+}
+
 #livePostsLoop {
 	width: 95%;
 	margin: auto;
-	margin-bottom: 600px;
+	margin-bottom: 60px;
 	@media #{$bp800} {
 		width: 90%;
 	}
+}
+h4.LivePostsLoopHeader {
+	font-size: 3em;
+	font-weight: 300;
+	width: 100%;
+	margin: 24px 0;
+	color: $whiteTrans75;
+	text-shadow: 0px 1px 4px $darkBlack;
 }
 
 .LittleThing {
@@ -149,6 +183,9 @@
 	box-sizing: border-box;
 	text-align: left;
 	font-size: 24px;
+	&:last-of-type {
+		margin-bottom: 120px;
+	}
 	& img.sourcepic {
 		width: 48px;
 		height: 48px;
@@ -227,11 +264,14 @@
 	}
 }
 
-img.littleThingTrasher, img.editThisImg {
+img.littleThingTrasher, img.editThisImg, img.littleThingPromoter {
 	width: 24px;
 	height: 24px;
 	cursor: pointer;
 	opacity: .8;
+}
+img.littleThingPromoter {
+	margin-right: 18px;
 }
 img.littleThingAuthor {
 	width: 30px;
@@ -240,4 +280,10 @@ img.littleThingAuthor {
 	margin-left: 18px;
 	margin-right: 9px;
 	opacity: .6;
+}
+
+img.resetLive {
+	width: 50px;
+	height: 50px;
+	margin-bottom: 48px;
 }

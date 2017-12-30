@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from 'react-dom';
 import HomeTop from './HomeTop.jsx';
 import ChannelChanger from './ChannelChanger.jsx';
+import StageFilter from './StageFilter.jsx';
 import CoHostsPanel from './CoHostsPanel.jsx';
 import LivePostsLoop from './LivePostsLoop.jsx';
 
@@ -15,12 +16,16 @@ export default class Live extends React.Component{
 			postData: liveData.postData,
 			sort: false,
 			cutPostIDs: [],
+			stage: 'All'
 		}
 		this.changeChannel = this.changeChannel.bind(this);
 		this.updatePostData = this.updatePostData.bind(this);
 		this.sortLive = this.sortLive.bind(this);
 		this.postTrasher = this.postTrasher.bind(this);
+		this.postPromoter = this.postPromoter.bind(this);
 		this.littleThingVote = this.littleThingVote.bind(this);
+		this.stageChange = this.stageChange.bind(this);
+		this.resetLive = this.resetLive.bind(this);
 	}
 
 	changeChannel(key) {
@@ -54,6 +59,12 @@ export default class Live extends React.Component{
 		}
 	}
 
+	stageChange(e) {
+		var currentState = this.state;
+		currentState.stage = e.target.id;
+		this.setState(currentState);
+	}
+
 	littleThingVote(id) {
 		let userID = this.state.userData.userID.toString(10);
 		let rep = parseFloat(this.state.userData.userRep);
@@ -85,7 +96,7 @@ export default class Live extends React.Component{
 				jQuery.each(repTime, function(index, value) {
 					repTime = value;
 				});
-				if (currentTime > repTime + 24 * 60 * 60) {rep = rep + .1};
+				if (currentTime > repTime + 24 * 60 * 60) {rep = rep + 1};
 				currentState.postData[id].voteledger[userID] = rep;
 				currentState.postData[id].votecount = (votecount + rep).toFixed(1);
 				var currentScoreLastDigit = currentState.postData[id].votecount.substring(currentState.postData[id].votecount.length - 1);
@@ -102,7 +113,7 @@ export default class Live extends React.Component{
 				guestlist = '';
 			}
 			currentState.postData[id].guestlist = guestlist;
-			currentState.postData[id].votecount = (votecount - .1).toFixed(1);
+			currentState.postData[id].votecount = (votecount - 1).toFixed(1);
 			var currentScoreLastDigit = currentState.postData[id].votecount.substring(currentState.postData[id].votecount.length - 1);
 			if (currentScoreLastDigit === '0') {
 				currentState.postData[id].votecount = currentState.postData[id].votecount.substring(0, currentState.postData[id].votecount.length - 2);
@@ -115,7 +126,7 @@ export default class Live extends React.Component{
 				var newGuestlist = guestlist;
 			}
 			currentState.postData[id].guestlist = newGuestlist;
-			currentState.postData[id].votecount = (votecount + .1).toFixed(1);
+			currentState.postData[id].votecount = (votecount + 1).toFixed(1);
 			var currentScoreLastDigit = currentState.postData[id].votecount.substring(currentState.postData[id].votecount.length - 1);
 			if (currentScoreLastDigit === '0') {
 				currentState.postData[id].votecount = currentState.postData[id].votecount.substring(0, currentState.postData[id].votecount.length - 2);
@@ -144,7 +155,7 @@ export default class Live extends React.Component{
 	}
 
 	updatePostData() {
-		let currentDate = new Date();
+		/*let currentDate = new Date();
 		let tenDaysAgo = currentDate - 1000 * 60 * 60 * 24 * 10;
 		tenDaysAgo = new Date(tenDaysAgo);
 		let tenDaysAgoYear = tenDaysAgo.getFullYear().toString();
@@ -160,8 +171,14 @@ export default class Live extends React.Component{
 		} else {
 			tenDaysAgoDay = tenDaysAgoDay.toString();
 		}
-		let tenDaysAgoFormatted = tenDaysAgoYear + '-' + tenDaysAgoMonth + '-' + tenDaysAgoDay + 'T00:00:00';
-		let liveDataQuery = dailiesGlobalData.thisDomain + '/wp-json/wp/v2/posts?categories_exclude=4&per_page=50&after=' + tenDaysAgoFormatted;
+		let tenDaysAgoFormatted = tenDaysAgoYear + '-' + tenDaysAgoMonth + '-' + tenDaysAgoDay + 'T00:00:00'; */
+		let endOfRestUsableTimestamp = liveData.wordpressUsableTime.indexOf('+');
+		if (endOfRestUsableTimestamp === -1) {
+			var restUsableTimestamp = liveData.wordpressUsableTime;
+		} else {
+			var restUsableTimestamp = liveData.wordpressUsableTime.substring(0, endOfRestUsableTimestamp);
+		}
+		let liveDataQuery = dailiesGlobalData.thisDomain + '/wp-json/wp/v2/posts?categories_exclude=4&per_page=50&after=' + restUsableTimestamp;
 		var currentState = this.state;
 		var cutPosts = this.state.cutPostIDs;
 		var boundThis = this;
@@ -222,22 +239,12 @@ export default class Live extends React.Component{
 								newPostData[currentID] = postDataObject;
 							}
 							if ( localGuestList.indexOf(clientIP) > -1 && (serverGuestList.indexOf(clientIP) === -1 || serverGuestList === '') ) {
-								console.log("3");
-								console.log("local");
-								console.log(localVoteLedger);
-								console.log("server");
-								console.log(serverVoteLedger);
 								newPostData[currentID] = postDataObject;
-								newPostData[currentID].votecount = parseFloat(newPostData[currentID].votecount) + .1;
+								newPostData[currentID].votecount = parseFloat(newPostData[currentID].votecount) + 1;
 							}
 							if ( (localGuestList.indexOf(clientIP) === -1 || localGuestList === '') && serverGuestList.indexOf(clientIP) > -1) {
-								console.log("4");
-								console.log("local");
-								console.log(localVoteLedger);
-								console.log("server");
-								console.log(serverVoteLedger);
 								newPostData[currentID] = postDataObject;
-								newPostData[currentID].votecount = parseFloat(newPostData[currentID].votecount) - .1;
+								newPostData[currentID].votecount = parseFloat(newPostData[currentID].votecount) - 1;
 							}
 						}
 					}
@@ -274,6 +281,103 @@ export default class Live extends React.Component{
 		});
 	}
 
+	postPromoter(id) {
+		var currentState = this.state;
+		var currentCategory = currentState.postData[id]['categories'];
+		if (currentCategory === 'Prospects') {
+			currentState.postData[id]['categories'] = 'Contenders'
+		}
+		if (currentCategory === 'Contenders') {
+			currentState.postData[id]['categories'] = 'Finalists'
+		}		
+		if (currentCategory === 'Finalists') {
+			currentState.postData[id]['categories'] = 'Nominees'
+		}		
+		if (currentCategory === 'Nominees') {
+			console.log("you can't promote that any further");
+		}
+		this.setState(currentState);
+		jQuery.ajax({
+			type: "POST",
+			url: dailiesGlobalData.ajaxurl,
+			dataType: 'json',
+			data: {
+				id: id,
+				action: 'post_promoter',
+			},
+			error: function(one, two, three) {
+				console.log(one);
+				console.log(two);
+				console.log(three);
+			},
+			success: function(data) {
+				console.log(data);
+			}
+		});
+	}
+
+	resetLive() {
+		var date = Date.now();
+		if (confirm('Are you sure you want to reset the posts?')) {
+			console.log("OK, we'll reset them.");
+			var currentState = this.state;
+			currentState.postData = {};
+			this.setState(currentState);
+			jQuery.ajax({
+			type: "POST",
+			url: dailiesGlobalData.ajaxurl,
+			dataType: 'json',
+			data: {
+				timestamp: date,
+				action: 'reset_live',
+			},
+			error: function(one, two, three) {
+				console.log(one);
+				console.log(two);
+				console.log(three);
+			},
+			success: function(data) {
+				var dateObj = new Date(date - 21600000);
+				var almostUsableDate = dateObj.toISOString();
+				var endOfUsableDate = almostUsableDate.indexOf('.');
+				var usableDate = almostUsableDate.substring(0, endOfUsableDate);
+				liveData.wordpressUsableTime = usableDate;
+			}
+		});
+		} else {
+			console.log("OK cool, we'll just keep these then.");
+		}
+	}
+
+	componentDidMount() {
+		window.setInterval(this.updatePostData, 3000);
+		window.grid = jQuery('#LivePostsLoops').isotope({
+			itemSelector: '.brick',
+			transitionDuration: 500,
+			masonry: {
+				gutter: 24,
+				columnWidth: '.LittleThing',
+				horizontalOrder: true,
+				stamp: 'h4.LivePostsLoopHeader',
+			},
+		});
+	}
+
+	componentDidUpdate() {
+		window.grid.isotope('reloadItems');
+		jQuery('#LivePostsLoops').isotope({
+			itemSelector: '.brick',
+			transitionDuration: 500,
+			masonry: {
+				gutter: 24,
+				columnWidth: '.LittleThing',
+				horizontalOrder: true,
+				stamp: 'h4.LivePostsLoopHeader',
+			},
+		});
+	}
+
+	/* Old Way
 	componentDidMount() {
 		window.setInterval(this.updatePostData, 3000);
 		window.grid = jQuery('#livePostsLoop').isotope({
@@ -284,7 +388,6 @@ export default class Live extends React.Component{
 			},
 		});
 	}
-
 	componentDidUpdate() {
 		window.grid.isotope('reloadItems');
 		jQuery('#livePostsLoop').isotope({
@@ -295,16 +398,19 @@ export default class Live extends React.Component{
 			},
 		});
 	}
+	*/
 
 	render() {
 		var activeFilter = [];
 		var postData = jQuery.extend({}, this.state.postData);
 		var unfilteredPostCount = Object.keys(postData).length;
+		//First we're gonna go through each channel and see if any are active
 		jQuery.each(this.state.channels, function() {
 			if (this.active === true) {
 				activeFilter.push(this.slug);
 			}
 		})
+		//If there are any channels chosen, we're gonna go through each post and remove anything that's not from that channel
 		if (activeFilter.length > 0) {
 			jQuery.each(postData, function() {
 				if (activeFilter.indexOf(this.taxonomies.source[0].slug) === -1) {
@@ -312,6 +418,57 @@ export default class Live extends React.Component{
 				}
 			}) 
 		}
+
+		var prospectPostData = {};
+		var contenderPostData = {};
+		var finalistPostData = {};
+		var nomineePostData = {};
+
+		jQuery.each(postData, function(id) {
+			if (this.categories === 'Prospects') {
+				prospectPostData[id] = this;
+			} else if (this.categories === 'Contenders') {
+				contenderPostData[id] = this;
+			} else if (this.categories === 'Finalists') {
+				finalistPostData[id] = this;
+			} else if (this.categories === 'Nominees') {
+				nomineePostData[id] = this;
+			}
+		});
+
+		var stages = ['Nominees', 'Finalists', 'Contenders', 'Prospects'];
+		var userData = this.state.userData;
+		var sort = this.state.sort
+		var postTrasher = this.postTrasher;
+		var postPromoter = this.postPromoter;
+		var littleThingVote = this.littleThingVote;
+		var stageLoops = stages.map(function(stageName) {
+			if (stageName === 'Prospects') {
+				var stagePostData = prospectPostData;
+			} else if (stageName === 'Contenders') {
+				var stagePostData = contenderPostData;
+			} else if (stageName === 'Finalists') {
+				var stagePostData = finalistPostData;
+			} else if (stageName === 'Nominees') {
+				var stagePostData = nomineePostData;
+			}
+			var thisStagePostCount = Object.keys(stagePostData).length;
+			if (thisStagePostCount === 0) {
+				return
+			}
+			return (
+				<LivePostsLoop key={stageName} stage={stageName} userData={userData} postData={stagePostData} sort={sort} postTrasher={postTrasher} postPromoter={postPromoter} vote={littleThingVote} unfilteredPostCount={unfilteredPostCount} />
+			)
+		});
+		/*Next we're going to check the stage filter and remove any posts that don't belong
+		if (this.state.stage !== 'All') {
+			var stageFilter = this.state.stage
+			jQuery.each(postData, function() {
+				if (this.categories !== stageFilter) {
+					delete postData[this.id];
+				}
+			})
+		}*/
 		var CoHosts;
 		if (this.state.cohosts.length !== 0) {
 			var CoHosts = <CoHostsPanel cohosts={this.state.cohosts} />
@@ -321,7 +478,10 @@ export default class Live extends React.Component{
 				<HomeTop user={this.state.userData} />
 				<ChannelChanger channels={this.state.channels} changeChannel={this.changeChannel} sortLive={this.sortLive} sort={this.state.sort} />
 				{CoHosts}
-				<LivePostsLoop userData={this.state.userData} postData={postData} sort={this.state.sort} postTrasher={this.postTrasher} vote={this.littleThingVote} unfilteredPostCount={unfilteredPostCount} />
+				<section id="LivePostsLoops">
+					{stageLoops}
+				</section>
+				<img className="resetLive" onClick={this.resetLive} src={dailiesGlobalData.thisDomain + '/wp-content/uploads/2017/12/reset-icon.png'} />
 			</section>
 		)
 	}

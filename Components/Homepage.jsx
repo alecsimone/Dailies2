@@ -44,11 +44,10 @@ class Homepage extends React.Component {
 	}
 
 	stepBackDayAndQuery(currentDayObject, currentYear, currentMonth, currentDay) {
-		console.log(currentDayObject);
 		var newDayObject = currentDayObject - 1000 * 60 * 60 * 24;
 		newDayObject = new Date(newDayObject);
 		let newYear = newDayObject.getFullYear().toString();
-		let newMonth = newDayObject.getMonth();
+		let newMonth = newDayObject.getMonth() + 1;
 		if (newMonth < 10) {
 			newMonth = '0' + newMonth;
 		} else {

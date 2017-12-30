@@ -51,12 +51,19 @@ function script_setup() {
 	} else if (is_page('Live')) {
 		wp_register_script( 'liveScripts', get_template_directory_uri() . '/Bundles/live-bundle' . $version . '.js', ['jquery'], '', true );
 		$nonce = wp_create_nonce('vote_nonce');
+		$livePageObject = get_page_by_path('live');
+		$liveID = $livePageObject->ID;
+		$resetTime = get_post_meta($liveID, 'liveResetTime', true);
+		$resetTime = $resetTime / 1000 - 21600;
+		$wordpressUsableTime = date('c', $resetTime);
 		$liveData = array(
 			'nonce' => $nonce,
 			'channels' => generateChannelChangerData(),
 			'postData' => generateLivePostsData(),
 			'voteData' => generateLiveVoteData(),
 			'cohosts' => generateCohostData(),
+			'resetTime' => $resetTime,
+			'wordpressUsableTime' => $wordpressUsableTime,
 		);
 		wp_localize_script('liveScripts', 'liveData', $liveData);
 		wp_enqueue_script('liveScripts');
@@ -158,6 +165,8 @@ function buildPostDataObject($id) {
 		'TwitterCode' => get_post_meta($id, 'TwitterCode', true),
 		'EmbedCode' => get_post_meta($id, 'EmbedCode', true),
 	);
+	$allCatData = get_the_category($id);
+	$postDataObject['categories'] = $allCatData[0]->cat_name;
 	$postDataObject['taxonomies'] = array(
 		'tags' => get_the_terms($id, 'post_tag'),
 		'skills' => get_the_terms($id, 'skills'),
@@ -524,6 +533,37 @@ function post_trasher() {
 		wp_trash_post($postID);
 	};
 	echo json_encode($postID);
+	wp_die();
+}
+
+add_action( 'wp_ajax_post_promoter', 'post_promoter' );
+function post_promoter() {
+	$postID = $_POST['id'];
+	if (current_user_can('edit_others_posts', $postID)) {
+		$category_list = get_the_category($postID);
+		$category_name = $category_list[0]->cat_name;
+		if ($category_name === 'Prospects') {
+			wp_remove_object_terms($postID, 'prospects', 'category');
+			wp_add_object_terms( $postID, 'contenders', 'category' );
+		} elseif ($category_name === 'Contenders') {
+			wp_remove_object_terms($postID, 'contenders', 'category');
+			wp_add_object_terms( $postID, 'finalists', 'category' );
+		} elseif ($category_name === 'Finalists') {
+			wp_remove_object_terms($postID, 'finalists', 'category');
+			wp_add_object_terms( $postID, 'nominees', 'category' );
+		}
+	};
+	echo json_encode($postID);
+	wp_die();
+}
+
+add_action( 'wp_ajax_reset_live', 'reset_live' );
+function reset_live() {
+	$reset_time_to = $_POST['timestamp'];
+	$livePageObject = get_page_by_path('live');
+	$liveID = $livePageObject->ID;
+	update_post_meta($liveID, 'liveResetTime', $reset_time_to);
+	echo json_encode($reset_time_to);
 	wp_die();
 }
 
@@ -927,12 +967,18 @@ function generateChannelChangerData() {
 }
 
 function generateLivePostsData() {
+	$livePageObject = get_page_by_path('live');
+	$liveID = $livePageObject->ID;
+	$resetTime = get_post_meta($liveID, 'liveResetTime', true);
+	$resetTime = $resetTime / 1000 - 21600;
+	$wordpressUsableTime = date('c', $resetTime);
 	$livePostArgs = array(
 		'category__not_in' => 4,
 		'posts_per_page' => 50,
 		'date_query' => array(
 			array(
-				'after' => '240 hours ago',
+			//	'after' => '240 hours ago',
+				'after' => $wordpressUsableTime,
 			)
 		)
 	);

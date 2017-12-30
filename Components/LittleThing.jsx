@@ -22,12 +22,15 @@ export default class LittleThing extends React.Component{
 		this.setState(currentState);
 	}
 
-	componentDidUpdate() {
-		jQuery('#livePostsLoop').isotope({
-			itemSelector: '.LittleThing',
+	componentDidUpdate(prevProps, prevState) {
+		jQuery('#LivePostsLoops').isotope({
+			itemSelector: '.brick',
+			transitionDuration: 500,
 			masonry: {
 				gutter: 24,
+				columnWidth: '.LittleThing',
 				horizontalOrder: true,
+				stamp: 'h4.LivePostsLoopHeader',
 			},
 		});
 	}
@@ -66,7 +69,7 @@ export default class LittleThing extends React.Component{
 			var embedder = '';
 		}
 		if (dailiesGlobalData.userData.userID === 1) {
-			var adminControls = <LiveAdminControls thisID={this.props.postData.id} postTrasher={this.props.postTrasher} />
+			var adminControls = <LiveAdminControls thisID={this.props.postData.id} postTrasher={this.props.postTrasher} postPromoter={this.props.postPromoter} />
 		} else {
 			var adminControls = '';
 		}
@@ -79,7 +82,7 @@ export default class LittleThing extends React.Component{
 		}
 
 		return(
-			<article className="LittleThing" id={'LittleThing' + this.props.postData.id} >
+			<article className="LittleThing brick" id={'LittleThing' + this.props.postData.id} >
 				<div className="littleThingTop">
 					<a className="littleThingSourceImgLink" href={dailiesGlobalData.thisDomain + '/source/' + sourceSlug}><img className="sourcepic" src={sourceLogo} onError={(e) => window.imageError(e)} /></a>
 					<Titlebox title={this.props.postData.title} linkout={linkout} score={this.props.postData.votecount} toggleEmbed={this.toggleEmbed} />

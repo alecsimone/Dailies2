@@ -7,6 +7,7 @@ export default class LivePostsLoop extends React.Component{
 		var postDatas = this.props.postData;
 		var postIDs = Object.keys(postDatas).reverse();
 		var postTrasher = this.props.postTrasher;
+		var postPromoter = this.props.postPromoter;
 		var vote = this.props.vote;
 		if (this.props.sort === true) {
 			function littleThingSort(a,b) {
@@ -21,7 +22,7 @@ export default class LivePostsLoop extends React.Component{
 		var littleThingComponents = postIDs.map(function(postID) {
 			let postData = postDatas[postID];
 			return (
-				<LittleThing key={postID} userData={userData} postData={postData} postTrasher={postTrasher} vote={vote} />
+				<LittleThing key={postID} userData={userData} postData={postData} postTrasher={postTrasher} postPromoter={postPromoter} vote={vote} />
 			)
 		});
 		if (postIDs.length === 0) {
@@ -33,7 +34,10 @@ export default class LivePostsLoop extends React.Component{
 		}
 		return(
 			<section id="livePostsLoop">
-				{littleThingComponents}
+				<h4 className="LivePostsLoopHeader brick">{this.props.stage.toUpperCase()}</h4>
+				<div className="littleThingsContainer">
+					{littleThingComponents}
+				</div>
 			</section>
 		)
 	}

@@ -15,7 +15,7 @@ export default class Userbox extends React.Component {
 			} else {
 				var userboxElements = (
 					<div id="userbox-links">
-						<p className="userbox">Your votes count as much as your Rep. New members get 1</p>
+						<p className="userbox">Your votes count as much as your Rep. New members get 10</p>
 						<p className="userbox">Vote daily and your Rep will grow</p>
 					</div>
 				);
@@ -24,7 +24,7 @@ export default class Userbox extends React.Component {
 			if (this.props.userData.userRep !== false) {
 				var rep = this.props.userData.userRep;
 			} else {
-				var rep = 0.1;
+				var rep = 1;
 			}
 
 		return(
