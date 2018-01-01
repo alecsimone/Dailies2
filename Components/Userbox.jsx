@@ -5,8 +5,13 @@ export default class Userbox extends React.Component {
 	render() {
 			if (this.props.userData.userID != '0') {
 				let thisDomain = dailiesGlobalData.thisDomain;
+				var changePic
+				if (this.props.userData.userRep > 20) {
+					changePic = <p className="userbox">Edit Picture (soon!)</p>
+				}
 				var userboxElements = (
 					<div id="userbox-links">
+						{changePic}
 						<p className="userbox"><a href={thisDomain + "/your-votes"}>Your Votes</a></p>
 						<p className="userbox"><a href={thisDomain + "/secret-garden"}>Secret Garden</a></p>
 						<p className="userbox"><a href={dailiesGlobalData.logoutURL}>Logout</a></p>
@@ -29,7 +34,7 @@ export default class Userbox extends React.Component {
 
 		return(
 			<div id="userbox">
-				<header id="repHeader"> Your Rep: {rep}</header>
+				<header id="repHeader"> <img className="userboxProfilePic" src={dailiesGlobalData.userData.userPic} /> Your Rep: {rep}</header>
 				{userboxElements}
 			</div>
 		)

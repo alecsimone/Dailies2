@@ -14,7 +14,7 @@ if ($userID === 0) {
 ?>
 
 <div id="userbox" data-rep="<?php echo $userRep; ?>" data-repvotetime="<?php echo $lastRepVote; ?>">
-	<header id="repHeader"> Your Rep: <span class="repText"><?php echo $userRep; ?></span></header>
+	<header id="repHeader">Your Rep: <span class="repText"><?php echo $userRep; ?></span></header>
 	<div id="userbox-links">
 		<?php if ( $userID === 0 ) { ?>
 			<p class="userbox">Your votes count as much as your Rep. New members get 1</p>

@@ -8,7 +8,7 @@ $thisDomain = get_site_url();
 
 add_action("wp_enqueue_scripts", "script_setup");
 function script_setup() {
-	$version = '-v1.10';
+	$version = '-v1.12';
 	wp_register_script('globalScripts', get_template_directory_uri() . '/Bundles/global-bundle' . $version . '.js', ['jquery'], '', true );
 	$thisDomain = get_site_url();
 	$global_data = array(
@@ -156,7 +156,24 @@ function buildPostDataObject($id) {
 	$postDataObject['votecount'] = get_post_meta($id, 'votecount', true);
 	if ($postDataObject['votecount'] === '') {$postDataObject['votecount'] = 0;}
 	$postDataObject['voteledger'] = get_post_meta($id, 'voteledger', true);
-	if ($postDataObject['voteledger'] === '') {$postDataObject['voteledger'] = [];}
+	if ($postDataObject['voteledger'] === '' || $postDataObject['voteledger'] === []) {
+		$postDataObject['voteledger'] = [];
+		$postDataObject['voterData'] = [];
+	}
+	foreach ($postDataObject['voteledger'] as $voterID => $votedRep) {
+		$voterName = get_user_meta($voterID, 'nickname', true);
+		$voterDefaultPicture = wsl_get_user_custom_avatar( $voterID );
+		$voterCustomPicture = get_user_meta($voterID, 'customProfilePic', true);
+		if ($voterCustomPicture === '') {
+			$voterPic = $voterDefaultPicture;
+		} else {
+			$voterPic = $voterCustomPicture;
+		}
+		$postDataObject['voterData'][$voterID] = array(
+			'name' => $voterName,
+			'picture' => $voterPic,
+		);
+	}
 	$postDataObject['guestlist'] = get_post_meta($id, 'guestlist', true);
 	$postDataObject['EmbedCodes'] = array(
 		'TwitchCode' => get_post_meta($id, 'TwitchCode', true),
@@ -666,14 +683,27 @@ function generateUserData() {
 	$userID = get_current_user_id();
 	$userRep = get_user_meta($userID, 'rep', true);
 	$userRepTime = get_user_meta($userID, 'repVotes', true);
-	$userData = get_userdata($userID);
-	$userRole = $userData->roles[0];
+	$userDataObject = get_userdata($userID);
+	$userRole = $userDataObject->roles[0];
+	$userName = get_user_meta($userID, 'nickname', true);
+	$userDefaultPicture = wsl_get_user_custom_avatar( $userID );
+	$userCustomPicture = get_user_meta($userID, 'customProfilePic', true);
+	if ($userCustomPicture === '') {
+		$userPic = $userDefaultPicture;
+	} else {
+		$userPic = $userCustomPicture;
+	}
+	if ($userID === 0) {
+		$userPic = get_site_url() . '/wp-content/uploads/2017/03/default_pic.jpg';
+	}
 	$userData = array(
 		'userID' => $userID,
+		'userName' => $userName,
 		'userRep' => $userRep,
 		'userRepTime' => $userRepTime,
 		'userRole' => $userRole,
 		'clientIP' => $_SERVER['REMOTE_ADDR'],
+		'userPic' => $userPic,
 	);
 	return $userData;
 }

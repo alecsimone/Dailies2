@@ -207,12 +207,19 @@
 	}
 }
 #repHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
 	border-radius: 3px 3px 0 0;
 	background: $gold;
 	color: black;
 	font-size: 24px;
 	font-weight: bold;
 	padding: 18px;
+}
+img.userboxProfilePic {
+	width: 48px;
+	border-radius: 24px;
 }
 p.userbox {
 	font-size: 18px;

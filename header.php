@@ -32,6 +32,6 @@
 		foreach ($navLinks as $name => $link) {
 			echo "<a href='$baseURL$link' id='$name'>$name</a>";
 		};
-		?><a href="mailto:submit@therocketdailies.com?subject=Rocket%20Dailies%20Submission" id="Suggest">Suggest</a><a href="https://twitter.com/Rocket_Dailies" id="twitterLink"><img src="<?php echo get_site_url(); ?>/wp-content/uploads/2016/09/TWT.png" class="socialimg"></a>
+		?><a href="mailto:submit@therocketdailies.com?subject=Rocket%20Dailies%20Submission" id="Suggest">Submit</a><a href="https://twitter.com/Rocket_Dailies" id="twitterLink"><img src="<?php echo get_site_url(); ?>/wp-content/uploads/2016/09/TWT.png" class="socialimg"></a>
 
 	</nav>

@@ -82,6 +82,7 @@ export default class Live extends React.Component{
 					currentState.postData[id].votecount = currentState.postData[id].votecount.substring(0, currentState.postData[id].votecount.length - 2);
 				};
 				delete currentState.postData[id].voteledger[userID];
+				delete currentState.postData[id].voterData[userID];
 				if (jQuery.inArray(clientIP, guestlist) > -1) {
 					let guestIndex = jQuery.inArray(clientIP, guestlist);
 					guestlist.splice(guestIndex, 1);
@@ -98,6 +99,10 @@ export default class Live extends React.Component{
 				});
 				if (currentTime > repTime + 24 * 60 * 60) {rep = rep + 1};
 				currentState.postData[id].voteledger[userID] = rep;
+				currentState.postData[id].voterData[userID] = {
+					name: dailiesGlobalData.userData.userName,
+					picture: dailiesGlobalData.userData.userPic,
+				}
 				currentState.postData[id].votecount = (votecount + rep).toFixed(1);
 				var currentScoreLastDigit = currentState.postData[id].votecount.substring(currentState.postData[id].votecount.length - 1);
 				if (currentScoreLastDigit === '0') {
@@ -460,6 +465,9 @@ export default class Live extends React.Component{
 				<LivePostsLoop key={stageName} stage={stageName} userData={userData} postData={stagePostData} sort={sort} postTrasher={postTrasher} postPromoter={postPromoter} vote={littleThingVote} unfilteredPostCount={unfilteredPostCount} />
 			)
 		});
+		if (Object.keys(postData).length === 0) {
+			var stageLoops = <div className="thatsAll">No contenders yet for today. Want to <a href="mailto:submit@therocketdailies.com?subject=Rocket%20Dailies%20Submission">suggest</a> one?</div>
+		}
 		/*Next we're going to check the stage filter and remove any posts that don't belong
 		if (this.state.stage !== 'All') {
 			var stageFilter = this.state.stage
@@ -473,6 +481,13 @@ export default class Live extends React.Component{
 		if (this.state.cohosts.length !== 0) {
 			var CoHosts = <CoHostsPanel cohosts={this.state.cohosts} />
 		}
+
+		if (dailiesGlobalData.userData.userID === 1) {
+			var resetLiveButton = <img className="resetLive" onClick={this.resetLive} src={dailiesGlobalData.thisDomain + '/wp-content/uploads/2017/12/reset-icon.png'} />
+		} else {
+			var resetLiveButton = '';
+		}
+
 		return(
 			<section id="Live">
 				<HomeTop user={this.state.userData} />
@@ -481,7 +496,7 @@ export default class Live extends React.Component{
 				<section id="LivePostsLoops">
 					{stageLoops}
 				</section>
-				<img className="resetLive" onClick={this.resetLive} src={dailiesGlobalData.thisDomain + '/wp-content/uploads/2017/12/reset-icon.png'} />
+				{resetLiveButton}
 			</section>
 		)
 	}

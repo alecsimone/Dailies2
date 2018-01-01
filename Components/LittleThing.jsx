@@ -5,6 +5,7 @@ import StarBox from "./StarBox.jsx";
 import LiveAdminControls from "./LiveAdminControls.jsx";
 import AuthorBubble from "./AuthorBubble.jsx";
 import EmbedBox from "./EmbedBox.jsx";
+import VoterInfoBox from "./VoterInfoBox.jsx"
 
 export default class LittleThing extends React.Component{
 	constructor() {
@@ -80,6 +81,11 @@ export default class LittleThing extends React.Component{
 			sourceSlug = this.props.postData.taxonomies.stars[0].slug;
 			sourceLogo = this.props.postData.taxonomies.stars[0].logo;
 		}
+		var VoterInfoBoxHolder;
+		if (Object.keys(this.props.postData.voterData).length > 0) {
+			var VoterInfoBoxHolder = <VoterInfoBox voterData={this.props.postData.voterData} guestlist={this.props.postData.guestlist} />
+			//var VoterInfoBoxHolder = 'hi';
+		}
 
 		return(
 			<article className="LittleThing brick" id={'LittleThing' + this.props.postData.id} >
@@ -94,6 +100,7 @@ export default class LittleThing extends React.Component{
 					{adminControls}
 					<AuthorBubble authorData={this.props.postData.author} />
 				</div>
+				{VoterInfoBoxHolder}
 			</article>
 		)
 	}
