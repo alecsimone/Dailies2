@@ -3,7 +3,7 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-var version = '-v1.12';
+var version = '-v1.123';
 
 module.exports = {
 	devtool: 'cheap-module-source-map',
@@ -49,12 +49,13 @@ module.exports = {
 		plugins: [
 			new ExtractTextPlugin("../style" + version + ".css"),
 			new OptimizeCssAssetsPlugin(),
-			new webpack.DefinePlugin({
+			//Turn the following lines off for dev, on for prod
+			/*new webpack.DefinePlugin({
 				'process.env': {
 					'NODE_ENV': JSON.stringify('production')
 				}
 			}),
 			new webpack.optimize.AggressiveMergingPlugin(),
-			new webpack.optimize.UglifyJsPlugin(),
+			new webpack.optimize.UglifyJsPlugin(), */
 		],
 };

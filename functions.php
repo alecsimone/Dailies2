@@ -8,7 +8,7 @@ $thisDomain = get_site_url();
 
 add_action("wp_enqueue_scripts", "script_setup");
 function script_setup() {
-	$version = '-v1.12';
+	$version = '-v1.123';
 	wp_register_script('globalScripts', get_template_directory_uri() . '/Bundles/global-bundle' . $version . '.js', ['jquery'], '', true );
 	$thisDomain = get_site_url();
 	$global_data = array(
@@ -148,10 +148,17 @@ function buildPostDataObject($id) {
 		'large' => wp_get_attachment_image_src( get_post_thumbnail_id($id), 'large'),
 	);
 	$authorID = get_post_field('post_author', $id);
+	$authorDefaultPicture = wsl_get_user_custom_avatar( $authorID );
+	$authorCustomPicture = get_user_meta($authorID, 'customProfilePic', true);
+	if ($authorCustomPicture === '') {
+		$authorPic = $authorDefaultPicture;
+	} else {
+		$authorPic = $authorCustomPicture;
+	}
 	$postDataObject['author'] = array(
 		'id' => $authorID,
 		'name' => get_user_meta($authorID, 'nickname', true),
-		'logo' => get_user_meta($authorID, 'customProfilePic', true), 
+		'logo' => $authorPic, 
 	);
 	$postDataObject['votecount'] = get_post_meta($id, 'votecount', true);
 	if ($postDataObject['votecount'] === '') {$postDataObject['votecount'] = 0;}
@@ -306,7 +313,7 @@ function official_vote() {
 				$repVotes = array(
 					$postID => $currentTime
 				);
-				update_user_meta($userID, 'rep', $newRep);
+				increase_rep($userID, 1);
 				update_user_meta($userID, 'repVotes', $repVotes);
 			} else {$newRep = $rep;}
 
@@ -366,6 +373,38 @@ function official_vote() {
 	wp_die();
 }
 
+function increase_rep($userID, $additionalRep) {
+	$currentRep = get_user_meta($userID, 'rep', true);
+	$newRep = $currentRep + $additionalRep;
+	update_user_meta( $userID, 'rep', $newRep);
+	role_check($userID);
+}
+
+function role_check($userID) {
+	$currentRep = intval(get_user_meta($userID, 'rep', true));
+	$currentRoles = get_userdata($userID)->roles;
+	$currentRole = $currentRoles[0];
+	if ($currentRep >= 20 && $currentRole == 'subscriber') {
+		wp_update_user(
+			array(
+				'ID' => $userID,
+				'role' => 'contributor'
+			) 
+		);
+	} elseif ($currentRep < 20 && $currentRole == 'contributor') {
+		wp_update_user(
+			array(
+				'ID' => $userID,
+				'role' => 'subscriber'
+			) 
+		);
+	}
+}
+
+//$role = get_role( 'contributor' );
+//$role->add_cap( 'publish_posts' ); 
+//$role->add_cap( 'edit_published_posts' ); 
+
 add_action( 'wp_ajax_declare_winner', 'declare_winner' );
 function declare_winner() {
 	$nonce = $_POST['vote_nonce'];
@@ -378,6 +417,8 @@ function declare_winner() {
 	}
 	wp_set_post_tags($postID, 'Winners', true);
 	buildPostDataObject($postID);
+	$authorID = get_post_field('post_author', $postID);
+	increase_rep($authorID, 2);
 	wp_die();
 }
 
@@ -528,6 +569,7 @@ function plant_seed() {
 		'post_title' => $thingTitle,
 		'post_content' => '',
 		'post_excerpt' => '',
+		'post_status' => 'publish',
 		'tax_input' => array(
 			'source' => $growSource,
 			'stars' => $postStar,
@@ -543,11 +585,12 @@ function plant_seed() {
 	wp_die();
 }
 
-add_action( 'wp_ajax_post_trasher', 'post_trasher' );
 function post_trasher() {
 	$postID = $_POST['id'];
 	if (current_user_can('delete_published_posts', $postID)) {
 		wp_trash_post($postID);
+		$authorID = get_post_field('post_author', $postID);
+		increase_rep($authorID, -1);
 	};
 	echo json_encode($postID);
 	wp_die();
@@ -559,19 +602,40 @@ function post_promoter() {
 	if (current_user_can('edit_others_posts', $postID)) {
 		$category_list = get_the_category($postID);
 		$category_name = $category_list[0]->cat_name;
+		$authorID = get_post_field('post_author', $postID);
 		if ($category_name === 'Prospects') {
 			wp_remove_object_terms($postID, 'prospects', 'category');
 			wp_add_object_terms( $postID, 'contenders', 'category' );
+			increase_rep($authorID, 1);
 		} elseif ($category_name === 'Contenders') {
 			wp_remove_object_terms($postID, 'contenders', 'category');
-			wp_add_object_terms( $postID, 'finalists', 'category' );
-		} elseif ($category_name === 'Finalists') {
-			wp_remove_object_terms($postID, 'finalists', 'category');
 			wp_add_object_terms( $postID, 'nominees', 'category' );
+			increase_rep($authorID, 2);
 		}
 	};
 	echo json_encode($postID);
 	wp_die();
+}
+
+add_action( 'wp_ajax_post_demoter', 'post_demoter' );
+function post_demoter() {
+	$postID = $_POST['id'];
+	if (current_user_can('edit_others_posts', $postID)) {
+		$category_list = get_the_category($postID);
+		$category_name = $category_list[0]->cat_name;
+		$authorID = get_post_field('post_author', $postID);
+		if ($category_name === 'Nominees') {
+			wp_remove_object_terms($postID, 'nominees', 'category');
+			wp_add_object_terms( $postID, 'contenders', 'category' );
+			increase_rep($authorID, -2);
+		} elseif ($category_name === 'Contenders') {
+			wp_remove_object_terms($postID, 'contenders', 'category');
+			wp_add_object_terms( $postID, 'prospects', 'category' );
+			increase_rep($authorID, -1);
+		} elseif ($category_name === 'Prospects') {
+			post_trasher($postID);
+		}
+	};
 }
 
 add_action( 'wp_ajax_reset_live', 'reset_live' );
@@ -1106,7 +1170,7 @@ function custom_profile_pic_css() {
 
 function my_save_extra_profile_fields( $user_id ) {
  
-    if ( !current_user_can( 'edit_user', $user_id ) )
+    if ( !current_user_can( 'edit_users', $user_id ) )
         return false;
     update_user_meta( absint( $user_id ), 'rep', wp_kses_post( $_POST['rep'] ) );
     update_user_meta( absint( $user_id ), 'customProfilePic', wp_kses_post( $_POST['customProfilePic'] ) );

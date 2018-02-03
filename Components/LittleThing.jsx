@@ -69,8 +69,8 @@ export default class LittleThing extends React.Component{
 		} else {
 			var embedder = '';
 		}
-		if (dailiesGlobalData.userData.userID === 1) {
-			var adminControls = <LiveAdminControls thisID={this.props.postData.id} postTrasher={this.props.postTrasher} postPromoter={this.props.postPromoter} />
+		if (dailiesGlobalData.userData.userRole === 'administrator' || dailiesGlobalData.userData.userRole === 'editor' || dailiesGlobalData.userData.userRole === 'author' || dailiesGlobalData.userData.userRole === 'editor' || dailiesGlobalData.userData.userRole === 'contributor' ) {
+			var adminControls = <LiveAdminControls thisID={this.props.postData.id} postTrasher={this.props.postTrasher} postPromoter={this.props.postPromoter} postDemoter={this.props.postDemoter} postCategory={this.props.postData.categories} authorID={this.props.postData.author.id} />
 		} else {
 			var adminControls = '';
 		}

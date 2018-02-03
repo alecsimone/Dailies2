@@ -1,7 +1,7 @@
 <?php /* Template Name: Secret Garden */ 
 get_header(); 
 $userRep = get_user_meta(get_current_user_id(), 'rep', true);
-if ($userRep < 5) {
+if ($userRep < 15) {
 	echo "There's nothing here. How did you get here? Turn back now. Maybe try coming back when you have more rep. But there's definitely nothing here.";
 } else { 
 

@@ -23,6 +23,7 @@ export default class Live extends React.Component{
 		this.sortLive = this.sortLive.bind(this);
 		this.postTrasher = this.postTrasher.bind(this);
 		this.postPromoter = this.postPromoter.bind(this);
+		this.postDemoter = this.postDemoter.bind(this);
 		this.littleThingVote = this.littleThingVote.bind(this);
 		this.stageChange = this.stageChange.bind(this);
 		this.resetLive = this.resetLive.bind(this);
@@ -267,13 +268,28 @@ export default class Live extends React.Component{
 		delete currentState.postData[id];
 		currentState.cutPostIDs.push(id);
 		this.setState(currentState);
+	}
+
+	postDemoter(id) {
+		var currentState = this.state;
+		var currentCategory = currentState.postData[id]['categories'];
+		if (currentCategory === 'Prospects') {
+			this.postTrasher(id);
+		}
+		if (currentCategory === 'Contenders') {
+			currentState.postData[id]['categories'] = 'Prospects'
+		}		
+		if (currentCategory === 'Nominees') {
+			currentState.postData[id]['categories'] = 'Contenders'
+		}
+		this.setState(currentState);
 		jQuery.ajax({
 			type: "POST",
 			url: dailiesGlobalData.ajaxurl,
 			dataType: 'json',
 			data: {
 				id: id,
-				action: 'post_trasher',
+				action: 'post_demoter',
 			},
 			error: function(one, two, three) {
 				console.log(one);
@@ -281,7 +297,7 @@ export default class Live extends React.Component{
 				console.log(three);
 			},
 			success: function(data) {
-				//console.log(data);
+				console.log(data);
 			}
 		});
 	}
@@ -293,9 +309,6 @@ export default class Live extends React.Component{
 			currentState.postData[id]['categories'] = 'Contenders'
 		}
 		if (currentCategory === 'Contenders') {
-			currentState.postData[id]['categories'] = 'Finalists'
-		}		
-		if (currentCategory === 'Finalists') {
 			currentState.postData[id]['categories'] = 'Nominees'
 		}		
 		if (currentCategory === 'Nominees') {
@@ -446,6 +459,7 @@ export default class Live extends React.Component{
 		var sort = this.state.sort
 		var postTrasher = this.postTrasher;
 		var postPromoter = this.postPromoter;
+		var postDemoter = this.postDemoter;
 		var littleThingVote = this.littleThingVote;
 		var stageLoops = stages.map(function(stageName) {
 			if (stageName === 'Prospects') {
@@ -462,7 +476,7 @@ export default class Live extends React.Component{
 				return
 			}
 			return (
-				<LivePostsLoop key={stageName} stage={stageName} userData={userData} postData={stagePostData} sort={sort} postTrasher={postTrasher} postPromoter={postPromoter} vote={littleThingVote} unfilteredPostCount={unfilteredPostCount} />
+				<LivePostsLoop key={stageName} stage={stageName} userData={userData} postData={stagePostData} sort={sort} postTrasher={postTrasher} postPromoter={postPromoter} postDemoter={postDemoter} vote={littleThingVote} unfilteredPostCount={unfilteredPostCount} />
 			)
 		});
 		if (Object.keys(postData).length === 0) {

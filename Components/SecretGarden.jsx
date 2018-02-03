@@ -129,6 +129,7 @@ export default class SecretGarden extends React.Component{
 		var currentState = this.state;
 		currentState.cutSlugs[slugObj.slug] = slugObj;
 		this.setState(currentState);
+		var page = this;
 		jQuery.ajax({
 			type: "POST",
 			url: dailiesGlobalData.ajaxurl,
@@ -144,8 +145,11 @@ export default class SecretGarden extends React.Component{
 				console.log(three);
 			},
 			success: function(data) {
+				console.log(data);
 				if (Number.isInteger(data)) {
-					window.open(dailiesGlobalData.thisDomain + '/wp-admin/post.php?post=' + data + '&action=edit', '_blank');
+					//window.open(dailiesGlobalData.thisDomain + '/wp-admin/post.php?post=' + data + '&action=edit', '_blank');
+					currentState.statusMessage = <h4>You have entered {slugObj.slug} into contention for tonight! See it at <a href="http://dailies.gg/live" target="_blank">Dailies.gg/Live</a></h4>;
+					page.setState(currentState);
 				}
 			}
 		});

@@ -270,16 +270,16 @@ h4.LivePostsLoopHeader {
 	border-top: 1px solid $whiteTrans07;
 }
 .voterBubble {
-	width: 24px;
-	height: 24px;
-	border-radius: 12px;
+	width: 30px;
+	height: 30px;
+	border-radius: 15px;
 	margin: 6px 3px 0;
 
 }
 
 img.littleThingTrasher, img.editThisImg, img.littleThingPromoter {
 	width: 24px;
-	height: 24px;
+	height: auto;
 	cursor: pointer;
 	opacity: .8;
 }
