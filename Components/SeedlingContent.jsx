@@ -10,7 +10,7 @@ export default class SeedlingContent extends React.Component{
 		} else {
 			var keepBar;
 			if (dailiesGlobalData.userData.userRole === 'administrator' || dailiesGlobalData.userData.userRole === 'editor' || dailiesGlobalData.userData.userRole === 'author' || dailiesGlobalData.userData.userRole === 'editor' || dailiesGlobalData.userData.userRole === 'contributor' ) {
-				keepBar = <KeepBar slug={this.props.slug} embed={this.props.embed} keepSlug={this.props.keepSlug} vodLink={this.props.vodLink} clipTime={this.props.clipTime} voters={this.props.voters} source={this.props.source} />;
+				keepBar = <KeepBar slug={this.props.slug} embed={this.props.embed} keepSlug={this.props.keepSlug} vodLink={this.props.vodLink} clipTime={this.props.clipTime} voters={this.props.voters} source={this.props.source.channel_url} sourcePic={this.props.source.logo} />;
 			}
 			var content = ( 
 				<div className="seedlingContentComponents">

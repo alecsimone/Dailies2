@@ -54,6 +54,8 @@ export default class KeepBar extends React.Component{
 			VODBase,
 			VODTime,
 			likeIDs: this.props.voters,
+			channelURL: this.props.source,
+			channelPic: this.props.sourcePic,
 		};
 		this.props.keepSlug(slugObj, thingData);
 	}

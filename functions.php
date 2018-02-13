@@ -8,7 +8,7 @@ $thisDomain = get_site_url();
 
 add_action("wp_enqueue_scripts", "script_setup");
 function script_setup() {
-	$version = '-v1.123';
+	$version = '-v1.15';
 	wp_register_script('globalScripts', get_template_directory_uri() . '/Bundles/global-bundle' . $version . '.js', ['jquery'], '', true );
 	$thisDomain = get_site_url();
 	$global_data = array(
@@ -210,9 +210,16 @@ function buildPostDataObject($id) {
 	$source = get_the_terms($id, 'source');
 	if ($source !== false) {
 		foreach ($source as $singleSource) {
+			$sourcepicMetaValue = get_post_meta($id, 'sourcepic', true);
+			$sourceLogo = get_term_meta($singleSource->term_taxonomy_id, 'logo', true);
+			if ($singleSource->slug === 'user-submits' && $sourcepicMetaValue != '') {
+				$sourceLogoToUse = $sourcepicMetaValue;
+			}  else {
+				$sourceLogoToUse = $sourceLogo;
+			}
 			$postDataObject['taxonomies']['source'][] = array(
 				'name' => $singleSource->name,
-				'logo' => get_term_meta($singleSource->term_taxonomy_id, 'logo', true),
+				'logo' => $sourceLogoToUse,
 				'slug' => $singleSource->slug,
 			);
 		}
@@ -401,6 +408,7 @@ function role_check($userID) {
 	}
 }
 
+//These  are commented out because they only need to be run once, but I still want a record of them.
 //$role = get_role( 'contributor' );
 //$role->add_cap( 'publish_posts' ); 
 //$role->add_cap( 'edit_published_posts' ); 
@@ -511,7 +519,6 @@ function vote_slug() {
 }
 
 add_action( 'wp_ajax_plant_seed', 'plant_seed' );
-
 function plant_seed() {
 	$slugObj = $_POST['slugObj'];
 	$thingData = $_POST['thingData'];
@@ -648,100 +655,149 @@ function reset_live() {
 	wp_die();
 }
 
-/*
-add_action( 'rest_api_init', 'dailies_add_extra_data_to_rest' );
-function dailies_add_extra_data_to_rest() {
-	register_rest_field('post', 'thumbs', array(
-			'get_callback' => function($postData) {
-				$thisID = $postData[id];
-				$thumbs = array(
-					'smaller' => wp_get_attachment_image_src( get_post_thumbnail_id($thisID), 'small'),
-					'medium' => wp_get_attachment_image_src( get_post_thumbnail_id($thisID), 'medium'),
-					'large' => wp_get_attachment_image_src( get_post_thumbnail_id($thisID), 'large'),
-				);
-				return $thumbs;
-			},
-		)
+add_action( 'wp_ajax_addProspect', 'addProspect' );
+function addProspect () {
+	$newProspectTitle = sanitize_text_field($_POST['title']);
+	$newProspectUrl = esc_url($_POST['url']);
+
+	$starID = starChecker($newProspectTitle);
+
+	$clipTax = array(
+		'stars' => $starID,
 	);
-	register_rest_field('post', 'EmbedCodes', array(
-		'get_callback' => function($postData) {
-			$thisID = $postData[id];
-			$EmbedCodes = array(
-				'TwitchCode' => get_post_meta($thisID, 'TwitchCode', true),
-				'GFYtitle' => get_post_meta($thisID, 'GFYtitle', true),
-				'YouTubeCode' => get_post_meta($thisID, 'YouTubeCode', true),
-				'TwitterCode' => get_post_meta($thisID, 'TwitterCode', true),
-				'EmbedCode' => get_post_meta($thisID, 'EmbedCode', true),
-			);
-			return $EmbedCodes;
+
+	$clipMeta = array();
+
+	$clipType = clipTypeDetector($newProspectUrl);
+
+	if ($clipType === 'twitch') {
+		$twitchCodePosition = strpos($newProspectUrl, 'twitch.tv/') + 10;
+		if (strpos($newProspectUrl, '?')) {
+			$twitchCodeEnd = strpos($newProspectUrl, '?');
+			$twitchCodeLength = $twitchCodeEnd - $twitchCodePosition;
+			$twitchCode = substr($newProspectUrl, $twitchCodePosition, $twitchCodeLength);
+		} else {
+			$twitchCode = substr($newProspectUrl, $twitchCodePosition);
 		}
-	));
-	register_rest_field('post', 'taxonomies', array(
-		'get_callback' => function($postData) {
-			$thisID = $postData[id];
-			$taxonomies = array(
-				'tags' => get_the_terms($thisID, 'post_tag'),
-				'skills' => get_the_terms($thisID, 'skills'),
-			);
-			$stars = get_the_terms($thisID, 'stars');
-			if ($stars !== false) {
-				foreach ($stars as $star) {
-					$taxonomies['stars'][] = array(
-						'name' => $star->name,
-						'logo' => get_term_meta($star->term_taxonomy_id, 'logo', true),
-						'slug' => $star->slug,
-					);
-				}
-			} else {
-				$taxonomies['stars'][] = array();
-			}
-			$source = get_the_terms($thisID, 'source');
-			if ($source !== false) {
-				foreach ($source as $singleSource) {
-					$taxonomies['source'][] = array(
-						'name' => $singleSource->name,
-						'logo' => get_term_meta($singleSource->term_taxonomy_id, 'logo', true),
-						'slug' => $singleSource->slug,
-					);
-				}
-			} else {
-				$taxonomies['source'][] = array(
-					'name' => 'User Submits',
-					'logo' => get_term_meta(632, 'logo', true),
-					'slug' => 'user-submits',
-				);
-			}
-			return $taxonomies;
+		$twitchCode = substr($newProspectUrl, $twitchCodePosition, $twitchCodeLength);
+		$clipMeta['TwitchCode'] = $twitchCode;
+	} elseif ($clipType === 'youtube') {
+		$youtubeCodePosition = strpos($newProspectUrl, 'youtube.com/watch?v=') + 20;
+		if (strpos($newProspectUrl, '&')) {
+			$youtubeCodeEndPosition = strpos($newProspectUrl, '&');
+			$youtubeCodeLength = $youtubeCodeEndPosition - $youtubeCodePosition;
+			$youtubeCode = substr($newProspectUrl, $youtubeCodePosition, $youtubeCodeLength);
+		} else {
+			$youtubeCode = substr($newProspectUrl, $youtubeCodePosition);
 		}
-	));
-	register_rest_field('post', 'author', array(
-		'get_callback' => function($postData) {
-			$thisID = $postData[id];
-			$authorID = get_post_field('post_author', $thisID);
-			$author = array(
-				'id' => $authorID,
-				'name' => get_user_meta($authorID, 'nickname', true),
-				'logo' => get_user_meta($authorID, 'customProfilePic', true), 
-			);
-			return $author;
+		$clipMeta['YouTubeCode'] = $youtubeCode;
+	} elseif ($clipType === 'ytbe') {
+		$youtubeCodePosition = strpos($newProspectUrl, 'youtu.be/') + 9;
+		if (strpos($newProspectUrl, '?')) {
+			$youtubeCodeEndPosition = strpos($newProspectUrl, '?');
+			$youtubeCodeLength = $youtubeCodeEndPosition - $youtubeCodePosition;
+			$youtubeCode = substr($newProspectUrl, $youtubeCodePosition, $youtubeCodeLength);
+		} else {
+			$youtubeCode = substr($newProspectUrl, $youtubeCodePosition);
 		}
-	));
-	register_rest_field('post', 'playCount', array(
-		'get_callback' => function($postData) {
-			$thisID = $postData[id];
-			$playCount = get_post_meta($thisID, 'fullClipViewcount', true);
-			return $playCount;
+		$clipMeta['YouTubeCode'] = $youtubeCode;
+	} elseif ($clipType === 'twitter') {
+		$twitterCodePosition = strpos($newProspectUrl, '/status/') + 8;
+		$twitterCode = substr($newProspectUrl, $twitterCodePosition);
+		$clipMeta['TwitterCode'] = $twitterCode;
+	} elseif ($clipType === 'gfycat') {
+		if (strpos($newProspectUrl, '/detail/')) {
+			$gfyCodePosition = strpos($newProspectUrl, '/detail/') + 8;
+			$gfyCode = substr($newProspectUrl, $gfyCodePosition);
+		} else {
+			$gfyCodePosition = strpos($newProspectUrl, 'gfycat.com/') + 11;
+			$gfyCode = substr($newProspectUrl, $gfyCodePosition);
 		}
-	));
-	register_rest_field('post', 'addedScore', array(
-		'get_callback' => function($postData) {
-			$thisID = $postData[id];
-			$addedScore = get_post_meta($thisID, 'addedScore', true);
-			return $addedScore;
-		}
-	));
+		$clipMeta['GFYtitle'] = $gfyCode;
+	}
+
+	$prospectArray = array(
+		'post_title' => $newProspectTitle,
+		'post_content' => '',
+		'post_excerpt' => '',
+		'post_status' => 'publish',
+		'tax_input' => $clipTax,
+		'meta_input' => $clipMeta,
+	);
+	$didPost = wp_insert_post($prospectArray, true);
+
+	echo json_encode($didPost);
+	wp_die();
 }
-*/
+
+function clipTypeDetector($clipURLRaw) {
+	$clipURL = strtolower($clipURLRaw);
+	$isTwitch = strpos($clipURL, 'twitch');
+	$isYouTube = strpos($clipURL, 'youtube');
+	$isYtbe = strpos($clipURL, 'youtu.be');
+	$isTwitter = strpos($clipURL, 'twitter');
+	$isGfy = strpos($clipURL, 'gfycat');
+
+	if ($isTwitch !== false ) {
+		return 'twitch';
+	} elseif ($isYouTube !== false) {
+		return 'youtube';
+	} elseif ($isYtbe !== false) {
+		return 'ytbe';
+	} elseif ($isTwitter !== false) {
+		return 'twitter';
+	} elseif ($isGfy !== false) {
+		return 'gfycat';
+	}
+}
+
+add_action( 'wp_ajax_addSourceToPost', 'addSourceToPost' );
+function addSourceToPost() {
+	$channelURL = $_POST['channelURL'];
+	$channelPic = $_POST['channelPic'];
+	$postID = $_POST['postID'];
+	$sourceID = sourceFinder($channelURL);
+	wp_set_post_terms( $postID, $sourceID, 'source');
+	update_post_meta( $postID, 'sourcepic', $channelPic);
+	echo json_encode($channelPic);
+	wp_die();
+}
+
+function sourceFinder($channelURL) {
+	$sourceArgs = array(
+		'taxonomy' => 'source'
+	);
+	$sources = get_terms($sourceArgs);
+	$sourceID = 632;
+	foreach ($sources as $source) {
+		$key = get_term_meta($source->term_id, 'twitch', true);
+		if (strcasecmp($key, $channelURL) == 0) {
+			$sourceID = $source->term_id;
+		}
+	}
+	return $sourceID;
+}
+
+function starChecker($thingTitle) {
+	$titleWords = explode(" ", $thingTitle);
+	$starNickname = strtolower($titleWords[0]);
+	$starNickLength = strlen($starNickname);
+	$star_args = array(
+		'taxonomy' => 'stars',
+	);
+	$stars = get_terms($star_args);
+	$postStar = 'X';
+	$singleStar = false;
+	foreach ($stars as $star) {
+		$starSlug = $star->slug;
+		$starShortSlug = substr($starSlug, 0, $starNickLength);
+		if ($starShortSlug == $starNickname && !$singleStar) {
+			$postStar = $star->term_id;
+			$singleStar = true;
+		}
+	};
+	return $postStar;
+}
 
 function generateUserData() {
 	$userID = get_current_user_id();

@@ -57,6 +57,9 @@
  	font-size: 18px;
  	font-family: proxima-nova, sans-serif;
  	transition: box-shadow .2s;
+ 	&:hover {
+ 		background: $whiteTrans15;
+ 	}
  }
 
  input {
@@ -115,7 +118,7 @@
  		}
  	}
  }
- a#medalLink, a#twitterLink {
+ a#medalLink, a#twitterLink, a#post {
  	padding: 8px 0;
  	flex-basis: 30px;
  	line-height: 0;
@@ -167,7 +170,7 @@
  		display: inline-block;
  	}
  }
- a#Suggest {
+ a#submit {
  	display: none;
  	@media #{$bp850} {
  		display: inline-block;
@@ -189,6 +192,10 @@
  	width: 32px;
  	height: auto;
  	line-height: 0;
+ }
+ .submitimg {
+ 	width: 28px;
+ 	padding: 2px 0;
  }
 
  #userbox {
@@ -259,4 +266,100 @@ a.wp-social-login-provider {
 }
 .wp-social-login-provider-twitchtv {
 	background: url('http://dailies.gg/wp-content/uploads/2016/09/TW.png') center/cover;
+}
+
+#AddProspectForm {
+	position: fixed;
+	background: $darkBlack;
+	border-radius: 4px;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 80%;
+	height: 60%;
+	top: 20%;
+	left: 10%;
+	@media #{$bp800} {
+		width: 50%;
+		height: 50%;
+		min-height: 300px;
+		top: 25%;
+		left: 25%;
+	}
+}
+img#lightboxCloseButton {
+    width: 24px;
+    height: auto;
+    opacity: 0.5;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    cursor: pointer;
+}
+#AddProspectInstructions {
+	font-size: 16px;
+	width: 80%;
+	margin: 1em auto;
+	@media #{$bp800} {
+		font-size: 18px;
+	}
+}
+.AddProspectFormBoxes {
+	display: block;
+	width: 60%;
+	font-size: 16px;
+	height: 1.5em;
+	margin: 1em 20%;
+	padding: 1em;
+	@media #{$bp800} {
+		font-size: 18px;
+	}
+}
+.AddProspectButton {
+	margin: 12px 18px;
+	padding: 8px 24px;
+}
+#AddProspectPostButton {
+	border: none;
+	background: $blueTrans75;
+	&:hover {
+		background: $blueTrans50;
+	}
+}
+
+#lightboxOverlay {
+	display: block;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background-color: $whiteTrans50;
+	z-index: 1;
+}
+
+.redFlash {
+	-moz-animation: redFlash 1s ease-out;
+	-moz-animation-iteration-count: 1;
+
+	-webkit-animation: redFlash 1s ease-out;
+	-webkit-animation-iteration-count: 1;
+
+	-ms-animation: redFlash 1s ease-out;
+	-ms-animation-iteration-count: 1;
+}
+@-webkit-keyframes redFlash {
+	0% { background-color: $red; }
+	100% { background-color: $white; }
+}
+
+@-moz-keyframes redFlash {
+	0% { background-color: $red; }
+	100% { background-color: $white; }
+}
+
+@-ms-keyframes redFlash {
+	0% { background-color: $red; }
+	100% { background-color: $white; }
 }

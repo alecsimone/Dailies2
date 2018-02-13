@@ -1,3 +1,5 @@
+import AddProspectForm from '../Components/AddProspectForm.jsx';
+
 jQuery(document).mouseup(function (e) {
 	var searchBox = jQuery('#searchbox');
 	if ( jQuery('#searchToggle').is(e.target) ) {
