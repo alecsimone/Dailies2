@@ -60,7 +60,7 @@ export default class AddProspectForm extends React.Component{
 			url: dailiesGlobalData.ajaxurl,
 			dataType: 'json',
 			data: {
-				action: 'addProspect',
+				action: 'submitClip',
 				title,
 				url,
 			},
@@ -72,7 +72,7 @@ export default class AddProspectForm extends React.Component{
 			success: function(data) {
 				console.log(data);
 				killAddProspectForm();
-				if (isTwitch > -1) {
+			/*	if (isTwitch > -1) {
 					var postID = data;
 					var clipSlugPos = url.indexOf('.tv/') + 4;
 					var clipSlugEnd = url.indexOf('?');
@@ -120,6 +120,7 @@ export default class AddProspectForm extends React.Component{
 						}
 					});
 				};
+			*/
 			}
 		});
 	}

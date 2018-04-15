@@ -23,6 +23,7 @@ export default class SecretGarden extends React.Component{
 			streamList: gardenData.streamList,
 			clips: gardenData.clips,
 			cursors,
+			submissions: gardenData.submissionSeedlings,
 			cutSlugs: gardenData.cutSlugs,
 			streamFilter: [],
 			statusMessage: 'Welcome to the Secret Garden',
@@ -366,8 +367,30 @@ export default class SecretGarden extends React.Component{
 			}
 			if (cutThisSlug !== true) {
 				seedsToPlant.push(seedlingData);
+				alreadyQueuedSlugs.push(slug);
 			}
 		});
+
+		var submitsToPlant = [];
+		var submits = this.state.submissions;
+		jQuery.each(submits, function() {
+			var clipData = this;
+			var fullURL = clipData.clipURL;
+			if (fullURL.indexOf('clips.twitch.tv') > -1) {
+				var slugStartPosition = fullURL.indexOf('.tv/') + 4;
+				var slugEndPosition = fullURL.indexOf('?');
+				if (slugEndPosition > -1) {
+					var slugLength = slugEndPosition - slugStartPosition;
+					var slug = fulllURL.substring(slugStartPosition, slugEndPosition);
+				} else {
+					var slug = fullURL.substring(slugStartPosition);
+				}
+				if (alreadyQueuedSlugs.indexOf(slug) === -1) {
+					submitsToPlant.push(clipData);
+				}
+			}
+		});
+
 		var clipCount = Object.keys(clips).length;
 		var plantCount = seedsToPlant.length;
 		var cutCount = clipCount - plantCount;
@@ -400,15 +423,25 @@ export default class SecretGarden extends React.Component{
 if (jQuery('#secretGardenApp').length) {
 	var streams = Object.keys(gardenData.streamList);
 	var datas = [];
+	if (gardenData.currentDay === 'Weekend') {
+		var period = 'week';
+	} else {
+		var period = 'day';
+	}
 	jQuery.each(streams, function() {
 		var streamName = this;
-		var query = `https://api.twitch.tv/kraken/clips/top?channel=${this}&period=day&limit=100`;
+		var query = `https://api.twitch.tv/kraken/clips/top?channel=${this}&period=${period}&limit=100`;
 		var ajax = jQuery.ajax({
 			type: 'GET',
 			url: query,
 			headers: {
 				'Client-ID' : privateData.twitchClientID,
 				'Accept' : 'application/vnd.twitchtv.v5+json',
+			},
+			error: function(one, two, three) {
+				console.log(one);
+				console.log(two);
+				console.log(three);
 			},
 			success: function(data) {
 				let cursor = data._cursor;
@@ -424,7 +457,13 @@ if (jQuery('#secretGardenApp').length) {
 			var clipData = JSON.parse(this.responseText);
 			jQuery.each(clipData.clips, function() {
 				if (this.game === "Rocket League") {
-					allClips.push(this);
+					let clipTime = Date.parse(this.created_at);
+					let currentTime = + new Date();
+					let timeSince = currentTime - clipTime;
+					var timeAgo = Math.floor(timeSince / 1000 / 60 / 60);
+					if (timeAgo < 49) {
+						allClips.push(this);
+					}
 				}
 			});
 		});
