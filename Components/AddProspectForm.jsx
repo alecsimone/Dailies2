@@ -84,7 +84,6 @@ export default class AddProspectForm extends React.Component{
 					}
 					var clipSlug = url.substring(clipSlugPos, urlSubstringLength);
 					var queryURL = 'https://api.twitch.tv/kraken/clips/' + clipSlug;
-					console.log(postID);
 					jQuery.ajax({
 						type: 'GET',
 						url: queryURL,

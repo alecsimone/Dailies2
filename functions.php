@@ -679,6 +679,7 @@ function addProspect () {
 		} else {
 			$twitchCode = substr($newProspectUrl, $twitchCodePosition);
 		}
+		$twitchCode = substr($newProspectUrl, $twitchCodePosition, $twitchCodeLength);
 		$clipMeta['TwitchCode'] = $twitchCode;
 	} elseif ($clipType === 'youtube') {
 		$youtubeCodePosition = strpos($newProspectUrl, 'youtube.com/watch?v=') + 20;
@@ -758,7 +759,7 @@ function addSourceToPost() {
 	$sourceID = sourceFinder($channelURL);
 	wp_set_post_terms( $postID, $sourceID, 'source');
 	update_post_meta( $postID, 'sourcepic', $channelPic);
-	echo json_encode($sourceID);
+	echo json_encode($channelPic);
 	wp_die();
 }
 
