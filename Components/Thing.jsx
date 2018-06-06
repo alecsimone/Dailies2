@@ -24,6 +24,9 @@ export default class Thing extends React.Component {
 		let repTime = this.state.repTime;
 		if (userID !== "0") {
 			var voteledger = this.state.voteledger;
+			if (voteledger === '') {
+				currentState.voteledger = [];
+			}
 			if( Object.keys(voteledger).indexOf(userID) > -1 ) {
 				currentState.votecount = (votecount - voteledger[userID]).toFixed(1);
 				delete currentState.voteledger[userID];

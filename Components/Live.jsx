@@ -5,6 +5,7 @@ import ChannelChanger from './ChannelChanger.jsx';
 import StageFilter from './StageFilter.jsx';
 import CoHostsPanel from './CoHostsPanel.jsx';
 import LivePostsLoop from './LivePostsLoop.jsx';
+import SubmissionsOpenToggle from './SubmissionsOpenToggle.jsx';
 
 export default class Live extends React.Component{
 	constructor() {
@@ -502,11 +503,6 @@ export default class Live extends React.Component{
 			var resetLiveButton = '';
 		}
 
-		var openSubmissionsToggle;
-		if (dailiesGlobalData.userData.userID === 1) {
-			openSubmissionsToggle = <img src={dailiesGlobalData.thisDomain + '/wp-content/uploads/2017/04/red-x.png'} id="openSubmissionsToggle" />
-		}
-
 		return(
 			<section id="Live">
 				<HomeTop user={this.state.userData} />
@@ -516,7 +512,6 @@ export default class Live extends React.Component{
 					{stageLoops}
 				</section>
 				{resetLiveButton}
-				{openSubmissionsToggle}
 			</section>
 		)
 	}
