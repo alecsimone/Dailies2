@@ -33,6 +33,7 @@ export default class SecretGarden extends React.Component{
 		this.cutSlug = this.cutSlug.bind(this);
 		this.voteSlug = this.voteSlug.bind(this);
 		this.keepSlug = this.keepSlug.bind(this);
+		this.cutSubmission = this.cutSubmission.bind(this);
 		this.pushStreamQueryFurther = this.pushStreamQueryFurther.bind(this);
 		this.filterStreams = this.filterStreams.bind(this);
 		this.nukeSlug = this.nukeSlug.bind(this);
@@ -172,6 +173,35 @@ export default class SecretGarden extends React.Component{
 						}
 					});
 				}
+			}
+		});
+	}
+
+	cutSubmission(metaInput) {
+		var currentState = this.state;
+		var indexToCut
+		jQuery.each(currentState.submissions, function(index, el) {
+			if (el['meta_input'] === metaInput) {
+				indexToCut = index;
+			}
+		});
+		currentState.submissions[indexToCut]['cut'] = 'cut';
+		this.setState(currentState);
+		jQuery.ajax({
+			type: "POST",
+			url: dailiesGlobalData.ajaxurl,
+			dataType: 'json',
+			data: {
+				action: 'cutSubmission',
+				metaInput,
+			},
+			error: function(one, two, three) {
+				console.log(one);
+				console.log(two);
+				console.log(three);
+			},
+			success: function(data) {
+				console.log(data);
 			}
 		});
 	}
@@ -374,6 +404,13 @@ export default class SecretGarden extends React.Component{
 		var submitsToPlant = [];
 		var submits = this.state.submissions;
 		jQuery.each(submits, function() {
+			if (this.cut === 'cut') {
+				return
+			}
+			if (filteredStreams.indexOf('User_Submits') > -1) {
+				console.log("You're filtering out user submits");
+				return
+			}
 			var clipData = this;
 			var fullURL = clipData.clipURL;
 			if (fullURL.indexOf('clips.twitch.tv') > -1) {
@@ -413,7 +450,7 @@ export default class SecretGarden extends React.Component{
 				<GardenHeader clipCount={clipCount} cutCount={cutCount} addStream={this.addStream} />
 				<Streamlist streamList={this.state.streamList} filterStreams={this.filterStreams} streamFilter={this.state.streamFilter} />
 				<GardenStatus message={this.state.statusMessage} />
-				<Garden clips={seedsToPlant} voters={voters} cutSlug={this.cutSlug} voteSlug={this.voteSlug} keepSlug={this.keepSlug} streamFilter={this.state.streamFilter} />
+				<Garden clips={seedsToPlant} submissions={submitsToPlant} voters={voters} cutSlug={this.cutSlug} voteSlug={this.voteSlug} keepSlug={this.keepSlug} cutSubmission={this.cutSubmission} streamFilter={this.state.streamFilter} />
 				{loadMore}
 			</section>
 		)
@@ -461,7 +498,7 @@ if (jQuery('#secretGardenApp').length) {
 					let currentTime = + new Date();
 					let timeSince = currentTime - clipTime;
 					var timeAgo = Math.floor(timeSince / 1000 / 60 / 60);
-					if (timeAgo < 49) {
+					if (timeAgo < 73) {
 						allClips.push(this);
 					}
 				}

@@ -8,7 +8,7 @@ $thisDomain = get_site_url();
 
 add_action("wp_enqueue_scripts", "script_setup");
 function script_setup() {
-	$version = '-v1.16';
+	$version = '-v1.2';
 	wp_register_script('globalScripts', get_template_directory_uri() . '/Bundles/global-bundle' . $version . '.js', ['jquery'], '', true );
 	$thisDomain = get_site_url();
 	$global_data = array(
@@ -72,6 +72,8 @@ function script_setup() {
 		wp_localize_script('liveScripts', 'liveData', $liveData);
 		wp_enqueue_script('liveScripts');
 		wp_enqueue_script('isotope', 'http://dailies.gg/wp-content/themes/Dailies2/js/isotope.pkgd.min.js');
+	} else if (is_page('Submit')) {
+		wp_enqueue_script( 'scheduleScripts', get_template_directory_uri() . '/Bundles/submit-bundle' . $version . '.js', ['jquery'], '', true );
 	} /*else if (is_page('Schedule')) {
 		wp_enqueue_script( 'scheduleScripts', get_template_directory_uri() . '/Bundles/schedule-bundle.js', ['jquery'], '', true );
 	} */
@@ -660,7 +662,12 @@ function reset_live() {
 }
 
 add_action( 'wp_ajax_submitClip', 'submitClip' );
+add_action( 'wp_ajax_nopriv_submitClip', 'submitClip' );
 function submitClip () {
+	if (!is_user_logged_in()) {
+		wp_die("You have to be logged in to submit");
+	}
+
 	$newSeedlingTitle = substr(sanitize_text_field($_POST['title']), 0, 80);
 	$newSeedlingUrl = substr(esc_url($_POST['url']), 0, 140);
 
@@ -790,8 +797,43 @@ function addSeedling($seedlingArray) {
 	}
 }
 
-/*add_action( 'wp_ajax_addProspect', 'addProspect' );
+
+add_action( 'wp_ajax_cutSubmission', 'cutSubmission' );
+function cutSubmission() {
+	$userID = get_current_user_id();
+	$userDataObject = get_userdata($userID);
+	$userRole = $userDataObject->roles[0];
+	if ($userRole !== 'administrator') {
+		wp_die("You are not an admin, sorry");
+	}
+	$gardenPageObject = get_page_by_path('secret-garden');
+	$gardenID = $gardenPageObject->ID;
+	$oldUserSubmits = get_post_meta($gardenID, 'userSubmitData', true);
+
+	$deadSubmissionMetaInput = $_POST['metaInput'];
+	$deadSubmissionMetaType = array_keys($deadSubmissionMetaInput)[0];
+	$deadSubmissionMetaValue = $deadSubmissionMetaInput[$deadSubmissionMetaType];
+
+	foreach ($oldUserSubmits as $key => $value) {
+		if ($value['meta_input'][$deadSubmissionMetaType] === $deadSubmissionMetaValue) {
+			unset($oldUserSubmits[$key]);
+		}
+	}
+
+	$newUserSubmits = update_post_meta( $gardenID, 'userSubmitData', $oldUserSubmits);
+
+	echo json_encode($oldUserSubmits);
+	wp_die();
+}
+
+add_action( 'wp_ajax_addProspect', 'addProspect' );
 function addProspect () {
+	$userID = get_current_user_id();
+	$userDataObject = get_userdata($userID);
+	$userRole = $userDataObject->roles[0];
+	if ($userRole !== 'administrator') {
+		wp_die();
+	}
 	$newProspectTitle = substr(sanitize_text_field($_POST['title']), 0, 80);
 	$newProspectUrl = substr(esc_url($_POST['url']), 0, 140);
 
@@ -862,7 +904,7 @@ function addProspect () {
 
 	echo json_encode($didPost);
 	wp_die();
-} */
+}
 
 function clipTypeDetector($clipURLRaw) {
 	$clipURL = strtolower($clipURLRaw);
@@ -989,7 +1031,7 @@ function generateUserData() {
 }
 
 function generateDayOneData() {
-	date_default_timezone_set('America/Chicago');
+	date_default_timezone_set('UTC');
 	$today = new DateTime();
 	$year = $today->format('Y');
 	$month = $today->format('n');
@@ -1209,6 +1251,17 @@ function generateStreamList() {
 			'cursor' => 'none',
 		);
 	}
+	//Check if there are any user submits, if there are add an entry streamList['user_submits']
+	$gardenPageObject = get_page_by_path('secret-garden');
+	$gardenID = $gardenPageObject->ID;
+	$userSubmits = get_post_meta($gardenID, 'userSubmitData', true);
+	if ($userSubmits !== '') {
+		$streamList['User_Submits'] = array(
+			'viewThreshold' => 0,
+			'cursor' => 'none',
+		);
+	}
+
 	return $streamList;
 }
 function generateCutSlugs() {
@@ -1226,7 +1279,7 @@ function generateCutSlugs() {
 		$slugTime = $globalSlugList[$slugIndex]['createdAt'];
 		$timeAgo = ($currentTime * 1000) - $slugTime;
 		$hoursAgo = $timeAgo / 1000 / 60 / 60;
-		if ($hoursAgo > 49) {
+		if ($hoursAgo > 73) {
 			unset($globalSlugList[$slugIndex]);
 		};
 	};

@@ -368,3 +368,28 @@ img#lightboxCloseButton {
 	0% { background-color: $red; }
 	100% { background-color: $white; }
 }
+
+.greenFlash {
+	-moz-animation: greenFlash 1s ease-out;
+	-moz-animation-iteration-count: 1;
+
+	-webkit-animation: greenFlash 1s ease-out;
+	-webkit-animation-iteration-count: 1;
+
+	-ms-animation: greenFlash 1s ease-out;
+	-ms-animation-iteration-count: 1;
+}
+@-webkit-keyframes greenFlash {
+	0% { background-color: $green; }
+	100% { background-color: $white; }
+}
+
+@-moz-keyframes greenFlash {
+	0% { background-color: $green; }
+	100% { background-color: $white; }
+}
+
+@-ms-keyframes greenFlash {
+	0% { background-color: $green; }
+	100% { background-color: $white; }
+}
