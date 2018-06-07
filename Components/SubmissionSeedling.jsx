@@ -32,7 +32,7 @@ export default class SubmissionSeedling extends React.Component{
 			if (timeAgo === 1) {var timeAgoUnit = 'hour'};
 		}
 
-		if (this.props.submissionData.hasOwnProperty('sourcePic')) {
+		if (this.props.submissionData.hasOwnProperty('sourcePic') && this.props.submissionData.sourcePic !== 'default') {
 			var logoURL = this.props.submissionData.sourcePic;
 		} else {
 			var logoURL = 'http://dailies.gg/wp-content/uploads/2017/03/default_pic.jpg'
