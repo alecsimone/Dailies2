@@ -408,7 +408,6 @@ export default class SecretGarden extends React.Component{
 				return
 			}
 			if (filteredStreams.indexOf('User_Submits') > -1) {
-				console.log("You're filtering out user submits");
 				return
 			}
 			var clipData = this;
@@ -425,6 +424,8 @@ export default class SecretGarden extends React.Component{
 				if (alreadyQueuedSlugs.indexOf(slug) === -1) {
 					submitsToPlant.push(clipData);
 				}
+			} else {
+				submitsToPlant.push(clipData);
 			}
 		});
 

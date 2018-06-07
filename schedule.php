@@ -56,6 +56,7 @@
 		//'myth' => ['Primal League', 'mythical-esports', 251, 'Primal League', '7PM EST'],
 		//'NARLI' => ['Northern Arena', 'northern-arena', 1030, 'NA Qualifiers', '7PM EST'],
 		//'Rival' => ['Proving Grounds', 'prorl', 81, 'NA - Qualifiers - $1000', '8PM EST'],
+		'challenger' => ['Challenger Cup', 'united-as-1', 1136, 'UA1 Cup Qualifiers', '8PM EST'],
 		'sway' => ['Overtime League', 'sway-esports', 1152, 'Rookie/Semi-Pro League', '8PM EST'],
 		//'ace' => ['ACE', 'ascending-champions', 928, 'NA - 3v3 - Champ League', '8PM EST'],
 		'uRogue' => ['United Rogue', 'united-rogue', 1292, 'NA Expert League - 3v3', '8PM EST'],
@@ -63,7 +64,7 @@
 		//'mld' => ['MLD', 'mld', 750, 'NA - 2v2', '9PM EST'],
 		//'cca' => ['CCA', 'cca', 736, 'League Play', '11PM EST'],
 		//'RLES' => ['RL ES', 'rocket-league-es', 711, 'EU 3v3 #TGXRLP', '3PM EST'],
-		'me' => ['The Dailies', 'rocket-dailies', 688, 'Nom Stream', '6PM EST'],
+		//'me' => ['The Dailies', 'rocket-dailies', 688, 'Nom Stream', '6PM EST'],
 	),
 	'Friday' => array(
 		//'vapour' => ['Vapour Esports', 'vapour-esports', 882, 'OCE - 3v3', '4AM EST'],
