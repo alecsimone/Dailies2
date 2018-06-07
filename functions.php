@@ -927,8 +927,8 @@ function clipTypeDetector($clipURLRaw) {
 	}
 }
 
-add_action( 'wp_ajax_addSourceToPost', 'addSourceToPost' );
-function addSourceToPost() {
+add_action( 'wp_ajax_gussyProspect', 'gussyProspect' );
+function gussyProspect() {
 	$channelURL = $_POST['channelURL'];
 	$channelPic = $_POST['channelPic'];
 	$postID = $_POST['postID'];
@@ -939,12 +939,48 @@ function addSourceToPost() {
 	wp_die();
 }
 
+add_action( 'wp_ajax_gussySeedling', 'gussySeedling' );
+function gussySeedling() {
+	$channelURL = $_POST['channelURL'];
+	$channelPic = $_POST['channelPic'];
+	$vodlink = $_POST['VODLink'];
+	$submissionURL = $_POST['postID'];
+	$sourceID = sourceFinder($channelURL);
+
+	$gardenPageObject = get_page_by_path('secret-garden');
+	$gardenID = $gardenPageObject->ID;
+	$allUserSubmits = get_post_meta($gardenID, 'userSubmitData', true);
+
+	$clipType = clipTypeDetector($submissionURL);
+
+	if ($clipType === 'twitch') {
+		$parameterPosition = strpos($submissionURL, '?');
+		if ($parameterPosition) {
+			$submissionURL = substr($submissionURL, 0, $parameterPosition);
+		}
+	}
+
+	$ourClipIndex = '';
+	foreach ($allUserSubmits as $index => $submissionData) {
+		if ($submissionData['clipURL'] === $submissionURL) {
+			$ourClipIndex = $index;
+		}
+	}
+
+	$allUserSubmits[$ourClipIndex]['sourcePic'] = $channelPic;
+	$allUserSubmits[$ourClipIndex]['vodlink'] = $vodlink;
+	update_post_meta($gardenID, 'userSubmitData', $allUserSubmits);
+
+	echo json_encode($allUserSubmits[$ourClipIndex]);
+	wp_die();
+}
+
 function sourceFinder($channelURL) {
 	$sourceArgs = array(
 		'taxonomy' => 'source'
 	);
 	$sources = get_terms($sourceArgs);
-	$sourceID = 632;
+	$sourceID = 632; //632 is User Submits
 	foreach ($sources as $source) {
 		$key = get_term_meta($source->term_id, 'twitch', true);
 		if (strcasecmp($key, $channelURL) == 0) {
