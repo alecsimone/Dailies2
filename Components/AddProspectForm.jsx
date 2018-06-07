@@ -111,7 +111,7 @@ export default class AddProspectForm extends React.Component{
 					greenFlash(urlBox);
 					resetAddProspectForm();
 				}
-				/*if (isTwitch > -1) {
+				if (isTwitch > -1) {
 					var postID = data;
 					var clipSlugPos = url.indexOf('.tv/') + 4;
 					var clipSlugEnd = url.indexOf('?');
@@ -123,7 +123,12 @@ export default class AddProspectForm extends React.Component{
 					}
 					var clipSlug = url.substring(clipSlugPos, urlSubstringLength);
 					var queryURL = 'https://api.twitch.tv/kraken/clips/' + clipSlug;
-					console.log(postID);
+					if (postType === 'submitButton') {
+						var gussyAction = 'gussySeedling';
+						postID = url;
+					} else if (postType === 'postButton') {
+						var gussyAction = 'gussyProspect';
+					}
 					jQuery.ajax({
 						type: 'GET',
 						url: queryURL,
@@ -137,14 +142,20 @@ export default class AddProspectForm extends React.Component{
 						success: function(data) {
 							var channelURL = data.broadcaster.channel_url;
 							var channelPic = data.broadcaster.logo;
+							if (data.vod !== null) {
+								var VODLink = data.vod.url;
+							} else {
+								var VODLink = 'null';
+							}
 							jQuery.ajax({
 								type: "POST",
 								url: dailiesGlobalData.ajaxurl,
 								dataType: 'json',
 								data: {
-									action: 'addSourceToPost',
+									action: gussyAction,
 									channelURL,
 									channelPic,
+									VODLink,
 									postID,
 								},
 								error: function(one, two, three) {
@@ -158,7 +169,7 @@ export default class AddProspectForm extends React.Component{
 							});
 						}
 					});
-				};*/
+				};
 			}
 		});
 	}

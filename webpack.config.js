@@ -51,12 +51,12 @@ module.exports = {
 			new ExtractTextPlugin("../style" + version + ".css"),
 			new OptimizeCssAssetsPlugin(),
 			//Turn the following lines off for dev, on for prod
-			new webpack.DefinePlugin({
+			/*new webpack.DefinePlugin({
 				'process.env': {
 					'NODE_ENV': JSON.stringify('production')
 				}
 			}),
 			new webpack.optimize.AggressiveMergingPlugin(),
-			new webpack.optimize.UglifyJsPlugin(),
+			new webpack.optimize.UglifyJsPlugin(),*/
 		],
 };

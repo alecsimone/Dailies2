@@ -49,6 +49,7 @@ export default class SecretGarden extends React.Component{
 			nuker = <button id="nuker" style={{display: "block"}} onClick={(e)=>this.nukeSlug(slugObj)}>Nuke It</button>;
 		}
 		currentState.statusMessage = <h4>{clipPretext} {clipLink} {nuker}</h4>;
+		console.log("You just cut http://clips.twitch.tv/" + slugObj.slug);
 		this.setState(currentState);
 		jQuery.ajax({
 			type: "POST",
@@ -180,12 +181,18 @@ export default class SecretGarden extends React.Component{
 	cutSubmission(metaInput) {
 		var currentState = this.state;
 		var indexToCut
+		var cutClipURL
 		jQuery.each(currentState.submissions, function(index, el) {
 			if (el['meta_input'] === metaInput) {
 				indexToCut = index;
+				cutClipURL = el.clipURL
 			}
 		});
 		currentState.submissions[indexToCut]['cut'] = 'cut';
+		var statusUpdateIntro = 'You just cut ';
+		var statusUpdateContent = <a href={cutClipURL} target="_blank">This Clip</a>
+		currentState.statusMessage = <h4>{statusUpdateIntro} {statusUpdateContent}</h4>;
+		console.log("You just cut " + cutClipURL);
 		this.setState(currentState);
 		jQuery.ajax({
 			type: "POST",
