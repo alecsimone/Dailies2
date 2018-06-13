@@ -8,7 +8,7 @@ $thisDomain = get_site_url();
 
 add_action("wp_enqueue_scripts", "script_setup");
 function script_setup() {
-	$version = '-v1.22';
+	$version = '-v1.23b';
 	wp_register_script('globalScripts', get_template_directory_uri() . '/Bundles/global-bundle' . $version . '.js', ['jquery'], '', true );
 	$thisDomain = get_site_url();
 	$global_data = array(
@@ -44,11 +44,15 @@ function script_setup() {
 	} else if (is_page('Secret Garden')) {
 		wp_register_script('secretGardenScripts', get_template_directory_uri() . '/Bundles/secretGarden-bundle' . $version . '.js', ['jquery'], '', true);
 		include( locate_template('schedule.php') );
+		$gardenPostObject = get_page_by_path('secret-garden');
+		$gardenID = $gardenPostObject->ID;
+		$gardenQueryHours = get_post_meta($gardenID, 'queryHours', true);
 		$secretGardenData = array(
 			'streamList' => generateStreamList(),
 			'cutSlugs' => generateCutSlugs(),
 			'submissionSeedlings' => generateSubmissionSeedlingsData(),
 			'currentDay' => $todaysSchedule,
+			'queryHours' => $gardenQueryHours,
 		);
 		wp_localize_script('secretGardenScripts', 'gardenData', $secretGardenData);
 		wp_enqueue_script('secretGardenScripts');
@@ -1304,6 +1308,7 @@ function generateCutSlugs() {
 	$gardenPostObject = get_page_by_path('secret-garden');
 	$gardenID = $gardenPostObject->ID;
 	$globalSlugList = get_post_meta($gardenID, 'slugList', true);
+	$queryHours = get_post_meta($gardenID, 'queryHours', true);
 	if ($globalSlugList === '') {
 		$globalSlugList = array();
 	} elseif (empty($globalSlugList)) {
@@ -1315,7 +1320,7 @@ function generateCutSlugs() {
 		$slugTime = $globalSlugList[$slugIndex]['createdAt'];
 		$timeAgo = ($currentTime * 1000) - $slugTime;
 		$hoursAgo = $timeAgo / 1000 / 60 / 60;
-		if ($hoursAgo > 73) {
+		if ($hoursAgo >= queryHours) {
 			unset($globalSlugList[$slugIndex]);
 		};
 	};
@@ -1334,7 +1339,7 @@ function generateCutSlugs() {
 		$slugTime = $userSlugList[$slugIndex]['createdAt'];
 		$timeAgo = ($currentTime * 1000) - $slugTime;
 		$hoursAgo = $timeAgo / 1000 / 3600;
-		if ($hoursAgo > 49) {
+		if ($hoursAgo >= queryHours) {
 			unset($userSlugList[$slugIndex]);
 		};
 	};
