@@ -51,11 +51,16 @@ export default class SeedlingControls extends React.Component{
 			var seedVoterSrc = dailiesGlobalData.thisDomain + '/wp-content/uploads/2017/07/Vote-Icon-light-line-100.png';
 			var seedReplaceSrc = dailiesGlobalData.thisDomain + '/wp-content/uploads/2016/12/Medal-small-100.png';
 		}
+		var nuker;
+		if (dailiesGlobalData.userData.userRole === "administrator" || dailiesGlobalData.userData.userRole === "editor" || dailiesGlobalData.userData.userRole === "author") {
+			nuker = <button className="nukeButton" style={{display: "block"}} onClick={this.cutHandler}>Nuke It</button>;
+		}
 		return(
 			<div className='seedlingControls'>
 				<div className="seedlingControlsTop">
 					<img className="seedVoter seedControlImg hoverReplacer" src={seedVoterSrc} data-replace-src={seedReplaceSrc} onClick={this.voteHandler} />
 					<img className="seedCutter seedControlImg" src={dailiesGlobalData.thisDomain + '/wp-content/uploads/2017/04/red-x.png'} onClick={this.cutHandler} />
+					{nuker}
 				</div>
 			</div>
 		)

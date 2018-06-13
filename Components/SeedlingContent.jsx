@@ -14,7 +14,7 @@ export default class SeedlingContent extends React.Component{
 			}
 			var content = ( 
 				<div className="seedlingContentComponents">
-					<SeedlingControls slug={this.props.slug} embed={this.props.embed} cutSlug={this.props.cutSlug} voteSlug={this.props.voteSlug} voters={this.props.voters} vodLink={this.props.vodLink} clipTime={this.props.clipTime}/>
+					<SeedlingControls slug={this.props.slug} embed={this.props.embed} cutSlug={this.props.cutSlug} nukeSlug={this.props.nukeSlug} voteSlug={this.props.voteSlug} voters={this.props.voters} vodLink={this.props.vodLink} clipTime={this.props.clipTime}/>
 					<div className="seedlingContentRight">
 						{keepBar}
 						<EmbedBox embedCode={this.props.embed} embedSource='TwitchCode' />
