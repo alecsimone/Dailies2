@@ -8,7 +8,7 @@ $thisDomain = get_site_url();
 
 add_action("wp_enqueue_scripts", "script_setup");
 function script_setup() {
-	$version = '-v1.23b';
+	$version = '-v1.3';
 	wp_register_script('globalScripts', get_template_directory_uri() . '/Bundles/global-bundle' . $version . '.js', ['jquery'], '', true );
 	$thisDomain = get_site_url();
 	$global_data = array(
@@ -468,13 +468,21 @@ function cut_slug() {
 	$slugObj = $_POST['slugObj'];
 	$scope = $_POST['scope'];
 	if ($scope === "all") {
-		$gardenPostObject = get_page_by_path('secret-garden');
-		$gardenID = $gardenPostObject->ID;
-		$globalSlugList = get_post_meta($gardenID, 'slugList', true);
-		$newGlobalSlugList = $globalSlugList;
-		$newSlug = $slugObj['slug'];
-		$newGlobalSlugList[$newSlug] = $slugObj;
-		update_post_meta($gardenID, 'slugList', $newGlobalSlugList );
+		$userID = get_current_user_id();
+		$userDataObject = get_userdata($userID);
+		$userRole = $userDataObject->roles[0];
+		if ($userRole ===  'administrator' || $userRole === 'editor' || $userRole === 'author') {
+			$gardenPostObject = get_page_by_path('secret-garden');
+			$gardenID = $gardenPostObject->ID;
+			$globalSlugList = get_post_meta($gardenID, 'slugList', true);
+			$newGlobalSlugList = $globalSlugList;
+			$newSlug = $slugObj['slug'];
+			$newGlobalSlugList[$newSlug] = $slugObj;
+			update_post_meta($gardenID, 'slugList', $newGlobalSlugList );
+			echo json_encode($newGlobalSlugList);
+		} else {
+			wp_die("You can't do that!");
+		}
 	} else {
 		$userID = $scope;
 		$userSlugList = get_user_meta($userID, 'slugList', true);
@@ -505,8 +513,8 @@ function nuke_slug() {
 add_action( 'wp_ajax_vote_slug', 'vote_slug' );
 
 function vote_slug() {
-	$slugObj = $_POST['slugObj'];
 	$userID = get_current_user_id();
+	$slugObj = $_POST['slugObj'];
 	$userIDString = strval($userID);
 	$gardenPostObject = get_page_by_path('secret-garden');
 	$gardenID = $gardenPostObject->ID;
@@ -525,6 +533,46 @@ function vote_slug() {
 	}
 	echo json_encode($test);
 	update_post_meta($gardenID, 'slugList', $newGlobalSlugList);
+	wp_die();
+}
+
+/*	$gardenPostObject = get_page_by_path('secret-garden');
+	$gardenID = $gardenPostObject->ID;
+	$backupSlugList = get_post_meta($gardenID, 'backupSlugList', true);
+	update_post_meta($gardenID, 'slugList', $backupSlugList);
+*/
+
+add_action( 'wp_ajax_tag_slug', 'tag_slug' );
+function tag_slug() {
+	$userID = get_current_user_id();
+	$userDataObject = get_userdata($userID);
+	$userRole = $userDataObject->roles[0];
+	if ($userRole ===  'administrator' || $userRole === 'editor' || $userRole === 'author') {
+		$tagObj = $_POST['tagObj'];
+		$slugToTag = $tagObj['slugToTag'];
+		$createdAt = $tagObj['createdAt'];
+		$gardenPostObject = get_page_by_path('secret-garden');
+		$gardenID = $gardenPostObject->ID;
+		$globalSlugList = get_post_meta($gardenID, 'slugList', true);
+		if (array_key_exists($slugToTag, $globalSlugList)) {
+			if (!isset($globalSlugList[$slugToTag]['tags'])) {
+				$globalSlugList[$slugToTag]['tags'] = array();
+			}
+			foreach ($tagObj['tags'] as $index => $tag) {
+				array_push($globalSlugList[$slugToTag]['tags'], $tag);	
+			}
+		} else {
+			$globalSlugList[$slugToTag]['tags'] = $tagObj['tags'];
+			$globalSlugList[$slugToTag]['createdAt'] = $createdAt;
+			$globalSlugList[$slugToTag]['cutBoolean'] = 'false';
+			$globalSlugList[$slugToTag]['slug'] = $slugToTag;
+			$globalSlugList[$slugToTag]['likeIDs'] = '';
+			$globalSlugList[$slugToTag]['VODBase'] = $tagObj['VODBase'];
+			$globalSlugList[$slugToTag]['VODTime'] = $tagObj['VODTime'];
+		}
+		update_post_meta($gardenID, 'slugList', $globalSlugList);
+		echo json_encode($globalSlugList);
+	}
 	wp_die();
 }
 
@@ -1304,6 +1352,12 @@ function generateStreamList() {
 
 	return $streamList;
 }
+add_action( 'wp_ajax_generateCutSlugsHandler', 'generateCutSlugsHandler' );
+function generateCutSlugsHandler() {
+	$cutSlugList = generateCutSlugs();
+	echo json_encode($cutSlugList);
+	wp_die();
+}
 function generateCutSlugs() {
 	$gardenPostObject = get_page_by_path('secret-garden');
 	$gardenID = $gardenPostObject->ID;
@@ -1320,7 +1374,7 @@ function generateCutSlugs() {
 		$slugTime = $globalSlugList[$slugIndex]['createdAt'];
 		$timeAgo = ($currentTime * 1000) - $slugTime;
 		$hoursAgo = $timeAgo / 1000 / 60 / 60;
-		if ($hoursAgo >= queryHours) {
+		if ($hoursAgo >= $queryHours) {
 			unset($globalSlugList[$slugIndex]);
 		};
 	};
@@ -1339,7 +1393,7 @@ function generateCutSlugs() {
 		$slugTime = $userSlugList[$slugIndex]['createdAt'];
 		$timeAgo = ($currentTime * 1000) - $slugTime;
 		$hoursAgo = $timeAgo / 1000 / 3600;
-		if ($hoursAgo >= queryHours) {
+		if ($hoursAgo >= $queryHours) {
 			unset($userSlugList[$slugIndex]);
 		};
 	};

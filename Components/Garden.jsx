@@ -5,6 +5,8 @@ import SubmissionSeedling from './SubmissionSeedling.jsx';
 export default class Garden extends React.Component{
 	render() {
 		var cutSlug = this.props.cutSlug;
+		var nukeSlug = this.props.nukeSlug;
+		var tagSlug = this.props.tagSlug;
 		var voteSlug = this.props.voteSlug;
 		var keepSlug = this.props.keepSlug;
 
@@ -25,6 +27,8 @@ export default class Garden extends React.Component{
 
 		var seedlingsArray = Object.keys(sortedClips);
 		var voters = this.props.voters;
+		var tags = this.props.tags;
+		var tags = this.props.tags;
 		var seedlingComponents = seedlingsArray.map(function(key) {
 			let seedlingData = sortedClips[key];
 			let slug = seedlingData.slug;
@@ -32,8 +36,12 @@ export default class Garden extends React.Component{
 			if (voters[slug] !== undefined) {
 				thisSeedlingVoters = voters[slug];
 			}
+			var thisSeedlingTags = [];
+			if (tags[slug] !== undefined) {
+				thisSeedlingTags = tags[slug];
+			}
 			return(
-				<Seedling seedlingData={seedlingData} key={slug} cutSlug={cutSlug} voteSlug={voteSlug} keepSlug={keepSlug} voters={thisSeedlingVoters} />
+				<Seedling seedlingData={seedlingData} key={slug} cutSlug={cutSlug} tagSlug={tagSlug} voteSlug={voteSlug} nukeSlug={nukeSlug} keepSlug={keepSlug} voters={thisSeedlingVoters} tags={thisSeedlingTags} />
 			)
 		});
 

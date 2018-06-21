@@ -24,11 +24,18 @@ export default class SeedlingMeta extends React.Component{
 		if (voteCount > 0) {
 			score = '(+' + voteCount + ') ';
 		}
+		var tags;
+		var tagArray = this.props.tags;
+		if (tagArray.length>0) {
+			tags = tagArray.map(function(tag) {
+				return <span className="tag" key={tag}>{tag}</span>;
+			});
+		}
 		return(
 			<div className='seedlingMeta'>
 				<div className='seedlingLogo'><a href={this.props.broadcaster.channel_url}><img src={this.props.broadcaster.logo} /></a></div>
 				<div className='seedlingInfo'>
-					<div className='seedlingTitle'><a href={this.props.permalink} target="_blank" onClick={this.props.embedder}><span className="score">{score}</span>{this.props.title}</a></div>
+					<div className='seedlingTitle'><a href={this.props.permalink} target="_blank" onClick={this.props.embedder}><span className="score">{score}</span>{this.props.title}</a>{tags}</div>
 					<div className='seedlingDetails'>{this.props.viewCount} views. Clipped by {this.props.clipper} about {timeAgo} {timeAgoUnit} ago. {vodlink}</div>
 				</div>
 			</div>

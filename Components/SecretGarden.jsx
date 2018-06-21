@@ -7,6 +7,16 @@ import GardenStatus from './GardenStatus.jsx';
 import LoadMore from './LoadMore.jsx';
 import {privateData} from '../Scripts/privateData.jsx';
 
+/*
+Welcome to the Secret Garden, the most complicated thing I've ever built.
+
+In functions.php, a condition checks to see if we're on the Secret Garden page. If we are, it registers and enqueues the secret-garden bundle. This is made from the /Entries/secret-garden-entry.js file, which includes only /Scripts/secret-garden.js, which includes this file, as well as some functions used on the page.
+
+React is not initiated on this page until we successfully query Twitch for clips. 
+We take a list of events happening today (pulled from the schedule in functions.php and added to gardenData, a variable which is localized to this page when the scripts are enqueued), query each associated twitch channel for clips, put them all into a big list, and when all the queries are finished, we initiate React.
+
+*/
+
 export default class SecretGarden extends React.Component{
 	constructor() {
 		super();
@@ -19,6 +29,13 @@ export default class SecretGarden extends React.Component{
 				cursors[this] = gardenData.streamList[this].cursor;
 			}
 		});
+		var queryHours = parseInt(gardenData.queryHours, 10);
+		var queryPeriod;
+		if (queryHours > 24) {
+			queryPeriod = "week";
+		} else {
+			queryPeriod = "day";
+		}
 		this.state = {
 			streamList: gardenData.streamList,
 			clips: gardenData.clips,
@@ -27,16 +44,20 @@ export default class SecretGarden extends React.Component{
 			cutSlugs: gardenData.cutSlugs,
 			streamFilter: [],
 			statusMessage: 'Welcome to the Secret Garden',
+			queryHours,
+			queryPeriod,
 		};
 		this.addStream = this.addStream.bind(this);
 		this.setState = this.setState.bind(this);
 		this.cutSlug = this.cutSlug.bind(this);
+		this.tagSlug = this.tagSlug.bind(this);
 		this.voteSlug = this.voteSlug.bind(this);
 		this.keepSlug = this.keepSlug.bind(this);
 		this.cutSubmission = this.cutSubmission.bind(this);
 		this.pushStreamQueryFurther = this.pushStreamQueryFurther.bind(this);
 		this.filterStreams = this.filterStreams.bind(this);
 		this.nukeSlug = this.nukeSlug.bind(this);
+		this.updateSlugList = this.updateSlugList.bind(this);
 	}
 
 	cutSlug(slugObj, scope) {
@@ -44,11 +65,7 @@ export default class SecretGarden extends React.Component{
 		currentState.cutSlugs[slugObj.slug] = slugObj;
 		let clipLink = <a href={'http://clips.twitch.tv/' + slugObj.slug} target="_blank">{slugObj.slug}</a>
 		let clipPretext = <p>You just cut </p>;
-		var nuker;
-		if (dailiesGlobalData.userData.userRole === "administrator" || dailiesGlobalData.userData.userRole === "editor") {
-			nuker = <button id="nuker" style={{display: "block"}} onClick={(e)=>this.nukeSlug(slugObj)}>Nuke It</button>;
-		}
-		currentState.statusMessage = <h4>{clipPretext} {clipLink} {nuker}</h4>;
+		currentState.statusMessage = <h4>{clipPretext} {clipLink}</h4>;
 		console.log("You just cut http://clips.twitch.tv/" + slugObj.slug);
 		this.setState(currentState);
 		jQuery.ajax({
@@ -66,7 +83,7 @@ export default class SecretGarden extends React.Component{
 				console.log(three);
 			},
 			success: function(data) {
-				//console.log(data);
+				console.log(data);
 			}
 		});
 	}
@@ -89,6 +106,48 @@ export default class SecretGarden extends React.Component{
 			success: function(data) {
 				var nukeButton = jQuery("#nuker");
 				nukeButton.fadeOut();
+			}
+		});
+	}
+
+	tagSlug(tagObj) {
+		var currentState = this.state;
+		var cutSlugs = currentState.cutSlugs;
+		var slugToTag = tagObj.slugToTag;
+		if (cutSlugs[slugToTag] !== undefined) {
+			if (!cutSlugs[slugToTag].hasOwnProperty('tags')) {
+				cutSlugs[slugToTag]['tags'] = [];
+			}
+			jQuery.each(tagObj.tags, function(index, tag) {
+				cutSlugs[slugToTag]['tags'].push(tag);
+			});
+		} else {
+			cutSlugs[slugToTag] = {
+				VODBase: tagObj.VODBase,
+				VODTime: tagObj.VODTime,
+				createdAt: tagObj.createdAt,
+				tags: tagObj.tags,
+				likeIDs: '',
+				slug: slugToTag,
+				cutBoolean: false,
+			}
+		}
+		this.setState(currentState);
+		jQuery.ajax({
+			type: "POST",
+			url: dailiesGlobalData.ajaxurl,
+			dataType: 'json',
+			data: {
+				action: 'tag_slug',
+				tagObj,
+			},
+			error: function(one, two, three) {
+				console.log(one);
+				console.log(two);
+				console.log(three);
+			},
+			success: function(data) {
+				console.log(data);
 			}
 		});
 	}
@@ -223,10 +282,11 @@ export default class SecretGarden extends React.Component{
 			return
 		}
 		var currentState = this.state;
+		var queryPeriod = currentState.queryPeriod;
 		if (streamToAdd === "Rocket League") {
-			var queryURL = 'https://api.twitch.tv/kraken/clips/top?game=Rocket%20League&period=day&limit=100';
+			var queryURL = `https://api.twitch.tv/kraken/clips/top?game=Rocket%20League&period=${queryPeriod}&limit=100`;
 		} else {
-			var queryURL = `https://api.twitch.tv/kraken/clips/top?channel=${streamToAdd}&period=day&limit=100`;
+			var queryURL = `https://api.twitch.tv/kraken/clips/top?channel=${streamToAdd}&period=${queryPeriod}&limit=100`;
 		}
 		currentState.streamList[streamToAdd] = {
 			cursor: "",
@@ -270,15 +330,16 @@ export default class SecretGarden extends React.Component{
 		var cursorsObject = this.state.cursors;
 		var streams = Object.keys(cursorsObject);
 		var datas = [];
+		var queryPeriod = this.state.queryPeriod;
 		var currentState = this.state;
 		var boundThis = this;
 		jQuery.each(streams, function() {
 			var streamName = this;
 			var currentCursor = cursorsObject[streamName];
 			if (streamName === 'Rocket League') {
-				var query = `https://api.twitch.tv/kraken/clips/top?game=Rocket%20League&period=day&limit=100&cursor=${currentCursor}`
+				var query = `https://api.twitch.tv/kraken/clips/top?game=Rocket%20League&period=${queryPeriod}&limit=100&cursor=${currentCursor}`
 			} else {
-				var query = `https://api.twitch.tv/kraken/clips/top?channel=${streamName}&period=day&limit=100&cursor=${currentCursor}`
+				var query = `https://api.twitch.tv/kraken/clips/top?channel=${streamName}&period=${queryPeriod}&limit=100&cursor=${currentCursor}`
 			}
 			var ajax = jQuery.ajax({
 				type: 'GET',
@@ -334,11 +395,40 @@ export default class SecretGarden extends React.Component{
 		this.setState({streamFilter: currentFilter});
 	}
 
+	updateSlugList() {
+		var currentState = this.state;
+		var boundThis = this;
+		jQuery.ajax({
+			type: "POST",
+			url: dailiesGlobalData.ajaxurl,
+			dataType: 'json',
+			data: {
+				action: 'generateCutSlugsHandler',
+			},
+			error: function(one, two, three) {
+				console.log(one);
+				console.log(two);
+				console.log(three);
+			},
+			success: function(data) {
+				currentState.cutSlugs = data;
+				boundThis.setState(currentState);
+			}
+		});
+	}
+
+	componentDidMount() {
+		this.updateSlugList();
+		window.setInterval(this.updateSlugList, 60000);
+	}
+
 	render() {
 		var clips = this.state.clips;
 		var cutSlugs = this.state.cutSlugs;
 		var filteredStreams = this.state.streamFilter;
 		var streamList = this.state.streamList;
+		var queryPeriod = this.state.queryPeriod;
+		var queryHours = this.state.queryHours;
 
 		var cutMoments = {};
 		jQuery.each(cutSlugs, function() {
@@ -402,6 +492,13 @@ export default class SecretGarden extends React.Component{
 					cutThisSlug = true;
 				}
 			}
+			var clipTime = Date.parse(seedlingData.created_at);
+			let currentTime = + new Date();
+			let timeSince = currentTime - clipTime;
+			var timeAgo = Math.floor(timeSince / 1000 / 60 / 60);
+			if (timeAgo >= queryHours) {
+				cutThisSlug = true;
+			}
 			if (cutThisSlug !== true) {
 				seedsToPlant.push(seedlingData);
 				alreadyQueuedSlugs.push(slug);
@@ -419,6 +516,9 @@ export default class SecretGarden extends React.Component{
 			}
 			var clipData = this;
 			var fullURL = clipData.clipURL;
+			if (fullURL === false || fullURL === undefined) {
+				fullURL = '';
+			}
 			if (fullURL.indexOf('clips.twitch.tv') > -1) {
 				var slugStartPosition = fullURL.indexOf('.tv/') + 4;
 				var slugEndPosition = fullURL.indexOf('?');
@@ -441,9 +541,13 @@ export default class SecretGarden extends React.Component{
 		var cutCount = clipCount - plantCount;
 
 		var voters = {};
+		var tags = {};
 		jQuery.each(cutSlugs, function() {
 			if (this.likeIDs !== undefined) {
 				voters[this.slug] = this.likeIDs;
+			}
+			if (this.tags !== undefined) {
+				tags[this.slug] = this.tags;
 			}
 		});
 
@@ -458,7 +562,7 @@ export default class SecretGarden extends React.Component{
 				<GardenHeader clipCount={clipCount} cutCount={cutCount} addStream={this.addStream} />
 				<Streamlist streamList={this.state.streamList} filterStreams={this.filterStreams} streamFilter={this.state.streamFilter} />
 				<GardenStatus message={this.state.statusMessage} />
-				<Garden clips={seedsToPlant} submissions={submitsToPlant} voters={voters} cutSlug={this.cutSlug} voteSlug={this.voteSlug} keepSlug={this.keepSlug} cutSubmission={this.cutSubmission} streamFilter={this.state.streamFilter} />
+				<Garden clips={seedsToPlant} submissions={submitsToPlant} voters={voters} tags={tags} cutSlug={this.cutSlug} nukeSlug={this.nukeSlug} tagSlug={this.tagSlug} voteSlug={this.voteSlug} keepSlug={this.keepSlug} cutSubmission={this.cutSubmission} streamFilter={this.state.streamFilter} />
 				{loadMore}
 			</section>
 		)
@@ -468,14 +572,16 @@ export default class SecretGarden extends React.Component{
 if (jQuery('#secretGardenApp').length) {
 	var streams = Object.keys(gardenData.streamList);
 	var datas = [];
-	if (gardenData.currentDay === 'Weekend') {
-		var period = 'week';
+	var queryHours = parseInt(gardenData.queryHours, 10);
+	var queryPeriod;
+	if (queryHours > 24) {
+		queryPeriod = "week";
 	} else {
-		var period = 'day';
+		queryPeriod = "day";
 	}
 	jQuery.each(streams, function() {
 		var streamName = this;
-		var query = `https://api.twitch.tv/kraken/clips/top?channel=${this}&period=${period}&limit=100`;
+		var query = `https://api.twitch.tv/kraken/clips/top?channel=${this}&period=${queryPeriod}&limit=100`;
 		var ajax = jQuery.ajax({
 			type: 'GET',
 			url: query,
@@ -506,7 +612,7 @@ if (jQuery('#secretGardenApp').length) {
 					let currentTime = + new Date();
 					let timeSince = currentTime - clipTime;
 					var timeAgo = Math.floor(timeSince / 1000 / 60 / 60);
-					if (timeAgo < 73) {
+					if (timeAgo <= queryHours) {
 						allClips.push(this);
 					}
 				}
