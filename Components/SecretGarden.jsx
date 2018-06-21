@@ -7,6 +7,16 @@ import GardenStatus from './GardenStatus.jsx';
 import LoadMore from './LoadMore.jsx';
 import {privateData} from '../Scripts/privateData.jsx';
 
+/*
+Welcome to the Secret Garden, the most complicated thing I've ever built.
+
+In functions.php, a condition checks to see if we're on the Secret Garden page. If we are, it registers and enqueues the secret-garden bundle. This is made from the /Entries/secret-garden-entry.js file, which includes only /Scripts/secret-garden.js, which includes this file, as well as some functions used on the page.
+
+React is not initiated on this page until we successfully query Twitch for clips. 
+We take a list of events happening today (pulled from the schedule in functions.php and added to gardenData, a variable which is localized to this page when the scripts are enqueued), query each associated twitch channel for clips, put them all into a big list, and when all the queries are finished, we initiate React.
+
+*/
+
 export default class SecretGarden extends React.Component{
 	constructor() {
 		super();
@@ -40,6 +50,7 @@ export default class SecretGarden extends React.Component{
 		this.addStream = this.addStream.bind(this);
 		this.setState = this.setState.bind(this);
 		this.cutSlug = this.cutSlug.bind(this);
+		this.tagSlug = this.tagSlug.bind(this);
 		this.voteSlug = this.voteSlug.bind(this);
 		this.keepSlug = this.keepSlug.bind(this);
 		this.cutSubmission = this.cutSubmission.bind(this);
@@ -95,6 +106,48 @@ export default class SecretGarden extends React.Component{
 			success: function(data) {
 				var nukeButton = jQuery("#nuker");
 				nukeButton.fadeOut();
+			}
+		});
+	}
+
+	tagSlug(tagObj) {
+		var currentState = this.state;
+		var cutSlugs = currentState.cutSlugs;
+		var slugToTag = tagObj.slugToTag;
+		if (cutSlugs[slugToTag] !== undefined) {
+			if (!cutSlugs[slugToTag].hasOwnProperty('tags')) {
+				cutSlugs[slugToTag]['tags'] = [];
+			}
+			jQuery.each(tagObj.tags, function(index, tag) {
+				cutSlugs[slugToTag]['tags'].push(tag);
+			});
+		} else {
+			cutSlugs[slugToTag] = {
+				VODBase: tagObj.VODBase,
+				VODTime: tagObj.VODTime,
+				createdAt: tagObj.createdAt,
+				tags: tagObj.tags,
+				likeIDs: '',
+				slug: slugToTag,
+				cutBoolean: false,
+			}
+		}
+		this.setState(currentState);
+		jQuery.ajax({
+			type: "POST",
+			url: dailiesGlobalData.ajaxurl,
+			dataType: 'json',
+			data: {
+				action: 'tag_slug',
+				tagObj,
+			},
+			error: function(one, two, three) {
+				console.log(one);
+				console.log(two);
+				console.log(three);
+			},
+			success: function(data) {
+				console.log(data);
 			}
 		});
 	}
@@ -463,7 +516,6 @@ export default class SecretGarden extends React.Component{
 			}
 			var clipData = this;
 			var fullURL = clipData.clipURL;
-			console.log(fullURL);
 			if (fullURL === false || fullURL === undefined) {
 				fullURL = '';
 			}
@@ -489,9 +541,13 @@ export default class SecretGarden extends React.Component{
 		var cutCount = clipCount - plantCount;
 
 		var voters = {};
+		var tags = {};
 		jQuery.each(cutSlugs, function() {
 			if (this.likeIDs !== undefined) {
 				voters[this.slug] = this.likeIDs;
+			}
+			if (this.tags !== undefined) {
+				tags[this.slug] = this.tags;
 			}
 		});
 
@@ -506,7 +562,7 @@ export default class SecretGarden extends React.Component{
 				<GardenHeader clipCount={clipCount} cutCount={cutCount} addStream={this.addStream} />
 				<Streamlist streamList={this.state.streamList} filterStreams={this.filterStreams} streamFilter={this.state.streamFilter} />
 				<GardenStatus message={this.state.statusMessage} />
-				<Garden clips={seedsToPlant} submissions={submitsToPlant} voters={voters} cutSlug={this.cutSlug} nukeSlug={this.nukeSlug} voteSlug={this.voteSlug} keepSlug={this.keepSlug} cutSubmission={this.cutSubmission} streamFilter={this.state.streamFilter} />
+				<Garden clips={seedsToPlant} submissions={submitsToPlant} voters={voters} tags={tags} cutSlug={this.cutSlug} nukeSlug={this.nukeSlug} tagSlug={this.tagSlug} voteSlug={this.voteSlug} keepSlug={this.keepSlug} cutSubmission={this.cutSubmission} streamFilter={this.state.streamFilter} />
 				{loadMore}
 			</section>
 		)
