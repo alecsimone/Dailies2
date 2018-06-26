@@ -469,6 +469,7 @@ function cut_slug() {
 	$scope = $_POST['scope'];
 	if ($scope === "all") {
 		$userID = get_current_user_id();
+		$userName = get_user_meta($userID, 'nickname', true);
 		$userDataObject = get_userdata($userID);
 		$userRole = $userDataObject->roles[0];
 		if ($userRole ===  'administrator' || $userRole === 'editor' || $userRole === 'author') {
@@ -478,6 +479,7 @@ function cut_slug() {
 			$newGlobalSlugList = $globalSlugList;
 			$newSlug = $slugObj['slug'];
 			$newGlobalSlugList[$newSlug] = $slugObj;
+			$newGlobalSlugList[$newSlug]['Nuker'] = $userName;
 			update_post_meta($gardenID, 'slugList', $newGlobalSlugList );
 			echo json_encode($newGlobalSlugList);
 		} else {
@@ -671,11 +673,9 @@ function post_promoter() {
 		if ($category_name === 'Prospects') {
 			wp_remove_object_terms($postID, 'prospects', 'category');
 			wp_add_object_terms( $postID, 'contenders', 'category' );
-			increase_rep($authorID, 1);
 		} elseif ($category_name === 'Contenders') {
 			wp_remove_object_terms($postID, 'contenders', 'category');
 			wp_add_object_terms( $postID, 'nominees', 'category' );
-			increase_rep($authorID, 2);
 		}
 	};
 	echo json_encode($postID);
@@ -692,11 +692,9 @@ function post_demoter() {
 		if ($category_name === 'Nominees') {
 			wp_remove_object_terms($postID, 'nominees', 'category');
 			wp_add_object_terms( $postID, 'contenders', 'category' );
-			increase_rep($authorID, -2);
 		} elseif ($category_name === 'Contenders') {
 			wp_remove_object_terms($postID, 'contenders', 'category');
 			wp_add_object_terms( $postID, 'prospects', 'category' );
-			increase_rep($authorID, -1);
 		} elseif ($category_name === 'Prospects') {
 			post_trasher($postID);
 		}
@@ -1349,6 +1347,10 @@ function generateStreamList() {
 			'cursor' => 'none',
 		);
 	}
+	$streamList['Cuts'] = array(
+			'viewThreshold' => 0,
+			'cursor' => 'none',
+		);
 
 	return $streamList;
 }
@@ -1374,7 +1376,7 @@ function generateCutSlugs() {
 		$slugTime = $globalSlugList[$slugIndex]['createdAt'];
 		$timeAgo = ($currentTime * 1000) - $slugTime;
 		$hoursAgo = $timeAgo / 1000 / 60 / 60;
-		if ($hoursAgo >= $queryHours) {
+		if ($hoursAgo >= 168) {
 			unset($globalSlugList[$slugIndex]);
 		};
 	};
@@ -1393,7 +1395,7 @@ function generateCutSlugs() {
 		$slugTime = $userSlugList[$slugIndex]['createdAt'];
 		$timeAgo = ($currentTime * 1000) - $slugTime;
 		$hoursAgo = $timeAgo / 1000 / 3600;
-		if ($hoursAgo >= $queryHours) {
+		if ($hoursAgo >= 168) {
 			unset($userSlugList[$slugIndex]);
 		};
 	};

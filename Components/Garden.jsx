@@ -29,6 +29,7 @@ export default class Garden extends React.Component{
 		var voters = this.props.voters;
 		var tags = this.props.tags;
 		var tags = this.props.tags;
+		var cutSlugs = this.props.cutSlugs;
 		var seedlingComponents = seedlingsArray.map(function(key) {
 			let seedlingData = sortedClips[key];
 			let slug = seedlingData.slug;
@@ -40,8 +41,12 @@ export default class Garden extends React.Component{
 			if (tags[slug] !== undefined) {
 				thisSeedlingTags = tags[slug];
 			}
+			var thisSeedlingNuker = [];
+			if (cutSlugs[slug] !== undefined) {
+				thisSeedlingNuker = (cutSlugs[slug].Nuker);
+			}
 			return(
-				<Seedling seedlingData={seedlingData} key={slug} cutSlug={cutSlug} tagSlug={tagSlug} voteSlug={voteSlug} nukeSlug={nukeSlug} keepSlug={keepSlug} voters={thisSeedlingVoters} tags={thisSeedlingTags} />
+				<Seedling seedlingData={seedlingData} key={slug} cutSlug={cutSlug} tagSlug={tagSlug} voteSlug={voteSlug} nukeSlug={nukeSlug} keepSlug={keepSlug} voters={thisSeedlingVoters} tags={thisSeedlingTags} nuker={thisSeedlingNuker} />
 			)
 		});
 

@@ -42,7 +42,7 @@ export default class SecretGarden extends React.Component{
 			cursors,
 			submissions: gardenData.submissionSeedlings,
 			cutSlugs: gardenData.cutSlugs,
-			streamFilter: [],
+			streamFilter: ['Cuts'],
 			statusMessage: 'Welcome to the Secret Garden',
 			queryHours,
 			queryPeriod,
@@ -462,6 +462,9 @@ export default class SecretGarden extends React.Component{
 						jQuery.each(cutMoments[this], function() {
 							if (this + 15 >= seedlingVODTime && this - 15 <= seedlingVODTime) {
 								cutThisSlug = true;
+								if (filteredStreams.indexOf('Cuts') === -1) {
+									cutThisSlug = false;
+								} 
 							}
 						});
 					}
@@ -470,6 +473,9 @@ export default class SecretGarden extends React.Component{
 			if (cutSlugs[slug] !== undefined) {
 				if (cutSlugs[slug].cutBoolean === true || cutSlugs[slug].cutBoolean === 'true') {
 					cutThisSlug = true;
+					if (filteredStreams.indexOf('Cuts') === -1) {
+						cutThisSlug = false;
+					} 
 				}
 			}
 			var channelURL = seedlingData.broadcaster.channel_url;
@@ -543,8 +549,10 @@ export default class SecretGarden extends React.Component{
 		var voters = {};
 		var tags = {};
 		jQuery.each(cutSlugs, function() {
-			if (this.likeIDs !== undefined) {
+			if (this.likeIDs !== undefined && this.likeIDs !== null) {
 				voters[this.slug] = this.likeIDs;
+			} else {
+				voters[this.slug] = [];
 			}
 			if (this.tags !== undefined) {
 				tags[this.slug] = this.tags;
@@ -562,7 +570,7 @@ export default class SecretGarden extends React.Component{
 				<GardenHeader clipCount={clipCount} cutCount={cutCount} addStream={this.addStream} />
 				<Streamlist streamList={this.state.streamList} filterStreams={this.filterStreams} streamFilter={this.state.streamFilter} />
 				<GardenStatus message={this.state.statusMessage} />
-				<Garden clips={seedsToPlant} submissions={submitsToPlant} voters={voters} tags={tags} cutSlug={this.cutSlug} nukeSlug={this.nukeSlug} tagSlug={this.tagSlug} voteSlug={this.voteSlug} keepSlug={this.keepSlug} cutSubmission={this.cutSubmission} streamFilter={this.state.streamFilter} />
+				<Garden clips={seedsToPlant} cutSlugs={this.state.cutSlugs} submissions={submitsToPlant} voters={voters} tags={tags} cutSlug={this.cutSlug} nukeSlug={this.nukeSlug} tagSlug={this.tagSlug} voteSlug={this.voteSlug} keepSlug={this.keepSlug} cutSubmission={this.cutSubmission} streamFilter={this.state.streamFilter} />
 				{loadMore}
 			</section>
 		)
