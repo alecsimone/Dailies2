@@ -3,7 +3,7 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-var version = '-v1.3';
+var version = '-v1.381';
 
 module.exports = {
 	devtool: 'cheap-module-source-map',
@@ -13,6 +13,7 @@ module.exports = {
     	live: "./Entries/live-entry.js",
     	schedule: "./Entries/schedule-entry.js",
     	submit: "./Entries/submit-entry.js",
+    	voteboard: "./Entries/voteboard-entry.js",
     	global: "./Entries/global-entry.js", //Global must be kept last because it contains all the CSS files to be combined
     },
 	output: {
@@ -51,12 +52,12 @@ module.exports = {
 			new ExtractTextPlugin("../style" + version + ".css"),
 			new OptimizeCssAssetsPlugin(),
 			//Turn the following lines off for dev, on for prod
-		/*	new webpack.DefinePlugin({
+			new webpack.DefinePlugin({
 				'process.env': {
 					'NODE_ENV': JSON.stringify('production')
 				}
 			}),
 			new webpack.optimize.AggressiveMergingPlugin(),
-			new webpack.optimize.UglifyJsPlugin(), */
+			new webpack.optimize.UglifyJsPlugin(),
 		],
 };
