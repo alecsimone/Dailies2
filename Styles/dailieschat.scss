@@ -1,0 +1,47 @@
+@import '../Styles/vars.scss';
+
+#Voteboard {
+	display: flex;
+	flex-wrap: wrap;
+	width: 261px;
+	margin: auto;
+	padding: 10px 0;
+	background: url('http://dailies.gg/wp-content/uploads/2018/07/voteboard.jpg');
+	border-radius: 4px;
+	color: $white;
+}
+
+#voteboardTop, #voteboardBot {
+	width: 100%;
+}
+.votetotal {
+	display: inline-flex;
+	align-items: center;
+	justify-content: space-around;
+	width: 100px;
+	padding: 10px;
+	border-bottom: 1px solid black;
+	&:first-of-type {
+		border-right: 1px solid black;
+	}
+}
+.votebadge {
+	width: 24px;
+	height: 24px;
+}
+.percentage {
+	width: 40%;
+}
+
+#voteboardBot {
+	display: flex;
+	justify-content: center;
+}
+.voterlist {
+	padding: 10px 0;
+	width: 120px;
+	overflow: hidden;
+	&:first-of-type {
+		border-right: 1px solid black;
+	}
+}

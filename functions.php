@@ -8,7 +8,7 @@ $thisDomain = get_site_url();
 
 add_action("wp_enqueue_scripts", "script_setup");
 function script_setup() {
-	$version = '-v1.3';
+	$version = '-v1.381';
 	wp_register_script('globalScripts', get_template_directory_uri() . '/Bundles/global-bundle' . $version . '.js', ['jquery'], '', true );
 	$thisDomain = get_site_url();
 	$global_data = array(
@@ -16,7 +16,6 @@ function script_setup() {
 		'userData' => generateUserData(),
 		'ajaxurl' => admin_url( 'admin-ajax.php' ),
 		'logoutURL' => wp_logout_url(),
-		'submissionsOpen' => checkSubmissionOpenness(),
 	);
 	wp_localize_script( 'globalScripts', 'dailiesGlobalData', $global_data );
 	wp_enqueue_script( 'globalScripts' );
@@ -78,6 +77,16 @@ function script_setup() {
 		wp_enqueue_script('isotope', 'http://dailies.gg/wp-content/themes/Dailies2/js/isotope.pkgd.min.js');
 	} else if (is_page('Submit')) {
 		wp_enqueue_script( 'scheduleScripts', get_template_directory_uri() . '/Bundles/submit-bundle' . $version . '.js', ['jquery'], '', true );
+	} else if (is_page('voteboard')) {
+		wp_register_script( 'voteboardScripts', get_template_directory_uri() . '/Bundles/voteboard-bundle' . $version . '.js', ['jquery'], '', true );
+		$livePageObject = get_page_by_path('live');
+		$liveID = $livePageObject->ID;
+		$currentVotersList = get_post_meta($liveID, 'currentVoters', true);
+		$voteboardData = array(
+			'currentVotersList' => $currentVotersList,
+		);
+		wp_localize_script('voteboardScripts', 'voteboardData', $voteboardData);
+		wp_enqueue_script( 'voteboardScripts');
 	} /*else if (is_page('Schedule')) {
 		wp_enqueue_script( 'scheduleScripts', get_template_directory_uri() . '/Bundles/schedule-bundle.js', ['jquery'], '', true );
 	} */
@@ -289,9 +298,73 @@ function stepBackDate($steps) {
 	}
 }
 
+add_action( 'wp_ajax_chat_vote', 'chat_vote' );
+function chat_vote() {
+	$userID = get_current_user_id();
+	$userDataObject = get_userdata($userID);
+	$userRole = $userDataObject->roles[0];
+	if ($userRole !== 'administrator') {
+		wp_die("You are not an admin, sorry");
+	}
+	$voter = $_POST['voter'];
+	$direction = $_POST['direction'];
+	$livePostObject = get_page_by_path('live');
+	$liveID = $livePostObject->ID;
+	$currentVotersList = get_post_meta($liveID, 'currentVoters', true);
+	if ($currentVotersList === '') {
+		$currentVotersList = [];
+	}
+	if ($direction === 'yea') {
+		if (!in_array($voter, $currentVotersList['yea'])) { 
+			$currentVotersList['yea'][] = $voter;
+		}
+		if (in_array($voter, $currentVotersList['nay'])) {
+			$ourVoterKey = array_search($voter, $currentVotersList['nay']);
+			array_splice($currentVotersList['nay'], $ourVoterKey, 1);
+		}
+	} elseif ($direction === 'nay') {
+		if (!in_array($voter, $currentVotersList['nay'])) {
+			$currentVotersList['nay'][] = $voter;
+		}
+		if (in_array($voter, $currentVotersList['yea'])) {
+			$ourVoterKey = array_search($voter, $currentVotersList['yea']);
+			array_splice($currentVotersList['yea'], $ourVoterKey, 1);
+		}
+	}
+	update_post_meta($liveID, 'currentVoters', $currentVotersList);
+	echo json_encode($currentVotersList);
+	wp_die();
+}
+
+add_action( 'wp_ajax_reset_chat_votes', 'reset_chat_votes' );
+function reset_chat_votes() {
+	$userID = get_current_user_id();
+	$userDataObject = get_userdata($userID);
+	$userRole = $userDataObject->roles[0];
+	if ($userRole !== 'administrator') {
+		wp_die("You are not an admin, sorry");
+	}
+	$currentVotersList['yea'] = [];
+	$currentVotersList['nay'] = [];
+	$livePostObject = get_page_by_path('live');
+	$liveID = $livePostObject->ID;
+	update_post_meta($liveID, 'currentVoters', $currentVotersList);
+	echo json_encode("we resettin the votes!");
+	wp_die();
+}
+
+add_action( 'wp_ajax_get_chat_votes', 'get_chat_votes' );
+add_action( 'wp_ajax_nopriv_get_chat_votes', 'get_chat_votes' );
+function get_chat_votes() {
+	$livePostObject = get_page_by_path('live');
+	$liveID = $livePostObject->ID;
+	$currentVotersList = get_post_meta($liveID, 'currentVoters', true);
+	echo json_encode($currentVotersList);
+	wp_die();
+}
+
 add_action( 'wp_ajax_official_vote', 'official_vote' );
 add_action( 'wp_ajax_nopriv_official_vote', 'official_vote' );
-
 function official_vote() {
 	$nonce = $_POST['vote_nonce'];
 	if (!wp_verify_nonce($nonce, 'vote_nonce')) {
@@ -435,8 +508,6 @@ function declare_winner() {
 	}
 	wp_set_post_tags($postID, 'Winners', true);
 	buildPostDataObject($postID);
-	$authorID = get_post_field('post_author', $postID);
-	increase_rep($authorID, 2);
 	wp_die();
 }
 
@@ -469,6 +540,7 @@ function cut_slug() {
 	$scope = $_POST['scope'];
 	if ($scope === "all") {
 		$userID = get_current_user_id();
+		$userName = get_user_meta($userID, 'nickname', true);
 		$userDataObject = get_userdata($userID);
 		$userRole = $userDataObject->roles[0];
 		if ($userRole ===  'administrator' || $userRole === 'editor' || $userRole === 'author') {
@@ -478,6 +550,7 @@ function cut_slug() {
 			$newGlobalSlugList = $globalSlugList;
 			$newSlug = $slugObj['slug'];
 			$newGlobalSlugList[$newSlug] = $slugObj;
+			$newGlobalSlugList[$newSlug]['Nuker'] = $userName;
 			update_post_meta($gardenID, 'slugList', $newGlobalSlugList );
 			echo json_encode($newGlobalSlugList);
 		} else {
@@ -654,8 +727,6 @@ function post_trasher() {
 	$postID = $_POST['id'];
 	if (current_user_can('delete_published_posts', $postID)) {
 		wp_trash_post($postID);
-		$authorID = get_post_field('post_author', $postID);
-		increase_rep($authorID, -1);
 	};
 	echo json_encode($postID);
 	wp_die();
@@ -671,11 +742,9 @@ function post_promoter() {
 		if ($category_name === 'Prospects') {
 			wp_remove_object_terms($postID, 'prospects', 'category');
 			wp_add_object_terms( $postID, 'contenders', 'category' );
-			increase_rep($authorID, 1);
 		} elseif ($category_name === 'Contenders') {
 			wp_remove_object_terms($postID, 'contenders', 'category');
 			wp_add_object_terms( $postID, 'nominees', 'category' );
-			increase_rep($authorID, 2);
 		}
 	};
 	echo json_encode($postID);
@@ -692,11 +761,9 @@ function post_demoter() {
 		if ($category_name === 'Nominees') {
 			wp_remove_object_terms($postID, 'nominees', 'category');
 			wp_add_object_terms( $postID, 'contenders', 'category' );
-			increase_rep($authorID, -2);
 		} elseif ($category_name === 'Contenders') {
 			wp_remove_object_terms($postID, 'contenders', 'category');
 			wp_add_object_terms( $postID, 'prospects', 'category' );
-			increase_rep($authorID, -1);
 		} elseif ($category_name === 'Prospects') {
 			post_trasher($postID);
 		}
@@ -820,12 +887,6 @@ function submitClip () {
 	wp_die();
 }
 
-/*$gardenPageObject = get_page_by_path('secret-garden');
-	$gardenID = $gardenPageObject->ID;
-
-	$oldUserSubmits = get_post_meta($gardenID, 'userSubmitData', true);
-	print_r($oldUserSubmits);
-*/
 function addSeedling($seedlingArray) {
 	$gardenPageObject = get_page_by_path('secret-garden');
 	$gardenID = $gardenPageObject->ID;
@@ -1061,32 +1122,6 @@ function starChecker($thingTitle) {
 		}
 	};
 	return $postStar;
-}
-
-function checkSubmissionOpenness() {
-	$livePageObject = get_page_by_path('live');
-	$liveID = $livePageObject->ID;
-	$submissionOpenness = get_post_meta( $liveID, 'submissionOpenness', true);
-	return $submissionOpenness;
-}
-
-add_action( 'wp_ajax_toggleSubmissions', 'toggleSubmissions' );
-function toggleSubmissions () {
-	$userID = get_current_user_id();
-	$userDataObject = get_userdata($userID);
-	$userRole = $userDataObject->roles[0];
-	if ($userRole !== 'administrator') {
-		wp_die();
-	}
-	$livePageObject = get_page_by_path('live');
-	$liveID = $livePageObject->ID;
-	$submissionOpenness = get_post_meta( $liveID, 'submissionOpenness', true);
-	$intendedToggle = $_POST['intendedToggle'];
-	if ($intendedToggle !== $submissionOpenness) {
-		update_post_meta($liveID, 'submissionOpenness', $intendedToggle);
-	}
-	echo json_encode('submission openness toggled');
-	wp_die();
 }
 
 function generateUserData() {
@@ -1349,6 +1384,10 @@ function generateStreamList() {
 			'cursor' => 'none',
 		);
 	}
+	$streamList['Cuts'] = array(
+			'viewThreshold' => 0,
+			'cursor' => 'none',
+		);
 
 	return $streamList;
 }
@@ -1374,7 +1413,7 @@ function generateCutSlugs() {
 		$slugTime = $globalSlugList[$slugIndex]['createdAt'];
 		$timeAgo = ($currentTime * 1000) - $slugTime;
 		$hoursAgo = $timeAgo / 1000 / 60 / 60;
-		if ($hoursAgo >= $queryHours) {
+		if ($hoursAgo >= 168) {
 			unset($globalSlugList[$slugIndex]);
 		};
 	};
@@ -1393,7 +1432,7 @@ function generateCutSlugs() {
 		$slugTime = $userSlugList[$slugIndex]['createdAt'];
 		$timeAgo = ($currentTime * 1000) - $slugTime;
 		$hoursAgo = $timeAgo / 1000 / 3600;
-		if ($hoursAgo >= $queryHours) {
+		if ($hoursAgo >= 168) {
 			unset($userSlugList[$slugIndex]);
 		};
 	};

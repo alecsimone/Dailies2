@@ -31,7 +31,7 @@ export default class Seedling extends React.Component{
 		}
 		return(
 			<div className={'seedling ' + this.props.seedlingData.broadcaster.name} id={slug}>
-				<SeedlingMeta title={this.props.seedlingData.title} permalink={this.props.seedlingData.url} embedder={this.toggleClipEmbed} viewCount={this.props.seedlingData.views} clipper={this.props.seedlingData.curator.display_name} clipTime={this.props.seedlingData.created_at} vodLink={vodLink} broadcaster={this.props.seedlingData.broadcaster} voters={this.props.voters} tags={this.props.tags} />
+				<SeedlingMeta title={this.props.seedlingData.title} permalink={this.props.seedlingData.url} embedder={this.toggleClipEmbed} viewCount={this.props.seedlingData.views} clipper={this.props.seedlingData.curator.display_name} clipTime={this.props.seedlingData.created_at} vodLink={vodLink} broadcaster={this.props.seedlingData.broadcaster} voters={this.props.voters} tags={this.props.tags} nuker={this.props.nuker} />
 				<SeedlingContent slug={slug} vodLink={vodLink} clipTime={this.props.seedlingData.created_at} embed={this.state.embed} cutSlug={this.props.cutSlug} nukeSlug={this.props.nukeSlug} tagSlug={this.props.tagSlug} voteSlug={this.props.voteSlug} keepSlug={this.props.keepSlug} voters={this.props.voters} source={this.props.seedlingData.broadcaster} />
 			</div>
 		)
