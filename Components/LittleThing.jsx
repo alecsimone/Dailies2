@@ -23,18 +23,6 @@ export default class LittleThing extends React.Component{
 		this.setState(currentState);
 	}
 
-	componentDidUpdate(prevProps, prevState) {
-		jQuery('#LivePostsLoops').isotope({
-			itemSelector: '.brick',
-			transitionDuration: 500,
-			masonry: {
-				gutter: 24,
-				columnWidth: '.LittleThing',
-				horizontalOrder: true,
-				stamp: 'h4.LivePostsLoopHeader',
-			},
-		});
-	}
 	render() {
 		var linkout = '';
 		if (this.props.postData.voteledger === '') {
@@ -82,13 +70,19 @@ export default class LittleThing extends React.Component{
 			sourceLogo = this.props.postData.taxonomies.stars[0].logo;
 		}
 		var VoterInfoBoxHolder;
-		if (Object.keys(this.props.postData.voterData).length > 0) {
-			var VoterInfoBoxHolder = <VoterInfoBox voterData={this.props.postData.voterData} guestlist={this.props.postData.guestlist} />
-			//var VoterInfoBoxHolder = 'hi';
+		if (Object.keys(this.props.postData.voterData).length > 0 || this.props.postData.twitchVoters !== '') {
+			VoterInfoBoxHolder = <VoterInfoBox voterData={this.props.postData.voterData} guestlist={this.props.postData.guestlist} twitchVoters={this.props.postData.twitchVoters} />
+		} else {
+			VoterInfoBoxHolder = <div className="VoterInfoBox" />
+		}
+		var votePrompter;
+		if (this.props.stage === 'Contenders') {
+			votePrompter = <div className="votePrompter">!vote{this.props.counter}</div>
 		}
 
 		return(
 			<article className="LittleThing brick" id={'LittleThing' + this.props.postData.id} >
+				{votePrompter}
 				<div className="littleThingTop">
 					<a className="littleThingSourceImgLink" href={dailiesGlobalData.thisDomain + '/source/' + sourceSlug}><img className="sourcepic" src={sourceLogo} onError={(e) => window.imageError(e)} /></a>
 					<Titlebox title={this.props.postData.title} linkout={linkout} score={this.props.postData.votecount} toggleEmbed={this.toggleEmbed} />
@@ -98,7 +92,6 @@ export default class LittleThing extends React.Component{
 				<div className="littleThingBottom">
 					<StarBox stars={this.props.postData.taxonomies.stars} source={this.props.postData.taxonomies.source[0].slug} />
 					{adminControls}
-					<AuthorBubble authorData={this.props.postData.author} />
 				</div>
 				{VoterInfoBoxHolder}
 			</article>

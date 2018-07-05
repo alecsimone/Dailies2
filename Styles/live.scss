@@ -151,7 +151,6 @@
 
 #LivePostsLoops {
 	margin: 60px auto;
-	width: 90%;
 }
 
 #livePostsLoop {
@@ -171,21 +170,26 @@ h4.LivePostsLoopHeader {
 	text-shadow: 0px 1px 4px $darkBlack;
 }
 
+.littleThingsContainer {
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: 100px;
+}
+
 .LittleThing {
+	position: relative;
 	background: $blueGlass;
 	border: 3px solid $whiteTrans07;
 	display: inline-block;
 	border-radius: 2px;
 	box-shadow: 0 1px 6px $blackTrans25;
 	width: 100%;
-	margin: 15px 0;
+	height: 200px;
+	margin: 16px 8px;
 	padding: 12px;
 	box-sizing: border-box;
 	text-align: left;
 	font-size: 24px;
-	&:last-of-type {
-		margin-bottom: 120px;
-	}
 	& img.sourcepic {
 		width: 48px;
 		height: 48px;
@@ -195,12 +199,25 @@ h4.LivePostsLoopHeader {
 		opacity: .75;
 	}
 	& h3 {
-		font-size: 1.25em;
+		font-size: .5em;
+		line-height: 1em;
 		font-weight: 500;
+		@media #{$bp850} {
+			font-size: .75em;
+		}
+		@media #{$bp1280} {
+			font-size: 1.25em;
+		}
 	}
 	& .titleBox {
 		flex-grow: 1;
-		line-height: 1.25em;
+		line-height: .75em;
+		@media #{$bp850} {
+			line-height: 1em;
+		}
+		@media #{$bp1280} {
+			line-height: 1.25em;
+		}
 	}
 	& a.titleLink {
 		color: $white;
@@ -210,11 +227,17 @@ h4.LivePostsLoopHeader {
 		}
 	}
 	& .votecount {
-		font-size: 1.25em;
+		font-size: .5em;
 		font-weight: 500;
 		color: $gold;
 		display: inline-block;
 		margin-left: 8px;
+		@media #{$bp850} {
+			font-size: .75em;
+		}
+		@media #{$bp1280} {
+			font-size: 1.25em;
+		}
 	}
 	& .voteBox {
 		margin: 0 0 0 12px;
@@ -235,11 +258,20 @@ h4.LivePostsLoopHeader {
 		display: inline-flex;
 	}
 	@media #{$bp850} {
-		width: calc(50% - 12px);
+		width: calc(50% - 16px);
 	}
 	@media #{$bp1900} {
-		width: calc(33% - 12px);
+		width: calc(33% - 16px);
 	}
+}
+
+.votePrompter {
+	position: absolute;
+	top: -30px;
+	left: 0px;
+	width: 100%;
+	text-align: center;
+	color: $gold;
 }
 
 .littleThingTop, .littleThingBottom, .liveAdminControls {
@@ -249,11 +281,13 @@ h4.LivePostsLoopHeader {
 }
 .littleThingTop {
 	margin-bottom: 9px;
+	height: 75px;
 }
 
 .littleThingBottom {
 	margin-top: 6px;
 	margin-left: 6px;
+	height: 40px;
 }
 .liveAdminControls {
 	flex-grow: 1;
@@ -268,6 +302,7 @@ h4.LivePostsLoopHeader {
 	position: relative;
 	margin-top: 6px;
 	border-top: 1px solid $whiteTrans07;
+	height: 40px;
 }
 .voterBubble {
 	width: 30px;
@@ -279,6 +314,7 @@ h4.LivePostsLoopHeader {
 
 img.littleThingTrasher, img.editThisImg, img.littleThingPromoter {
 	width: 24px;
+	margin-right: 12px;
 	height: auto;
 	cursor: pointer;
 	opacity: .8;

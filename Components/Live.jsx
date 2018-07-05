@@ -162,23 +162,6 @@ export default class Live extends React.Component{
 	}
 
 	updatePostData() {
-		/*let currentDate = new Date();
-		let tenDaysAgo = currentDate - 1000 * 60 * 60 * 24 * 10;
-		tenDaysAgo = new Date(tenDaysAgo);
-		let tenDaysAgoYear = tenDaysAgo.getFullYear().toString();
-		let tenDaysAgoMonth = tenDaysAgo.getMonth() + 1;
-		if (tenDaysAgoMonth < 10) {
-			tenDaysAgoMonth = '0' + tenDaysAgoMonth;
-		} else {
-			tenDaysAgoMonth = tenDaysAgoMonth.toString();
-		}
-		let tenDaysAgoDay = tenDaysAgo.getDate();
-		if (tenDaysAgoDay < 10) {
-			tenDaysAgoDay = '0' + tenDaysAgoDay;
-		} else {
-			tenDaysAgoDay = tenDaysAgoDay.toString();
-		}
-		let tenDaysAgoFormatted = tenDaysAgoYear + '-' + tenDaysAgoMonth + '-' + tenDaysAgoDay + 'T00:00:00'; */
 		let endOfRestUsableTimestamp = liveData.wordpressUsableTime.indexOf('+');
 		if (endOfRestUsableTimestamp === -1) {
 			var restUsableTimestamp = liveData.wordpressUsableTime;
@@ -255,8 +238,6 @@ export default class Live extends React.Component{
 							}
 						}
 					}
-					//let postDataObj = JSON.parse(data[i].postDataObj);
-					//currentState.postData[data[i].id] = postDataObj;
 				}
 				currentState.postData = newPostData;
 				boundThis.setState(currentState);
@@ -369,6 +350,15 @@ export default class Live extends React.Component{
 	}
 
 	componentDidMount() {
+		var refreshRate = 3000;
+		if (dailiesGlobalData.userData.userRole === 'administrator') {
+			refreshRate = 500;
+		}
+		window.setInterval(this.updatePostData, refreshRate);
+	}
+
+	/* Old Way
+	componentDidMount() {
 		window.setInterval(this.updatePostData, 3000);
 		window.grid = jQuery('#LivePostsLoops').isotope({
 			itemSelector: '.brick',
@@ -392,28 +382,6 @@ export default class Live extends React.Component{
 				columnWidth: '.LittleThing',
 				horizontalOrder: true,
 				stamp: 'h4.LivePostsLoopHeader',
-			},
-		});
-	}
-
-	/* Old Way
-	componentDidMount() {
-		window.setInterval(this.updatePostData, 3000);
-		window.grid = jQuery('#livePostsLoop').isotope({
-			itemSelector: '.LittleThing',
-			masonry: {
-				gutter: 24,
-				horizontalOrder: true,
-			},
-		});
-	}
-	componentDidUpdate() {
-		window.grid.isotope('reloadItems');
-		jQuery('#livePostsLoop').isotope({
-			itemSelector: '.LittleThing',
-			masonry: {
-				gutter: 24,
-				horizontalOrder: true,
 			},
 		});
 	}
