@@ -171,9 +171,10 @@ h4.LivePostsLoopHeader {
 }
 
 .littleThingsContainer {
-	display: flex;
-	flex-wrap: wrap;
-	margin-bottom: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 100px;
+    align-items: baseline;
 }
 
 .LittleThing {
@@ -184,12 +185,15 @@ h4.LivePostsLoopHeader {
 	border-radius: 2px;
 	box-shadow: 0 1px 6px $blackTrans25;
 	width: 100%;
-	height: 200px;
 	margin: 16px 8px;
 	padding: 12px;
 	box-sizing: border-box;
 	text-align: left;
 	font-size: 24px;
+	&.littleThingHighlight {
+		box-shadow: 0 0 28px $gold;
+		background: $darkerGlass;
+	}
 	& img.sourcepic {
 		width: 48px;
 		height: 48px;
@@ -299,10 +303,11 @@ h4.LivePostsLoopHeader {
 }
 .VoterInfoBox {
 	display: flex;
+	flex-wrap: wrap;
 	position: relative;
 	margin-top: 6px;
 	border-top: 1px solid $whiteTrans07;
-	height: 40px;
+	min-height: 36px;
 }
 .voterBubble {
 	width: 30px;
@@ -329,6 +334,10 @@ img.littleThingAuthor {
 	margin-left: 18px;
 	margin-right: 9px;
 	opacity: .6;
+}
+input.nomCheckbox {
+	width: 16px;
+	margin-right: 16px;
 }
 
 img.resetLive {

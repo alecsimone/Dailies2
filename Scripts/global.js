@@ -1,4 +1,5 @@
 import AddProspectForm from '../Components/AddProspectForm.jsx';
+import {privateData} from '../Scripts/privateData.jsx';
 
 jQuery(document).mouseup(function (e) {
 	var searchBox = jQuery('#searchbox');
@@ -46,6 +47,46 @@ function replaceImage(thisIMG) {
 window.imageError = function imageError(e, type) {
 	if (type === 'source') {
 		e.target.src=dailiesGlobalData.thisDomain + "/wp-content/uploads/2017/07/rl-logo-med.png";
+	} else if (type === 'twitchVoter') {
+		e.persist();
+		var voter = e.target.title;
+		e.target.src=dailiesGlobalData.thisDomain + "/wp-content/uploads/2017/03/default_pic.jpg";
+		var query = 'https://api.twitch.tv/kraken/users?login=' + voter;
+		jQuery.ajax({
+			type: 'GET',
+			url: query,
+			headers: {
+				'Client-ID' : privateData.twitchClientID,
+				'Accept' : 'application/vnd.twitchtv.v5+json',
+			},
+			error: function(one, two, three) {
+				console.log(one);
+				console.log(two);
+				console.log(three);
+			},
+			success: function(data) {
+				var picSrc = data.users[0]['logo'];
+				e.target.src = picSrc;
+				jQuery.ajax({
+					type: "POST",
+					url: dailiesGlobalData.ajaxurl,
+					dataType: 'json',
+					data: {
+						twitchName: voter,
+						twitchPic: picSrc,
+						action: 'update_twitch_db',
+					},
+					error: function(one, two, three) {
+						console.log(one);
+						console.log(two);
+						console.log(three);
+					},
+					success: function(data) {
+						console.log(data);
+					}
+				});
+			}
+		});
 	} else {
 		e.target.src=dailiesGlobalData.thisDomain + "/wp-content/uploads/2017/03/default_pic.jpg";
 	}

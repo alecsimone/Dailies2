@@ -430,6 +430,7 @@ export default class Live extends React.Component{
 		var postPromoter = this.postPromoter;
 		var postDemoter = this.postDemoter;
 		var littleThingVote = this.littleThingVote;
+		var highlightPost = this.highlightPost;
 		var stageLoops = stages.map(function(stageName) {
 			if (stageName === 'Prospects') {
 				var stagePostData = prospectPostData;
@@ -445,7 +446,7 @@ export default class Live extends React.Component{
 				return
 			}
 			return (
-				<LivePostsLoop key={stageName} stage={stageName} userData={userData} postData={stagePostData} sort={sort} postTrasher={postTrasher} postPromoter={postPromoter} postDemoter={postDemoter} vote={littleThingVote} unfilteredPostCount={unfilteredPostCount} />
+				<LivePostsLoop key={stageName} stage={stageName} userData={userData} postData={stagePostData} sort={sort} postTrasher={postTrasher} postPromoter={postPromoter} postDemoter={postDemoter} vote={littleThingVote} unfilteredPostCount={unfilteredPostCount} highlightPost={highlightPost} />
 			)
 		});
 		if (Object.keys(postData).length === 0) {

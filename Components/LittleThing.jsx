@@ -5,7 +5,7 @@ import StarBox from "./StarBox.jsx";
 import LiveAdminControls from "./LiveAdminControls.jsx";
 import AuthorBubble from "./AuthorBubble.jsx";
 import EmbedBox from "./EmbedBox.jsx";
-import VoterInfoBox from "./VoterInfoBox.jsx"
+import VoterInfoBox from "./VoterInfoBox.jsx";
 
 export default class LittleThing extends React.Component{
 	constructor() {

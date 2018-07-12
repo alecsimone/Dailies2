@@ -1,0 +1,1 @@
+import contenderVoteboard from '../Components/contenderVoteboard.jsx';

@@ -1,6 +1,42 @@
 import React from "react";
 
 export default class LiveAdminControls extends React.Component{
+	constructor() {
+		super();
+		this.loadTheseVotes = this.loadTheseVotes.bind(this);
+		this.handleNomming = this.handleNomming.bind(this);
+	}
+
+	loadTheseVotes() {
+		var postID = this.props.thisID;
+		jQuery.ajax({
+			type: "POST",
+			url: dailiesGlobalData.ajaxurl,
+			dataType: 'json',
+			data: {
+				postID,
+				action: 'load_votes',
+			},
+			error: function(one, two, three) {
+				console.log(one);
+				console.log(two);
+				console.log(three);
+			},
+			success: function(data) {
+				console.log(data);
+			}
+		});
+	}
+
+	handleNomming() {
+		var thisThing = jQuery(`#LittleThing${this.props.thisID}`);
+		if (thisThing.hasClass("littleThingHighlight")) {
+			thisThing.removeClass("littleThingHighlight");
+		} else {
+			thisThing.addClass("littleThingHighlight");
+		}
+	}
+
 	render() {
 		var currentCategory = this.props.postCategory;
 		var authorID = parseInt(this.props.authorID, 10);
@@ -26,6 +62,15 @@ export default class LiveAdminControls extends React.Component{
 			editButton = <a href={dailiesGlobalData.thisDomain + '/wp-admin/post.php?post=' + this.props.thisID + '&action=edit'} className="editLittleThingLink" target="_blank"><img src={dailiesGlobalData.thisDomain + '/wp-content/uploads/2017/07/edit-this.png'} className="editThisImg" /></a>
 		}
 
+		var toNomButton;
+		if (currentCategory === 'Contenders' && (dailiesGlobalData.userData.userID === authorID || dailiesGlobalData.userData.userRole === 'administrator') ) {
+			toNomButton = <input key={'nomButton' + this.props.thisID} type="checkbox" className="nomCheckbox" onClick={this.handleNomming} />
+		}
+
+		var onTheTable;
+		if (dailiesGlobalData.userData.userID === authorID || dailiesGlobalData.userData.userRole === 'administrator') {
+			onTheTable = <input type="radio" name="onTheTable" onClick={this.loadTheseVotes} />
+		}
 
 		return(
 			<div className="liveAdminControls">
