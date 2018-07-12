@@ -1,0 +1,1 @@
+require('../Scripts/contender-voteboard.js');

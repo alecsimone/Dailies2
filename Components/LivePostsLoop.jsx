@@ -10,6 +10,7 @@ export default class LivePostsLoop extends React.Component{
 		var postPromoter = this.props.postPromoter;
 		var postDemoter = this.props.postDemoter;
 		var vote = this.props.vote;
+		var stage = this.props.stage;
 		if (this.props.sort === true) {
 			function littleThingSort(a,b) {
 				let parsedA = postDatas[a];
@@ -19,11 +20,22 @@ export default class LivePostsLoop extends React.Component{
 				return scoreB - scoreA;
 			}
 			postIDs = postIDs.sort(littleThingSort);
+		} else {
+			function littleThingDefaultOrder(a,b) {
+				let parsedA = postDatas[a];
+				let parsedB = postDatas[b];
+				let idA = parsedA.id;
+				let idB = parsedB.id;
+				return idA - idB;
+			}
+			postIDs = postIDs.sort(littleThingDefaultOrder);
 		}
+		var littleThingCounter = 0; 
 		var littleThingComponents = postIDs.map(function(postID) {
+			littleThingCounter++;
 			let postData = postDatas[postID];
 			return (
-				<LittleThing key={postID} userData={userData} postData={postData} postTrasher={postTrasher} postPromoter={postPromoter} postDemoter={postDemoter} vote={vote} />
+				<LittleThing key={postID} userData={userData} postData={postData} postTrasher={postTrasher} postPromoter={postPromoter} postDemoter={postDemoter} vote={vote} stage={stage} counter={littleThingCounter} />
 			)
 		});
 		if (postIDs.length === 0) {

@@ -19,7 +19,7 @@ $ajaxURL = admin_url( 'admin-ajax.php' ); ?>
 		/*background: #2f830b;*/
 		/*background: #29720a;*/
 		background: #121212;
-		border-top: 1px solid gold;
+		border-bottom: 1px solid gold;
 		border-radius: 4px;
 		animation: chipdrop .3s cubic-bezier(.25,0,1,.75);
 	}

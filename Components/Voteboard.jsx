@@ -4,9 +4,17 @@ import ReactDOM from 'react-dom';
 export default class Voteboard extends React.Component{
 	constructor() {
 		super();
+		var yeaVoteData = voteboardData.currentVotersList.yea;
+		var nayVoteData = voteboardData.currentVotersList.nay;
+		if (yeaVoteData === undefined) {
+			yeaVoteData = [];
+		}
+		if (nayVoteData === undefined) {
+			nayVoteData = [];
+		}
 		this.state = {
-			yeaVoters: voteboardData.currentVotersList.yea,
-			nayVoters: voteboardData.currentVotersList.nay,
+			yeaVoters: yeaVoteData,
+			nayVoters: nayVoteData,
 		};
 		this.updateVoteCount = this.updateVoteCount.bind(this);
 	}
@@ -29,6 +37,12 @@ export default class Voteboard extends React.Component{
 				var currentState = boundThis.state;
 				currentState.yeaVoters = data.yea;
 				currentState.nayVoters = data.nay;
+				if (currentState.yeaVoters === undefined) {
+					currentState.yeaVoters = [];
+				}
+				if (currentState.nayVoters === undefined) {
+					currentState.nayVoters = [];
+				}
 				boundThis.setState(currentState);
 			}
 		});

@@ -1,12 +1,19 @@
 @import '../Styles/vars.scss';
 
+body.page-template-contender-voteboard-template {
+	text-align: right;
+}
+
+#Voteboard, #ContenderVoteboard {
+	background: url('http://dailies.gg/wp-content/uploads/2018/07/voteboard.jpg') center / cover;	
+}
+
 #Voteboard {
 	display: flex;
 	flex-wrap: wrap;
 	width: 261px;
 	margin: auto;
 	padding: 10px 0;
-	background: url('http://dailies.gg/wp-content/uploads/2018/07/voteboard.jpg');
 	border-radius: 4px;
 	color: $white;
 }
@@ -44,4 +51,32 @@
 	&:first-of-type {
 		border-right: 1px solid black;
 	}
+}
+
+#ContenderVoteboard {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    padding: 6px;
+    text-align: center;
+}
+
+.voterBoxContainer {
+	color: $white;
+	border-right: 1px solid black;
+	&:last-of-type {
+		border-right: none;
+	}
+	& .VoterInfoBox {
+    	border-top: none;
+    	margin-top: 0;
+    	flex-wrap: wrap;
+    	justify-content: center;
+    	width: 40px;
+    	height: auto;
+    	padding: 3px;
+    }
+}
+.voterBoxHeader {
+	border-bottom: 1px solid black;
+	font-size: 30px;
 }
