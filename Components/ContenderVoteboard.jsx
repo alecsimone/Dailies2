@@ -53,8 +53,8 @@ export default class ContenderVoteboard extends React.Component{
 		var voterBoxes = contenders.map(function(contender, index) {
 			return(
 				<div key={index} className="voterBoxContainer">
-					<div key={"voterBoxHeader" + index} className="voterBoxHeader">{index + 1}</div>
 					<VoterInfoBox key={'contender' + index} voterData={contender.voterData} guestlist={contender.guestlist} twitchVoters={contender.twitchVoters} />
+					<div key={"voterBoxHeader" + index} className="voterBoxHeader">{index + 1}</div>
 				</div>
 			)
 		})

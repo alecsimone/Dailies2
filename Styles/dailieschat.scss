@@ -63,6 +63,9 @@ body.page-template-contender-voteboard-template {
 .voterBoxContainer {
 	color: $white;
 	border-right: 1px solid black;
+	display: inline-flex;
+	flex-direction: column;
+	justify-content: flex-end;
 	&:last-of-type {
 		border-right: none;
 	}
@@ -77,6 +80,6 @@ body.page-template-contender-voteboard-template {
     }
 }
 .voterBoxHeader {
-	border-bottom: 1px solid black;
+	border-top: 1px solid black;
 	font-size: 30px;
 }
