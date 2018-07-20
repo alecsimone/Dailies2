@@ -17,15 +17,15 @@ function turnMetasIntoURL($postID) {
 	$TwitterCode = get_post_meta($postID, 'TwitterCode', true);
 	$YouTubeCode = get_post_meta($postID, 'YouTubeCode', true);
 	if ($TwitchCode !== '') {
-		$url = "https://clips.twitch.tv/" . $TwitchCode;
+		$urlBit = $TwitchCode;
 	} elseif ($YouTubeCode !== '') {
-		$url = "https://youtube.com/watch?v=" . $YouTubeCode;
+		$urlBit = $YouTubeCode;
 	} elseif ($GFYtitle !== '') {
-		$url = "https://gfycat.com/" . $GFYtitle;
+		$urlBit = $GFYtitle;
 	} elseif ($TwitterCode !== '') {
-		$url = "https://twitter.com/status/" . $TwitterCode;
+		$urlBit = $TwitterCode;
 	}
-	return $url;
+	return $urlBit;
 }
 
 function clearAllVotesOnPost($postID) {

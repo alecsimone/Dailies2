@@ -6,6 +6,13 @@ body.page-template-contender-voteboard-template {
 
 #Voteboard, #ContenderVoteboard {
 	background: url('http://dailies.gg/wp-content/uploads/2018/07/voteboard.jpg') center / cover;	
+	border-radius: 4px;
+}
+#contenderVoteboardApp {
+	display: flex;
+	justify-content: flex-end;
+	align-items: flex-end;
+	height: 800px;
 }
 
 #Voteboard {

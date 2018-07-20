@@ -59,4 +59,9 @@ function reset_live() {
 	wp_die();
 }
 
+add_action( 'wp_ajax_share_twitch_user_db', 'share_twitch_user_db' );
+function share_twitch_user_db() {
+	$twitchUserDB = getTwitchUserDB();
+	killAjaxFunction($twitchUserDB);
+}
 ?>
