@@ -61,4 +61,15 @@ function increase_rep($userID, $additionalRep) {
 	return $newRep;
 }
 
+function getPicByUserID($userID) {
+	$userDefaultPicture = wsl_get_user_custom_avatar( $userID );
+	$userCustomPicture = get_user_meta($userID, 'customProfilePic', true);
+	if ($userCustomPicture === '') {
+		$userPic = $userDefaultPicture;
+	} else {
+		$userPic = $userCustomPicture;
+	}
+	return $userPic;
+}
+
 ?>

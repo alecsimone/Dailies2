@@ -1,6 +1,6 @@
 <?php add_action("wp_enqueue_scripts", "script_setup");
 function script_setup() {
-	$version = '-v1.53';
+	$version = '-v1.532';
 	wp_register_script('globalScripts', get_template_directory_uri() . '/Bundles/global-bundle' . $version . '.js', ['jquery'], '', true );
 	$thisDomain = get_site_url();
 	$global_data = array(

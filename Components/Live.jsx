@@ -30,6 +30,7 @@ export default class Live extends React.Component{
 		this.resetLive = this.resetLive.bind(this);
 	}
 
+
 	changeChannel(key) {
 		let currentState = this.state;
 		var activeCount = 0;
@@ -357,36 +358,6 @@ export default class Live extends React.Component{
 		window.setInterval(this.updatePostData, refreshRate);
 	}
 
-	/* Old Way
-	componentDidMount() {
-		window.setInterval(this.updatePostData, 3000);
-		window.grid = jQuery('#LivePostsLoops').isotope({
-			itemSelector: '.brick',
-			transitionDuration: 500,
-			masonry: {
-				gutter: 24,
-				columnWidth: '.LittleThing',
-				horizontalOrder: true,
-				stamp: 'h4.LivePostsLoopHeader',
-			},
-		});
-	}
-
-	componentDidUpdate() {
-		window.grid.isotope('reloadItems');
-		jQuery('#LivePostsLoops').isotope({
-			itemSelector: '.brick',
-			transitionDuration: 500,
-			masonry: {
-				gutter: 24,
-				columnWidth: '.LittleThing',
-				horizontalOrder: true,
-				stamp: 'h4.LivePostsLoopHeader',
-			},
-		});
-	}
-	*/
-
 	render() {
 		var activeFilter = [];
 		var postData = jQuery.extend({}, this.state.postData);
@@ -452,15 +423,7 @@ export default class Live extends React.Component{
 		if (Object.keys(postData).length === 0) {
 			var stageLoops = <div className="thatsAll">No contenders yet for today. Want to <a href="mailto:submit@therocketdailies.com?subject=Rocket%20Dailies%20Submission">suggest</a> one?</div>
 		}
-		/*Next we're going to check the stage filter and remove any posts that don't belong
-		if (this.state.stage !== 'All') {
-			var stageFilter = this.state.stage
-			jQuery.each(postData, function() {
-				if (this.categories !== stageFilter) {
-					delete postData[this.id];
-				}
-			})
-		}*/
+		
 		var CoHosts;
 		if (this.state.cohosts.length !== 0) {
 			var CoHosts = <CoHostsPanel cohosts={this.state.cohosts} />

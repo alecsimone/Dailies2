@@ -1,5 +1,4 @@
 <?php 
-
 add_action( 'wp_ajax_get_contender_urls', 'get_contender_urls' );
 function get_contender_urls() {
 	$postDataLive = getLiveContenders();
@@ -7,8 +6,8 @@ function get_contender_urls() {
 	$contenderURLs = [];
 	foreach ($postDataLive as $index => $postInfo) {
 		$contenderURLs[] = turnMetasIntoURL($postInfo->ID);
+		clearAllVotesOnPost($postInfo->ID);
 	}
-
 	killAjaxFunction($contenderURLs);
 }
 
@@ -18,15 +17,15 @@ function turnMetasIntoURL($postID) {
 	$TwitterCode = get_post_meta($postID, 'TwitterCode', true);
 	$YouTubeCode = get_post_meta($postID, 'YouTubeCode', true);
 	if ($TwitchCode !== '') {
-		$url = "https://clips.twitch.tv/" . $TwitchCode;
+		$urlBit = $TwitchCode;
 	} elseif ($YouTubeCode !== '') {
-		$url = "https://youtube.com/watch?v=" . $YouTubeCode;
+		$urlBit = $YouTubeCode;
 	} elseif ($GFYtitle !== '') {
-		$url = "https://gfycat.com/" . $GFYtitle;
+		$urlBit = $GFYtitle;
 	} elseif ($TwitterCode !== '') {
-		$url = "https://twitter.com/status/" . $TwitterCode;
+		$urlBit = $TwitterCode;
 	}
-	return $url;
+	return $urlBit;
 }
 
 function clearAllVotesOnPost($postID) {
@@ -40,7 +39,7 @@ add_action( 'wp_ajax_update_vote_number', 'update_vote_number' );
 add_action( 'wp_ajax_update_nopriv_vote_number', 'update_vote_number' );
 function update_vote_number() {
 	$votenumber = $_POST['voteNumber'];
-	$votenumberID = $getPageIDBySlug('votenumber');
+	$votenumberID = getPageIDBySlug('votenumber');
 	update_post_meta($votenumberID, 'votenumber', $votenumber);
 	killAjaxFunction($votenumber);
 }
@@ -48,7 +47,7 @@ function update_vote_number() {
 add_action( 'wp_ajax_return_vote_number', 'return_vote_number' );
 add_action( 'wp_ajax_nopriv_return_vote_number', 'return_vote_number' );
 function return_vote_number() {
-	$votenumberID = $getPageIDBySlug('votenumber');
+	$votenumberID = getPageIDBySlug('votenumber');
 	$votenumber = get_post_meta($votenumberID, 'votenumber', true);
 	killAjaxFunction($votenumber);
 }
