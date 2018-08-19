@@ -23,16 +23,20 @@ require_once( __DIR__ . '/Functions/userProfileModifications.php');
 //$role->add_cap( 'publish_posts' ); 
 //$role->add_cap( 'edit_published_posts' );
 
-//Get the twitch user db, on each one if there's a dailies account and no picture, get the picture from the dailies account, add to db. Then update db.
-$twitchUserDB = getTwitchUserDB();
+//Get the twitch user db, on each one if there's a dailies account and no rep, get the picture from the dailies account, add to db. If there's no dailies account, set rep to 1. Then update db.
+//$twitchUserDB = getTwitchUserDB();
 /*foreach ($twitchUserDB as $user => $data) {
 	if ($data['dailiesUserID'] !== 'none') {
-		if (!array_key_exists('twitchPic', $data)) {
-			$twitchUserDB[$user]['twitchPic'] = getPicByUserID($data['dailiesUserID']);
+		if (!array_key_exists('rep', $data)) {
+			$twitchUserDB[$user]['rep'] = getValidRep($data['dailiesUserID']);
+		}
+	} else {
+		if (!array_key_exists('rep', $data)) {
+			$twitchUserDB[$user]['rep'] = 1;
 		}
 	}
 }
-updateTwitchUserDB($twitchUserDB);*/
+updateTwitchUserDB($twitchUserDB); */
 //print_r($twitchUserDB);
 
 ?>

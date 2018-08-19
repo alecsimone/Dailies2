@@ -141,6 +141,12 @@ export default class Live extends React.Component{
 			};
 		}
 		this.setState(currentState);
+		let thisLittleThing = jQuery(`#LittleThing${id}`);
+		if (thisLittleThing.hasClass('votedFor')) {
+			thisLittleThing.removeClass('votedFor');
+		} else {
+			thisLittleThing.addClass('votedFor');
+		}
 		jQuery('#LittleThing' + id).find('.voteIcon').addClass("replaceHold");
 		jQuery.ajax({
 			type: "POST",
@@ -353,7 +359,7 @@ export default class Live extends React.Component{
 	componentDidMount() {
 		var refreshRate = 3000;
 		if (dailiesGlobalData.userData.userRole === 'administrator') {
-			refreshRate = 500;
+			// refreshRate = 500;
 		}
 		window.setInterval(this.updatePostData, refreshRate);
 	}
@@ -438,7 +444,6 @@ export default class Live extends React.Component{
 		return(
 			<section id="Live">
 				<HomeTop user={this.state.userData} />
-				<ChannelChanger channels={this.state.channels} changeChannel={this.changeChannel} sortLive={this.sortLive} sort={this.state.sort} />
 				{CoHosts}
 				<section id="LivePostsLoops">
 					{stageLoops}
@@ -448,6 +453,9 @@ export default class Live extends React.Component{
 		)
 	}
 }
+
+//				<ChannelChanger channels={this.state.channels} changeChannel={this.changeChannel} sortLive={this.sortLive} sort={this.state.sort} />
+
 
 ReactDOM.render(
 	<Live />,

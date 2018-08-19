@@ -1,6 +1,6 @@
 <?php add_action("wp_enqueue_scripts", "script_setup");
 function script_setup() {
-	$version = '-v1.532';
+	$version = '-v1.6';
 	wp_register_script('globalScripts', get_template_directory_uri() . '/Bundles/global-bundle' . $version . '.js', ['jquery'], '', true );
 	$thisDomain = get_site_url();
 	$global_data = array(
@@ -8,6 +8,7 @@ function script_setup() {
 		'userData' => generateUserData(),
 		'ajaxurl' => admin_url( 'admin-ajax.php' ),
 		'logoutURL' => wp_logout_url(),
+		'userRow' => getUserInDB(get_current_user_id()),
 	);
 	wp_localize_script( 'globalScripts', 'dailiesGlobalData', $global_data );
 	wp_enqueue_script( 'globalScripts' );
@@ -37,7 +38,7 @@ function script_setup() {
 		include( locate_template('schedule.php') );
 		$gardenPostObject = get_page_by_path('secret-garden');
 		$gardenID = $gardenPostObject->ID;
-		$gardenQueryHours = get_post_meta($gardenID, 'queryHours', true);
+		$gardenQueryHours = getGardenQueryHours();
 		$secretGardenData = array(
 			'streamList' => generateStreamList(),
 			'cutSlugs' => generateCutSlugs(),
@@ -76,6 +77,7 @@ function script_setup() {
 		$currentVotersList = get_post_meta($liveID, 'currentVoters', true);
 		$voteboardData = array(
 			'currentVotersList' => $currentVotersList,
+			'twitchUserDB' => getTwitchUserDB(),
 		);
 		wp_localize_script('voteboardScripts', 'voteboardData', $voteboardData);
 		wp_enqueue_script( 'voteboardScripts');
@@ -91,7 +93,31 @@ function script_setup() {
 		);
 		wp_localize_script('contenderVoteboardScripts', 'contenderVoteboardData', $contenderVoteboardData);
 		wp_enqueue_script( 'contenderVoteboardScripts');
-	} /*else if (is_page('Schedule')) {
+	} else if (is_page('user-management')) {
+		wp_register_script('tablesorter', get_template_directory_uri() . '/Scripts/jquery.tablesorter.min.js', ['jquery'], '', false );
+		wp_register_script( 'userManagementScripts', get_template_directory_uri() . '/Bundles/usermanagement-bundle' . $version . '.js', ['jquery'], '', true );
+		$userManagementData = getUserDB();
+		wp_localize_script('userManagementScripts', 'userManagementData', $userManagementData);
+		wp_enqueue_script('userManagementScripts');
+		wp_enqueue_script('tablesorter');
+	}/*else if (is_page('Schedule')) {
 		wp_enqueue_script( 'scheduleScripts', get_template_directory_uri() . '/Bundles/schedule-bundle.js', ['jquery'], '', true );
 	} */
-} ?>
+} 
+
+function getGardenQueryHours() {
+	$lastNomTimestamp = getLastNomTimestamp();
+	$currentTimestamp = time();
+	$lastNomSecondsAgo = $currentTimestamp - $lastNomTimestamp;
+	$lastNomHoursAgo = $lastNomSecondsAgo / 60 / 60;
+	if ($lastNomHoursAgo > 168) {
+		$gardenQueryHours = 168;
+	} elseif ($lastNomHoursAgo > 28) {
+		$gardenQueryHours = floor($lastNomHoursAgo);
+	} else {
+		$gardenQueryHours = 24;
+	}
+	return $gardenQueryHours;
+}
+
+?>

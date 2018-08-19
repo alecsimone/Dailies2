@@ -61,7 +61,38 @@ function reset_live() {
 
 add_action( 'wp_ajax_share_twitch_user_db', 'share_twitch_user_db' );
 function share_twitch_user_db() {
-	$twitchUserDB = getTwitchUserDB();
+	$twitchUserDB = buildFreshTwitchUserDB();
 	killAjaxFunction($twitchUserDB);
 }
+
+add_action( 'wp_ajax_notify_of_participation', 'notify_of_participation' );
+function notify_of_participation() {
+	if (!currentUserIsAdmin()) {
+		wp_die("You are not an admin, sorry");
+	}
+
+	$participant = $_POST['messageSender'];
+
+	$person = getUserInDB($participant);
+	if (!$person) {
+		killAjaxFunction("You don't have rep yet.");
+		return;
+	}
+
+	$userArray = array(
+		'twitchName' => 'Rocket_Dailies', 
+		'lastRepTime' => 0,
+	);
+	editUserInDB($userArray);
+	$getsRep = checkForRepIncrease($participant);
+
+	if ($getsRep) {
+		$returnText = $getsRep;
+	} else {
+		$returnText = $participant . " didn't get any rep.";
+	}
+
+	killAjaxFunction($returnText);
+}
+
 ?>

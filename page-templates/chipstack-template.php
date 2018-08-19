@@ -2,13 +2,21 @@
 $livePostObject = get_page_by_path('live');
 $liveID = $livePostObject->ID;
 $currentVotersList = get_post_meta($liveID, 'currentVoters', true);
-$yeaVotersCount = count($currentVotersList['yea']); 
+$yeaVotersCount = count($currentVotersList['yea']);
+$twitchUserDB = getTwitchUserDB(); 
 $ajaxURL = admin_url( 'admin-ajax.php' ); ?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
 <div id="chipstack">
 	<?php for ($i=0; $i < $yeaVotersCount; $i++) { ?>
-		<div class="chip"></div>
+		<?php $voter = $currentVotersList['yea'][$i]; 
+		$voterRep = $twitchUserDB[$voter]['rep'];
+		if ($voterRep > 0) {
+			$repClass = "hasRep";
+		} else {
+			$repClass = "noRep";
+		}; ?>
+		<div class="chip <?php echo $repClass; ?>"></div>
 	<?php }; ?>
 </div>
 
@@ -22,6 +30,10 @@ $ajaxURL = admin_url( 'admin-ajax.php' ); ?>
 		border-bottom: 1px solid gold;
 		border-radius: 4px;
 		animation: chipdrop .3s cubic-bezier(.25,0,1,.75);
+	}
+	.chip.noRep {
+		background: #2f830b;
+		border-bottom: 1px solid white;
 	}
 	@keyframes chipdrop {
 		0% {

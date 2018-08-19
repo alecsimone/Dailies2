@@ -15,6 +15,7 @@ export default class Voteboard extends React.Component{
 		this.state = {
 			yeaVoters: yeaVoteData,
 			nayVoters: nayVoteData,
+			twitchUserDB: voteboardData.twitchUserDB,
 		};
 		this.updateVoteCount = this.updateVoteCount.bind(this);
 	}
@@ -48,19 +49,57 @@ export default class Voteboard extends React.Component{
 		});
 	}
 
+	updateTwitchUserDB() {
+		var boundThis = this;
+		jQuery.ajax({
+		type: "POST",
+		url: dailiesGlobalData.ajaxurl,
+		dataType: 'json',
+		data: {
+			action: 'share_twitch_user_db',
+		},
+		error: function(one, two, three) {
+			console.log(one);
+			console.log(two);
+			console.log(three);
+		},
+		success: function(data) {
+			var currentState = boundThis.state;
+			currentState.twitchUserDB = data;
+			boundThis.setState(currentState);
+		}
+	});
+	}
+
 	componentDidMount() {
 		window.setInterval(this.updateVoteCount, 1000);
+		window.setInterval(this.updateTwitchUserDB, 60000);
 	}
 
 	render() {
-		var yeaVoters = this.state.yeaVoters.map(function(key) {
+		let state = this.state;
+		var yeaVoters = state.yeaVoters.map(function(key) {
+			if (state.twitchUserDB.hasOwnProperty(key)) {
+				if (state.twitchUserDB[key].rep > 0) {
+					var repClass = 'hasRep';
+				}
+			} else {
+				var repClass = 'noRep';
+			}
 			return(
-				<div className="yeaVoterName" key={key}>{key}</div>
+				<div className={`yeaVoterName ${repClass}`} key={key}>{key}</div>
 			)
 		});
 		var nayVoters = this.state.nayVoters.map(function(key) {
+			if (state.twitchUserDB.hasOwnProperty(key)) {
+				if (state.twitchUserDB[key].rep > 0) {
+					var repClass = 'hasRep';
+				}
+			} else {
+				var repClass = 'noRep';
+			}
 			return(
-				<div className="yeaVoterName" key={key}>{key}</div>
+				<div className={`nayVoterName ${repClass}`} key={key}>{key}</div>
 			)
 		});
 		var yeaVotes = this.state.yeaVoters.length;

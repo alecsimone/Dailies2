@@ -5,6 +5,7 @@ import Tagbox from './Tagbox.jsx';
 import Votebox from './Votebox.jsx';
 import AttributionBox from './AttributionBox.jsx';
 import AdminControls from './AdminControls.jsx';
+import VoterInfoBox from './VoterInfoBox.jsx';
 
 export default class Thing extends React.Component {
 	constructor() {
@@ -16,6 +17,7 @@ export default class Thing extends React.Component {
 
 	vote() {
 		let userID = this.props.userData.userID.toString(10);
+		let hash = dailiesGlobalData.userRow.hash;
 		let rep = parseFloat(this.state.rep);
 		var votecount = parseFloat(this.state.votecount);
 		var currentState = this.state;
@@ -27,8 +29,8 @@ export default class Thing extends React.Component {
 			if (voteledger === '') {
 				currentState.voteledger = [];
 			}
-			if( Object.keys(voteledger).indexOf(userID) > -1 ) {
-				currentState.votecount = (votecount - voteledger[userID]).toFixed(1);
+			if ( Object.keys(voteledger).indexOf(userID) > -1 ) {
+				currentState.votecount = (votecount - voteledger[userID]).toFixed(0);
 				delete currentState.voteledger[userID];
 				if (jQuery.inArray(clientIP, guestlist) > -1){
 					let guestIndex = jQuery.inArray(clientIP, guestlist);
@@ -37,13 +39,25 @@ export default class Thing extends React.Component {
 						guestlist = '';
 					}
 					currentState.guestlist = guestlist;
-					currentState.votecount = (currentState.votecount - .1).toFixed(1);
+					currentState.votecount = (currentState.votecount - 1).toFixed(0);
+				}
+			} else if (Object.keys(voteledger).indexOf(hash) > -1) {
+				currentState.votecount = (votecount - voteledger[hash]).toFixed(0);
+				delete currentState.voteledger[hash];
+				if (jQuery.inArray(clientIP, guestlist) > -1){
+					let guestIndex = jQuery.inArray(clientIP, guestlist);
+					guestlist.splice(guestIndex, 1);
+					if (guestlist.length === 0) {
+						guestlist = '';
+					}
+					currentState.guestlist = guestlist;
+					currentState.votecount = (currentState.votecount - 1).toFixed(0);
 				}
 			} else {
 				var currentTime = Date.now() / 1000;
 				if (currentTime > repTime) {rep = rep + 1};
 				currentState.voteledger[userID] = rep;
-				currentState.votecount = (votecount + rep).toFixed(1);
+				currentState.votecount = (votecount + rep).toFixed(0);
 				currentState.repTime = {0: currentTime};
 				currentState.rep = rep;
 			}
@@ -54,7 +68,7 @@ export default class Thing extends React.Component {
 				guestlist = '';
 			}
 			currentState.guestlist = guestlist;
-			currentState.votecount = (votecount - .1).toFixed(1);
+			currentState.votecount = (votecount - 1).toFixed(0);
 		} else {
 			if (guestlist === '' || guestlist == null) {
 				var newGuestlist = [clientIP];
@@ -63,7 +77,7 @@ export default class Thing extends React.Component {
 				var newGuestlist = guestlist;
 			}
 			currentState.guestlist = newGuestlist;
-			currentState.votecount = (votecount + .1).toFixed(1);
+			currentState.votecount = (votecount + 1).toFixed(0);
 		}
 		this.setState(currentState);
 		jQuery('#thing' + this.props.thingData.id).find('.voteIcon').addClass("replaceHold");
@@ -73,7 +87,7 @@ export default class Thing extends React.Component {
 			dataType: 'json',
 			data: {
 				id: this.props.thingData.id,
-				action: 'official_vote',
+				action: 'handle_vote',
 				vote_nonce: dailiesMainData.nonce,
 			},
 			error: function(one, two, three) {
@@ -181,6 +195,7 @@ export default class Thing extends React.Component {
 				<Votebox thisID={this.props.thingData.id} userData={this.props.userData} voteledger={this.props.voteData.voteledger} guestlist={guestlist} vote={this.vote} />
 				<AttributionBox thisID={this.props.thingData.id} stars={this.props.thingData.taxonomies.stars} source={this.props.thingData.taxonomies.source} />
 				{adminControls}
+				<VoterInfoBox thisID={this.props.thingData.id} voterData={this.props.thingData.voterData} guestlist={this.props.thingData.guestlist} twitchVoters={this.props.thingData.twitchVoters} addedVotes={this.props.thingData.addedScore} />
 			</article>
 		)
 	}

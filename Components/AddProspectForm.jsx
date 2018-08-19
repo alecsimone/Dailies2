@@ -59,11 +59,33 @@ export default class AddProspectForm extends React.Component{
 			return
 		}
 
+		var isMultipleURLS = -1;
 		var isTwitch = url.indexOf('twitch.tv/');
+		if (isTwitch > -1) {
+			isMultipleURLS = url.indexOf('twitch.tv/', isTwitch);
+		}
 		var isYouTube = url.indexOf('youtube.com/');
+		if (isYouTube > -1) {
+			isMultipleURLS = url.indexOf('youtube.com/', isYouTube);
+		}
 		var isYtbe = url.indexOf('youtu.be/');
+		if (isYtbe > -1) {
+			isMultipleURLS = url.indexOf('youtu.be/', isYtbe);
+		}
 		var isTwitter = url.indexOf('twitter.com/');
+		if (isTwitter > -1) {
+			isMultipleURLS = url.indexOf('twitter.com/', isTwitter);
+		}
 		var isGfy = url.indexOf('gfycat.com/');
+		if (isGfy > -1) {
+			isMultipleURLS = url.indexOf('gfycat.com/', isGfy);
+		}
+
+		// if (isMultipleURLS > -1) {
+		// 	jQuery('#AddProspectInstructions').text("One submission at a time, please");
+		// 	redFlash(urlBox);
+		// 	return
+		// }
 
 		if (isTwitch === -1 && isYouTube === -1 && isYtbe === -1 && isTwitter === -1 && isGfy === -1) {
 			jQuery('#AddProspectInstructions').text("Invalid URL");

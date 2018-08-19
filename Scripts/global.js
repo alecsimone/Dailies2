@@ -49,7 +49,12 @@ window.imageError = function imageError(e, type) {
 		e.target.src=dailiesGlobalData.thisDomain + "/wp-content/uploads/2017/07/rl-logo-med.png";
 	} else if (type === 'twitchVoter') {
 		e.persist();
-		var voter = e.target.title;
+		var voterFull = e.target.title;
+		if (voterFull.indexOf(':')) {
+			var voter = voterFull.substring(0, voterFull.indexOf(':'));
+		} else {
+			var voter = voterFull;
+		}
 		e.target.src=dailiesGlobalData.thisDomain + "/wp-content/uploads/2017/03/default_pic.jpg";
 		var query = 'https://api.twitch.tv/kraken/users?login=' + voter;
 		jQuery.ajax({

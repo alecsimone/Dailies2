@@ -80,8 +80,13 @@ export default class LittleThing extends React.Component{
 			votePrompter = <div className="votePrompter">!vote{this.props.counter}</div>
 		}
 
+		let votedFor;
+		if (this.props.postData.voteledger.hasOwnProperty(this.props.userData.userID) || this.props.postData.guestlist.hasOwnProperty(this.props.userData.clientIP)) {
+			votedFor = 'votedFor';
+		}
+
 		return(
-			<article className="LittleThing brick" id={'LittleThing' + this.props.postData.id} >
+			<article className={`LittleThing brick ${votedFor}`} id={'LittleThing' + this.props.postData.id} >
 				{votePrompter}
 				<div className="littleThingTop">
 					<a className="littleThingSourceImgLink" href={dailiesGlobalData.thisDomain + '/source/' + sourceSlug}><img className="sourcepic" src={sourceLogo} onError={(e) => window.imageError(e)} /></a>

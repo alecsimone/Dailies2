@@ -1,5 +1,100 @@
 <?php
 
+function vote($person, $thing) {
+	$hasVoted = checkIfPersonHasVoted($person, $thing);
+	if (!$hasVoted) {
+		$person = getUserInDB($person);
+		if ($person) {
+			$rep = getValidRep($person['hash']);
+			changeVotecount($rep, $thing);
+			$voteledger = getValidVoteledger($thing);
+			$voteledger[$person['hash']] = $rep;
+			update_post_meta($thing, 'voteledger', $voteledger);
+		} else {
+			changeVotecount(1, $thing);
+			addCurrentGuestToGuestlist($thing);
+		}
+	} else {
+		unvote($person, $thing);
+	}
+	buildPostDataObject($thing);
+}
+
+function checkIfPersonHasVoted($person, $thing) {
+	$hasVoted = false;
+	$person = getUserInDB($person);
+	$ledger = getValidVoteledger($thing);
+	$twitchVoters = getValidTwitchVoters($thing);
+	$guestlist = get_post_meta($thing, 'guestlist', true);
+	if (isset($person['hash'])) {
+		if (array_key_exists($person['hash'], $ledger)) {
+			$hasVoted = true;
+		}
+	}
+	if (isset($person['dailiesID'])) {
+		if (array_key_exists($person['dailiesID'], $ledger)) {
+			$hasVoted = true;
+		}
+	}
+	if (isset($person['twitchName'])) {
+		if (array_key_exists($person['twitchName'], $twitchVoters)) {
+			$hasVoted = true;
+		}
+	}
+	$ip = $_SERVER['REMOTE_ADDR'];
+	if (in_array($ip, $guestlist)) {
+		$hasVoted = true;
+	}
+	return $hasVoted;
+}
+
+function unvote($person, $thing) {
+	$person = getUserInDB($person);
+
+	$ledger = getValidVoteledger($thing);
+	if (array_key_exists($person['hash'], $ledger)) {
+		changeVotecount(-$ledger[$person['hash']], $thing);
+		unset($ledger[$person['hash']]);
+	}
+	if (array_key_exists($person['dailiesID'], $ledger)) {
+		changeVotecount(-$ledger[$person['dailiesID']], $thing);
+		unset($ledger[$person['dailiesID']]);
+	}
+	update_post_meta($thing, 'voteLedger', $ledger);
+	
+	$twitchVoters = getValidTwitchVoters($thing);
+	if (array_key_exists($person['twitchName'], $ledger)) {
+		changeVotecount(-1, $thing);
+		unset($twitchVoters[$person['twitchName']]);
+	}
+	update_post_meta($thing, 'twitchVoters', $twitchVoters);
+	
+	$guestlist = get_post_meta($thing, 'guestlist', true);
+	$ip = $_SERVER['REMOTE_ADDR'];
+	if (in_array($ip, $guestlist)) {
+		$guestKey = array_search($ip, $guestlist);
+		unset($guestlist[$guestKey]);
+		changeVotecount(-1, $thing);
+	}
+	update_post_meta($thing, 'guestlist', $guestlist);
+}
+function checkForRepIncrease($person) {
+	$person = getUserInDB($person);
+	$lastNomTime = ensureTimestampInSeconds(getLastNomTimestamp());
+	$lastRepTime = ensureTimestampInSeconds($person['lastRepTime']);
+	$deservesNewRep = false;
+	if ($lastRepTime <= $lastNomTime) {
+		$newRep = increase_rep($person['hash'], 1);
+		updateRepTime($person['hash']);
+		$deservesNewRep = true;
+	}
+	if ($deservesNewRep) {
+		return $newRep;
+	} else {
+		return false;
+	}
+}
+
 add_action( 'wp_ajax_chat_vote', 'chat_vote' );
 function chat_vote() {
 	if (!currentUserIsAdmin()) {
@@ -19,13 +114,8 @@ function chat_contender_vote() {
 	if (!$postIDToVoteOn) {
 		wp_die("You've picked an invalid number");
 	}
-	$twitchUserDB = getTwitchUserDB();
-	if (array_key_exists($voter, $twitchUserDB)) {
-		knownVoterVote($voter, $postIDToVoteOn);
-	} else {
-		unknownVoterVote($voter, $postIDToVoteOn);
-	}
-	killAjaxFunction($twitchUserDB);
+	vote($voter, $postIDToVoteOn);
+	killAjaxFunction($voter. " voted on post " . $postIDToVoteOn);
 }
 
 function absorb_votes($postID) {
@@ -33,28 +123,52 @@ function absorb_votes($postID) {
 	$twitchUserDB = getTwitchUserDB();
 
 	foreach ($currentVotersList['yea'] as $index => $twitchName) {
-		if (array_key_exists($twitchName, $twitchUserDB)) {
-			knownVoterVote($twitchName, $postID);
+		$voter = getUserInDB($twitchName);
+		if ($voter) {
+			$hasVoted = checkIfPersonHasVoted($twitchName, $postID);
+			if ($hasVoted) {
+				continue;
+			}
+			vote($twitchName, $postID);
 		} else {
-			unknownVoterVote($twitchName, $postID);			
+			$userArray = array(
+				'twitchName' => $twitchName,
+			);
+			addUserToDB($userArray);
+			vote($twitchName, $postID);	
 		}
 	}
 	foreach ($currentVotersList['nay'] as $index => $twitchName) {
-		if (!array_key_exists($twitchName, $twitchUserDB)) {
-			continue;
-		}
-		$currentVoterDBEntry = $twitchUserDB[$twitchName];
-		$dailiesID = $currentVoterDBEntry['dailiesUserID'];
-		if ($dailiesID !== 'none') {
-			removeVoterFromLedger($dailiesID, $postID);
-		} else {
-			//I'm assuming we don't need to check if they've created a dailies account here, because we're just trying to undo any previous votes, so their dailies account would have to have existed at the time of the previous vote, and would thus exist in our database already. IE, if they've added a dailies account since they voted before, we actually DON'T want to know that, because we're trying to undo something they must have done without an account
-			removeTwitchVoter($twitchName, $postID);
+		$voter = getUserInDB($twitchName);
+		if ($voter) {
+			$hasVoted = checkIfPersonHasVoted($twitchName, $postID);
+			if (!$hasVoted) {
+				continue;
+			}
+			vote($twitchName, $postID);
 		}
 	}
-	update_post_meta($postID, 'chatVotes', $currentVotersList);
 	reset_chat_votes();
 	return;
+}
+
+add_action( 'wp_ajax_handle_vote', 'handle_vote' );
+add_action( 'wp_ajax_nopriv_handle_vote', 'handle_vote' );
+function handle_vote() {
+	$nonce = $_POST['vote_nonce'];
+	if (!wp_verify_nonce($nonce, 'vote_nonce')) {
+		die("Busted!");
+	}
+	$thing = $_POST['id'];
+
+	if (is_user_logged_in()) {
+		$person = get_current_user_id();
+	} else {
+		$person = false;
+	}
+	vote($person, $thing);
+
+	killAjaxFunction('You voted on ' . $thing);
 }
 
 add_action( 'wp_ajax_official_vote', 'official_vote' );
@@ -156,56 +270,18 @@ function voteChoiceIsValid($voteChoice, $postDataArray) {
 		return true;
 	}
 }
-function getTwitchUserDB() {
-	$liveID = getPageIDBySlug('live');
-	return get_post_meta($liveID, 'twitchUserDB', true);
-}
-function updateTwitchUserDB($newUserDB) {
-	$liveID = getPageIDBySlug('live');
-	update_post_meta($liveID, 'twitchUserDB', $newUserDB);
-}
-function findUserIDByTwitchName($twitchName) {
-	$userQueryString = 'http://www.twitch.tv/' . $twitchName;
-	$userqueryargs = array(
-		'search' => $userQueryString,
-		'search_columns' => array('user_url'),
-	);
-	$user_query = new WP_User_Query($userqueryargs);
-	if (!empty($user_query->get_results())) {
-		return $user_query->get_results()[0]->ID;
-	} else {
-		return false;
-	}
-}
-function knownVoterVote($voter, $postID) {
-	$twitchUserDB = getTwitchUserDB();
-	$voterDBEntry = $twitchUserDB[$voter];
-	if ($voterDBEntry['dailiesUserID'] !== 'none') {
-		user_vote($voterDBEntry['dailiesUserID'], $postID, false);
-	} else {
-		accountlessKnownVoterVote($voter, $postID);
-	}
-}
-function accountlessKnownVoterVote($voter, $postID) {
-	//Check if they made an account, then vote
-	$dailiesID = findUserIDByTwitchName($voter);
-	if ($dailiesID) {
-		$twitchUserDB = getTwitchUserDB();
-		$twitchUserDB[$voter]['dailiesUserID'] = $dailiesID;
-		updateTwitchUserDB($twitchUserDB);
-		user_vote($dailiesID, $postID, false);
-	} else {
-		twitch_vote($voter, $postID, false);
-	}
-}
+
 function unknownVoterVote($voter, $postID) {
 	//See if they made an account. vote. add to DB.
 	$twitchUserDB = getTwitchUserDB();
 	$dailiesID = findUserIDByTwitchName($voter);
 	if ($dailiesID) {
-		$twitchUserDB[$voter]['dailiesUserID'] = $dailiesID;
-		$twitchUserDB[$voter]['twitchPic'] = getPicByUserID($dailiesID);
-		updateTwitchUserDB($twitchUserDB);
+		$twitchUserArray = array(
+			'twitchName' => $voter,
+			'dailiesUserID' => $dailiesID,
+			'lastRepTime' => time(),
+		);
+		editUserInTwitchDB($twitchUserArray);
 		user_vote($dailiesID, $postID);
 	} else {
 		addAccountlessVoterToTwitchUserDB($voter);
@@ -214,11 +290,14 @@ function unknownVoterVote($voter, $postID) {
 }
 function addAccountlessVoterToTwitchUserDB($voter) {
 	$twitchUserDB = getTwitchUserDB();
-	$twitchUserDB[$voter] = array(
+	$twitchUserArray = array(
+		'twitchName' => $voter,
 		'dailiesUserID' => 'none',
 		'twitchPic' => 'none',
+		'rep' => 1,
+		'lastRepTime' => time(),
 	);
-	updateTwitchUserDB($twitchUserDB);
+	editUserInTwitchDB($twitchUserArray);
 }
 
 function addVoterToLedger($userID, $postID) {
@@ -293,13 +372,42 @@ function increaseRepWhenEarned($userID) {
 	if ($lastRepTime <= $repAddingThreshold) {
 		update_user_meta($userID, 'lastRepTime', $currentTime);
 		$rep = increase_rep($userID, 1);
+		$userArray = array(
+			'twitchName' => findTwitchUserByDailiesID($userID),
+			'rep' => $rep,
+			'lastRepTime' => time(),
+		);
+		editUserInTwitchDB($userArray);
 	}
 	return $rep;
+}
+function increaseAccountlessRepWhenEarned($twitchName) {
+	$twitchUserDB = getTwitchUserDB();
+	$currentTime = time();
+	$currentRep = $twitchUserDB[$twitchName]['rep'];
+	$lastRepTime = $twitchUserDB[$twitchName]['lastRepTime'];
+	$repAddingThreshold = $currentTime - (24 * 60 *60);
+	if ($lastRepTime <= $repAddingThreshold) {
+		$newRep = $currentRep + 1;
+		$twitchUserArray = array(
+			'twitchName' => $twitchName,
+			'rep' => $newRep,
+			'lastRepTime' => $currentTime,
+		);
+		editUserInTwitchDB($twitchUserArray);
+		return $newRep;
+	}
+	return $currentRep;
 }
 function addPostToVoteHistory($userID, $postID) {
 	$voteHistory = get_user_meta($userID, 'voteHistory', true);
 	$voteHistory[] = $postID;
 	update_user_meta($userID, 'voteHistory', $voteHistory);
+	$userArray = array(
+		'dailiesID' => $userID,
+		'votes' => $postID,
+	);
+	editUserInDB($userArray);
 }
 function removePostFromVoteHistory($userID, $postID) {
 	$voteHistory = get_user_meta($userID, 'voteHistory', true);
@@ -349,20 +457,40 @@ function get_dailies_account_by_twitch_name($twitchName) {
 }
 
 add_action( 'wp_ajax_update_twitch_db', 'update_twitch_db' );
+// function update_twitch_db() {
+// 	if (!currentUserIsAdmin()) {
+// 		wp_die("You are not an admin, sorry");
+// 	}
+// 	$twitchName = $_POST['twitchName'];
+// 	$twitchPic = $_POST['twitchPic'];
+// 	$liveID = getPageIDBySlug('live');
+// 	$twitchUserDB = getTwitchUserDB();
+// 	$twitchUserArray = array(
+// 		'twitchName' => $twitchName,
+// 		'twitchPic' => $twitchPic,
+// 	);
+// 	editUserInTwitchDB($twitchUserArray);
+
+// 	$userArray = array(
+// 		'twitchName' => $twitchName,
+// 		'picture' => $twitchPic,
+// 	);
+// 	editUserInDB($userArray);
+
+// 	killAjaxFunction($twitchUserDB[$twitchName]);
+// }
 function update_twitch_db() {
 	if (!currentUserIsAdmin()) {
 		wp_die("You are not an admin, sorry");
 	}
 	$twitchName = $_POST['twitchName'];
 	$twitchPic = $_POST['twitchPic'];
-	$liveID = getPageIDBySlug('live');
-	$twitchUserDB = getTwitchUserDB();
-	$twitchUserDB[$twitchName] = array(
-		'dailiesUserID' => 'none', 
-		'twitchPic' => $twitchPic,
+	$userArray = array(
+		'twitchName' => $twitchName,
+		'picture' => $twitchPic,
 	);
-	update_post_meta($liveID, 'twitchUserDB', $twitchUserDB);
-	killAjaxFunction($twitchUserDB[$twitchName]);
+	editUserInDB($userArray);
+	killAjaxFunction($userArray);
 }
 
 ?>

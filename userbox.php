@@ -1,5 +1,4 @@
 <?php $userID = get_current_user_id();
-$userRep = get_user_meta(get_current_user_id(), 'rep', true);
 $repVotes = get_user_meta(get_current_user_id(), 'repVotes', true);
 if ($repVotes === false) {
 	$lastRepVote = 0;
@@ -13,7 +12,7 @@ if ($userID === 0) {
 
 ?>
 
-<div id="userbox" data-rep="<?php echo $userRep; ?>" data-repvotetime="<?php echo $lastRepVote; ?>">
+<div id="userbox" data-rep="<?php echo getValidRep(get_current_user_id()); ?>" data-repvotetime="<?php echo $lastRepVote; ?>">
 	<header id="repHeader">Your Rep: <span class="repText"><?php echo $userRep; ?></span></header>
 	<div id="userbox-links">
 		<?php if ( $userID === 0 ) { ?>

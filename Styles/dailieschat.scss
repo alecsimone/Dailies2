@@ -59,6 +59,9 @@ body.page-template-contender-voteboard-template {
 		border-right: 1px solid black;
 	}
 }
+.noRep {
+	text-decoration: line-through;
+}
 
 #ContenderVoteboard {
     display: inline-flex;
@@ -81,7 +84,7 @@ body.page-template-contender-voteboard-template {
     	margin-top: 0;
     	flex-wrap: wrap;
     	justify-content: center;
-    	width: 40px;
+    	width: 46px;
     	height: auto;
     	padding: 3px;
     }

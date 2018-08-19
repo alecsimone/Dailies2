@@ -190,10 +190,6 @@ h4.LivePostsLoopHeader {
 	box-sizing: border-box;
 	text-align: left;
 	font-size: 24px;
-	&.littleThingHighlight {
-		box-shadow: 0 0 28px $gold;
-		background: $darkerGlass;
-	}
 	& img.sourcepic {
 		width: 48px;
 		height: 48px;
@@ -261,6 +257,10 @@ h4.LivePostsLoopHeader {
 	& div.stars {
 		display: inline-flex;
 	}
+	&.votedFor {
+		box-shadow: 0 0 8px $goldTrans75;
+		background: $darkerGlass;
+	}
 	@media #{$bp850} {
 		width: calc(50% - 16px);
 	}
@@ -312,7 +312,7 @@ h4.LivePostsLoopHeader {
 .voterBubble {
 	width: 40px;
 	height: 40px;
-	border-radius: 20px;
+	border-radius: 100%;
 	margin: 6px 3px 0;
 
 }

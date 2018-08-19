@@ -8,8 +8,9 @@ export default class VoterInfoBox extends React.Component{
 		var voterBubbles = voterIDs.map(function(voterID) {
 			var voterName = voterData[voterID]['name'];
 			var voterPic = voterData[voterID]['picture'];
+			let voterRep = voterData[voterID]['rep'];
 			return (
-				<img key={voterID} className="voterBubble" src={voterPic} title={voterName} />
+				<img key={voterID} className="voterBubble" src={voterPic} title={`${voterName}: ${voterRep}`} onError={(e) => window.imageError(e, 'twitchVoter')} />
 			)
 		});
 		var twitchVoters = this.props.twitchVoters;
@@ -57,12 +58,31 @@ export default class VoterInfoBox extends React.Component{
 					});
 				}
 			}
-			var thisBubble = <img key={voter} className="voterBubble" src={pic} title={voter} onError={(e) => window.imageError(e, 'twitchVoter')}/>
+			var thisBubble = <img key={voter} className="voterBubble" src={pic} title={`${voter}: 1`} onError={(e) => window.imageError(e, 'twitchVoter')}/>
 			twitchVoterBubbles.push(thisBubble);
 		});
+
+		let guestBubble;
+		let guestcount;
+		try {
+			guestcount = this.props.guestlist.length;
+		}
+		catch(error) {
+			guestcount = 0;
+		}
+		if (guestcount > 0) {
+			guestBubble = <img key={`guestBubble-${this.props.thisID}`} className="voterBubble" src='http://dailies.gg/wp-content/uploads/2017/03/default_pic.jpg' title={`Guests: ${guestcount}`} />
+		}
+
+		let twitterBubble;
+		const addedCount = parseInt(this.props.addedVotes, 10);
+		if (addedCount > 0) {
+			twitterBubble = <img key={`twitterBubble-${this.props.thisID}`} className="voterBubble" src="http://dailies.gg/wp-content/uploads/2018/08/twitter-logo.png" title={`Twitter Votes: ${addedCount}`} />
+		}
+		
 		return (
 			<div className="VoterInfoBox">
-				{voterBubbles}{twitchVoterBubbles}
+				{voterBubbles}{twitchVoterBubbles}{guestBubble}{twitterBubble}
 			</div>
 		)
 	}

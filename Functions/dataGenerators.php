@@ -1,5 +1,4 @@
 <?php 
-
 function getLiveContenders() {
 	$resetTime = getResetTime();
 	$livePostArgs = array(

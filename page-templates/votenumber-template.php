@@ -1,4 +1,4 @@
-<?php /* Template Name: votenumber */ 
+<?php /* Template Name: votenumber */
 get_header(); ?>
 <div id="votenumber"></div>
 
@@ -18,10 +18,9 @@ get_header(); ?>
 		width: 160px;
 		margin: auto;
 	    color: hsla(42, 79%, 64%, 1);
-	    text-shadow: 0 0 3px black;
+	    text-shadow: 0 0 3px black, 0 0 42px white;
 	    font-weight: bold;
 	    font-size: 48px;
-	    background: -webkit-linear-gradient(top, rgba(0,0,0,0) 6%,rgba(0,0,0,.5) 100%);
 	    border-radius: 3px;
 	}
 </style>

@@ -1,6 +1,6 @@
 <?php
 
-buildPostDataObject(16930);
+buildPostDataObject(17439);
 function buildPostDataObject($id) {
 	$postDataObject = [];
 	$postDataObject['id'] = $id;
@@ -33,20 +33,18 @@ function buildPostDataObject($id) {
 		$postDataObject['voterData'] = [];
 	}
 	foreach ($postDataObject['voteledger'] as $voterID => $votedRep) {
-		$voterName = get_user_meta($voterID, 'nickname', true);
-		$voterDefaultPicture = wsl_get_user_custom_avatar( $voterID );
-		$voterCustomPicture = get_user_meta($voterID, 'customProfilePic', true);
-		if ($voterCustomPicture === '') {
-			$voterPic = $voterDefaultPicture;
-		} else {
-			$voterPic = $voterCustomPicture;
+		$voter = getUserInDB($voterID);
+		$voterName = $voter['dailiesDisplayName'];
+		if ($voterName === '--') {
+			$voterName = $voter['twitchName'];
 		}
 		$postDataObject['voterData'][$voterID] = array(
 			'name' => $voterName,
-			'picture' => $voterPic,
+			'picture' => getPicByUser($voterID),
+			'rep' => getValidRep($voterID),
 		);
 	}
-	$postDataObject['guestlist'] = get_post_meta($id, 'guestlist', true);
+	$postDataObject['guestlist'] = getValidGuestlist($id);
 	$postDataObject['twitchVoters'] = get_post_meta($id, 'twitchVoters', true);
 	if (is_array($postDataObject['twitchVoters'])) {
 		foreach ($postDataObject['twitchVoters'] as $voter => $pic) {
