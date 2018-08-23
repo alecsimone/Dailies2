@@ -1,6 +1,6 @@
 <?php add_action("wp_enqueue_scripts", "script_setup");
 function script_setup() {
-	$version = '-v1.6';
+	$version = '-v1.71';
 	wp_register_script('globalScripts', get_template_directory_uri() . '/Bundles/global-bundle' . $version . '.js', ['jquery'], '', true );
 	$thisDomain = get_site_url();
 	$global_data = array(
@@ -8,7 +8,7 @@ function script_setup() {
 		'userData' => generateUserData(),
 		'ajaxurl' => admin_url( 'admin-ajax.php' ),
 		'logoutURL' => wp_logout_url(),
-		'userRow' => getUserInDB(get_current_user_id()),
+		'userRow' => getPersonInDB(get_current_user_id()),
 	);
 	wp_localize_script( 'globalScripts', 'dailiesGlobalData', $global_data );
 	wp_enqueue_script( 'globalScripts' );
@@ -54,7 +54,7 @@ function script_setup() {
 		$livePageObject = get_page_by_path('live');
 		$liveID = $livePageObject->ID;
 		$resetTime = get_post_meta($liveID, 'liveResetTime', true);
-		$resetTime = $resetTime / 1000 - 21600;
+		$resetTime = $resetTime / 1000;
 		$wordpressUsableTime = date('c', $resetTime);
 		$liveData = array(
 			'nonce' => $nonce,
@@ -70,6 +70,16 @@ function script_setup() {
 	//	wp_enqueue_script('isotope', 'http://dailies.gg/wp-content/themes/Dailies2/js/isotope.pkgd.min.js');
 	} else if (is_page('Submit')) {
 		wp_enqueue_script( 'scheduleScripts', get_template_directory_uri() . '/Bundles/submit-bundle' . $version . '.js', ['jquery'], '', true );
+	} else if (is_page('your-votes')) {
+		wp_register_script( 'mainScripts', get_template_directory_uri() . '/Bundles/main-bundle' . $version . '.js', ['jquery'], '', true );
+		$nonce = wp_create_nonce('vote_nonce');
+		$main_script_data = array(
+			'nonce' => $nonce,
+		);
+		$main_script_data['headerData'] = generateYourVotesHeaderData();
+		$main_script_data['initialArchiveData'] = generateYourVotesPostData();
+		wp_localize_script('mainScripts', 'dailiesMainData', $main_script_data);
+		wp_enqueue_script( 'mainScripts' );
 	} else if (is_page('voteboard')) {
 		wp_register_script( 'voteboardScripts', get_template_directory_uri() . '/Bundles/voteboard-bundle' . $version . '.js', ['jquery'], '', true );
 		$livePageObject = get_page_by_path('live');
@@ -77,7 +87,7 @@ function script_setup() {
 		$currentVotersList = get_post_meta($liveID, 'currentVoters', true);
 		$voteboardData = array(
 			'currentVotersList' => $currentVotersList,
-			'twitchUserDB' => getTwitchUserDB(),
+			'twitchUserDB' => buildFreshTwitchUserDB(),
 		);
 		wp_localize_script('voteboardScripts', 'voteboardData', $voteboardData);
 		wp_enqueue_script( 'voteboardScripts');
@@ -86,7 +96,7 @@ function script_setup() {
 		$livePageObject = get_page_by_path('live');
 		$liveID = $livePageObject->ID;
 		$resetTime = get_post_meta($liveID, 'liveResetTime', true);
-		$resetTime = $resetTime / 1000 - 21600;
+		$resetTime = $resetTime / 1000;
 		$wordpressUsableTime = date('c', $resetTime);
 		$contenderVoteboardData = array(
 			'resetTime' => $wordpressUsableTime,
@@ -96,11 +106,19 @@ function script_setup() {
 	} else if (is_page('user-management')) {
 		wp_register_script('tablesorter', get_template_directory_uri() . '/Scripts/jquery.tablesorter.min.js', ['jquery'], '', false );
 		wp_register_script( 'userManagementScripts', get_template_directory_uri() . '/Bundles/usermanagement-bundle' . $version . '.js', ['jquery'], '', true );
-		$userManagementData = getUserDB();
+		$userManagementData = getPeopleDB();
 		wp_localize_script('userManagementScripts', 'userManagementData', $userManagementData);
 		wp_enqueue_script('userManagementScripts');
 		wp_enqueue_script('tablesorter');
-	}/*else if (is_page('Schedule')) {
+	} else if (is_page('weed')) {
+		wp_register_script( 'weedScripts', get_template_directory_uri() . '/Bundles/weed-bundle' . $version . '.js', ['jquery'], '', true );
+		$weedData = "hi!";
+		wp_localize_script('weedScripts', 'weedData', $weedData);
+		wp_enqueue_script('weedScripts');
+	}
+
+
+	/*else if (is_page('Schedule')) {
 		wp_enqueue_script( 'scheduleScripts', get_template_directory_uri() . '/Bundles/schedule-bundle.js', ['jquery'], '', true );
 	} */
 } 

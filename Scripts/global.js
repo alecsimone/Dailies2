@@ -56,6 +56,7 @@ window.imageError = function imageError(e, type) {
 			var voter = voterFull;
 		}
 		e.target.src=dailiesGlobalData.thisDomain + "/wp-content/uploads/2017/03/default_pic.jpg";
+		if (voter === '--') {return;}
 		var query = 'https://api.twitch.tv/kraken/users?login=' + voter;
 		jQuery.ajax({
 			type: 'GET',

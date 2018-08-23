@@ -81,7 +81,7 @@ export default class LittleThing extends React.Component{
 		}
 
 		let votedFor;
-		if (this.props.postData.voteledger.hasOwnProperty(this.props.userData.userID) || this.props.postData.guestlist.hasOwnProperty(this.props.userData.clientIP)) {
+		if (this.props.postData.voteledger.hasOwnProperty(this.props.userData.userID) || this.props.postData.guestlist.hasOwnProperty(this.props.userData.clientIP) || this.props.postData.voteledger.hasOwnProperty(this.props.userData.hash)) {
 			votedFor = 'votedFor';
 		}
 

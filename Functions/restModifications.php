@@ -72,4 +72,41 @@ function dailies_add_extra_data_to_rest() {
 	);
 };
 
+function get_voter_history_for_rest($data) {
+	$yourVotesIDs = getPersonVoteIDs($data['id']);
+	$args = array(
+		'posts_per_page' => 10,
+		'paged' => $paged,
+		'offset' => $data['offset'],
+		'post__in' => $yourVotesIDs,
+	);
+	$posts = get_posts($args);
+
+	if (empty($posts)) {
+		return null;
+	}
+
+	$allPostData = array();
+	foreach ($posts as $key => $value) {
+		$postDataObj = buildPostDataObject($value->ID);
+		$allPostData[$key] = array(
+			'postDataObj' => $postDataObj,
+			'id' => $postDataObj['id'],
+			'votecount' => array($postDataObj['votecount']),
+			'voteledger' => array($postDataObj['voteledger']),
+			'guestlist' => array($postDataObj['guestlist']),
+		);
+	}
+
+	return $allPostData;
+}
+
+add_action( 'rest_api_init', 'dailies_add_your_votes_to_rest' );
+function dailies_add_your_votes_to_rest() {
+	register_rest_route('dailies-rest/v1', 'voter/id=(?P<id>\d+)&offset=(?P<offset>\d+)', array(
+		'methods' => 'GET',
+		'callback' => 'get_voter_history_for_rest',
+	));
+}
+
 ?>

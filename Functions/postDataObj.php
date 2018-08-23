@@ -1,6 +1,5 @@
 <?php
 
-buildPostDataObject(17439);
 function buildPostDataObject($id) {
 	$postDataObject = [];
 	$postDataObject['id'] = $id;
@@ -33,7 +32,7 @@ function buildPostDataObject($id) {
 		$postDataObject['voterData'] = [];
 	}
 	foreach ($postDataObject['voteledger'] as $voterID => $votedRep) {
-		$voter = getUserInDB($voterID);
+		$voter = getPersonInDB($voterID);
 		$voterName = $voter['dailiesDisplayName'];
 		if ($voterName === '--') {
 			$voterName = $voter['twitchName'];

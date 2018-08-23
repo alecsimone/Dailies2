@@ -55,7 +55,7 @@ export default class Thing extends React.Component {
 				}
 			} else {
 				var currentTime = Date.now() / 1000;
-				if (currentTime > repTime) {rep = rep + 1};
+				if (currentTime > repTime && rep < 100) {rep = rep + 1};
 				currentState.voteledger[userID] = rep;
 				currentState.votecount = (votecount + rep).toFixed(0);
 				currentState.repTime = {0: currentTime};
@@ -69,11 +69,19 @@ export default class Thing extends React.Component {
 			}
 			currentState.guestlist = guestlist;
 			currentState.votecount = (votecount - 1).toFixed(0);
+		} else if (Object.values(guestlist).indexOf(clientIP) > -1) {
+			let thisGuestKey = Object.keys(guestlist).find(key => guestlist[key] === clientIP);
+			delete guestlist[thisGuestKey];
+			currentState.guestlist = guestlist;
+			currentState.votecount = (votecount - 1).toFixed(0);
 		} else {
 			if (guestlist === '' || guestlist == null) {
 				var newGuestlist = [clientIP];
 			} else {
-				guestlist.push(clientIP);
+				let guestKeys = Object.keys(guestlist);
+				let lastGuestKey = guestKeys[guestKeys.length - 1];
+				let nextGuestKey = parseInt(lastGuestKey, 10) + 1;
+				guestlist[nextGuestKey] = clientIP;
 				var newGuestlist = guestlist;
 			}
 			currentState.guestlist = newGuestlist;

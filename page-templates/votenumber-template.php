@@ -9,7 +9,7 @@ get_header(); ?>
 		display: none;
 	}
 	body::before {
-		background: none;
+		background: #0055ff;
 	}
 	body {
 		color: black;
@@ -18,7 +18,7 @@ get_header(); ?>
 		width: 160px;
 		margin: auto;
 	    color: hsla(42, 79%, 64%, 1);
-	    text-shadow: 0 0 3px black, 0 0 42px white;
+	    text-shadow: 0 0 3px black, 0 0 42px black;
 	    font-weight: bold;
 	    font-size: 48px;
 	    border-radius: 3px;
@@ -27,7 +27,7 @@ get_header(); ?>
 
 
 <script>
-	window.setInterval(updateVotenumber, 500);
+	// window.setInterval(updateVotenumber, 500);
 	function updateVotenumber() {
 		jQuery.ajax({
 			type: "POST",

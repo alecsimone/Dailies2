@@ -21,6 +21,13 @@ export default class Votebox extends React.Component {
 			} else {
 				var guestVoted = false;
 			}
+		} else if (Object.prototype.toString.call(guestlist) == "[object Object]") {
+			let guests = Object.values(guestlist);
+			if (guests.indexOf(IP) > -1) {
+				var guestVoted = true;
+			} else {
+				var guestVoted = false;
+			}
 		} else {
 			var guestVoted = false;
 		}

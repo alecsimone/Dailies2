@@ -5,7 +5,7 @@ export default class Userbox extends React.Component {
 	render() {
 			if (this.props.userData.userID != '0') {
 				let thisDomain = dailiesGlobalData.thisDomain;
-				var changePic
+				var changePic;
 				if (this.props.userData.userRep > 20) {
 					changePic = <p className="userbox">Edit Picture (soon!)</p>
 				}
@@ -26,7 +26,7 @@ export default class Userbox extends React.Component {
 				);
 				jQuery('#wp-social-login').appendTo('#userbox-links');
 			}
-			if (this.props.userData.userRep !== false) {
+			let repNumber = parseInt(this.props.userData.userRep, 10);			if (!isNaN(repNumber)) {
 				var rep = this.props.userData.userRep;
 			} else {
 				var rep = 1;

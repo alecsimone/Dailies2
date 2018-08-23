@@ -70,6 +70,7 @@ export default class Live extends React.Component{
 
 	littleThingVote(id) {
 		let userID = this.state.userData.userID.toString(10);
+		let userHash = this.state.userData.hash;
 		let rep = parseFloat(this.state.userData.userRep);
 		var votecount = parseFloat(this.state.postData[id].votecount);
 		let guestlist = this.state.postData[id].guestlist;
@@ -79,7 +80,7 @@ export default class Live extends React.Component{
 		if (userID !== "0") {
 			var voteledger = this.state.postData[id].voteledger;
 			if( Object.keys(voteledger).indexOf(userID) > -1 ) {
-				currentState.postData[id].votecount = (votecount - voteledger[userID]).toFixed(1);
+				currentState.postData[id].votecount = (votecount - voteledger[userID]).toFixed(0);
 				var currentScoreLastDigit = currentState.postData[id].votecount.substring(currentState.postData[id].votecount.length - 1);
 				if (currentScoreLastDigit === '0') {
 					currentState.postData[id].votecount = currentState.postData[id].votecount.substring(0, currentState.postData[id].votecount.length - 2);
@@ -93,14 +94,24 @@ export default class Live extends React.Component{
 						guestlist = '';
 					}
 					currentState.postData[id].guestlist = guestlist;
-					currentState.postData[id].votecount = (currentState.postData[id].votecount - .1).toFixed(1);
+					currentState.postData[id].votecount = (currentState.postData[id].votecount - 1).toFixed(0);
+				}
+			} else if (Object.keys(voteledger).indexOf(userHash) > -1) {
+				currentState.postData[id].votecount = (votecount - voteledger[userHash]).toFixed(0);
+				delete currentState.postData[id].voteledger[userHash];
+				delete currentState.postData[id].voterData[userHash];
+				if (jQuery.inArray(clientIP, guestlist) > -1){
+					let guestIndex = jQuery.inArray(clientIP, guestlist);
+					guestlist.splice(guestIndex, 1);
+					if (guestlist.length === 0) {
+						guestlist = '';
+					}
+					currentState.postData[id].guestlist = guestlist;
+					currentState.postData[id].votecount = (currentState.votecount - 1).toFixed(0);
 				}
 			} else {
 				var currentTime = Date.now() / 1000;
-				jQuery.each(repTime, function(index, value) {
-					repTime = value;
-				});
-				if (currentTime > repTime + 24 * 60 * 60) {rep = rep + 1};
+				if (currentTime > repTime + 24 * 60 * 60 && rep < 100) {rep = rep + 1};
 				currentState.postData[id].voteledger[userID] = rep;
 				currentState.postData[id].voterData[userID] = {
 					name: dailiesGlobalData.userData.userName,
@@ -154,7 +165,7 @@ export default class Live extends React.Component{
 			dataType: 'json',
 			data: {
 				id: id,
-				action: 'official_vote',
+				action: 'handle_vote',
 				vote_nonce: liveData.nonce,
 			},
 			error: function(one, two, three) {
@@ -163,7 +174,7 @@ export default class Live extends React.Component{
 				console.log(three);
 			},
 			success: function(data) {
-				//console.log(data);
+				console.log(data);
 			}
 		});
 	}
@@ -209,25 +220,26 @@ export default class Live extends React.Component{
 						if (localGuestList === null) {localGuestList = ''};
 						let userID = dailiesGlobalData.userData.userID;
 						let clientIP = dailiesGlobalData.userData.clientIP;
+						let hash = dailiesGlobalData.userData.hash;
 						//Next we need a bunch of conditionals
 						//If the user has voted on both the server and the client, just pass the object through normally
 						if (dailiesGlobalData.userData.userID !== 0) { 
-							if ( (localVoteLedger.hasOwnProperty(userID) && serverVoteLedger.hasOwnProperty(userID)) || (localVoteLedger.length === 0 && serverVoteLedger.length === 0) || (Object.keys(localVoteLedger).length === 0 && Object.keys(serverVoteLedger).length === 0) ) {
+							if ( ( (localVoteLedger.hasOwnProperty(userID) || localVoteLedger.hasOwnProperty(hash)) && (serverVoteLedger.hasOwnProperty(userID) || serverVoteLedger.hasOwnProperty(hash)) ) || (localVoteLedger.length === 0 && serverVoteLedger.length === 0) || (Object.keys(localVoteLedger).length === 0 && Object.keys(serverVoteLedger).length === 0) ) {
 								newPostData[currentID] = postDataObject;
 							}
 							//If the user has voted on the client but not the server, add the user's rep to the score and pass
-							if ( localVoteLedger.hasOwnProperty(userID) && (!serverVoteLedger.hasOwnProperty(userID) || serverVoteLedger.length === 0 || Object.keys(serverVoteLedger).length === 0) ) {
+							if ( (localVoteLedger.hasOwnProperty(userID) || localVoteLedger.hasOwnProperty(hash)) && ( (!serverVoteLedger.hasOwnProperty(userID) && !serverVoteLedger.hasOwnProperty(hash)) || serverVoteLedger.length === 0 || Object.keys(serverVoteLedger).length === 0) ) {
 								newPostData[currentID] = postDataObject;
 								newPostData[currentID].votecount = parseFloat(newPostData[currentID].votecount) + parseFloat(currentState.userData.userRep);
 								newPostData[currentID].voteledger[userID] = currentState.userData.userRep;
 							}
 							//If the user has voted on the server but not the client, subtract the user's rep from the score and pass
-							if ( (!localVoteLedger.hasOwnProperty(userID) || localVoteLedger.length === 0 || Object.keys(localVoteLedger).length === 0) && serverVoteLedger.hasOwnProperty(userID)) {
+							if ( ( (!localVoteLedger.hasOwnProperty(userID) && !localVoteLedger.hasOwnProperty(hash)) || localVoteLedger.length === 0 || Object.keys(localVoteLedger).length === 0) && (serverVoteLedger.hasOwnProperty(userID) || serverVoteLedger.hasOwnProperty(hash)) ) {
 								newPostData[currentID] = postDataObject;
 								newPostData[currentID].votecount = parseFloat(newPostData[currentID].votecount) - parseFloat(currentState.userData.userRep);
 								delete newPostData[currentID].voteledger[userID]; 
 							}
-							if ( (!localVoteLedger.hasOwnProperty(userID) && (localVoteLedger.length !== 0 || Object.keys(localVoteLedger).length !== 0)) && !serverVoteLedger.hasOwnProperty(userID)) {
+							if ( ( (!localVoteLedger.hasOwnProperty(userID) && !localVoteLedger.hasOwnProperty(hash)) && (localVoteLedger.length !== 0 || Object.keys(localVoteLedger).length !== 0)) && (!serverVoteLedger.hasOwnProperty(userID) && !serverVoteLedger.hasOwnProperty(hash)) ) {
 								newPostData[currentID] = postDataObject;
 							}
 						} else {

@@ -17,38 +17,30 @@ function getLiveContenders() {
 function getResetTime() {
 	$liveID = getPageIDBySlug('live');
 	$resetTime = get_post_meta($liveID, 'liveResetTime', true);
-	$resetTime = $resetTime / 1000 - 21600;
+	$resetTime = $resetTime / 1000;
 	$wordpressUsableTime = date('c', $resetTime);
 	return $wordpressUsableTime;
 }
 
 function generateUserData() {
 	$userID = get_current_user_id();
-	$userRep = get_user_meta($userID, 'rep', true);
-	$userRepTime = get_user_meta($userID, 'repVotes', true);
-	$userDataObject = get_userdata($userID);
-	$userRole = $userDataObject->roles[0];
-	$userName = get_user_meta($userID, 'nickname', true);
-	$userDefaultPicture = wsl_get_user_custom_avatar( $userID );
-	$userCustomPicture = get_user_meta($userID, 'customProfilePic', true);
-	if ($userCustomPicture === '') {
-		$userPic = $userDefaultPicture;
-	} else {
-		$userPic = $userCustomPicture;
-	}
+	$personRow = getPersonInDB($userID);
 	if ($userID === 0) {
 		$userPic = get_site_url() . '/wp-content/uploads/2017/03/default_pic.jpg';
+	} else {
+		$userPic = $personRow['picture'];
 	}
-	$userData = array(
+	$personData = array(
 		'userID' => $userID,
-		'userName' => $userName,
-		'userRep' => $userRep,
-		'userRepTime' => $userRepTime,
-		'userRole' => $userRole,
+		'userName' => $personRow['dailiesDisplayName'],
+		'userRep' => $personRow['rep'],
+		'userRepTime' => $personRow['lastRepTime'],
+		'userRole' => $personRow['role'],
 		'clientIP' => $_SERVER['REMOTE_ADDR'],
 		'userPic' => $userPic,
+		'hash' => $personRow['hash'],
 	);
-	return $userData;
+	return $personData;
 }
 
 function generateDayOneData() {
@@ -157,6 +149,17 @@ function generateArchiveHeaderData() {
 	return $headerData;
 }
 
+function generateYourVotesHeaderData() {
+	$thisTerm = 'Your Votes';
+	$userID = get_current_user_id();
+	$personRow = getPersonInDB($userID);
+	$headerData = array(
+		'thisTerm' => $thisTerm,
+		'logo_url' => $personRow['picture'],
+	);
+	return $headerData;
+}
+
 function generateSearchHeaderData() {
 	$thisTerm = get_search_query();
 	$headerData = array(
@@ -215,6 +218,59 @@ function generateInitialArchivePostData() {
 		'order' => get_query_var('order', 'ASC'),
 	);
 	return $initialArchiveData;
+}
+
+function generateYourVotesPostData() {
+	$yourVotesIDs = getPersonVoteIDs(get_current_user_id());
+	$yourVotesArgs = array(
+		'posts_per_page' => 10,
+		'paged' => $paged,
+		'post__in' => $yourVotesIDs,
+	);
+	$archivePostDatas = get_posts($yourVotesArgs);
+	$initialPostData = [];
+	$initialVoteDataArray = [];
+	foreach ($archivePostDatas as $post) {
+		setup_postdata($post);
+		$postData = buildPostDataObject($post->ID);
+		$initialPostDatas[] = $postData;
+		$initialVoteDataArray[$post->ID] = array(
+			'voteledger' => get_post_meta($post->ID, 'voteledger', true),
+			'guestlist' => get_post_meta($post->ID, 'guestlist', true),
+			'votecount' => get_post_meta($post->ID, 'votecount', true),
+		);
+	}
+	$initialVoteData = $initialVoteDataArray;
+	$initialPostData = $initialPostDatas;
+	$orderby = get_query_var('orderby', 'date');
+	if ($orderby = 'meta_value_num') {
+		$orderby = 'meta_value_num&filter[meta_key]=votecount';
+	}
+	$initialArchiveData = array(
+		'voteData' => $initialVoteData,
+		'postData' => $initialPostData,
+		'orderby' => $orderby,
+		'order' => get_query_var('order', 'ASC'),
+	);
+	return $initialArchiveData;
+}
+function getPersonVoteIDs($person) {
+	$personRow = getPersonInDB($person);
+	$hash = $personRow['hash'];
+	$voteIDs = array();
+	global $wpdb;
+	$table_name = $wpdb->prefix . 'vote_history_db';
+	$allVoteRows = $wpdb->get_results(
+		"SELECT postid
+		FROM $table_name
+		WHERE hash = '$hash'
+		",
+		ARRAY_A
+	);
+	foreach ($allVoteRows as $voteID) {
+		$voteIDs[] = $voteID['postid'];
+	}
+	return $voteIDs;
 }
 
 function generateSearchResultsData() {
@@ -372,7 +428,7 @@ function generateLivePostsData() {
 	$livePageObject = get_page_by_path('live');
 	$liveID = $livePageObject->ID;
 	$resetTime = get_post_meta($liveID, 'liveResetTime', true);
-	$resetTime = $resetTime / 1000 - 21600;
+	$resetTime = $resetTime / 1000;
 	$wordpressUsableTime = date('c', $resetTime);
 	$livePostArgs = array(
 		'category__not_in' => 4,

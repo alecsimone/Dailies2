@@ -35,7 +35,7 @@ export default class UserTable extends React.Component{
 	render() {
 		var tableRows = [];
 		var alreadyProcessedDailiesIDs = [];
-		var rowLimit = 10000;
+		var rowLimit = 100;
 		var counter = 1;
 		var deleteUser = this.deleteUser;
 		jQuery.each(this.props.userDB, function() {

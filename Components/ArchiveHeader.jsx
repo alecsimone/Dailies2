@@ -18,6 +18,14 @@ export default class ArchiveHeader extends React.Component{
 				return ''
 			}
 		});
+
+		if (this.props.headerData.thisTerm === 'Your Votes') {
+			var termName = 'Your Votes';
+			var headerLinkElements = '';
+		} else {
+			var termName = this.props.headerData.thisTerm.name;
+		}
+
 		var editThis;
 		if (dailiesGlobalData.userData.userID === 1) {
 			var editThis = <a href={dailiesGlobalData.thisDomain + '/wp-admin/term.php?taxonomy=' + this.props.headerData.thisTerm.taxonomy + '&tag_ID=' + this.props.headerData.thisTerm.term_id} className="editTaxonomyLink" target="_blank"><img src={dailiesGlobalData.thisDomain + '/wp-content/uploads/2017/07/edit-this.png'} className="editThisImg" /></a>;
@@ -30,7 +38,7 @@ export default class ArchiveHeader extends React.Component{
 					</div>
 				</div><div id="archive-right">
 					<div id="archive-title">
-						<h2>{this.props.headerData.thisTerm.name} {editThis}</h2>
+						<h2>{termName} {editThis}</h2>
 						<div id="archive-data">
 							{headerLinkElements}
 						</div>

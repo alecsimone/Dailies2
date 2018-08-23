@@ -46,9 +46,9 @@ export default class UserRow extends React.Component{
 	render() {
 		let lastRepTimeShaky = parseInt(this.props.lastRepTime, 10)
 		if (lastRepTimeShaky <= 9999999999) {
-			var lastRepTimeMilliseconds = this.props.lastRepTime * 1000
+			var lastRepTimeMilliseconds = lastRepTimeShaky * 1000
 		} else {
-			var lastRepTimeMilliseconds = this.props.lastRepTime
+			var lastRepTimeMilliseconds = lastRepTimeShaky
 		}
 		let lastRepTime = new Date(lastRepTimeMilliseconds);
 		let lastRepMonth = lastRepTime.getMonth() + 1;
@@ -60,7 +60,9 @@ export default class UserRow extends React.Component{
 
 		const rawDailiesID = this.props.dailiesID;
 		let dailiesID = rawDailiesID;
-		if (rawDailiesID < 10) {
+		if (rawDailiesID == '-1') {
+			dailiesID = '--';
+		} else if (rawDailiesID < 10) {
 			dailiesID = "000" + rawDailiesID;
 		} else if (rawDailiesID < 100) {
 			dailiesID = "00" + rawDailiesID;

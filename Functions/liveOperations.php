@@ -61,8 +61,9 @@ function reset_live() {
 
 add_action( 'wp_ajax_share_twitch_user_db', 'share_twitch_user_db' );
 function share_twitch_user_db() {
-	$twitchUserDB = buildFreshTwitchUserDB();
-	killAjaxFunction($twitchUserDB);
+	// $twitchUserDB = buildFreshTwitchUserDB();
+	$twitchDB = buildFreshTwitchDB();
+	killAjaxFunction($twitchDB);
 }
 
 add_action( 'wp_ajax_notify_of_participation', 'notify_of_participation' );
@@ -73,7 +74,7 @@ function notify_of_participation() {
 
 	$participant = $_POST['messageSender'];
 
-	$person = getUserInDB($participant);
+	$person = getPersonInDB($participant);
 	if (!$person) {
 		killAjaxFunction("You don't have rep yet.");
 		return;
@@ -83,7 +84,7 @@ function notify_of_participation() {
 		'twitchName' => 'Rocket_Dailies', 
 		'lastRepTime' => 0,
 	);
-	editUserInDB($userArray);
+	editPersonInDB($userArray);
 	$getsRep = checkForRepIncrease($participant);
 
 	if ($getsRep) {
