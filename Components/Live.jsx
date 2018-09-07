@@ -30,7 +30,6 @@ export default class Live extends React.Component{
 		this.resetLive = this.resetLive.bind(this);
 	}
 
-
 	changeChannel(key) {
 		let currentState = this.state;
 		var activeCount = 0;
@@ -269,6 +268,7 @@ export default class Live extends React.Component{
 		delete currentState.postData[id];
 		currentState.cutPostIDs.push(id);
 		this.setState(currentState);
+		window.playAppropriateKillSound();
 	}
 
 	postDemoter(id) {
@@ -333,6 +333,7 @@ export default class Live extends React.Component{
 				console.log(data);
 			}
 		});
+		window.playAppropriatePromoSound();
 	}
 
 	resetLive() {

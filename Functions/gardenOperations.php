@@ -19,6 +19,7 @@ function cut_slug() {
 			$newGlobalSlugList[$newSlug]['Nuker'] = $userName;
 			update_post_meta($gardenID, 'slugList', $newGlobalSlugList );
 			echo json_encode($newGlobalSlugList);
+			nukeSlug($slugObj['slug']);
 		} else {
 			wp_die("You can't do that!");
 		}
@@ -30,6 +31,13 @@ function cut_slug() {
 		$newUserSlugList[$newSlug] = $slugObj;
 		update_user_meta($userID, 'slugList', $newUserSlugList);
 		echo json_encode($newUserSlugList);
+		$userID = get_current_user_id();
+		$userName = get_user_meta($userID, 'nickname', true);
+		$userDataObject = get_userdata($userID);
+		$userRole = $userDataObject->roles[0];
+		if ($userRole ===  'administrator') {
+			nukeSlug($slugObj['slug']);
+		}
 	}
 	reset_chat_votes();
 	wp_die();
@@ -46,6 +54,7 @@ function nuke_slug() {
 	$slug = $slugObj['slug'];
 	$newGlobalSlugList[$slug] = $slugObj;
 	update_post_meta($gardenID, 'slugList', $newGlobalSlugList );
+	nukeSlug($slug);
 	//echo json_encode($newGlobalSlugList);
 	wp_die();
 }
@@ -120,6 +129,7 @@ add_action( 'wp_ajax_plant_seed', 'plant_seed' );
 function plant_seed() {
 	$slugObj = $_POST['slugObj'];
 	$thingData = $_POST['thingData'];
+	nukeSlug($slugObj['slug']);
 	$gardenPostObject = get_page_by_path('secret-garden');
 	$gardenID = $gardenPostObject->ID;
 	$globalSlugList = get_post_meta($gardenID, 'slugList', true);

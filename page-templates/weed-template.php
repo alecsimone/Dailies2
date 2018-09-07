@@ -1,5 +1,5 @@
 <?php /* Template Name: Weed */ 
-get_header(); 
+get_header();
 
 if (is_user_logged_in()) { ?>
 

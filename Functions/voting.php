@@ -233,7 +233,7 @@ function update_twitch_db() {
 		'twitchName' => $twitchName,
 		'picture' => $twitchPic,
 	);
-	editUserInDB($userArray);
+	editPersonInDB($userArray);
 	killAjaxFunction($userArray);
 }
 

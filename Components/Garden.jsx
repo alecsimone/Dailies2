@@ -15,6 +15,11 @@ export default class Garden extends React.Component{
 		var cutSubmission = this.props.cutSubmission;
 
 		function clipsByViews(a,b) {
+			if (gardenData.pulledClips[a.slug] !== undefined && gardenData.pulledClips[b.slug] !== undefined) {
+				if (Number(gardenData.pulledClips[b.slug].score) !== Number(gardenData.pulledClips[a.slug].score)) {
+					return Number(gardenData.pulledClips[b.slug].score) - Number(gardenData.pulledClips[a.slug].score);
+				}
+			}
 			if (b.views === a.views) {
 				let bDate = Date.parse(b.created_at);
 				let aDate = Date.parse(a.created_at);
@@ -37,6 +42,10 @@ export default class Garden extends React.Component{
 			if (voters[slug] !== undefined) {
 				thisSeedlingVoters = voters[slug];
 			}
+			var score = 0;
+			if (gardenData.pulledClips[slug] !== undefined) {
+				score = gardenData.pulledClips[slug].score;
+			}
 			var thisSeedlingTags = [];
 			if (tags[slug] !== undefined) {
 				thisSeedlingTags = tags[slug];
@@ -46,7 +55,7 @@ export default class Garden extends React.Component{
 				thisSeedlingNuker = (cutSlugs[slug].Nuker);
 			}
 			return(
-				<Seedling seedlingData={seedlingData} key={slug} cutSlug={cutSlug} tagSlug={tagSlug} voteSlug={voteSlug} nukeSlug={nukeSlug} keepSlug={keepSlug} voters={thisSeedlingVoters} tags={thisSeedlingTags} nuker={thisSeedlingNuker} />
+				<Seedling seedlingData={seedlingData} key={slug} score={score} cutSlug={cutSlug} tagSlug={tagSlug} voteSlug={voteSlug} nukeSlug={nukeSlug} keepSlug={keepSlug} voters={thisSeedlingVoters} tags={thisSeedlingTags} nuker={thisSeedlingNuker} />
 			)
 		});
 

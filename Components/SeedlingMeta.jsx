@@ -25,8 +25,12 @@ export default class SeedlingMeta extends React.Component{
 		}
 		var score = '';
 		var voteCount = this.props.voters.length;
-		if (voteCount > 0) {
-			score = '(+' + voteCount + ') ';
+		let totalScore = voteCount + Number(this.props.score);
+		var scoreText;
+		if (totalScore > 0) {
+			scoreText = '(+' + totalScore + ') ';
+		} else if (totalScore < 0) {
+			scoreText = '(' + totalScore + ') ';
 		}
 		var tags;
 		var tagArray = this.props.tags;
@@ -39,7 +43,7 @@ export default class SeedlingMeta extends React.Component{
 			<div className='seedlingMeta'>
 				<div className='seedlingLogo'><a href={this.props.broadcaster.channel_url}><img src={this.props.broadcaster.logo} /></a></div>
 				<div className='seedlingInfo'>
-					<div className='seedlingTitle'><a href={this.props.permalink} target="_blank" onClick={this.props.embedder}><span className="score">{score}</span>{this.props.title}</a>{tags}</div>
+					<div className='seedlingTitle'><a href={this.props.permalink} target="_blank" onClick={this.props.embedder}><span className="score">{scoreText}</span>{this.props.title}</a>{tags}</div>
 					<div className='seedlingDetails'>{this.props.viewCount} views. Clipped by {this.props.clipper} about {timeAgo} {timeAgoUnit} ago. {nukerInfo} {vodlink}</div>
 				</div>
 			</div>

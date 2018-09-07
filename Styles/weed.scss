@@ -1,0 +1,95 @@
+@import '../Styles/vars.scss';
+
+body.page-template-weed-template:before{
+	background: #121212;
+}
+
+#weeder {
+	margin: auto;
+	background: #121212;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    &.weederLandscape {
+    	flex-wrap: nowrap;
+    }
+}
+
+#weedMeta {
+	font-size: 30px;
+	@media #{$bp800} {
+		font-size: 36px;
+	}
+	text-align: left;
+	margin: 12px 0 36px;
+}
+#weedInfo {
+	font-size: .6em;
+}
+.weederLandscape #weedMeta {
+	margin-bottom: 0px;
+}
+
+#weedBallot {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	flex-basis: 100%;
+	max-width: 800px;
+	&.ballotLandscape {
+		flex-wrap: nowrap;
+		flex-direction: column-reverse;
+		max-width: 144px;
+	}
+	&.ballotPortrait {
+		margin-bottom: 80px;
+	}
+}
+.ballotButton {
+	border: 1px solid hsla(0, 0%, 8%, 1);
+	background: hsla(210, 90%, 60%, 0.25);
+	border-radius: 50%;
+	padding: 0px;
+	width: 72px;
+	height: 72px;
+	@media #{$bp800} {
+		width: 144px;
+		height: 144px;
+	}
+	& img {
+		width: 30px;
+		height: 30px;
+		@media #{$bp800} {
+			width: 60px;
+			height: 60px;
+		}
+	}
+	& img#passImg {
+		margin-top: 6px;
+	}
+	& img#weakNoImg {
+	    margin-top: 12px;
+	}
+	&.weakButton {
+		background: hsla(210, 30%, 40%, 0.1);
+		width: 48px;
+		height: 48px;
+		margin: 12px;
+		@media #{$bp800} {
+			width: 96px;
+			height: 96px;
+		}
+		& img {
+			width: 18px;
+			height: 18px;
+			@media #{$bp800} {
+				width: 36px;
+				height: 36px;
+			}
+		}
+		&:hover {
+			background: hsla(210, 30%, 40%, 0.25);
+		}
+	}
+}

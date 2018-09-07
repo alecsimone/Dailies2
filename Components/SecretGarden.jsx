@@ -68,6 +68,7 @@ export default class SecretGarden extends React.Component{
 		currentState.statusMessage = <h4>{clipPretext} {clipLink}</h4>;
 		console.log("You just cut http://clips.twitch.tv/" + slugObj.slug);
 		this.setState(currentState);
+		window.playAppropriateKillSound();
 		jQuery.ajax({
 			type: "POST",
 			url: dailiesGlobalData.ajaxurl,
@@ -192,6 +193,7 @@ export default class SecretGarden extends React.Component{
 		var currentState = this.state;
 		currentState.cutSlugs[slugObj.slug] = slugObj;
 		this.setState(currentState);
+		window.playAppropriatePromoSound();
 		var page = this;
 		jQuery.ajax({
 			type: "POST",
@@ -253,6 +255,7 @@ export default class SecretGarden extends React.Component{
 		currentState.statusMessage = <h4>{statusUpdateIntro} {statusUpdateContent}</h4>;
 		console.log("You just cut " + cutClipURL);
 		this.setState(currentState);
+		window.playAppropriateKillSound();
 		jQuery.ajax({
 			type: "POST",
 			url: dailiesGlobalData.ajaxurl,
@@ -504,6 +507,11 @@ export default class SecretGarden extends React.Component{
 			var timeAgo = Math.floor(timeSince / 1000 / 60 / 60);
 			if (timeAgo >= queryHours) {
 				cutThisSlug = true;
+			}
+			if (gardenData.pulledClips[seedlingData.slug] !== undefined) {
+				if (Number(gardenData.pulledClips[seedlingData.slug].score) < 0) {
+					cutThisSlug = true;
+				}
 			}
 			if (cutThisSlug !== true) {
 				seedsToPlant.push(seedlingData);

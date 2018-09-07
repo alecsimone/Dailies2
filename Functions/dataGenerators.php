@@ -345,6 +345,39 @@ function generateStreamList() {
 
 	return $streamList;
 }
+function generateStreamlistForDay($day) {
+	include( locate_template('schedule.php') );
+	$todaysChannels = $schedule[$day];
+	$streamList = array();
+	foreach ($todaysChannels as $channel) {
+		$twitchWholeURL = get_term_meta($channel[2], 'twitch', true);
+		$twitchChannel = substr($twitchWholeURL, 22);
+		$viewThreshold = get_term_meta($channel[2], 'viewThreshold', true);
+		if ($viewThreshold == '') {$viewThreshold = "0";};
+		$viewThresholds[$twitchChannel] = $viewThreshold;
+		$streamList[$twitchChannel] = array(
+			'viewThreshold' => $viewThreshold,
+			'cursor' => 'none',
+		);
+	}
+	//Check if there are any user submits, if there are add an entry streamList['user_submits']
+	$gardenPageObject = get_page_by_path('secret-garden');
+	$gardenID = $gardenPageObject->ID;
+	$userSubmits = get_post_meta($gardenID, 'userSubmitData', true);
+	if ($userSubmits !== '') {
+		$streamList['User_Submits'] = array(
+			'viewThreshold' => 0,
+			'cursor' => 'none',
+		);
+	}
+	$streamList['Cuts'] = array(
+			'viewThreshold' => 0,
+			'cursor' => 'none',
+		);
+
+	return $streamList;
+}
+
 add_action( 'wp_ajax_generateCutSlugsHandler', 'generateCutSlugsHandler' );
 function generateCutSlugsHandler() {
 	$cutSlugList = generateCutSlugs();
@@ -406,6 +439,65 @@ function generateSubmissionSeedlingsData() {
 	$gardenID = $gardenPageObject->ID;
 	$submissionSeedlingData = get_post_meta($gardenID, 'userSubmitData', true);
 	return $submissionSeedlingData;
+}
+
+function generateWeedData() {
+	$weedDataArray = array();
+	$weedDataArray['streamList'] = generateWeedStreamlist();
+	$weedDataArray['goodStreams'] = ["jessie", "scrub", "johnnyboi_i"];
+
+	$weedPageID = getPageIDBySlug('weed');
+	$lastUpdateTime = get_post_meta($weedPageID, 'lastClipTime', true);
+	$currentTime = time();
+	$fiveMinutesAgo = $currentTime - 5 * 60;
+	if ($lastUpdateTime < $fiveMinutesAgo) {
+		$needsFreshQuery = 'true';
+	} else {
+		$needsFreshQuery = 'false';
+	}
+	$weedDataArray['needsFreshQuery'] = $needsFreshQuery;
+	$weedDataArray['clips'] = getCleanPulledClipsDB();
+	$weedDataArray['seenSlugs'] = getCurrentUsersSeenSlugs();
+
+	return $weedDataArray;
+}
+
+function generateWeedStreamlist() {
+	include( locate_template('schedule.php') );
+
+	$todaysStreams = generateStreamListForDay($todaysSchedule);
+	$todaysIndex = array_search($todaysSchedule, $myWeekdays);
+	if ($todaysIndex === 0) {
+		$yesterdaysIndex = count($myWeekdays) - 1;
+	} else {
+		$yesterdaysIndex = $todaysIndex - 1;
+	}
+	$yesterday = $myWeekdays[$yesterdaysIndex];
+	$yesterdaysStreams = generateStreamListForDay($yesterday);
+
+	$combinedStreams = array_merge($yesterdaysStreams, $todaysStreams);
+	return $combinedStreams;
+}
+
+function convertTwitchTimeToTimestamp($twitchTime) {
+	return date("U",strtotime($twitchTime));
+}
+
+function getCurrentUsersSeenSlugs() {
+	global $wpdb;
+	$table_name = $wpdb->prefix . 'seen_slugs_db';
+
+	$hash = getPersonsHash(get_current_user_id());
+
+	$seenSlugs = $wpdb->get_results(
+		"
+		SELECT *
+		FROM $table_name
+		WHERE hash = '$hash'
+		",
+		ARRAY_A
+	);
+	return $seenSlugs;
 }
 
 function generateChannelChangerData() {

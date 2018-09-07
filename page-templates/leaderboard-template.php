@@ -2,12 +2,17 @@
 get_header(); 
 
 function makeLeaderList($postDataWinners) {
+	$rlcsPlayers = ["Kaydop", "Turbopolsa", "ViolentPanda", "Fireburner", "GarretG", "JSTN", "Gimmick", "SquishyMuffinz", "Torment", "Yukeo", "Kuxir97", "Miztik", "JKnaps", "Kronovi", "Rizzo", "Mognus", "al0t", "gReazymeister", "Chausette45", "Ferra", "fruity", "AyyJayy", "PrimeThunder", "Wonder", "FlamE", "FreaKii", "Tylacto", "Fairy Peak", "Paschy90", "Scrub Killa", "Drippay", "Torsos", "BoritoB", "Kassio", "Chicago", "CorruptedG", "Klassux", "Ronaky", "Speed", "Tadpole", "Markydooda", "Nielskoek", "Pwndx", "EyeIgnite", "Metsanauris", "Remkoe", "Lethamyr", "Matt", "Zanejackey", "Maestro", "MummiSnow", "Snaski", "Allushin", "Sea Bass", "TyNotTyler", "Bluey", "Deevo", "Halcyon", "Rapid", "Vince"];
 	$wincountArray = array();
+	$wincountArray['all'] = 0;
+	$wincountArray['RLCSPlayers'] = 0;
 	foreach ($postDataWinners as $key => $postData) {
 				// printKeyValue('key', $key);
 		$thisID = $postData->ID;
 		$stars = getPostStars($thisID);
-		if (!is_array($stars)) {continue;}			
+		if (!is_array($stars)) {continue;}
+		$postAlreadyCounted = false;			
+		$wincountArray['all'] = $wincountArray['all'] + 1;
 		foreach ($stars as $star) {
 			$starName = $star->name;
 					// printKeyValue('starname', $starName);
@@ -15,6 +20,10 @@ function makeLeaderList($postDataWinners) {
 				$wincountArray[$starName] = $wincountArray[$starName]+ 1;
 			} else {
 				$wincountArray[$starName] = 1;
+			}
+			if (array_search($starName, $rlcsPlayers) && !$postAlreadyCounted) {
+				$wincountArray['RLCSPlayers'] = $wincountArray['RLCSPlayers'] + 1;
+				$postAlreadyCounted = true;
 			}
 		}
 	}

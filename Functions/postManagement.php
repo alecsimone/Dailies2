@@ -167,6 +167,7 @@ function addProspect () {
 			$twitchCode = substr($newProspectUrl, $twitchCodePosition);
 		}
 		$clipMeta['TwitchCode'] = $twitchCode;
+		nukeSlug($twitchCode);
 	} elseif ($clipType === 'youtube') {
 		$youtubeCodePosition = strpos($newProspectUrl, 'youtube.com/watch?v=') + 20;
 		if (strpos($newProspectUrl, '&')) {
