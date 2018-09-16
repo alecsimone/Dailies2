@@ -5,10 +5,11 @@ export default class WeedBallot extends React.Component{
 		if (this.props.orientation === "Landscape") {
 			var style = {
 				maxHeight: this.props.height,
+				flexBasis: this.props.height / 4 - 10
 			};
 			var strongButtonStyle = {
-				height: this.props.height / 4 - 10,
-				width: this.props.height / 4 - 10
+				height: this.props.height / 4 - 10 <= 200 ? this.props.height / 4 - 10 : 200,
+				width: this.props.height / 4 - 10 <= 200 ? this.props.height / 4 - 10 : 200,
 			}
 			var weakButtonStyle = {
 				height: this.props.height / 8 - 5,
@@ -24,15 +25,23 @@ export default class WeedBallot extends React.Component{
 			}
 		} else {
 			var style = {};
+			let width = jQuery(window).width() - 10;
+			let playerHeight = width * 9 / 16;
+			let ballotHeight = this.props.height - playerHeight -  140;
+			var strongButtonStyle = {
+				height: ballotHeight - 24 > 150 ? 150 : ballotHeight - 24,
+				width: ballotHeight - 24 > 150 ? 150 : ballotHeight - 24,
+			}
 		}
 		return(
 			<div id="weedBallot" className={'ballot' + this.props.orientation} style={style} >
-				<button id="strongNo" className="ballotButton" style={strongButtonStyle} onClick={this.props.judgeClip} ><img id={"strongNoImg"} src={dailiesGlobalData.thisDomain + '/wp-content/uploads/2017/04/red-x.png'} style={strongImgStyle} /></button>
-				<button id="weakNo" className="ballotButton weakButton" style={weakButtonStyle} onClick={this.props.judgeClip}><img id={"weakNoImg"} src={dailiesGlobalData.thisDomain + '/wp-content/uploads/2018/01/Red-Down-Arrow.png'} style={weakImgStyle} /></button>
-				<button id="pass" className="ballotButton weakButton" style={weakButtonStyle} onClick={this.props.judgeClip}><img id={"passImg"} src={dailiesGlobalData.thisDomain + '/wp-content/uploads/2018/08/tilde-50.png'} style={weakImgStyle} /></button>
-				<button id="weakYes" className="ballotButton weakButton" style={weakButtonStyle} onClick={this.props.judgeClip}><img id={"weakYesImg"} src={dailiesGlobalData.thisDomain + '/wp-content/uploads/2018/01/Green-Up-Arrow.png'} style={weakImgStyle} /></button>
-				<button id="strongYes" className="ballotButton" style={strongButtonStyle} onClick={this.props.judgeClip}><img id={"strongYesImg"} src={dailiesGlobalData.thisDomain + '/wp-content/uploads/2017/12/green-plus.png'} style={strongImgStyle} /></button>
+				<button id="strongNo" className="ballotButton" style={strongButtonStyle} onClick={this.props.judgeClip} ><img id={"strongNoImg"} src={dailiesGlobalData.thisDomain + '/wp-content/uploads/2018/07/votenay.png'} style={strongButtonStyle} /></button>
+				<button id="strongYes" className="ballotButton" style={strongButtonStyle} onClick={this.props.judgeClip}><img id={"strongYesImg"} src={dailiesGlobalData.thisDomain + '/wp-content/uploads/2018/07/voteyea.png'} style={strongButtonStyle} /></button>
 			</div>
 		);
 	}
 }
+
+				// <button id="weakNo" className="ballotButton weakButton" style={weakButtonStyle} onClick={this.props.judgeClip}><img id={"weakNoImg"} src={dailiesGlobalData.thisDomain + '/wp-content/uploads/2018/01/Red-Down-Arrow.png'} style={weakImgStyle} /></button>
+				// <button id="pass" className="ballotButton weakButton" style={weakButtonStyle} onClick={this.props.judgeClip}><img id={"passImg"} src={dailiesGlobalData.thisDomain + '/wp-content/uploads/2018/08/tilde-50.png'} style={weakImgStyle} /></button>
+				// <button id="weakYes" className="ballotButton weakButton" style={weakButtonStyle} onClick={this.props.judgeClip}><img id={"weakYesImg"} src={dailiesGlobalData.thisDomain + '/wp-content/uploads/2018/01/Green-Up-Arrow.png'} style={weakImgStyle} /></button>

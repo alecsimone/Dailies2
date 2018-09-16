@@ -27,7 +27,7 @@ export default class UserAddRep extends React.Component{
 			<form id="addRep" onSubmit={this.addRepHandler} >
 				<div id="userInputWrapper" className="userInputWrapper">
 					<label htmlFor="linkerUserInput">User</label>
-					<input type="text" id="linkerUserInput" name="linkerUserInput"size="8" />
+					<input type="text" id="linkerUserInput" name="linkerUserInput" size="8" />
 				</div>
 				<div id="repInputWrapper" className="userInputWrapper">
 					<label htmlFor="linkerRepInput">Rep</label>

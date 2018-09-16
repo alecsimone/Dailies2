@@ -25,9 +25,15 @@ export default class WeedMeta extends React.Component{
 		let titleStyle = {
 			maxWidth: this.props.width,
 		};
+
+		let rawTitle = this.props.title;
+		String.prototype.stripSlashes = function() {
+		    return this.replace(/\\(.)/mg, "$1");
+		}
+		let title = rawTitle.stripSlashes();
 		return(
 			<div id="weedMeta">
-				<div id="weedTitle" style={titleStyle} >({score}) {this.props.title}</div>
+				<div id="weedTitle" style={titleStyle} >{title}</div>
 				<div id="weedInfo">{this.props.views} views. Clipped by {this.props.clipper} about {timeAgo} {timeAgoUnit} ago.</div>
 			</div>
 		);

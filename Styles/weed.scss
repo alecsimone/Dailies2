@@ -1,18 +1,24 @@
 @import '../Styles/vars.scss';
 
-body.page-template-weed-template:before{
-	background: #121212;
+body.page-template-weed-template {
+	& #menu-links {
+		margin-bottom: 12px;
+	}
+	&:before{
+		background: #121212;
+	}
 }
 
 #weeder {
 	margin: auto;
+	text-align: left;
 	background: #121212;
     border-radius: 4px;
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
     &.weederLandscape {
-    	flex-wrap: nowrap;
+    	// flex-wrap: nowrap;
     }
 }
 
@@ -22,13 +28,16 @@ body.page-template-weed-template:before{
 		font-size: 36px;
 	}
 	text-align: left;
-	margin: 12px 0 36px;
+	margin: 12px auto 36px;
 }
 #weedInfo {
 	font-size: .6em;
 }
 .weederLandscape #weedMeta {
 	margin-bottom: 0px;
+}
+.weederPortrait #weedMeta {
+	max-width: 90%;
 }
 
 #weedBallot {
@@ -40,19 +49,24 @@ body.page-template-weed-template:before{
 	&.ballotLandscape {
 		flex-wrap: nowrap;
 		flex-direction: column-reverse;
-		max-width: 144px;
 	}
 	&.ballotPortrait {
-		margin-bottom: 80px;
+		margin-bottom: 1em;
 	}
 }
 .ballotButton {
 	border: 1px solid hsla(0, 0%, 8%, 1);
-	background: hsla(210, 90%, 60%, 0.25);
+	// background: hsla(210, 90%, 60%, 0.25);
 	border-radius: 50%;
 	padding: 0px;
 	width: 72px;
 	height: 72px;
+	&:hover {
+		background: none;
+	}
+	&:focus {
+		outline: none;
+	}
 	@media #{$bp800} {
 		width: 144px;
 		height: 144px;
@@ -60,6 +74,10 @@ body.page-template-weed-template:before{
 	& img {
 		width: 30px;
 		height: 30px;
+		transition: .05s;
+		&:hover {
+			transform: scale(.97);
+		}
 		@media #{$bp800} {
 			width: 60px;
 			height: 60px;
@@ -88,8 +106,120 @@ body.page-template-weed-template:before{
 				height: 36px;
 			}
 		}
-		&:hover {
-			background: hsla(210, 30%, 40%, 0.25);
-		}
 	}
+}
+#weedComments {
+	flex-basis: 90%;
+	margin: 1em 0 3em;
+}
+#weedCommentBox {
+	width: 100%;
+	max-width: 800px;
+    font-family: proxima-nova,sans-serif;
+	font-size: 18px;
+	padding: .6em .3em;
+	border-radius: 3px;
+}
+.weedComment {
+	display: flex;
+	justify-content: space-between;
+	max-width: 800px;
+	text-align: left;
+	font-size: 18px;
+	line-height: 1.3em;
+	margin-bottom: .8em;
+}
+.commentLeft {
+	display: flex;
+}
+.commentPic {
+	padding: 3px 6px;
+	& img {
+		width: 36px;
+		border-radius: 50%;
+	}
+}
+
+.comment {
+	margin-left: 6px;
+}
+.commenter {
+	font-weight: bold;
+	color: $blue;
+}
+.commentMeta {
+	font-size: 16px;
+}
+.commentTime {
+	color: hsla(210, 0%, 90%, .6);
+	font-weight: 300;
+}
+.commentScore {
+	margin-left: .5em;
+	color: hsla(100, 100%, 70%, .6);
+}
+
+.yeaButton {
+	width: 24px;
+	height: 24px;
+	opacity: .25;
+	cursor: pointer;
+	&:hover {
+		opacity: .8;
+	}
+}
+
+#commentsLoader {
+	max-width: 800px;
+	text-align: center;
+	margin-bottom: 1em;
+}
+.lds-ring {
+  display: inline-block;
+  position: relative;
+  width: 64px;
+  height: 64px;
+}
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 51px;
+  height: 51px;
+  margin: 6px;
+  border: 6px solid #fff;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #fff transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+.weederVictory {
+	align-items: center;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+}
+#Victory {
+	font-size: 3em;
+	margin-top: -2em;
+	font-weight: bold;
+	color: $gold;
 }

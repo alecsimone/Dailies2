@@ -156,7 +156,7 @@ foreach ($specialPeopleObjects as $specialPersonObject) {
 					jQuery('#botContainer').append(`<div id=${bot} class='viewer chatter${specialness}'>${bot}<img class="specialButton viewerButton" src="${starSrc}"><img class="botButton viewerButton" src="http://dailies.gg/wp-content/uploads/2018/09/botIcon.png"></div>`);
 				});
 
-				let viewerCount = Number(viewerData.chatter_count) - botlist.length;
+				let viewerCount = Number(viewerData.chatter_count) - bots.length;
 				document.title = `Viewers: ${viewerCount} [${window.channel}]`;
 				jQuery('#viewerCounter').text(viewerCount);
 

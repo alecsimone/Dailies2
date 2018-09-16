@@ -3,14 +3,26 @@ import ReactDOM from 'react-dom';
 import ClipPlayer from './ClipPlayer.jsx';
 import WeedMeta from './WeedMeta.jsx';
 import WeedBallot from './WeedBallot.jsx';
+import WeedComments from './WeedComments.jsx';
 import {privateData} from '../Scripts/privateData.jsx';
 
 export default class Weed extends React.Component{
 	constructor() {
 		super();
+		console.log(Object.keys(weedData.clips).length);
+		jQuery.each(weedData.clips, function(slug, slugObj) {
+			if (slugObj.score === undefined) {
+				slugObj.score = 0;
+			}
+			if (slugObj.nuked === undefined) {
+				slugObj.nuked = 0;
+			}
+		});
 		this.state = {
 			clips: weedData.clips,
 			seenSlugs: weedData.seenSlugs,
+			comments: [],
+			commentsLoading: true,
 		};
 
 		let state = this.state;
@@ -32,6 +44,16 @@ export default class Weed extends React.Component{
 		});
 		this.state.seenMoments = seenMoments;
 
+		let clipList = Object.keys(this.state.clips);
+		jQuery.each(this.state.seenSlugs, function(index, seenSlugObject) {
+			if (clipList.includes(seenSlugObject.slug)) {
+				// console.log(seenSlugObject.slug);
+				delete state.clips[seenSlugObject.slug];
+				// console.log(`Removing ${seenSlugObject.slug} because you've already seen it`);
+			}
+		});
+
+		let today = new Date().getUTCDay();
 		jQuery.each(this.state.clips, function(index, clipData) {
 			if (clipData.vodlink !== undefined) {
 				let thisMoment = boundThis.turnVodlinkIntoMomentObject(clipData.vodlink);
@@ -39,10 +61,15 @@ export default class Weed extends React.Component{
 					delete state.clips[index];
 				}
 			}
+			if (clipData.source === "RocketLeague" && today === 1) {
+				delete state.clips[index];
+			}
 		})
 
 		this.sortClips = this.sortClips.bind(this);
 		this.judgeClip = this.judgeClip.bind(this);
+		this.postComment = this.postComment.bind(this);
+		this.yeaComment = this.yeaComment.bind(this);
 	}
 
 	turnVodlinkIntoMomentObject(vodlink) {
@@ -95,7 +122,7 @@ export default class Weed extends React.Component{
 
 	getSortScore(slug) {
 		let score = Number(this.state.clips[slug].score);
-		let views = this.state.clips[slug].views;
+		let views = Number(this.state.clips[slug].views);
 		
 		let timestamp = new Date(this.state.clips[slug].age).getTime();
 		let now = new Date().getTime();
@@ -118,8 +145,9 @@ export default class Weed extends React.Component{
 		if (views < 3) {sortScore = sortScore - 100;}
 		if (streamPriority > -1) {sortScore = sortScore + 10;}
 		if (isGoodStream > -1) {sortScore = sortScore + 5;}
-		if (Number(this.state.clips[slug].votecount) == 0) {sortScore = sortScore + 1000;}
-		if (Number(this.state.clips[slug].votecount) == 1) {sortScore = sortScore + 500;}
+		if (Number(this.state.clips[slug].votecount) == 0) {sortScore = sortScore + 2000;}
+		if (Number(this.state.clips[slug].votecount) == 1) {sortScore = sortScore + 1000;}
+		if (Number(this.state.clips[slug].votecount) == 2) {sortScore = sortScore + 500;}
 		if (Number(this.state.clips[slug].nuked) == 1) {sortScore = sortScore - 10000;}
 		if (age / 1000 / 60 / 60 - 6 > queryHours) {sortScore = sortScore - 100;}
 
@@ -145,19 +173,19 @@ export default class Weed extends React.Component{
 				console.log(three);
 			},
 			success: function(data) {
-				// console.log(data);
 				if (data != "Dummy just passed") {
 					let slug = data.slug;
 					let vodlink = data.vodlink;
 					if (vodlink !== undefined) {
 						currentState.seenMoments.push(boundThis.turnVodlinkIntoMomentObject(vodlink))
 					}
-					console.log(currentState.clips[slug]);
 					currentState.clips[slug].score = data.score;
 					currentState.seenSlugs.push(data);
 				} else {
 					currentState.seenSlugs.push({slug: boundThis.firstSlug});
 				}
+				currentState.commentsLoading = true;
+				currentState.comments = [];
 				boundThis.setState(currentState);
 			}
 		});
@@ -166,7 +194,6 @@ export default class Weed extends React.Component{
 		let seenSlugs = this.state.seenSlugs;
 		jQuery.each(seenSlugs, function(index, seenSlugObject) {
 			if (clipList.includes(seenSlugObject.slug)) {
-				console.log(seenSlugObject.slug);
 				let seenSlugIndex = clipList.indexOf(seenSlugObject.slug);
 				clipList.splice(seenSlugIndex, 1);
 				// console.log(`Removing ${seenSlugObject.slug} because you've already seen it`);
@@ -188,13 +215,105 @@ export default class Weed extends React.Component{
 		return isFresh;
 	}
 
+	postComment(commentObject) {
+		let currentState = this.state;
+		let randomID = Math.round(Math.random() * 100);
+		let commentData = {
+			comment: commentObject.comment,
+			commenter: dailiesGlobalData.userData.userName,
+			pic: dailiesGlobalData.userData.userPic,
+			id: randomID,
+			replytoid: commentObject.replytoid,
+			slug: this.firstSlug,
+			score: 0,
+			time: Date.now(),
+		}
+		currentState.comments.push(commentData);
+		this.setState(currentState);
+		jQuery.ajax({
+			type: "POST",
+			url: dailiesGlobalData.ajaxurl,
+			dataType: 'json',
+			data: {
+				slug: this.firstSlug,
+				commentObject,
+				action: 'post_comment',
+			},
+			error: function(one, two, three) {
+				console.log(one);
+				console.log(two);
+				console.log(three);
+			},
+			success: function(data) {
+				console.log(data);			
+			}
+		});
+	}
+
+	yeaComment(commentID) {
+		let currentState = this.state;
+		jQuery.each(currentState.comments, function(index, data) {
+			if (data.id == commentID) {
+				currentState.comments[index].score = Number(data.score) + 1;
+			}
+		})
+		this.setState(currentState);
+		jQuery.ajax({
+			type: "POST",
+			url: dailiesGlobalData.ajaxurl,
+			dataType: 'json',
+			data: {
+				commentID,
+				action: 'yea_comment',
+			},
+			error: function(one, two, three) {
+				console.log(one);
+				console.log(two);
+				console.log(three);
+			},
+			success: function(data) {
+				console.log(data);			
+			}
+		});
+	}
+
+	componentDidMount() {
+		this.getComments();
+	}
+
+	componentDidUpdate() {
+		if (this.state.commentsLoading) {
+			this.getComments();
+		}
+	}
+
+	getComments() {
+		let queryURL = `${dailiesGlobalData.thisDomain}/wp-json/dailies-rest/v1/clipcomments/slug=${this.firstSlug}`
+		let currentState = this.state;
+		let boundThis = this;
+		jQuery.get({
+			url: queryURL,
+			dataType: 'json',
+			success: function(data) {
+				currentState.comments = data;
+				currentState.commentsLoading = false;
+				boundThis.setState(currentState);
+			}
+		});
+	}
+
 	render() {
 		let slugsArray = Object.keys(this.state.clips);
 		let sortedClips = this.sortClips(slugsArray);
 		let clipDataLogger = {};
-		let clips = this.state.clips;
 		sortedClips = this.removeSeenSlugs(sortedClips);
-		console.log(sortedClips);
+		if (sortedClips.length === 0) {
+			return(
+				<section id="weeder" className="weederVictory">
+					<div id="Victory">You won!</div>
+				</section>
+			)
+		}
 		this.firstSlug = sortedClips[0];
 		let firstSlugData = this.state.clips[this.firstSlug];
 		let firstSlugMoment = this.turnVodlinkIntoMomentObject(firstSlugData.vodlink);
@@ -211,6 +330,13 @@ export default class Weed extends React.Component{
 			} else {
 				momentIsFresh = true;
 			}
+		}
+		if (sortedClips.length === i) {
+			return(
+				<section id="weeder" className="weederVictory">
+					<div id="Victory">You won!</div>
+				</section>
+			)
 		}
 
 		let width = jQuery(window).width() - 10;
@@ -243,6 +369,7 @@ export default class Weed extends React.Component{
 					<WeedMeta title={firstSlugData.title} score={firstSlugData.score} age={firstSlugData.age} views={firstSlugData.views} clipper={firstSlugData.clipper} width={playerWidth} />
 				</div>
 				<WeedBallot judgeClip={this.judgeClip} orientation={orientation} height={height}/>
+				<WeedComments postComment={this.postComment} commentsLoading={this.state.commentsLoading} comments={this.state.comments} yeaComment={this.yeaComment} />
 			</section>
 		)
 	}
@@ -304,11 +431,12 @@ if (jQuery('#weedApp').length) {
 							clipper: clipData.curator.display_name,
 							score: 0,
 							votecount: 0,
-							nuked: 0,
 						}
 						if (weedData.clips !== null && weedData.clips[clipData.slug] !== undefined) {
+							if (weedData.clips[clipData.slug].nuked == 1) {
+								return true;
+							}
 							thisClipObject.score = weedData.clips[clipData.slug].score;
-							thisClipObject.nuked = weedData.clips[clipData.slug].nuked;
 						}
 						clipStorage[clipData.slug] = thisClipObject;
 					});
@@ -364,13 +492,13 @@ if (jQuery('#weedApp').length) {
 						source: clipData.broadcaster.display_name,
 						vodlink: vodlink,
 						clipper: clipData.curator.display_name,
-						score: 0,
 						votecount: 0,
-						nuked: 0,
 					}
-					if (weedData.clips[clipData.slug] !== undefined) {
+					if (weedData.clips !== null && weedData.clips[clipData.slug] !== undefined) {
+						if (weedData.clips[clipData.slug].nuked == 1) {
+							return true;
+						}
 						thisClipObject.score = weedData.clips[clipData.slug].score;
-						thisClipObject.nuked = weedData.clips[clipData.slug].nuked;
 					}
 					clipStorage[clipData.slug] = thisClipObject;
 				});

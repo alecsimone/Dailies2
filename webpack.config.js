@@ -3,7 +3,7 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-var version = '-v1.771';
+var version = '-v1.78';
 
 module.exports = {
 	devtool: 'cheap-module-source-map',

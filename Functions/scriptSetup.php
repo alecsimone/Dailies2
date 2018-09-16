@@ -1,6 +1,6 @@
 <?php add_action("wp_enqueue_scripts", "script_setup");
 function script_setup() {
-	$version = '-v1.771';
+	$version = '-v1.78';
 	wp_register_script('globalScripts', get_template_directory_uri() . '/Bundles/global-bundle' . $version . '.js', ['jquery'], '', true );
 	$thisDomain = get_site_url();
 	$global_data = array(
@@ -111,7 +111,7 @@ function script_setup() {
 		wp_localize_script('userManagementScripts', 'userManagementData', $userManagementData);
 		wp_enqueue_script('userManagementScripts');
 		wp_enqueue_script('tablesorter');
-	} else if (is_page('weed')) {
+	} else if (is_page('weed') || is_page('1r')) {
 		wp_register_script( 'weedScripts', get_template_directory_uri() . '/Bundles/weed-bundle' . $version . '.js', ['jquery'], '', true );
 		$weedData = generateWeedData();
 		$weedData['queryHours'] = getGardenQueryHours();

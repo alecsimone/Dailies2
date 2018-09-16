@@ -444,13 +444,14 @@ function generateSubmissionSeedlingsData() {
 function generateWeedData() {
 	$weedDataArray = array();
 	$weedDataArray['streamList'] = generateWeedStreamlist();
-	$weedDataArray['goodStreams'] = ["jessie", "scrub", "johnnyboi_i"];
+	$weedDataArray['goodStreams'] = ["jessie", "scrub", "johnnyboi_i", "SubParButInHD", "orionrl", "callumtheshogun", "dazerin", "achievestv", "primethunderrl", "napp", "deevorl", "maestro", "vincerl", "sizz", "drippay", "halcyon", "chicago_rl", "godsmilla", "familiarleaf", "freakiirl", "mognus1", "gschwind", "memoryrl", "jwismont", "lethamyr_rl", "fairypeak", "metsanauris", "frinteerspot", "allushin", "dareyck", "dudewiththenose", "satthew", "paschy90", "gregan", "turbopolsa", "miztik", "corruptedg", "sebadam2011", "greazymeister", "killerno7", "bluey", "atr_realize", "al0t97", "timi_f", "insolences", "moses", "chrome", "turtle", "garrettg", "wavepunk", "jknapsrl", "snaski", "plutorl", "tormentrl", "espeon", "karmaah", "remkoe", "liefx", "lawler", "jamesbot", "squishymuffinz", "jacobrl", "dappur", "klassux", "findablecarpet", "seismicwhite", "markydooda", "fireburner", "sad_junior", "doomsee", "lachinio", "rizzo", "jhzer", "kronovi", "kuxir97", "m1k3rules"];
 
 	$weedPageID = getPageIDBySlug('weed');
 	$lastUpdateTime = get_post_meta($weedPageID, 'lastClipTime', true);
 	$currentTime = time();
 	$fiveMinutesAgo = $currentTime - 5 * 60;
-	if ($lastUpdateTime < $fiveMinutesAgo) {
+	$oneMinuteAgo = $currentTime - 60;
+	if ($lastUpdateTime < $oneMinuteAgo) {
 		$needsFreshQuery = 'true';
 	} else {
 		$needsFreshQuery = 'false';
