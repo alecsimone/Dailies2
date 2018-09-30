@@ -3,6 +3,7 @@
 add_theme_support( 'post-thumbnails' );
 add_image_size('small', 350, 800);
 add_theme_support( 'title-tag' );
+show_admin_bar(false);
 
 $thisDomain = get_site_url();
 

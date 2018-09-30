@@ -1,1 +1,1 @@
-import UserManagement from '../Components/Weed.jsx';
+import Weed from '../Components/Weed.jsx';

@@ -1,6 +1,6 @@
 <?php add_action("wp_enqueue_scripts", "script_setup");
 function script_setup() {
-	$version = '-v1.78';
+	$version = '-v1.901';
 	wp_register_script('globalScripts', get_template_directory_uri() . '/Bundles/global-bundle' . $version . '.js', ['jquery'], '', true );
 	$thisDomain = get_site_url();
 	$global_data = array(
@@ -117,6 +117,11 @@ function script_setup() {
 		$weedData['queryHours'] = getGardenQueryHours();
 		wp_localize_script('weedScripts', 'weedData', $weedData);
 		wp_enqueue_script('weedScripts');
+	} else if (is_page('hopefuls')) {
+		wp_register_script( 'hopefulsScripts', get_template_directory_uri() . '/Bundles/hopefuls-bundle' . $version . '.js', ['jquery'], '', true );
+		$hopefulsData = generateHopefulsData();
+		wp_localize_script('hopefulsScripts', 'hopefulsData', $hopefulsData);
+		wp_enqueue_script('hopefulsScripts');
 	}
 
 

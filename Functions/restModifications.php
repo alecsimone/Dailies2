@@ -131,4 +131,24 @@ function get_clip_comments_for_rest($data) {
 	return $comments;
 }
 
+add_action( 'rest_api_init', 'dailies_add_clip_voters_to_rest' );
+function dailies_add_clip_voters_to_rest() {
+	register_rest_route('dailies-rest/v1', 'clipvoters/slug=(?P<slug>\w+)', array(
+		'methods' => 'GET',
+		'callback' => 'get_clip_voters_for_rest',
+	));
+}
+
+function get_clip_voters_for_rest($data) {
+	$rawVoterData = getVotersForSlug($data['slug']);
+	$voters = [];
+	foreach ($rawVoterData as $key => $data) {
+		$voter = getPersonInDB($data['hash']);
+		$voters[$key]['picture'] = $voter['picture'];
+		$voters[$key]['name'] = $voter['dailiesDisplayName'];
+		$voters[$key]['rep'] = $voter['rep'];
+	}
+	return $voters;
+}
+
 ?>

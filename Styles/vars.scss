@@ -38,7 +38,7 @@ $blueGlow: hsla(210, 30%, 14%, .8);
 
 $blueGlass: hsla(210, 9%, 6%, 1);
 //$blueGlass: hsla(210, 6%, 12%, 1);
-$thinBlueGlass: hsla(210, 8%, 8%, .5);
+$thinBlueGlass: hsla(210, 8%, 8%, .75);
 
 $lighterGlass: hsla(212, 38%, 18%, 1);
 $darkerGlass: hsla(222, 16%, 10%, 1);
@@ -47,6 +47,7 @@ $darkerGlass: hsla(222, 16%, 10%, 1);
 
 $bp350: "screen and (min-width: 350px)";
 $bp500: "screen and (min-width: 500px)";
+$bp760: "screen and (min-width: 760px)";
 $bp800: "screen and (min-width: 800px)";
 $bp850: "screen and (min-width: 850px)";
 $bp1080: "screen and (min-width: 1080px)";

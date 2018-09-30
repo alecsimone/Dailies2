@@ -457,7 +457,9 @@ function generateWeedData() {
 		$needsFreshQuery = 'false';
 	}
 	$weedDataArray['needsFreshQuery'] = $needsFreshQuery;
+	$weedDataArray['lastUpdate'] = $lastUpdateTime;
 	$weedDataArray['clips'] = getCleanPulledClipsDB();
+	$weedDataArray['totalClips'] = count($weedDataArray['clips']);
 	$weedDataArray['seenSlugs'] = getCurrentUsersSeenSlugs();
 
 	return $weedDataArray;
@@ -498,6 +500,13 @@ function getCurrentUsersSeenSlugs() {
 		",
 		ARRAY_A
 	);
+
+	foreach ($seenSlugs as $key => $slugData) {
+		if (time() - $slugData['time'] > 60 * 60 * 24 * 7) {
+			deleteJudgmentFromSeenSlugsDB($slugData['id']);
+			unset($seenSlugs[$key]);
+		}
+	}
 	return $seenSlugs;
 }
 
@@ -564,6 +573,11 @@ function generateLiveVoteData() {
 		);
 	}
 	return $voteDatas;
+}
+
+function generateHopefulsData() {
+	$hopefulsData = getHopefuls();
+	return $hopefulsData;
 }
 
 function generateCohostData() {

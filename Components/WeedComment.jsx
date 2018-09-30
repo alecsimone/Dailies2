@@ -3,12 +3,16 @@ import React from "react";
 export default class WeedComment extends React.Component{
 	constructor() {
 		super();
-
 		this.yeaHandler = this.yeaHandler.bind(this);
+		this.delHandler = this.delHandler.bind(this);
 	}
 
 	yeaHandler() {
 		this.props.yeaComment(this.props.commentID);
+	}
+
+	delHandler() {
+		this.props.delComment(this.props.commentID);
 	}
 
 	render() {
@@ -37,6 +41,12 @@ export default class WeedComment extends React.Component{
 			var yeaButton = <img className="yeaButton" src={dailiesGlobalData.thisDomain + '/wp-content/uploads/2018/07/voteyea.png'} onClick={this.yeaHandler} />;
 		}
 
+		if (this.props.commenter === dailiesGlobalData.userData.userName || dailiesGlobalData.userData.userRole === "author" || dailiesGlobalData.userData.userRole === "editor" || dailiesGlobalData.userData.userRole === "admi`nistrator") {
+			var delButton = <img className="delButton" src={dailiesGlobalData.thisDomain + '/wp-content/uploads/2017/04/red-x.png'} onClick={this.delHandler} />;
+		} else {
+			var delButton = '';
+		}
+
 		return(
 			<div className="weedComment">
 				<div className="commentLeft">
@@ -47,6 +57,7 @@ export default class WeedComment extends React.Component{
 					</div>
 				</div>
 				<div className="commentRight">
+					{delButton}
 					{yeaButton}
 				</div>
 			</div>

@@ -33,10 +33,17 @@ export default class WeedBallot extends React.Component{
 				width: ballotHeight - 24 > 150 ? 150 : ballotHeight - 24,
 			}
 		}
+
+		let nukeButton;
+		if (dailiesGlobalData.userData.userRole === "author" || dailiesGlobalData.userData.userRole === "editor" || dailiesGlobalData.userData.userRole === "administrator") {
+			nukeButton = <button id="nukeButton" onClick={this.props.nukeHandler}>Nuke</button>;
+		}
+
 		return(
 			<div id="weedBallot" className={'ballot' + this.props.orientation} style={style} >
-				<button id="strongNo" className="ballotButton" style={strongButtonStyle} onClick={this.props.judgeClip} ><img id={"strongNoImg"} src={dailiesGlobalData.thisDomain + '/wp-content/uploads/2018/07/votenay.png'} style={strongButtonStyle} /></button>
-				<button id="strongYes" className="ballotButton" style={strongButtonStyle} onClick={this.props.judgeClip}><img id={"strongYesImg"} src={dailiesGlobalData.thisDomain + '/wp-content/uploads/2018/07/voteyea.png'} style={strongButtonStyle} /></button>
+				<button id="strongNo" className="ballotButton" onClick={this.props.judgeClip} ><img id={"strongNoImg"} src={dailiesGlobalData.thisDomain + '/wp-content/uploads/2018/07/votenay.png'} /></button>
+				{nukeButton}
+				<button id="strongYes" className="ballotButton" onClick={this.props.judgeClip}><img id={"strongYesImg"} src={dailiesGlobalData.thisDomain + '/wp-content/uploads/2018/07/voteyea.png'} /></button>
 			</div>
 		);
 	}

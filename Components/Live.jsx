@@ -372,7 +372,7 @@ export default class Live extends React.Component{
 	componentDidMount() {
 		var refreshRate = 3000;
 		if (dailiesGlobalData.userData.userRole === 'administrator') {
-			refreshRate = 500;
+			refreshRate = 1000;
 		}
 		window.setInterval(this.updatePostData, refreshRate);
 	}

@@ -9,7 +9,6 @@ import {privateData} from '../Scripts/privateData.jsx';
 export default class Weed extends React.Component{
 	constructor() {
 		super();
-		console.log(Object.keys(weedData.clips).length);
 		jQuery.each(weedData.clips, function(slug, slugObj) {
 			if (slugObj.score === undefined) {
 				slugObj.score = 0;
@@ -23,8 +22,9 @@ export default class Weed extends React.Component{
 			seenSlugs: weedData.seenSlugs,
 			comments: [],
 			commentsLoading: true,
+			totalClips: Object.keys(weedData.clips).length,
 		};
-
+		
 		let state = this.state;
 		jQuery.each(this.state.clips, function(index, val) {
 			if (val.nuked == 1) {
@@ -47,9 +47,7 @@ export default class Weed extends React.Component{
 		let clipList = Object.keys(this.state.clips);
 		jQuery.each(this.state.seenSlugs, function(index, seenSlugObject) {
 			if (clipList.includes(seenSlugObject.slug)) {
-				// console.log(seenSlugObject.slug);
 				delete state.clips[seenSlugObject.slug];
-				// console.log(`Removing ${seenSlugObject.slug} because you've already seen it`);
 			}
 		});
 
@@ -58,18 +56,37 @@ export default class Weed extends React.Component{
 			if (clipData.vodlink !== undefined) {
 				let thisMoment = boundThis.turnVodlinkIntoMomentObject(clipData.vodlink);
 				if (!boundThis.checkMomentFreshness(thisMoment)) {
+					boundThis.nukeSlug(index);
 					delete state.clips[index];
 				}
 			}
-			if (clipData.source === "RocketLeague" && today === 1) {
+			if (clipData.source === "RocketLeague" && (today === 1 || today === 2)) {
 				delete state.clips[index];
+				boundThis.nukeSlug(index);
 			}
-		})
+		});
+
+		if (this.state.seenSlugs.length === undefined) {
+			console.log(this.state.seenSlugs.length);
+			console.log("Changing seenSlugs from an object to an array");
+			let seenSlugsArray = [];
+			let seenSlugsObject = this.state.seenSlugs;
+			let seenKeys = Object.keys(this.state.seenSlugs);
+			console.log(seenKeys.length);
+			seenKeys.forEach(function(key) {
+				seenSlugsArray.push(seenSlugsObject[key]);
+			});
+			this.state.seenSlugs = seenSlugsArray;
+			console.log(this.state.seenSlugs);
+		}
+
 
 		this.sortClips = this.sortClips.bind(this);
 		this.judgeClip = this.judgeClip.bind(this);
+		this.nukeButtonHandler = this.nukeButtonHandler.bind(this);
 		this.postComment = this.postComment.bind(this);
 		this.yeaComment = this.yeaComment.bind(this);
+		this.delComment = this.delComment.bind(this);
 	}
 
 	turnVodlinkIntoMomentObject(vodlink) {
@@ -134,12 +151,17 @@ export default class Weed extends React.Component{
 		var upperCaseStreamList = priorityStreamList.map(function(name) {
 			return name.toUpperCase();
 		});
-		let streamPriority = upperCaseStreamList.indexOf(this.state.clips[slug].source.toUpperCase());
+		if (this.state.clips[slug].source) {
+			var streamPriority = upperCaseStreamList.indexOf(this.state.clips[slug].source.toUpperCase());
+			var upperCaseGoodStreams = weedData.goodStreams.map(function(name) {
+				return name.toUpperCase();
+			});
+			var isGoodStream = upperCaseGoodStreams.indexOf(this.state.clips[slug].source.toUpperCase());
+		} else {
+			var streamPriority = -1;
+			var isGoodStream = -1;
+		}
 		
-		var upperCaseGoodStreams = weedData.goodStreams.map(function(name) {
-			return name.toUpperCase();
-		});
-		let isGoodStream = upperCaseGoodStreams.indexOf(this.state.clips[slug].source.toUpperCase());
 
 		let sortScore = score + (Math.log10(views) * 5) - (age / 1000 / 60 / 60 / 10);
 		if (views < 3) {sortScore = sortScore - 100;}
@@ -157,12 +179,13 @@ export default class Weed extends React.Component{
 	judgeClip(e) {
 		let currentState = this.state;
 		let boundThis = this;
+		let slug = this.firstSlug;
 		jQuery.ajax({
 			type: "POST",
 			url: dailiesGlobalData.ajaxurl,
 			dataType: 'json',
 			data: {
-				slug: this.firstSlug,
+				slug,
 				vodlink: currentState.clips[this.firstSlug].vodlink,
 				judgment: e.currentTarget.id,
 				action: 'judge_slug',
@@ -173,8 +196,12 @@ export default class Weed extends React.Component{
 				console.log(three);
 			},
 			success: function(data) {
-				if (data != "Dummy just passed") {
-					let slug = data.slug;
+				console.log(data);
+				if (typeof data === "string" && data.startsWith("Unknown Clip")) {
+					console.log(`${boundThis.firstSlug} was not found in the clip database`);
+					currentState.seenSlugs.push({slug: boundThis.firstSlug});
+					delete currentState.clips[slug];
+				} else if (data != "Dummy just passed") {
 					let vodlink = data.vodlink;
 					if (vodlink !== undefined) {
 						currentState.seenMoments.push(boundThis.turnVodlinkIntoMomentObject(vodlink))
@@ -183,6 +210,7 @@ export default class Weed extends React.Component{
 					currentState.seenSlugs.push(data);
 				} else {
 					currentState.seenSlugs.push({slug: boundThis.firstSlug});
+					delete currentState.clips[slug];
 				}
 				currentState.commentsLoading = true;
 				currentState.comments = [];
@@ -214,22 +242,43 @@ export default class Weed extends React.Component{
 		})
 		return isFresh;
 	}
+	nukeButtonHandler() {
+		this.nukeSlug(this.firstSlug)
+	}
+
+	nukeSlug(slug) {
+		if (!weedData.clips[slug]) {
+			return;
+		}
+		weedData.clips[slug].nuked = 1;
+		let currentState = this.state;
+		delete currentState.clips[slug];
+		this.setState(currentState);
+		jQuery.ajax({
+			type: "POST",
+			url: dailiesGlobalData.ajaxurl,
+			dataType: 'json',
+			data: {
+				slug,
+				action: 'nuke_slug',
+			},
+			error: function(one, two, three) {
+				console.log(one);
+				console.log(two);
+				console.log(three);
+			},
+			success: function(data) {
+				console.log(`you've nuked ${slug}!`);
+			},
+		});
+	}
 
 	postComment(commentObject) {
 		let currentState = this.state;
-		let randomID = Math.round(Math.random() * 100);
-		let commentData = {
-			comment: commentObject.comment,
-			commenter: dailiesGlobalData.userData.userName,
-			pic: dailiesGlobalData.userData.userPic,
-			id: randomID,
-			replytoid: commentObject.replytoid,
-			slug: this.firstSlug,
-			score: 0,
-			time: Date.now(),
-		}
-		currentState.comments.push(commentData);
+		currentState.commentsLoading = true;
 		this.setState(currentState);
+		// let randomID = Math.round(Math.random() * 100);
+		let boundThis = this;
 		jQuery.ajax({
 			type: "POST",
 			url: dailiesGlobalData.ajaxurl,
@@ -245,7 +294,25 @@ export default class Weed extends React.Component{
 				console.log(three);
 			},
 			success: function(data) {
-				console.log(data);			
+				// jQuery.each(currentState.comments, function(index,commentData) {
+				// 	if (commentData.id == randomID) {
+				// 		currentState.comments[index].id = data;
+				// 	}
+				// });
+				// this.setState(currentState);
+				let commentData = {
+					comment: commentObject.comment,
+					commenter: dailiesGlobalData.userData.userName,
+					pic: dailiesGlobalData.userData.userPic,
+					id: data,
+					replytoid: commentObject.replytoid,
+					slug: this.firstSlug,
+					score: 0,
+					time: Date.now(),
+				}
+				currentState.comments.push(commentData);
+				currentState.commentsLoading = false;
+				boundThis.setState(currentState);
 			}
 		});
 	}
@@ -265,6 +332,34 @@ export default class Weed extends React.Component{
 			data: {
 				commentID,
 				action: 'yea_comment',
+			},
+			error: function(one, two, three) {
+				console.log(one);
+				console.log(two);
+				console.log(three);
+			},
+			success: function(data) {
+				console.log(data);			
+			}
+		});
+	}
+
+	delComment(commentID) {
+		let currentState = this.state;
+		jQuery.each(currentState.comments, function(index, commentData) {
+			if (commentData === undefined) {return true;}
+			if (commentID == commentData.id) {
+				delete currentState.comments[index];
+			}
+		});
+		this.setState(currentState);
+		jQuery.ajax({
+			type: "POST",
+			url: dailiesGlobalData.ajaxurl,
+			dataType: 'json',
+			data: {
+				commentID,
+				action: 'del_comment',
 			},
 			error: function(one, two, three) {
 				console.log(one);
@@ -320,6 +415,7 @@ export default class Weed extends React.Component{
 		let momentIsFresh = this.checkMomentFreshness(firstSlugMoment);
 		let i = 0;
 		while (!momentIsFresh && i < sortedClips.length) {
+			this.nukeSlug(this.firstSlug);
 			console.log(`Skipping ${this.firstSlug} because you've seen that moment already`);
 			i++;
 			this.firstSlug = sortedClips[i];
@@ -339,6 +435,12 @@ export default class Weed extends React.Component{
 			)
 		}
 
+		let unjudgedClipCounter = 0;
+		let clips = this.state.clips;
+		jQuery.each(clips, function(index, clipData) {
+			if (clipData.votecount == 0 && clipData.nuked == 0 && clipData.score == 0) {unjudgedClipCounter++;}
+		});
+
 		let width = jQuery(window).width() - 10;
 		let windowHeight = jQuery(window).height();
 		let menuLinksDivHeight = jQuery("#menu-links").height();
@@ -353,7 +455,7 @@ export default class Weed extends React.Component{
 		// } else {
 		// 	var orientation = "Portrait";
 		// }
-		let playerHeight = height - 140;
+		let playerHeight = height - 150;
 		let playerWidth = playerHeight * 16 / 9;
 		if (playerWidth + 250 < width) {
 			var orientation = "Landscape";
@@ -361,15 +463,30 @@ export default class Weed extends React.Component{
 			var orientation = "Portrait";
 			playerWidth = width;
 		}
+		var playerStyle = {
+			maxWidth: playerWidth,
+		}
+		let usWidth = 100 * (this.state.totalClips - Number(unjudgedClipCounter)) / this.state.totalClips;
+		var usStyle = {
+			width: usWidth + '%',
+		}
+		let youWidth = 100 * (this.state.totalClips - sortedClips.length) / this.state.totalClips;
+		var youStyle = {
+			width: youWidth + '%',
+		}
 
 		return(
 			<section id="weeder" className={"weeder" + orientation}>
-				<div id="weedPlayer">
+				<div id="clipsLeftCounter">
+					<div className="progressBackground"><div className="progressText">Us: {this.state.totalClips - Number(unjudgedClipCounter)} / {this.state.totalClips}</div><div id="usProgress" className="progressBar" style={usStyle} ></div></div>
+					<div className="progressBackground"><div className="progressText">You: {this.state.totalClips - sortedClips.length} / {this.state.totalClips}</div><div id="youProgress" className="progressBar" style={youStyle} ></div></div>
+				</div>
+				<div id="weedPlayer" style={playerStyle} >
 					<ClipPlayer slug={this.firstSlug} width={playerWidth} />
 					<WeedMeta title={firstSlugData.title} score={firstSlugData.score} age={firstSlugData.age} views={firstSlugData.views} clipper={firstSlugData.clipper} width={playerWidth} />
 				</div>
-				<WeedBallot judgeClip={this.judgeClip} orientation={orientation} height={height}/>
-				<WeedComments postComment={this.postComment} commentsLoading={this.state.commentsLoading} comments={this.state.comments} yeaComment={this.yeaComment} />
+				<WeedBallot judgeClip={this.judgeClip} nukeHandler={this.nukeButtonHandler} orientation={orientation} height={height}/>
+				<WeedComments key={this.firstSlug} slug={this.firstSlug} postComment={this.postComment} commentsLoading={this.state.commentsLoading} comments={this.state.comments} yeaComment={this.yeaComment} delComment={this.delComment} />
 			</section>
 		)
 	}
@@ -378,15 +495,19 @@ export default class Weed extends React.Component{
 if (jQuery('#weedApp').length) {
 	var streams = Object.keys(weedData.streamList);
 	var queries = [];
-	var queryHours = parseInt(weedData.queryHours, 10);
+	var lastQueryTime = parseInt(weedData.lastUpdate, 10);
+	var currentTime = new Date() / 1000;
+	var secondsAgo = currentTime - lastQueryTime;
+	var hoursAgo = secondsAgo / 60 / 60;
 	var queryPeriod;
-	if (queryHours > 24) {
+	var queryHours = parseInt(weedData.queryHours, 10);
+	if (hoursAgo > 24) {
 		queryPeriod = "week";
 	} else {
 		queryPeriod = "day";
 	}
 
-	if (weedData.needsFreshQuery == 'true' || weedData.clips.length === 0) {
+	if (secondsAgo > 60 || weedData.clips.length === 0) {
 		if (weedData.clips === null) {weedData.clips={};}	
 		jQuery.each(streams, function() {
 			if (this === "Rocket_Dailies") {return true;}
@@ -421,22 +542,32 @@ if (jQuery('#weedApp').length) {
 						} else {
 							var vodlink = 'none';
 						}
+						let thumb;
+						if (clipData.thumbnails) {
+							thumb = clipData.thumbnails.medium;
+						} else {
+							thumb = null;
+						}
 						let thisClipObject = {
 							slug: clipData.slug,
 							title: clipData.title,
 							views: clipData.views,
 							age: clipData.created_at,
 							source: clipData.broadcaster.display_name,
+							sourcepic: clipData.broadcaster.logo,
 							vodlink: vodlink,
 							clipper: clipData.curator.display_name,
 							score: 0,
 							votecount: 0,
+							thumb,
+							type: "twitch",
 						}
 						if (weedData.clips !== null && weedData.clips[clipData.slug] !== undefined) {
 							if (weedData.clips[clipData.slug].nuked == 1) {
 								return true;
 							}
 							thisClipObject.score = weedData.clips[clipData.slug].score;
+							thisClipObject.votecount = weedData.clips[clipData.slug].votecount;
 						}
 						clipStorage[clipData.slug] = thisClipObject;
 					});
@@ -484,21 +615,31 @@ if (jQuery('#weedApp').length) {
 					} else {
 						var vodlink = 'none';
 					}
+					let thumb;
+					if (clipData.thumbnails) {
+						thumb = clipData.thumbnails.medium;
+					} else {
+						thumb = null;
+					}
 					let thisClipObject = {
 						slug: clipData.slug,
 						title: clipData.title,
 						views: clipData.views,
 						age: clipData.created_at,
 						source: clipData.broadcaster.display_name,
+						sourcepic: clipData.broadcaster.logo,
 						vodlink: vodlink,
 						clipper: clipData.curator.display_name,
 						votecount: 0,
+						thumb,
+						type: "twitch",
 					}
 					if (weedData.clips !== null && weedData.clips[clipData.slug] !== undefined) {
 						if (weedData.clips[clipData.slug].nuked == 1) {
 							return true;
 						}
 						thisClipObject.score = weedData.clips[clipData.slug].score;
+						thisClipObject.votecount = weedData.clips[clipData.slug].votecount;
 					}
 					clipStorage[clipData.slug] = thisClipObject;
 				});
@@ -546,6 +687,57 @@ if (jQuery('#weedApp').length) {
 }
 
 function storePulledClips(clips) {
+	// console.log(clips);
+	if (Object.keys(clips).length === 0) {
+		return;
+	}
+	if (Object.keys(clips).length > 50) {
+		var clipsA = {};
+		var clipsB = {};
+		for (var i = 49; i >= 0; i--) {
+			let key = Object.keys(clips)[i];
+			clipsA[key] = clips[key];
+		}
+		jQuery.ajax({
+			type: "POST",
+			url: dailiesGlobalData.ajaxurl,
+			dataType: 'json',
+			data: {
+				clips: clipsA,
+				action: 'store_pulled_clips',
+			},
+			error: function(one, two, three) {
+				console.log(one);
+				console.log(two);
+				console.log(three);
+			},
+			success: function(data) {
+				// console.log(data);
+			}
+		});
+		for (var i = Object.keys(clips).length - 1; i >= 50; i--) {
+			let key = Object.keys(clips)[i];
+			clipsB[key] = clips[key];
+		}
+		jQuery.ajax({
+			type: "POST",
+			url: dailiesGlobalData.ajaxurl,
+			dataType: 'json',
+			data: {
+				clips: clipsB,
+				action: 'store_pulled_clips',
+			},
+			error: function(one, two, three) {
+				console.log(one);
+				console.log(two);
+				console.log(three);
+			},
+			success: function(data) {
+				// console.log(data);
+			}
+		});
+		return;
+	}
 	jQuery.ajax({
 		type: "POST",
 		url: dailiesGlobalData.ajaxurl,
