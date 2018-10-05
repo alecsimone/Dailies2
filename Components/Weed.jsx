@@ -22,7 +22,6 @@ export default class Weed extends React.Component{
 			seenSlugs: weedData.seenSlugs,
 			comments: [],
 			commentsLoading: true,
-			totalClips: Object.keys(weedData.clips).length,
 		};
 		
 		let state = this.state;
@@ -31,6 +30,7 @@ export default class Weed extends React.Component{
 				delete state.clips[index];
 			}
 		});
+		this.state.totalClips = Object.keys(this.state.clips).length;
 
 		let seenMoments = [];
 		let boundThis = this;
@@ -44,27 +44,36 @@ export default class Weed extends React.Component{
 		});
 		this.state.seenMoments = seenMoments;
 
+		this.state.youJudged = 0;
+
+		// let today = new Date().getUTCDay();
+		// jQuery.each(this.state.clips, function(index, clipData) {
+		// 	if (clipData.vodlink !== undefined) {
+		// 		let thisMoment = boundThis.turnVodlinkIntoMomentObject(clipData.vodlink);
+		// 		if (!boundThis.checkMomentFreshness(thisMoment)) {
+		// 			console.log();
+		// 			boundThis.nukeSlug(index);
+		// 			boundThis.state.youJudged++;
+		// 			delete state.clips[index];
+		// 		}
+		// 	}
+		// 	// if (clipData.source === "RocketLeague" && (today === 1 || today === 2)) {
+		// 	// 	delete state.clips[index];
+		// 	// 	boundThis.nukeSlug(index);
+		// 	// }
+		// });
+
+
+
 		let clipList = Object.keys(this.state.clips);
 		jQuery.each(this.state.seenSlugs, function(index, seenSlugObject) {
 			if (clipList.includes(seenSlugObject.slug)) {
+				console.log(seenSlugObject.slug);
 				delete state.clips[seenSlugObject.slug];
+				state.youJudged++;
 			}
 		});
-
-		let today = new Date().getUTCDay();
-		jQuery.each(this.state.clips, function(index, clipData) {
-			if (clipData.vodlink !== undefined) {
-				let thisMoment = boundThis.turnVodlinkIntoMomentObject(clipData.vodlink);
-				if (!boundThis.checkMomentFreshness(thisMoment)) {
-					boundThis.nukeSlug(index);
-					delete state.clips[index];
-				}
-			}
-			if (clipData.source === "RocketLeague" && (today === 1 || today === 2)) {
-				delete state.clips[index];
-				boundThis.nukeSlug(index);
-			}
-		});
+		console.log(this.state.youJudged);
 
 		if (this.state.seenSlugs.length === undefined) {
 			console.log(this.state.seenSlugs.length);
@@ -80,7 +89,6 @@ export default class Weed extends React.Component{
 			console.log(this.state.seenSlugs);
 		}
 
-
 		this.sortClips = this.sortClips.bind(this);
 		this.judgeClip = this.judgeClip.bind(this);
 		this.nukeButtonHandler = this.nukeButtonHandler.bind(this);
@@ -90,6 +98,9 @@ export default class Weed extends React.Component{
 	}
 
 	turnVodlinkIntoMomentObject(vodlink) {
+		if (vodlink === "none") {
+			return false;
+		}
 		let vodIDIndex = vodlink.indexOf('/videos/') + 8;
 		let vodTimeIndex = vodlink.indexOf('?t=') + 3;
 		let vodID = vodlink.substring(vodIDIndex, vodTimeIndex - 3);
@@ -103,13 +114,21 @@ export default class Weed extends React.Component{
 		}
 		let timestampMinuteIndex = timestamp.indexOf('m');
 		if (timestampMinuteIndex > -1) {
-			var timestampMinutes = Number(timestamp.substring(timestampHourIndex + 1, timestampMinuteIndex));
+			if (timestampHourIndex > -1) {
+				var timestampMinutes = Number(timestamp.substring(timestampHourIndex + 1, timestampMinuteIndex));
+			} else {
+				var timestampMinutes = Number(timestamp.substring(0, timestampMinuteIndex));
+			}
 		} else {
 			var timestampMinutes = 0;
 		}
 		let timestampSecondIndex = timestamp.indexOf('s');
 		if (timestampSecondIndex > -1) {
-			var timestampSeconds = Number(timestamp.substring(timestampMinuteIndex + 1, timestampSecondIndex));
+			if (timestampMinuteIndex > -1) {
+				var timestampSeconds = Number(timestamp.substring(timestampMinuteIndex + 1, timestampSecondIndex));
+			} else if (timestampHourIndex > -1) {
+				var timestampSeconds = Number(timestamp.substring(timestampHourIndex + 1, timestampSecondIndex));
+			}
 		} else {
 			var timestampSeconds = 0;
 		}
@@ -208,6 +227,12 @@ export default class Weed extends React.Component{
 					}
 					currentState.clips[slug].score = data.score;
 					currentState.seenSlugs.push(data);
+					let dupeSlugs = boundThis.findAllDupes(slug);
+					if (dupeSlugs)
+					dupeSlugs.forEach(function(slugToNuke) {
+						console.log(`Nuking ${slugToNuke} because it's the same moment as the clip you just judged`);
+						boundThis.nukeSlug(slugToNuke);
+					});
 				} else {
 					currentState.seenSlugs.push({slug: boundThis.firstSlug});
 					delete currentState.clips[slug];
@@ -218,6 +243,28 @@ export default class Weed extends React.Component{
 			}
 		});
 	}
+
+	findAllDupes(slug) {
+		let slugData = this.state.clips[slug];
+		if (slugData === undefined || slugData.vodlink === 'none') {
+			return [];
+		}
+		let vodlink = slugData.vodlink;
+		let vodMoment = this.turnVodlinkIntoMomentObject(vodlink);
+		let dupeSlugs = [];
+		let boundThis = this;
+		jQuery.each(this.state.clips, function(index, clipData) {
+			if (clipData.slug === slug) {return true;}
+			let currentVodMoment = boundThis.turnVodlinkIntoMomentObject(clipData.vodlink);
+			if (!currentVodMoment) {return true;}
+			if (vodMoment.vodID != currentVodMoment.vodID) {return true;}
+			if (vodMoment.vodtime + 25 >= currentVodMoment.vodtime && vodMoment.vodtime - 25 <= currentVodMoment.vodtime) {
+				dupeSlugs.push(clipData.slug);
+			}
+		});
+		return dupeSlugs;
+	}
+
 	removeSeenSlugs(clipList) {
 		let seenSlugs = this.state.seenSlugs;
 		jQuery.each(seenSlugs, function(index, seenSlugObject) {
@@ -243,7 +290,13 @@ export default class Weed extends React.Component{
 		return isFresh;
 	}
 	nukeButtonHandler() {
-		this.nukeSlug(this.firstSlug)
+		let dupeSlugs = this.findAllDupes(this.firstSlug);
+		let boundThis = this;
+		this.nukeSlug(this.firstSlug);
+		dupeSlugs.forEach(function(slugToNuke) {
+			console.log(`Nuking ${slugToNuke} because it's the same moment as the clip you just judged`);
+			boundThis.nukeSlug(slugToNuke);
+		});
 	}
 
 	nukeSlug(slug) {
@@ -252,7 +305,7 @@ export default class Weed extends React.Component{
 		}
 		weedData.clips[slug].nuked = 1;
 		let currentState = this.state;
-		delete currentState.clips[slug];
+		currentState.clips[slug].nuked = 1;
 		this.setState(currentState);
 		jQuery.ajax({
 			type: "POST",
@@ -438,6 +491,7 @@ export default class Weed extends React.Component{
 		let unjudgedClipCounter = 0;
 		let clips = this.state.clips;
 		jQuery.each(clips, function(index, clipData) {
+			console.log(clipData);
 			if (clipData.votecount == 0 && clipData.nuked == 0 && clipData.score == 0) {unjudgedClipCounter++;}
 		});
 
@@ -478,8 +532,8 @@ export default class Weed extends React.Component{
 		return(
 			<section id="weeder" className={"weeder" + orientation}>
 				<div id="clipsLeftCounter">
-					<div className="progressBackground"><div className="progressText">Us: {this.state.totalClips - Number(unjudgedClipCounter)} / {this.state.totalClips}</div><div id="usProgress" className="progressBar" style={usStyle} ></div></div>
-					<div className="progressBackground"><div className="progressText">You: {this.state.totalClips - sortedClips.length} / {this.state.totalClips}</div><div id="youProgress" className="progressBar" style={youStyle} ></div></div>
+					<div className="progressBackground"><div className="progressText">Us: {this.state.totalClips - Number(unjudgedClipCounter)} / {this.state.totalClips} Clips</div><div id="usProgress" className="progressBar" style={usStyle} ></div></div>
+					<div className="progressBackground"><div className="progressText">You: {this.state.totalClips - sortedClips.length} / {this.state.totalClips} Clips</div><div id="youProgress" className="progressBar" style={youStyle} ></div></div>
 				</div>
 				<div id="weedPlayer" style={playerStyle} >
 					<ClipPlayer slug={this.firstSlug} width={playerWidth} />
@@ -530,6 +584,9 @@ if (jQuery('#weedApp').length) {
 						if (clipData.game !== "Rocket League") {
 							return true;
 						}
+						if (Number(clipData.views) < 3) {
+							return true;
+						}
 						let clipTime = Date.parse(clipData.created_at);
 						let currentTime = + new Date();
 						let timeSince = currentTime - clipTime;
@@ -566,6 +623,7 @@ if (jQuery('#weedApp').length) {
 							if (weedData.clips[clipData.slug].nuked == 1) {
 								return true;
 							}
+
 							thisClipObject.score = weedData.clips[clipData.slug].score;
 							thisClipObject.votecount = weedData.clips[clipData.slug].votecount;
 						}

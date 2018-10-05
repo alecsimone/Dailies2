@@ -189,6 +189,9 @@ body.page-template-weed-template {
 #nukeButton {
 	border: 1px solid $red;
 	color: $red;
+	&:focus {
+		outline: none;
+	}
 }
 
 .commentsLoader {
