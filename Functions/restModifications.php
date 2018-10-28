@@ -111,7 +111,7 @@ function dailies_add_your_votes_to_rest() {
 
 add_action( 'rest_api_init', 'dailies_add_clip_comments_to_rest' );
 function dailies_add_clip_comments_to_rest() {
-	register_rest_route('dailies-rest/v1', 'clipcomments/slug=(?P<slug>\w+)', array(
+	register_rest_route('dailies-rest/v1', 'clipcomments/slug=(?P<slug>[\w\-]+)', array(
 		'methods' => 'GET',
 		'callback' => 'get_clip_comments_for_rest',
 	));
@@ -133,7 +133,7 @@ function get_clip_comments_for_rest($data) {
 
 add_action( 'rest_api_init', 'dailies_add_clip_voters_to_rest' );
 function dailies_add_clip_voters_to_rest() {
-	register_rest_route('dailies-rest/v1', 'clipvoters/slug=(?P<slug>\w+)', array(
+	register_rest_route('dailies-rest/v1', 'clipvoters/slug=(?P<slug>[\w\-]+)', array(
 		'methods' => 'GET',
 		'callback' => 'get_clip_voters_for_rest',
 	));
@@ -149,6 +149,14 @@ function get_clip_voters_for_rest($data) {
 		$voters[$key]['rep'] = $voter['rep'];
 	}
 	return $voters;
+}
+
+add_action( 'rest_api_init', 'dailies_rest_hopefuls' );
+function dailies_rest_hopefuls() {
+	register_rest_route('dailies-rest/v1', 'hopefuls', array(
+		'methods' => 'GET',
+		'callback' => 'getHopefuls',
+	));
 }
 
 ?>

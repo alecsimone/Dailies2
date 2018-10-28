@@ -125,7 +125,6 @@ a.propbutton {
 .thing.noise:before {
 	background: none;
 	@media #{$bp1280} {
-		background: url('http://localhost/dailieslocal/wp-content/uploads/2017/07/noise.png');
 		border-radius: 0 0 3px 3px;
 		max-width: 1280px;
 	}

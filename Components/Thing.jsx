@@ -178,7 +178,7 @@ export default class Thing extends React.Component {
 		var isWinner = false;
 		for (var i = this.props.thingData.taxonomies.tags.length - 1; i >= 0; i--) {
 			if (this.props.thingData.taxonomies.tags[i].slug === 'winners') {
-				var WinnerBanner = <section className="WinnerBanner"><img src="http://dailies.gg/wp-content/uploads/2017/02/Winner-banner-black.jpg" className="winnerbannerIMG"></img></section>
+				var WinnerBanner = <section className="WinnerBanner"><img src="https://dailies.gg/wp-content/uploads/2017/02/Winner-banner-black.jpg" className="winnerbannerIMG"></img></section>
 				var isWinner = true;
 			}
 		}

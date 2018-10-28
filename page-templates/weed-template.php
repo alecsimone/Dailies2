@@ -3,7 +3,12 @@ get_header();
 
 if (is_user_logged_in()) { ?>
 
-<section id="weedApp"></section>
+<section id="weedApp">
+	<div id="weedPlaceholder">
+		<div class="placeholderText">Pulling Clips...</div>
+		<div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+	</div>
+</section>
 
 <?php } else { ?>
 

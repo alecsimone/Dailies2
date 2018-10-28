@@ -15,7 +15,7 @@ export default class ContentBox extends React.Component {
 		}
 		this.state = {
 			content: <img src={thumbSrc} className="thumb" onClick={this.thumbReplacer}></img>,
-			playButton: <img src="http://dailies.gg/wp-content/uploads/2016/08/playbutton.png" className="playbutton"></img>
+			playButton: <img src="https://dailies.gg/wp-content/uploads/2016/08/playbutton.png" className="playbutton"></img>
 		};
 	}
 

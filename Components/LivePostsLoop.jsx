@@ -1,5 +1,6 @@
 import React from "react";
 import LittleThing from './LittleThing.jsx';
+import Transition from 'react-transition-group/Transition';
 
 export default class LivePostsLoop extends React.Component{
 	render() {

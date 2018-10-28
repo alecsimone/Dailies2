@@ -17,7 +17,7 @@ export default class VoterInfoBox extends React.Component{
 		var twitchVoterBubbles = [];
 		jQuery.each(twitchVoters, function(voter, pic) {
 			if (pic === 'none' || pic === null) {
-				pic = 'http://dailies.gg/wp-content/uploads/2017/03/default_pic.jpg'
+				pic = 'https://dailies.gg/wp-content/uploads/2017/03/default_pic.jpg'
 				if (dailiesGlobalData.userData.userRole === 'administrator') {
 					var query = 'https://api.twitch.tv/kraken/users?login=' + voter;
 					jQuery.ajax({
@@ -71,13 +71,13 @@ export default class VoterInfoBox extends React.Component{
 			guestcount = 0;
 		}
 		if (guestcount > 0) {
-			guestBubble = <img key={`guestBubble-${this.props.thisID}`} className="voterBubble" src='http://dailies.gg/wp-content/uploads/2017/03/default_pic.jpg' title={`Guests: ${guestcount}`} />
+			guestBubble = <img key={`guestBubble-${this.props.thisID}`} className="voterBubble" src='https://dailies.gg/wp-content/uploads/2017/03/default_pic.jpg' title={`Guests: ${guestcount}`} />
 		}
 
 		let twitterBubble;
 		const addedCount = parseInt(this.props.addedVotes, 10);
 		if (addedCount > 0) {
-			twitterBubble = <img key={`twitterBubble-${this.props.thisID}`} className="voterBubble" src="http://dailies.gg/wp-content/uploads/2018/08/twitter-logo.png" title={`Twitter Votes: ${addedCount}`} />
+			twitterBubble = <img key={`twitterBubble-${this.props.thisID}`} className="voterBubble" src="https://dailies.gg/wp-content/uploads/2018/08/twitter-logo.png" title={`Twitter Votes: ${addedCount}`} />
 		}
 		
 		return (

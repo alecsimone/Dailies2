@@ -53,15 +53,34 @@
 			outline: 1px solid $whiteTrans25;
 		}
 	}
-	& input {
+	& input.keepbar {
 		background: none;
 		border-top: none;
 		border-left: none;
 		border-right: none;
 		border-bottom: 1px solid $white;
 		color: $white;
+		width: calc(100% - 60px);
+		height: 36px;
+		font-size: 18px;
 		&:focus {
 			outline: 1px solid $whiteTrans25;
+		}
+	}
+	& .keepbox {
+		margin: 0 0 0 12px;
+		width: calc(100% - 48px);
+	}
+	&.noHope {
+		align-items: center;
+		height: 100%;
+		width: 100%;
+		position: absolute;
+		display: grid;
+		font-size: 2em;
+		margin-top: -2em;
+		& a:visited {
+			color: $blue;
 		}
 	}
 }
@@ -149,7 +168,7 @@
 			opacity: 1;
 		}
 	}
-	& .keepbar {
+	& .keepform {
 		margin: 0 0 0 12px;
 		width: calc(100% - 48px);
 	}

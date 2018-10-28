@@ -130,17 +130,18 @@ function plant_seed() {
 	$slugObj = $_POST['slugObj'];
 	$thingData = $_POST['thingData'];
 	nukeSlug($slugObj['slug']);
-	$gardenPostObject = get_page_by_path('secret-garden');
-	$gardenID = $gardenPostObject->ID;
-	$globalSlugList = get_post_meta($gardenID, 'slugList', true);
-	$newGlobalSlugList = $globalSlugList;
-	$newSlug = $slugObj['slug'];
-	if (array_key_exists($newSlug, $newGlobalSlugList)) {
-		$newGlobalSlugList[$newSlug]['cutBoolean'] = true;
-	} else {
-		$newGlobalSlugList[$newSlug] = $slugObj;
-	}
-	update_post_meta($gardenID, 'slugList', $newGlobalSlugList);
+	// $gardenPostObject = get_page_by_path('secret-garden');
+	// $gardenID = $gardenPostObject->ID;
+	// $globalSlugList = get_post_meta($gardenID, 'slugList', true);
+	// $newGlobalSlugList = $globalSlugList;
+	// $newSlug = $slugObj['slug'];
+	// if (array_key_exists($newSlug, $newGlobalSlugList)) {
+	// 	$newGlobalSlugList[$newSlug]['cutBoolean'] = true;
+	// } else {
+	// 	$newGlobalSlugList[$newSlug] = $slugObj;
+	// }
+	// update_post_meta($gardenID, 'slugList', $newGlobalSlugList);
+
 	$thingSource = $thingData['source'];
 	$thingTitle = $thingData['name'];
 	$sourceArgs = array(
@@ -154,6 +155,7 @@ function plant_seed() {
 			$growSource = $source->term_id;
 		}
 	}
+
 	$titleWords = explode(" ", $thingTitle);
 	$starNickname = strtolower($titleWords[0]);
 	$starNickLength = strlen($starNickname);
@@ -171,6 +173,7 @@ function plant_seed() {
 			$singleStar = true;
 		}
 	};
+
 	$votecount = 0;
 	$voteledger = array();
 	$voters = $slugObj['likeIDs'];
@@ -180,6 +183,7 @@ function plant_seed() {
 		$voteledger[$voterID] = $voterRep;
 		$votecount = $votecount + $voterRep;
 	}
+	
 	$seedArray = array(
 		'post_title' => $thingTitle,
 		'post_content' => '',
@@ -188,12 +192,12 @@ function plant_seed() {
 		'tax_input' => array(
 			'source' => $growSource,
 			'stars' => $postStar,
-			),
+		),
 		'meta_input' => array(
 			'TwitchCode' => $slugObj['slug'],
 			'voteledger' => $voteledger,
 			'votecount' => $votecount,
-			),
+		),
 	);
 	$didPost = wp_insert_post($seedArray, true);
 	if ($didPost > 0) {

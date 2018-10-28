@@ -31,10 +31,16 @@ export default class WeedMeta extends React.Component{
 		    return this.replace(/\\(.)/mg, "$1");
 		}
 		let title = rawTitle.stripSlashes();
+
+		let vodlink;
+		if (this.props.vodlink !== "none") {
+			vodlink = <a href={this.props.vodlink} className="vodlink" target="_blank">VOD Link</a>;
+		}
+
 		return(
 			<div id="weedMeta">
 				<div id="weedTitle" style={titleStyle} >{title}</div>
-				<div id="weedInfo">{this.props.views} views. Clipped by {this.props.clipper} about {timeAgo} {timeAgoUnit} ago.</div>
+				<div id="weedInfo">{this.props.source === "User Submit" ? '' : `${this.props.views} views. `}{this.props.source === "User Submit" ? 'Submitted' : 'Clipped'} by {this.props.clipper} about {timeAgo} {timeAgoUnit} ago. {vodlink}</div>
 			</div>
 		);
 	}

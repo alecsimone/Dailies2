@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from 'react-dom';
+import {turnGfycatURLIntoGfycode, turnYoutubeURLIntoYoutubeCode, turnTwitterURLIntoTweetID, turnTwitchURLIntoTwitchCode} from '../Scripts/global.js';
 import {privateData} from '../Scripts/privateData.jsx';
 
 
@@ -125,35 +126,16 @@ export default class AddProspectForm extends React.Component{
 					redFlash(urlBox);
 					jQuery('#AddProspectInstructions').text("That clip has already been submitted!");
 					return;
-				}
-				if (!submitPage) {
-					killAddProspectForm();
 				} else {
 					greenFlash(titleBox);
 					greenFlash(urlBox);
 					resetAddProspectForm();
 				}
 				if (isTwitch > -1) {
-					var postID = data;
-					var clipSlugPos = url.indexOf('.tv/') + 4;
-					var clipSlugEnd = url.indexOf('?');
-					var urlLength = url.length;
-					if (clipSlugEnd > -1) {
-						var urlSubstringLength = clipSlugEnd;
-					} else {
-						var urlSubstringLength = urlLength;
-					}
-					var clipSlug = url.substring(clipSlugPos, urlSubstringLength);
-					var queryURL = 'https://api.twitch.tv/kraken/clips/' + clipSlug;
-					if (postType === 'submitButton') {
-						var gussyAction = 'gussySeedling';
-						postID = url;
-					} else if (postType === 'postButton') {
-						var gussyAction = 'gussyProspect';
-					}
+					let twitchCode = turnTwitchURLIntoTwitchCode(url);
 					jQuery.ajax({
 						type: 'GET',
-						url: queryURL,
+						url: `https://api.twitch.tv/kraken/clips/${twitchCode}`,
 						headers: {
 							'Client-ID' : privateData.twitchClientID,
 							'Accept' : 'application/vnd.twitchtv.v5+json',
@@ -162,23 +144,23 @@ export default class AddProspectForm extends React.Component{
 							console.log(data);
 						},
 						success: function(data) {
-							var channelURL = data.broadcaster.channel_url;
-							var channelPic = data.broadcaster.logo;
-							if (data.vod !== null) {
-								var VODLink = data.vod.url;
-							} else {
-								var VODLink = 'null';
-							}
+							console.log(data);
+							let gussyData = {
+								slug: twitchCode,
+								timestamp: data.created_at,
+								thumb: data.thumbnails.medium,
+								views: data.views,
+								vodlink: data.vod ? data.vod.url : 'null',
+							};
+							console.log(gussyData);
 							jQuery.ajax({
 								type: "POST",
 								url: dailiesGlobalData.ajaxurl,
 								dataType: 'json',
 								data: {
-									action: gussyAction,
-									channelURL,
-									channelPic,
-									VODLink,
-									postID,
+									action: 'gussySeedling',
+									url,
+									gussyData,
 								},
 								error: function(one, two, three) {
 									console.log(one);
@@ -191,16 +173,103 @@ export default class AddProspectForm extends React.Component{
 							});
 						}
 					});
-				};
+				} else if (isGfy > -1) {
+					let gfyCode = turnGfycatURLIntoGfycode(url);
+					jQuery.ajax({
+						type: 'GET',
+						url: `https://api.gfycat.com/v1/gfycats/${gfyCode}`,
+						error: function(data) {
+							console.log(data);
+						},
+						success: function(data) {
+							let gussyData = {
+								slug: gfyCode,
+								timestamp: data.gfyItem.createDate,
+								thumb: data.gfyItem.posterUrl,
+								views: data.gfyItem.views,
+							};
+							let milisecondsAgo = + new Date() - gussyData.timestamp * 1000;
+							let daysAgo = Math.floor(milisecondsAgo / 1000 / 60 / 60 / 24);
+							if (daysAgo > 7) {
+								window.alert("Whoops, sorry! That clip you just submitted is actually too old. Didn't realize till we got its data from gfycat's API.");
+							}
+							jQuery.ajax({
+								type: "POST",
+								url: dailiesGlobalData.ajaxurl,
+								dataType: 'json',
+								data: {
+									action: 'gussySeedling',
+									url,
+									gussyData,
+								},
+								error: function(one, two, three) {
+									console.log(one);
+									console.log(two);
+									console.log(three);
+								},
+								success: function(data) {
+									// console.log(data);
+								}
+							});
+						},
+					});
+				} else if (isYouTube > -1 || isYtbe > -1) {
+					let youtubeID = turnYoutubeURLIntoYoutubeCode(url);
+					jQuery.ajax({
+						type: 'GET',
+						url: `https://www.googleapis.com/youtube/v3/videos`,
+						data: {
+							'id': youtubeID,
+							'key': privateData.googleAPIKey,
+							'part': 'snippet,statistics',
+						},
+						error: function(data) {
+							console.log(data);
+						},
+						success: function(data) {
+							let gussyData = {
+								slug: youtubeID,
+								timestamp: + new Date(data.items[0].snippet.publishedAt),
+								thumb: data.items[0].snippet.thumbnails.standard.url,
+								views: data.items[0].statistics.viewCount,
+							}
+							let milisecondsAgo = + new Date() - gussyData.timestamp;
+							let daysAgo = Math.floor(milisecondsAgo / 1000 / 60 / 60 / 24);
+							if (daysAgo > 7) {
+								window.alert("Whoops, sorry! That clip you just submitted is actually too old. Didn't realize till we got its data from youtube's API.");
+							}
+							jQuery.ajax({
+								type: "POST",
+								url: dailiesGlobalData.ajaxurl,
+								dataType: 'json',
+								data: {
+									action: 'gussySeedling',
+									url,
+									gussyData,
+								},
+								error: function(one, two, three) {
+									console.log(one);
+									console.log(two);
+									console.log(three);
+								},
+								success: function(data) {
+									// console.log(data);
+								}
+							});
+						},
+					});
+				} else if (isTwitter > -1) {
+					//Twitter doesn't let you access their API from a browser, the dirty sunsabitches.
+				}
 			}
 		});
 	}
 
 	render() {
 		return(
-			<section id="AddProspectForm">
+			<section id="prospectForm">
 				<img id="lightboxCloseButton" src={dailiesGlobalData.thisDomain + '/wp-content/uploads/2017/04/red-x.png'} />
-				<header id="AddProspectInstructions">Give us a title and a URL and you can submit your play. Currently only Twitch clips, tweets, Youtube videos, and Gfycats are supported.</header>
+				<header id="AddProspectInstructions">Currently only Twitch clips, tweets, Youtube videos, and Gfycats are supported.</header>
 				<input id="AddProspectTitleBox" className="AddProspectFormBoxes" type="text" name="AddProspectTitleInput" placeholder="Title" maxLength="80" onKeyDown={this.inputListener} />
 				<input id="AddProspectURLBox" className="AddProspectFormBoxes" type="text" name="AddProspectURLInput" placeholder="URL" maxLength="140" onKeyDown={this.inputListener} />
 				<div id="AddProspectActionButtons">
@@ -246,28 +315,66 @@ function showAddProspectForm(e) {
 	if ( addProspectForm.length ) {
 		killAddProspectForm();
 	} else {
-		if (dailiesGlobalData.userData.userID === 0) {
-			window.alert("You must be logged in to do that. Use the gold-topped box on the homepage to make an account if you don't have one. This whole thing will be more elegant soon, but minimum viable product, baby.")
-			return
-		}
 		var AddProspectBox = document.createElement("section");
-		AddProspectBox.id = 'AddProspectForm';
+		if (dailiesGlobalData.userData.userID === 0) {
+			AddProspectBox.id = 'loggedOutProspectForm'
+		} else {
+			AddProspectBox.id = 'AddProspectForm';
+		}
+		AddProspectBox.className = "movedUp";
 		document.body.appendChild(AddProspectBox);
+		setTimeout(() =>AddProspectBox.classList.remove("movedUp"), 1);
 		var lightboxOverlayElement = document.createElement("div");
 		lightboxOverlayElement.id = 'lightboxOverlay';
 		document.body.appendChild(lightboxOverlayElement);
-		ReactDOM.render(
-			<AddProspectForm submitType={e.target.className} />,
-			document.getElementById('AddProspectForm')
-		);
+		if (dailiesGlobalData.userData.userID === 0) {
+			let loginWidget = `
+				<div id="wp-social-login" class="">
+					<style type="text/css">
+					.wp-social-login-connect-with{}.wp-social-login-provider-list{}.wp-social-login-provider-list a{}.wp-social-login-provider-list img{}.wsl_connect_with_provider{}</style>
+					<div class="wp-social-login-widget">
+						<div class="wp-social-login-connect-with">Login now with:</div>
+						<div class="wp-social-login-provider-list">
+							<a rel="nofollow" href="https://dailies.gg/wp-login.php?action=wordpress_social_authenticate&amp;mode=login&amp;provider=Facebook&amp;redirect_to=https%3A%2F%2Fdailies.gg%2F" title="Connect with Facebook" class="wp-social-login-provider wp-social-login-provider-facebook" data-provider="Facebook">
+								Facebook
+							</a>
+							<a rel="nofollow" href="https://dailies.gg/wp-login.php?action=wordpress_social_authenticate&amp;mode=login&amp;provider=Google&amp;redirect_to=https%3A%2F%2Fdailies.gg%2F" title="Connect with Google" class="wp-social-login-provider wp-social-login-provider-google" data-provider="Google">
+								Google
+							</a>
+							<a rel="nofollow" href="https://dailies.gg/wp-login.php?action=wordpress_social_authenticate&amp;mode=login&amp;provider=Twitter&amp;redirect_to=https%3A%2F%2Fdailies.gg%2F" title="Connect with Twitter" class="wp-social-login-provider wp-social-login-provider-twitter" data-provider="Twitter">
+								Twitter
+							</a>
+							<a rel="nofollow" href="https://dailies.gg/wp-login.php?action=wordpress_social_authenticate&amp;mode=login&amp;provider=Steam&amp;redirect_to=https%3A%2F%2Fdailies.gg%2F" title="Connect with Steam" class="wp-social-login-provider wp-social-login-provider-steam" data-provider="Steam">
+								Steam
+							</a>
+							<a rel="nofollow" href="https://dailies.gg/wp-login.php?action=wordpress_social_authenticate&amp;mode=login&amp;provider=TwitchTV&amp;redirect_to=https%3A%2F%2Fdailies.gg%2F" title="Connect with Twitch.tv" class="wp-social-login-provider wp-social-login-provider-twitchtv" data-provider="TwitchTV">
+								Twitch.tv
+							</a>
+						</div>
+						<div class="wp-social-login-widget-clearing"></div>
+					</div>
+				</div>
+			`
+			let loggedOutProspectForm = document.getElementById('loggedOutProspectForm');
+			loggedOutProspectForm.innerHTML = loginWidget;
+		} else {		
+			ReactDOM.render(
+				<AddProspectForm submitType={e.target.className} />,
+				document.getElementById('AddProspectForm')
+			);
+		}
 	}
 }
 
 function killAddProspectForm() {
 	var addProspectForm = jQuery('#AddProspectForm');
+	var loggedOutProspectForm = jQuery('#loggedOutProspectForm');
 	var lightboxOverlay = jQuery('#lightboxOverlay');
-	addProspectForm.remove();
-	lightboxOverlay.remove();
+	addProspectForm.addClass("scaleOut");
+	loggedOutProspectForm.addClass("scaleOut");
+	setTimeout(() => addProspectForm.remove(), 250);
+	setTimeout(() => loggedOutProspectForm.remove(), 250);
+	setTimeout(() => lightboxOverlay.remove(), 250);
 }
 
 function resetAddProspectForm() {
@@ -275,7 +382,7 @@ function resetAddProspectForm() {
 	titleBox.val('');
 	var urlBox = jQuery('#AddProspectURLBox');
 	urlBox.val('');
-	jQuery('#AddProspectInstructions').text("Congrats, your post was submitted!");
+	jQuery('#AddProspectInstructions').text("Your clip was successfully submitted! Want to submit another? (Limit is two per person per show)");
 }
 
 window.onload = function() {

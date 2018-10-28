@@ -13,6 +13,8 @@ function submitClip () {
 		wp_die("You have to be logged in to submit");
 	}
 
+	// killAjaxFunction("Clip posting temporarily on hold");
+
 	$newSeedlingTitle = substr(sanitize_text_field($_POST['title']), 0, 80);
 	$newSeedlingUrl = substr(esc_url($_POST['url']), 0, 140);
 
@@ -64,28 +66,10 @@ function submitClip () {
 		$twitterCode = substr($newSeedlingUrl, $twitterCodePosition);
 		$clipMeta['TwitterCode'] = $twitterCode;
 	} elseif ($clipType === 'gfycat') {
-		if (strpos($newSeedlingUrl, '/detail/')) {
-			$gfyCodePosition = strpos($newSeedlingUrl, '/detail/') + 8;
-			if (strpos($newSeedlingURL, '?')) {
-				$gfyCodeEndPosition = strpos($newSeedlingUrl, '?');
-				$gfyCodeLength = $gfyCodeEndPosition - $gfyCodePosition;
-				$gfyCode = substr($newSeedlingUrl, $gfyCodePosition, $gfyCodeLength);
-				$newSeedlingUrl = substr($newSeedlingUrl, 0, $gfyCodeEndPosition);
-			} else {
-				$gfyCode = substr($newSeedlingUrl, $gfyCodePosition);
-			}
-		} else {
-			$gfyCodePosition = strpos($newSeedlingUrl, 'gfycat.com/') + 11;
-			if (strpos($newSeedlingURL, '?')) {
-				$gfyCodeEndPosition = strpos($newSeedlingUrl, '?');
-				$gfyCodeLength = $gfyCodeEndPosition - $gfyCodePosition;
-				$gfyCode = substr($newSeedlingUrl, $gfyCodePosition, $gfyCodeLength);
-				$newSeedlingUrl = substr($newSeedlingUrl, 0, $gfyCodeEndPosition);
-			} else {
-				$gfyCode = substr($newSeedlingUrl, $gfyCodePosition);
-			}
-		}
+		$gfyCode = turnGfycatURLIntoGfycode($newSeedlingUrl);
 		$clipMeta['GFYtitle'] = $gfyCode;
+	} else {
+		killAjaxFunction("Invalid URL");
 	}
 
 	$submitterID = get_current_user_id();
@@ -93,24 +77,57 @@ function submitClip () {
 
 	$time = time();
 
-	$seedlingArray = array(
-		'clipURL' => $newSeedlingUrl,
-		'post_title' => $newSeedlingTitle,
-		'sourcePic' => 'default',
-		'sourceURL' => '',
-		'submitter' => $submitter,
-		'submitTime' => $time,
-		'tax_input' => $clipTax,
-		'meta_input' => $clipMeta,
+	if ($twitchCode) {
+		$slug = $twitchCode;
+	} elseif ($youtubeCode) {
+		$slug = $youtubeCode;
+	} elseif ($twitterCode) {
+		$slug = $twitterCode;
+	} elseif ($gfyCode) {
+		$slug = $gfyCode;
+	}
+
+	$clipArray = array(
+		'slug' => $slug,
+		'title' => $newSeedlingTitle,
+		'views' => 0,
+		'age' => date('c'),
+		'source' => "User Submit",
+		'sourcepic' => 'unknown',
+		'vodlink' => 'none',
+		'thumb' => 'none',
+		'clipper' => $submitter,
+		'votecount' => 0,
+		'score' => 0,
+		'nuked' => 0,
+		'type' => $clipType,
 	);
+
+	$existingSlug = getSlugInPulledClipsDB($slug);
+	if ($existingSlug !== null) {
+		killAjaxFunction("That clip has already been submitted");
+	} else {
+		$addSlugSuccess = addSlugToDB($clipArray);
+	}
+
+
+	// $seedlingArray = array(
+	// 	'clipURL' => $newSeedlingUrl,
+	// 	'post_title' => $newSeedlingTitle,
+	// 	'sourcePic' => 'default',
+	// 	'sourceURL' => '',
+	// 	'submitter' => $submitter,
+	// 	'submitTime' => $time,
+	// 	'tax_input' => $clipTax,
+	// 	'meta_input' => $clipMeta,
+	// );
 	
-	$gardenPageObject = get_page_by_path('secret-garden');
-	$gardenID = $gardenPageObject->ID;
+	// $gardenPageObject = get_page_by_path('secret-garden');
+	// $gardenID = $gardenPageObject->ID;
 
-	$submissionResult = addSeedling($seedlingArray);
+	// $submissionResult = addSeedling($seedlingArray);
 
-	echo json_encode($submissionResult);
-	wp_die();
+	killAjaxFunction($addSlugSuccess);
 }
 
 function addSeedling($seedlingArray) {
@@ -255,38 +272,123 @@ function gussyProspect() {
 
 add_action( 'wp_ajax_gussySeedling', 'gussySeedling' );
 function gussySeedling() {
-	$channelURL = $_POST['channelURL'];
-	$channelPic = $_POST['channelPic'];
-	$vodlink = $_POST['VODLink'];
-	$submissionURL = $_POST['postID'];
-	$sourceID = sourceFinder($channelURL);
-
-	$gardenPageObject = get_page_by_path('secret-garden');
-	$gardenID = $gardenPageObject->ID;
-	$allUserSubmits = get_post_meta($gardenID, 'userSubmitData', true);
-
-	$clipType = clipTypeDetector($submissionURL);
+	$clipType = clipTypeDetector($_POST['url']);
 
 	if ($clipType === 'twitch') {
-		$parameterPosition = strpos($submissionURL, '?');
-		if ($parameterPosition) {
-			$submissionURL = substr($submissionURL, 0, $parameterPosition);
+		$clipArray = array(
+			'slug' => $_POST['gussyData']['slug'],
+			'age' => $_POST['gussyData']['timestamp'],
+			'thumb' => $_POST['gussyData']['thumb'],
+			'views' => $_POST['gussyData']['views'],
+			'vodlink' => $_POST['gussyData']['vodlink'],
+		);
+	} elseif ($clipType === "gfycat") {
+		$clipArray = array(
+			'slug' => $_POST['gussyData']['slug'],
+			'age' => date('c', $_POST['gussyData']['timestamp']),
+			'thumb' => $_POST['gussyData']['thumb'],
+			'views' => $_POST['gussyData']['views'],
+		);
+	} elseif ($clipType === "youtube" || $clipType === "ytbe") {
+		$clipArray = array(
+			'slug' => $_POST['gussyData']['slug'],
+			'age' => date('c', $_POST['gussyData']['timestamp'] / 1000),
+			'thumb' => $_POST['gussyData']['thumb'],
+			'views' => $_POST['gussyData']['views'],
+		);
+	}
+	editPulledClip($clipArray);
+
+	killAjaxFunction($editedClip);
+}
+
+add_action( 'wp_ajax_keepSlug', 'keepSlug' );
+function keepSlug() {
+	$slug = $_POST['slug'];
+	$postTitle = $_POST['newThingName'];
+	$slugData = getSlugInPulledClipsDB($slug);
+
+	if ($slugData['source'] === "User Submit") {
+		$postSource = 632; //This is the source ID for user submits
+	} else {
+		$postSource = 632;
+		$sourceArgs = array(
+			'taxonomy' => 'source'
+		);
+		$sources = get_terms($sourceArgs);
+		foreach ($sources as $source) {
+			$key = get_term_meta($source->term_id, 'twitch', true);
+			if (strcasecmp($key, $slugData['source']) == 0) {
+				$postSource = $source->term_id;
+			}
 		}
 	}
 
-	$ourClipIndex = '';
-	foreach ($allUserSubmits as $index => $submissionData) {
-		if ($submissionData['clipURL'] === $submissionURL) {
-			$ourClipIndex = $index;
+	$titleWords = explode(" ", $postTitle);
+	$starNickname = strtolower($titleWords[0]);
+	$starNickLength = strlen($starNickname);
+	$star_args = array(
+		'taxonomy' => 'stars',
+	);
+	$stars = get_terms($star_args);
+	$postStar = 'X';
+	$singleStar = true;
+	foreach ($stars as $star) {
+		$starSlug = $star->slug;
+		$starShortSlug = substr($starSlug, 0, $starNickLength);
+		if ($starShortSlug == $starNickname && $singleStar) {
+			$postStar = $star->term_id;
+			$singleStar = false;
+		} elseif ($starShortSlug == $starNickname && !$singleStar) {
+			$postStar = 'X';
 		}
+	};
+
+	$slugVoters = getVotersForSlug($slugData['slug']);
+	$voteledger = array();
+	foreach ($slugVoters as $voter) {
+		$voteledger[$voter['hash']] = getValidRep($voter['hash']);
 	}
 
-	$allUserSubmits[$ourClipIndex]['sourcePic'] = $channelPic;
-	$allUserSubmits[$ourClipIndex]['vodlink'] = $vodlink;
-	update_post_meta($gardenID, 'userSubmitData', $allUserSubmits);
+	$thingArray = array(
+		'post_title' => $postTitle,
+		'post_content' => '',
+		'post_excerpt' => '',
+		'post_status' => 'publish',
+		'tax_input' => array(
+			'source' => $postSource,
+			'stars' => $postStar,
+		),
+		'meta_input' => array(
+			'voteledger' => $voteledger,
+			'votecount' => $slugData['score'],
+		), 
+	);
 
-	echo json_encode($allUserSubmits[$ourClipIndex]);
-	wp_die();
+	if ($slugData['type'] === "twitch") {
+		$thingArray['meta_input']['TwitchCode'] = $slugData['slug'];
+	} elseif ($slugData['type'] === "gfycat") {
+		$thingArray['meta_input']['GFYtitle'] = $slugData['slug'];
+	} elseif ($slugData['type'] === "youtube" || $slugData['type'] === "ytbe") {
+		$thingArray['meta_input']['YouTubeCode'] = $slugData['slug'];
+	} elseif ($slugData['type'] === "twitter") {
+		$thingArray['meta_input']['TwitterCode'] = $slugData['slug'];
+	}
+
+	$didPost = wp_insert_post($thingArray, true);
+	if ($didPost > 0) {
+		absorb_votes($didPost);
+	}
+
+	$dupes = get_dupe_clips($slugData['slug']);
+	if ($dupes) {
+		foreach ($dupes as $dupe) {
+			nukeSlug($dupe);
+		}
+	}
+	nukeSlug($slugData['slug']);
+
+	killAjaxFunction("Post added for " . $slugData['slug']);
 }
 
 function sourceFinder($channelURL) {

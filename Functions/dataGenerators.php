@@ -457,6 +457,7 @@ function generateWeedData() {
 		$needsFreshQuery = 'false';
 	}
 	$weedDataArray['needsFreshQuery'] = $needsFreshQuery;
+	$weedDataArray['lastNomTime'] = getLastNomTimestamp();
 	$weedDataArray['lastUpdate'] = $lastUpdateTime;
 	$weedDataArray['clips'] = getCleanPulledClipsDB();
 	$weedDataArray['totalClips'] = count($weedDataArray['clips']);

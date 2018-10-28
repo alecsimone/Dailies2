@@ -107,7 +107,7 @@ export default class UserManagement extends React.Component{
 				} else if (dailiesData.meta.wsl_current_user_image !== undefined) {
 					picture = dailiesData.meta.wsl_current_user_image[0];
 				} else {
-					picture = 'http://dailies.gg/wp-content/uploads/2017/03/default_pic.jpg';
+					picture = 'https://dailies.gg/wp-content/uploads/2017/03/default_pic.jpg';
 				}
 
 				let rep;

@@ -113,12 +113,12 @@ foreach ($specialPeopleObjects as $specialPersonObject) {
 					}
 					if (specialPeople.includes(mod.toLowerCase())) {
 						var specialness = ' special'
-						var starSrc = 'http://dailies.gg/wp-content/uploads/2018/09/fullStarIcon.png'
+						var starSrc = 'https://dailies.gg/wp-content/uploads/2018/09/fullStarIcon.png'
 					} else {
 						var specialness = '';
-						var starSrc = 'http://dailies.gg/wp-content/uploads/2018/09/emptyStarIcon.png'
+						var starSrc = 'https://dailies.gg/wp-content/uploads/2018/09/emptyStarIcon.png'
 					}
-					jQuery('#modContainer').append(`<div id=${mod} class='moderator chatter${specialness}'>${mod}<img class="specialButton viewerButton" src="${starSrc}"><img class="botButton viewerButton" src="http://dailies.gg/wp-content/uploads/2018/09/botIcon.png"></div>`);
+					jQuery('#modContainer').append(`<div id=${mod} class='moderator chatter${specialness}'>${mod}<img class="specialButton viewerButton" src="${starSrc}"><img class="botButton viewerButton" src="https://dailies.gg/wp-content/uploads/2018/09/botIcon.png"></div>`);
 					if (window.viewerData && window.viewerData.chatters.moderators.indexOf(mod) === -1) {
 						jQuery(`#${mod}`).css("color", "hsla(0, 0%, 100%, 1);");
 					}
@@ -133,12 +133,12 @@ foreach ($specialPeopleObjects as $specialPersonObject) {
 					}
 					if (specialPeople.includes(viewer.toLowerCase())) {
 						var specialness = ' special'
-						var starSrc = 'http://dailies.gg/wp-content/uploads/2018/09/fullStarIcon.png'
+						var starSrc = 'https://dailies.gg/wp-content/uploads/2018/09/fullStarIcon.png'
 					} else {
 						var specialness = '';
-						var starSrc = 'http://dailies.gg/wp-content/uploads/2018/09/emptyStarIcon.png'
+						var starSrc = 'https://dailies.gg/wp-content/uploads/2018/09/emptyStarIcon.png'
 					}
-					jQuery('#viewerContainer').append(`<div id=${viewer} class='viewer chatter${specialness}'>${viewer}<img class="specialButton viewerButton" src="${starSrc}"><img class="botButton viewerButton" src="http://dailies.gg/wp-content/uploads/2018/09/botIcon.png"></div>`);
+					jQuery('#viewerContainer').append(`<div id=${viewer} class='viewer chatter${specialness}'>${viewer}<img class="specialButton viewerButton" src="${starSrc}"><img class="botButton viewerButton" src="https://dailies.gg/wp-content/uploads/2018/09/botIcon.png"></div>`);
 					if (window.viewerData && window.viewerData.chatters.viewers.indexOf(viewer) === -1) {
 						jQuery(`#${viewer}`).css("color", "hsla(0, 0%, 100%, 1);");
 					}
@@ -148,12 +148,12 @@ foreach ($specialPeopleObjects as $specialPersonObject) {
 				jQuery.each(bots, function(index, bot) {
 					if (specialPeople.includes(bot.toLowerCase())) {
 						var specialness = ' special'
-						var starSrc = 'http://dailies.gg/wp-content/uploads/2018/09/fullStarIcon.png'
+						var starSrc = 'https://dailies.gg/wp-content/uploads/2018/09/fullStarIcon.png'
 					} else {
 						var specialness = '';
-						var starSrc = 'http://dailies.gg/wp-content/uploads/2018/09/emptyStarIcon.png'
+						var starSrc = 'https://dailies.gg/wp-content/uploads/2018/09/emptyStarIcon.png'
 					}
-					jQuery('#botContainer').append(`<div id=${bot} class='viewer chatter${specialness}'>${bot}<img class="specialButton viewerButton" src="${starSrc}"><img class="botButton viewerButton" src="http://dailies.gg/wp-content/uploads/2018/09/botIcon.png"></div>`);
+					jQuery('#botContainer').append(`<div id=${bot} class='viewer chatter${specialness}'>${bot}<img class="specialButton viewerButton" src="${starSrc}"><img class="botButton viewerButton" src="https://dailies.gg/wp-content/uploads/2018/09/botIcon.png"></div>`);
 				});
 
 				let viewerCount = Number(viewerData.chatter_count) - bots.length;

@@ -110,3 +110,5 @@ window.playAppropriatePromoSound = function() {
 		}
 	});
 }
+
+export {playAppropriatePromoSound, playAppropriateKillSound};

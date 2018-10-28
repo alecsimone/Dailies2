@@ -146,4 +146,10 @@ function rebuildUserDB() {
     createUserDB();
 }
 
+add_filter( 'postmeta_form_limit', 'meta_limit_increase' );
+function meta_limit_increase( $limit ) {
+    return 50;
+}
+add_filter('show_admin_bar', '__return_false');
+
 ?>

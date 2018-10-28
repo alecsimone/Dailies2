@@ -1,6 +1,6 @@
 <?php add_action("wp_enqueue_scripts", "script_setup");
 function script_setup() {
-	$version = '-v1.904';
+	$version = '-v1.921';
 	wp_register_script('globalScripts', get_template_directory_uri() . '/Bundles/global-bundle' . $version . '.js', ['jquery'], '', true );
 	$thisDomain = get_site_url();
 	$global_data = array(
@@ -68,7 +68,7 @@ function script_setup() {
 		);
 		wp_localize_script('liveScripts', 'liveData', $liveData);
 		wp_enqueue_script('liveScripts');
-	//	wp_enqueue_script('isotope', 'http://dailies.gg/wp-content/themes/Dailies2/js/isotope.pkgd.min.js');
+	//	wp_enqueue_script('isotope', 'https://dailies.gg/wp-content/themes/Dailies2/js/isotope.pkgd.min.js');
 	} else if (is_page('Submit')) {
 		wp_enqueue_script( 'scheduleScripts', get_template_directory_uri() . '/Bundles/submit-bundle' . $version . '.js', ['jquery'], '', true );
 	} else if (is_page('your-votes')) {

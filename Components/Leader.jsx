@@ -229,13 +229,24 @@ export default class Leader extends React.Component{
 		}
 		let title = rawTitle.stripSlashes();
 
+		let link;
+		if (this.props.clipdata.type === "twitch") {
+			link = `https://clips.twitch.tv/${this.props.clipdata.slug}`;
+		} else if (this.props.clipdata.type === "youtube" || this.props.clipdata.type === "ytbe") {
+			link = `https://www.youtube.com/watch?v=${this.props.clipdata.slug}`;
+		} else if (this.props.clipdata.type === "gfycat") {
+			link = `https://gfycat.com/${this.props.clipdata.slug}`;
+		} else if (this.props.clipdata.type === "twitter") {
+			link = `https://twitter.com/statuses/${this.props.clipdata.slug}`;
+		}
+
 		return(
 			<div className="Leader">
 				<div className="playerContainer">
-					<ClipPlayer slug={this.props.clipdata.slug} width={playerWidth} />
+					<ClipPlayer type={this.props.clipdata.type} slug={this.props.clipdata.slug} width={playerWidth} autoplay={false} />
 				</div>
 				<div className="hopefuls-meta">
-					<div className="hopefuls-title"><span className="hopefuls-score">(+{this.props.clipdata.score})</span> <a href={`https://clips.twitch.tv/${this.props.clipdata.slug}`} target="_blank">{title}</a></div>
+					<div className="hopefuls-title"><span className="hopefuls-score">(+{this.props.clipdata.score})</span> <a href={link} target="_blank">{title}</a></div>
 					<div className="hopefuls-data">{this.props.clipdata.views} views. Clipped by {this.props.clipdata.clipper} about {timeAgo} {timeAgoUnit} ago. {vodlink}</div>
 					{voters}
 					<WeedComments key={`weedComments-${this.props.clipdata.slug}`} slug={this.props.clipdata.slug} postComment={this.postComment} commentsLoading={this.state.commentsLoading} comments={this.state.comments} yeaComment={this.yeaComment} delComment={this.delComment} />

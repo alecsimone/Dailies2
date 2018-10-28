@@ -108,4 +108,9 @@ function processScrapedData($count) {
     update_post_meta($userManagementPageID, 'scrapedData', $scrapedData);
 }
 
+function validateUserInfo() {
+    //When I figure out what needs to be fixed when people login, do it here
+}
+add_action('wp_login', 'validateUserInfo');
+
 ?>

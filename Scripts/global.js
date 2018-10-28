@@ -114,3 +114,71 @@ jQuery(document).keyup(function(e) {
 		window.ctrlIsPressed = false;
 	}
 });
+
+function turnGfycatURLIntoGfycode(url) {
+	let gfyCode;
+	if (url.indexOf('/detail/') > -1) {
+		let gfyCodePosition = url.indexOf('/detail/') + 8;
+		if (url.indexOf('?') > -1) {
+			let gfyCodeEndPosition = url.indexOf('?');
+			gfyCode = url.substring(gfyCodePosition, gfyCodeEndPosition);
+		} else {
+			gfyCode = url.substring(gfyCodePosition);
+		}
+	} else {
+		let gfyCodePosition = url.indexOf('gfycat.com/') + 11;
+		if (url.indexOf('?') > -1) {
+			let gfyCodeEndPosition = url.indexOf('?');
+			gfyCode = url.substring(gfyCodePosition, gfyCodeEndPosition);
+		} else if (url.indexOf('.mp4') > -1) {
+			let gfyCodeEndPosition = url.indexOf('.mp4');
+			gfyCode = url.substring(gfyCodePosition, gfyCodeEndPosition);
+		} else {
+			gfyCode = url.substring(gfyCodePosition);
+		}
+	}
+	return gfyCode;
+}
+
+function turnYoutubeURLIntoYoutubeCode(url) {
+	let youtubeCode;
+	if (url.indexOf('youtube.com') > -1) {
+		let youtubeCodePosition = url.indexOf('youtube.com/watch?v=') + 20;
+		if (url.indexOf('&') > -1) {
+			let youtubeCodeEndPosition = url.indexOf('&');
+			youtubeCode = url.substring(youtubeCodePosition, youtubeCodeEndPosition);
+		} else {
+			youtubeCode = url.substring(youtubeCodePosition);
+		}
+	} else if (url.indexOf('youtu.be/') > -1) {
+		let youtubeCodePosition = url.indexOf('youtu.be/') + 9;
+		if (url.indexOf('?') > -1) {
+			let youtubeCodeEndPosition = url.indexOf('?');
+			youtubeCode = url.substring(youtubeCodePosition, youtubeCodeEndPosition);
+		} else {
+			youtubeCode = url.substring(youtubeCodePosition);
+		}
+	}
+	return youtubeCode;
+}
+
+function turnTwitterURLIntoTweetID(url) {
+	let tweetID;
+	let twitterCodePosition = url.indexOf('/status/') + 8;
+	tweetID = url.substring(twitterCodePosition);
+	return tweetID;
+}
+
+function turnTwitchURLIntoTwitchCode(url) {
+	let twitchCode;
+	let twitchCodePosition = url.indexOf('twitch.tv/') + 10;
+		if (url.indexOf('?') > -1) {
+			let twitchCodeEnd = url.indexOf('?');
+			twitchCode = url.substring(twitchCodePosition, twitchCodeEnd);
+		} else {
+			twitchCode = url.substring(twitchCodePosition);
+		}
+	return twitchCode;
+}
+
+export {turnGfycatURLIntoGfycode, turnYoutubeURLIntoYoutubeCode, turnTwitterURLIntoTweetID, turnTwitchURLIntoTwitchCode};

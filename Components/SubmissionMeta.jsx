@@ -26,7 +26,7 @@ export default class SubmissionMeta extends React.Component{
 		if (this.props.submissionData.hasOwnProperty('sourceLogo')) {
 			var logoURL = this.props.submissionData.sourceLogo
 		} else {
-			var logoURL = 'http://dailies.gg/wp-content/uploads/2017/03/default_pic.jpg'
+			var logoURL = 'https://dailies.gg/wp-content/uploads/2017/03/default_pic.jpg'
 		}
 
 		return(

@@ -98,7 +98,7 @@ export default class UserRow extends React.Component{
 				<td><UserRoleDropdown changeRole={this.changeRole} role={this.props.role} counter={this.props.counter} /></td>
 				<td><input type="text" size="4"/></td>
 				<td><input type="checkbox" /></td>
-				<td><img className="trash" src="http://dailies.gg/wp-content/uploads/2018/08/trash-80.png" onClick={this.deleteHandler} /></td>
+				<td><img className="trash" src="https://dailies.gg/wp-content/uploads/2018/08/trash-80.png" onClick={this.deleteHandler} /></td>
 			</tr>
 		)
 	}

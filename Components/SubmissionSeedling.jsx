@@ -35,7 +35,7 @@ export default class SubmissionSeedling extends React.Component{
 		if (this.props.submissionData.hasOwnProperty('sourcePic') && this.props.submissionData.sourcePic !== 'default') {
 			var logoURL = this.props.submissionData.sourcePic;
 		} else {
-			var logoURL = 'http://dailies.gg/wp-content/uploads/2017/03/default_pic.jpg'
+			var logoURL = 'https://dailies.gg/wp-content/uploads/2017/03/default_pic.jpg'
 		}
 
 		var vodlink
@@ -51,7 +51,7 @@ export default class SubmissionSeedling extends React.Component{
 						<div className='seedlingTitle'><a href={submissionURL} target="_blank">{submissionTitle}</a></div>
 						<div className='seedlingDetails'>Submitted by {submitter} about {timeAgo} {timeAgoUnit} ago. {vodlink}</div>
 					</div>
-					<img className='submissionCutter' src="http://dailies.gg/wp-content/uploads/2017/04/red-x.png" onClick={this.cutSubmissionHandler} />
+					<img className='submissionCutter' src="https://dailies.gg/wp-content/uploads/2017/04/red-x.png" onClick={this.cutSubmissionHandler} />
 				</div>
 			</div>
 		)

@@ -440,7 +440,7 @@ export default class Live extends React.Component{
 			)
 		});
 		if (Object.keys(postData).length === 0) {
-			var stageLoops = <div className="thatsAll">No contenders yet for today. Want to <a href="mailto:submit@therocketdailies.com?subject=Rocket%20Dailies%20Submission">suggest</a> one?</div>
+			var stageLoops = <div className="thatsAll">No contenders yet for today. Want to <a href="https://dailies.gg/submit/">submit</a> one?</div>
 		}
 		
 		var CoHosts;

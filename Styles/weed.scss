@@ -5,16 +5,28 @@ body.page-template-weed-template {
 		margin-bottom: 12px;
 	}
 	&:before{
-		background: #121212;
+		// background: #121212;
 	}
+}
+
+div#weedPlaceholder {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    & .placeholderText {
+    	font-size: 2em;
+    	margin-bottom: .5em;
+    }
 }
 
 #weeder {
 	margin: auto;
 	text-align: left;
-	background: #121212;
     border-radius: 4px;
-    display: grid;
     @media #{$bp800} {
     	width: 95%;
     }
@@ -22,10 +34,8 @@ body.page-template-weed-template {
     // justify-content: space-around;
     // flex-wrap: wrap;
     &.weederLandscape {
-    	grid-template-columns: auto minmax(auto, 150px);
-    	grid-gap: 1.25%;
     	& #clipsLeftCounter {
-    		grid-column-start: span 2;
+    		width: 100%;
     	}
     	& .ballotButton {
     		width: 100%;
@@ -35,11 +45,29 @@ body.page-template-weed-template {
     			height: auto;
     		}
     	}
+    	& #wholeClipBallot {
+    		display: grid;
+    		border-radius: 3px;
+    		grid-template-columns: auto minmax(auto, 150px);
+    		grid-gap: 1.25%;
+    	}
     }
     &.weederVictory {
     	width: 100%;
     	text-align: center;
     }
+    & .embed-container {
+    	background: black;
+    }
+}
+
+#wholeClipBallot {
+	background: $thinBlueGlass;
+	color: $white;
+	border: 3px solid $whiteTrans07;
+	padding: 12px;
+	margin: 12px 0;
+	z-index: -1;
 }
 
 #weedMeta {
@@ -49,6 +77,12 @@ body.page-template-weed-template {
 	}
 	text-align: left;
 	margin: 12px auto 36px;
+	& a {
+		color: $blue;
+	}
+	& a:visited {
+		color: $blue;
+	}
 }
 #weedInfo {
 	font-size: .6em;
@@ -72,8 +106,10 @@ body.page-template-weed-template {
 	}
 }
 .ballotButton {
-	border: 1px solid hsla(0, 0%, 8%, 1);
+	// border: 1px solid hsla(0, 0%, 8%, 1);
 	// background: hsla(210, 90%, 60%, 0.25);
+	border: none;
+	box-shadow: none;
 	border-radius: 50%;
 	padding: 0px;
 	width: 72px;
@@ -268,23 +304,116 @@ body.page-template-weed-template {
 #youProgress {
 	background: $blue;
 }
+#usProgress, #youProgress {
+	transition: width .5s;
+}
 #clipsLeftCounter {
 	width: 100%;
+	position: relative;
+	z-index: 1;
 }
 #weedPlayer {
 	width: 100%;
 }
-
+.blackBox {
+    background: black;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
 
 .weederVictory {
 	align-items: center;
 	height: 100%;
 	width: 100%;
 	position: absolute;
+	display: grid;
 }
 #Victory {
 	font-size: 3em;
 	margin-top: -2em;
 	font-weight: bold;
 	color: $gold;
+}
+
+.slide-down {
+	transform: translateY(-100%);
+	opacity: 0;
+}
+.slide-down-active {
+	transform: translateY(0);
+	opacity: 1;
+	transition: all .5s ease-out;
+}
+
+.slide-up {
+	transform: translateY(100%);
+	opacity: 0;
+}
+.slide-up-active {
+	transform: translateY(0);
+	opacity: 1;
+	transition: all .5s ease-out;
+}
+.slide-out-up {
+	transform: translateY(0);
+	opacity: 1;
+}
+.slide-out-up-active {
+	transform: translateY(-100%);
+	opacity: 0;
+	transition: all .5s ease-out;
+}
+
+.slide-down {
+	transform: translateY(-100%);
+	opacity: 0;
+}
+.slide-down-active {
+	transform: translateY(0);
+	opacity: 1;
+	transition: all .5s ease-out;
+}
+.slide-out-down {
+	transform: translateY(0);
+	opacity: 1;
+}
+.slide-out-down-active {
+	transform: translateY(100%);
+	opacity: 0;
+	transition: all .5s ease-out;
+}
+
+.slide-right {
+	transform: translateX(-100%);
+	// opacity: 0;
+}
+.slide-right-active {
+	transform: translateX(0);
+	// opacity: 1;
+	transition: all .5s ease-out;
+}
+
+.scale-up {
+	transform: scale(0);
+	opacity: 0;
+}
+.scale-up-active {
+	transform: scale(1);
+	opacity: 1;
+	transition: all .5s ease-out;
+}
+
+.barGrow-appear {
+	transform: scaleX(0);
+	transform-origin: left;
+}
+.barGrow-appear-active {
+	transform: scaleX(1);
+	transform-origin: left;
+	transition: transform .5s ease-out;
+	transition-delay: .25s;
 }
