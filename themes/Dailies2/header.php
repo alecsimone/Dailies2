@@ -32,6 +32,11 @@
 		foreach ($navLinks as $name => $link) {
 			echo "<a href='$baseURL$link' id='$name'>$name</a>";
 		};
-		?><a href="mailto:submit@therocketdailies.com?subject=Rocket%20Dailies%20Submission" id="Suggest">Suggest</a><a href="https://twitter.com/Rocket_Dailies" id="twitterLink"><img src="<?php echo get_site_url(); ?>/wp-content/uploads/2016/09/TWT.png" class="socialimg"></a>
+		$currentUser = wp_get_current_user();
+		if ($currentUser->roles[0] === 'administrator' || $currentUser->roles[0] === 'editor' || $currentUser->roles[0] === 'contributor') {
+			?><a href="#" id="post" class="postButton"><img src="<?php echo get_site_url(); ?>/wp-content/uploads/2017/12/green-plus.png" class="submitimg"></a><?php
+		} ?>
+		<a href="#" id="submit" class="submitButton">Submit</a>
+		<a href="https://twitter.com/Rocket_Dailies" id="twitterLink"><img src="<?php echo get_site_url(); ?>/wp-content/uploads/2016/09/TWT.png" class="socialimg"></a>
 
 	</nav>

@@ -117,7 +117,7 @@ a.propbutton {
 		box-shadow: $lowShadow;
 		border-right: 3px solid $whiteTrans07;
 		border-left: 3px solid $whiteTrans07;	
-		border-bottom: 3px solid $whiteTrans07;
+		border-bottom: 3px solid $whiteTrans03;
 		box-sizing: border-box;
 		padding: 0 1.5em 1em;
 	}
@@ -125,7 +125,6 @@ a.propbutton {
 .thing.noise:before {
 	background: none;
 	@media #{$bp1280} {
-		background: url('http://localhost/dailieslocal/wp-content/uploads/2017/07/noise.png');
 		border-radius: 0 0 3px 3px;
 		max-width: 1280px;
 	}
@@ -189,13 +188,14 @@ img.thumb {
 }
 
 .tagbox {
+	color: $whiteTrans75;
 	padding: 2em 0;
 	font-size: 18px;
 }
 .tagLink {
 	display: inline-block;
 	margin: 0 4px;
-	color: $white;
+	color: $whiteTrans75;
 	&:visited {
 		color: $blue;
 	}
@@ -284,6 +284,9 @@ p.attribution a {
     	flex-wrap: nowrap;
     }
 }
+#archive-left {
+	max-width: 80%;
+}
 #archive-right {
 	max-width: 100%;
 	padding: 24px;
@@ -296,13 +299,17 @@ p.attribution a {
 	}
 }
 #archive-logo {
-	max-width: 300px;
+	width: 200px;
+	max-width: 100%;
 	img {
 		width: 100%;
 		height: auto;
 		&.stars {
 			border-radius: 50%;
 		}
+	}
+	@media #{$bp1280} {
+		width: 300px;
 	}
 }
 #archive-title h2 {
@@ -361,4 +368,7 @@ p.rules {
 	font-size: 36px;
 	margin-bottom: 144px;
 	text-shadow: 0 0 6px $darkBlack;
+	a {
+		color: $blue;
+	}
 }

@@ -2,16 +2,47 @@
 	"folders":
 	[
 		{
+			"file_exclude_patterns":
+			[
+				"style-v*",
+				".git*"
+			],
+			"folder_exclude_patterns":
+			[
+				"Bundles",
+				"node_modules"
+			],
 			"path": "."
 		},
 		{
-			"path": "F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies"
-		},
-		{
-			"path": "F:\\XAMP\\htdocs\\alecsimone\\wp-content\\themes\\asc"
-		},
-		{
+			"folder_exclude_patterns":
+			[
+				"drag-drop-featured-image",
+				"github-updater",
+				"redirection",
+				"regenerate-thumbnails",
+				"rest-api",
+				"taxonomy-switcher",
+				"term-management-tools",
+				"wordpress-social-login",
+				"wp-smushit",
+				"wp-sync-db-1.5"
+			],
 			"path": "F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\plugins"
+		},
+		{
+			"path": "F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\mu-plugins"
+		},
+		{
+			"folder_exclude_patterns":
+			[
+				"mu-plugins",
+				"plugins",
+				"themes",
+				"upgrade",
+				"uploads"
+			],
+			"path": "F:\\XAMP\\htdocs\\dailieslocal\\wp-content"
 		}
 	]
 }

@@ -1,0 +1,229 @@
+@import '../Styles/vars.scss';
+
+.Leader, .TopFive, .Pleb {
+	background: $thinBlueGlass;
+	border: 3px solid $whiteTrans07;
+	box-sizing: border-box;
+	width: 100%;
+	& .playerContainer {
+		width: 100%;
+		@media #{$bp1280} {
+			width: calc(50% - 12px);
+			margin-right: 12px;
+		}
+	}
+	& a {
+		color: $white;
+		text-decoration: none;
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+	& .hopefuls-score {
+		color: $blue;
+	}
+	& .hopefuls-data {
+		color: $whiteTrans50;
+	}
+	& a.vodlink {
+		color: $blue;
+		text-decoration: underline;
+	}
+	@media #{$bp800} {
+		padding: 12px;
+		border-radius: 3px;
+	}
+	@media #{$bp1900} {
+		padding: 12px 8px;
+	}
+}
+
+#hopefuls {
+	@media #{$bp1280} {
+		width: 95%;
+		margin: auto;
+	}
+	& textarea {
+		background: none;
+		border-top: none;
+		border-left: none;
+		border-right: none;
+		color: white;
+		&:focus {
+			outline: 1px solid $whiteTrans25;
+		}
+	}
+	& input.keepbar {
+		background: none;
+		border-top: none;
+		border-left: none;
+		border-right: none;
+		border-bottom: 1px solid $white;
+		color: $white;
+		width: calc(100% - 60px);
+		height: 36px;
+		font-size: 18px;
+		&:focus {
+			outline: 1px solid $whiteTrans25;
+		}
+	}
+	& .keepbox {
+		margin: 0 0 0 12px;
+		width: calc(100% - 48px);
+	}
+	&.noHope {
+		align-items: center;
+		height: 100%;
+		width: 100%;
+		position: absolute;
+		display: grid;
+		font-size: 2em;
+		margin-top: -2em;
+		& a:visited {
+			color: $blue;
+		}
+	}
+}
+
+.hopefulsHeader {
+	font-size: 60px;
+	color: $gold;
+	margin: 0;
+}
+
+.hopefuls-meta {
+	width: 100%;
+	& .VoterInfoBox {
+		border: none;
+		margin: 0;
+	}
+	& .votingMachine {
+		font-size: 36px;
+	}
+	// & .voterBubble {
+	// 	width: 24px;
+	// 	height: 24px;
+	// }
+	& .weedComments {
+		margin: .5em auto;
+		max-height: 250px;
+		overflow-y: auto;
+		 &::-webkit-scrollbar {
+		 	width: 9px;
+		 	background: #000;
+		 }
+		 &::-webkit-scrollbar-track {
+		 	-webkit-box-shadow: inset 0 0 1px rgba(0,0,0,0.3); 
+		 }
+		 &::-webkit-scrollbar-thumb {
+		 	border-radius: 3px;
+		 	-webkit-box-shadow: inset 0 0 1px rgba(0,0,0,0.5);
+		 	background: rgba(255,255,255,.25); 
+		 }
+		@media #{$bp1280} {
+			margin: .5em 0;
+		}
+	}
+	& .weedCommentBox {
+		box-sizing: border-box;
+	}
+	@media #{$bp1280} {
+		width: calc(50% - 24px);
+		margin-left: 12px;
+	}
+}
+
+#leader {
+	margin-bottom: 48px;
+	& .hopefuls-title {
+		font-size: 36px;
+	}
+	@media #{$bp1280} {
+		margin-bottom: 24px;
+		& .weedComments {
+			max-height: 300px;
+			@media #{$bp1900} {
+				max-height: 500px;
+			}
+		}
+	}
+}
+.Leader {
+	display: flex;
+	flex-wrap: wrap;
+	text-align: left;
+	justify-content: center;
+	& #hopefuls-admin-controls {
+		margin-bottom: 1em;
+		flex-basis: 70%;
+		display: flex;
+		align-items: center;
+		@media #{$bp1280} {
+			margin: 24px auto 12px;
+		}
+	}
+	& .cutButton {
+		width: 36px;
+		height: 36px;
+		cursor: pointer;
+		opacity: .5;
+		&:hover {
+			opacity: 1;
+		}
+	}
+	& .keepform {
+		margin: 0 0 0 12px;
+		width: calc(100% - 48px);
+	}
+}
+
+#topfive {
+	margin-bottom: 24px;
+	@media #{$bp800} {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-column-gap: 12px;
+	}
+}
+.TopFive {
+	display: inline-flex;
+	align-items: flex-start;
+	flex-wrap: wrap;
+	text-align: left;
+	justify-content: center;
+	margin-bottom: 12px;
+	& .hopefuls-title {
+		font-size: 30px;
+	}
+	& .topfivethumb {
+		width: 100%;
+		height: auto;
+		@media #{$bp1280} {
+			width: calc(50% - 12px);
+			margin-right: 12px;
+		}
+	}
+	@media screen and (min-width: 800px) and (max-width: 1279px) {
+		& .hopefuls-meta {
+			// width: 50%;
+		}
+	}
+}
+
+.Pleb {
+	display: flex;
+	text-align: left;
+	justify-content: flex-start;
+	align-items: center;
+	margin-bottom: 18px;
+	color: $whiteTrans50;
+	& .hopefuls-title {
+		font-size: 26px;
+		margin-bottom: 6px;
+	}
+	& .plebPic {
+		width: 100px;
+		height: 100px;
+		margin-right: 18px;
+	}
+}

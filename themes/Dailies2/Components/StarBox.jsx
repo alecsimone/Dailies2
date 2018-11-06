@@ -3,15 +3,21 @@ import React from "react";
 export default class StarBox extends React.Component{
 	render() {
 		var stars = this.props.stars;
-		if (stars !== undefined) {
+		var source = this.props.source;
+		if (stars !== undefined && this.props.stars[0].name !== undefined) {
 			let starKeys = Object.keys(stars);
-
+			var starCounter = 0;
 			var starElements = starKeys.map(function(key) {
 				let thisID = "Star" + key;
 				let starLink = dailiesGlobalData.thisDomain + "/stars/" + stars[key]['slug'];
+				var starPic
+				if (starCounter > 0 || source != 'user-submits') {
+					var starPic = <a className="starSourceImgLink" href={starLink}><img className="starpic" src={stars[key]['logo']} onError={(e) => window.imageError(e)}></img></a>
+				}
+				starCounter++;
 				return(
 					<p key={thisID} className="attribution stars">
-						<a className="starSourceImgLink" href={starLink}><img className="starpic" src={stars[key]['logo']}></img></a><a className="starSourceLink" href={starLink}>{stars[key]['name']}</a> 
+						{starPic}<a className="starSourceLink" href={starLink}>{stars[key]['name']}</a> 
 					</p>
 				)
 			});

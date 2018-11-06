@@ -23,6 +23,8 @@ plugins/wp-sync-db-1.5/
 plugins/redirection/
 plugins/rest-api/
 
+plugins/dailies-2/privateData.php
+
 plugins\decomments\
 plugins\drag0drop-featured-image\
 plugins\regenerate-thumbnails\
@@ -38,11 +40,15 @@ plugins\rest-api\
 
 themes\Dailies2\node_modules\
 themes/Dailies2/node_modules/
+themes/Dailies2/Bundles/
+themes/Dailies2/Dailies2.sublime-project
+themes/Dailies2/Dailies2.sublime-workspace
+themes/Dailies2/style-*
 
 themes\Dailies\js\jquery.dfp.js
 uploads\
 uploads/
-upgrade\
+upgrade/
 
 wp-content/themes/Dailies/js/jquery.dfp.js
 

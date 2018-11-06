@@ -1,0 +1,1 @@
+import Voteboard from '../Components/Voteboard.jsx';

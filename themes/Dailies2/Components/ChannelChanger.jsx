@@ -5,6 +5,14 @@ import ChannelChangerButton from './ChannelChangerButton.jsx';
 export default class ChannelChanger extends React.Component{
 	render() {
 		var channelData = this.props.channels;
+		var channelURLs = [];
+		jQuery.each(channelData, function(key) {
+			if (channelURLs.indexOf(this.twitchURL) > -1) {
+				delete channelData[key];
+			} else {
+				channelURLs.push(this.twitchURL);
+			}
+		});
 		var channels = Object.keys(channelData);
 		var changeChannel = this.props.changeChannel;
 		var channelChangerWidth = jQuery('#menu-links').width() * .95;

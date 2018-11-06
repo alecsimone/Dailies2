@@ -30,7 +30,11 @@ class Archive extends React.Component{
 				loadingMore: true,
 			});
 			var currentState = this.state;
-			var queryURL = dailiesGlobalData.thisDomain + '/wp-json/wp/v2/posts?categories=4&' + this.state.headerData.thisTerm.taxonomy + '=' + this.state.headerData.thisTerm.term_id + '&offset=' + (this.state.page + 1) * 10 + '&filter[orderby]=' + dailiesMainData.initialArchiveData.orderby + '&order=' + dailiesMainData.initialArchiveData.order.toLowerCase();
+			if (this.state.headerData.thisTerm !== 'Your Votes') {
+				var queryURL = dailiesGlobalData.thisDomain + '/wp-json/wp/v2/posts?categories=4&' + this.state.headerData.thisTerm.taxonomy + '=' + this.state.headerData.thisTerm.term_id + '&offset=' + (this.state.page + 1) * 10 + '&filter[orderby]=' + dailiesMainData.initialArchiveData.orderby + '&order=' + dailiesMainData.initialArchiveData.order.toLowerCase();
+			} else {
+				var queryURL = dailiesGlobalData.thisDomain + '/wp-json/dailies-rest/v1/voter/id=' + dailiesGlobalData.userData.userID + '&offset=' + (this.state.page + 1) * 10;
+			}
 			jQuery.get({
 				url: queryURL,
 				dataType: 'json',
@@ -39,7 +43,7 @@ class Archive extends React.Component{
 						let newPostDatas = [];
 						let newVoteDatas = {};
 						jQuery.each(data, function(index, allData) {
-							currentState.postData.push(allData.postDataObj[0]);
+							currentState.postData.push(allData.postDataObj);
 							currentState.voteData[allData.id] = {
 								votecount: allData.votecount[0],
 								voteledger: allData.voteledger[0],
@@ -65,7 +69,7 @@ class Archive extends React.Component{
 		var things = this.state.postData;
 		var thingsArray = Object.keys(things);
 		var thingComponents = thingsArray.map(function(key) {
-			var parsedThingData = JSON.parse(things[key]);
+			var parsedThingData = things[key];
 			var voteData = voteDataObj[parsedThingData['id']];
 			return(
 				<Thing thingData={parsedThingData} userData={userData} voteData={voteData} key={parsedThingData.id} />
@@ -76,13 +80,18 @@ class Archive extends React.Component{
 			var thatsAll = <div className="thatsAll">That's all, folks!</div>;
 		}
 
+		var sortBar;
+		if (this.state.headerData.thisTerm !== 'Your Votes') {
+			sortBar = <SortBar orderby={this.state.orderby} order={this.state.order} tax={this.state.headerData.thisTerm.taxonomy} slug={this.state.headerData.thisTerm.slug} />
+		}
+
 		return(
 			<div>
 				<section id="archivetop">
 					<ArchiveHeader headerData={this.state.headerData} />
 					<Userbox userData={this.state.user}/>
 				</section>
-				<SortBar orderby={this.state.orderby} order={this.state.order} tax={this.state.headerData.thisTerm.taxonomy} slug={this.state.headerData.thisTerm.slug} />
+				{sortBar}
 				{thingComponents}
 				{thatsAll}
 			</div>

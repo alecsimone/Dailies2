@@ -1,4 +1,8 @@
-<?php get_header(); ?>
+<?php get_header(); 
+
+
+
+?>
 
 <section id="singleApp"></section>
 

@@ -8,7 +8,7 @@ class Homepage extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			winner: JSON.parse(dailiesMainData.firstWinner.postData),
+			winner: dailiesMainData.firstWinner.postData,
 			dayContainers: {
 				0: dailiesMainData.dayOne,
 			},
@@ -29,13 +29,16 @@ class Homepage extends React.Component {
 			let dayContainerCount = Object.keys(this.state.dayContainers).length;
 			let lastDayContainer = this.state.dayContainers[dayContainerCount - 1];
 			var currentDay = lastDayContainer['date']['day'];
+			if (currentDay < 10 && currentDay.charAt(0) !== '0') {
+				currentDay = '0' + currentDay;
+			}
 			var currentMonth = lastDayContainer['date']['month'];
 			if (currentMonth < 10 && currentMonth.charAt(0) !== '0') {
 				currentMonth = '0' + currentMonth;
 			}
 			var currentYear = lastDayContainer['date']['year'];
-			var currentDayObject = new Date(currentYear, currentMonth, currentDay);
-			
+			var currentDayObject = new Date(currentYear, currentMonth-1, currentDay);
+
 			this.stepBackDayAndQuery(currentDayObject, currentYear, currentMonth, currentDay);
 		}
 	}
@@ -44,7 +47,7 @@ class Homepage extends React.Component {
 		var newDayObject = currentDayObject - 1000 * 60 * 60 * 24;
 		newDayObject = new Date(newDayObject);
 		let newYear = newDayObject.getFullYear().toString();
-		let newMonth = newDayObject.getMonth();
+		let newMonth = newDayObject.getMonth() + 1;
 		if (newMonth < 10) {
 			newMonth = '0' + newMonth;
 		} else {
@@ -69,7 +72,7 @@ class Homepage extends React.Component {
 					let newPostDatas = [];
 					let newVoteDatas = {};
 					jQuery.each(data, function(index, allData) {
-						newPostDatas.push(allData.postDataObj[0]);
+						newPostDatas.push(allData.postDataObj);;
 						newVoteDatas[allData.id] = {
 							votecount: allData.votecount[0],
 							voteledger: allData.voteledger[0],

@@ -2,11 +2,14 @@ $gold: hsla(42, 79%, 64%, 1);
 $blue: hsla(210, 68%, 54%, 1);
 $red: hsla(0, 68%, 54%, 1);
 $white: hsla(0, 0%, 90%, 1);
+$green: hsla(110, 52%, 36%, 1);
 
+$whiteTrans75: hsla(0, 0%, 94%, .75);
 $whiteTrans50: hsla(0, 0%, 94%, .50);
 $whiteTrans25: hsla(0, 0%, 94%, .25);
 $whiteTrans15: hsla(0, 0%, 94%, .15);
 $whiteTrans07: hsla(0, 0%, 94%, .07);
+$whiteTrans03: hsla(0, 0%, 94%, .03);
 
 $blackTrans90: hsla(0, 0%, 0%, .9);
 $blackTrans75: hsla(0, 0%, 0%, .75);
@@ -16,11 +19,14 @@ $blackTrans25: hsla(0, 0%, 0%, .25);
 $darkBlack: #121212;
 $lightBlack: #262626;
 
+$blueTrans75: hsla(210, 68%, 54%, .75);
 $blueTrans50: hsla(210, 68%, 54%, .5);
 $lighterblueTrans: hsla(210, 90%, 90%, .2);
 
 $goldTrans90: hsla(42, 79%, 64%, .9);
+$goldTrans75: hsla(42, 79%, 64%, .75);
 $goldTrans50: hsla(42, 79%, 64%, .5);
+$goldTrans33: hsla(42, 79%, 64%, .33);
 
 $backgroundEdge: hsla(30, 30%, 5%, 1);
 //$backgroundCore: hsla(210, 15%, 15%, 1);
@@ -32,7 +38,8 @@ $blueGlow: hsla(210, 30%, 14%, .8);
 
 $blueGlass: hsla(210, 9%, 6%, 1);
 //$blueGlass: hsla(210, 6%, 12%, 1);
-$thinBlueGlass: hsla(210, 8%, 8%, .5);
+$thinBlueGlass: hsla(210, 8%, 8%, .75);
+$thinnerBlueGlass: hsla(210, 8%, 8%, .5);
 
 $lighterGlass: hsla(212, 38%, 18%, 1);
 $darkerGlass: hsla(222, 16%, 10%, 1);
@@ -41,6 +48,7 @@ $darkerGlass: hsla(222, 16%, 10%, 1);
 
 $bp350: "screen and (min-width: 350px)";
 $bp500: "screen and (min-width: 500px)";
+$bp760: "screen and (min-width: 760px)";
 $bp800: "screen and (min-width: 800px)";
 $bp850: "screen and (min-width: 850px)";
 $bp1080: "screen and (min-width: 1080px)";
@@ -57,6 +65,5 @@ $lowShadowFromAbove: 0 2px 6px rgba(0,0,0,.25);
     position: absolute;
     top: 0;
     left: 0;
-    background: url('http://localhost/dailieslocal/wp-content/uploads/2017/07/noise.png');
     z-index: -1;
 }

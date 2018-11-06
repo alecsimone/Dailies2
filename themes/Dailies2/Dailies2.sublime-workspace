@@ -4,6 +4,214 @@
 		"selected_items":
 		[
 			[
+				"for",
+				"foreach\tforeach …"
+			],
+			[
+				"this",
+				"thisDomain"
+			],
+			[
+				"play",
+				"playAppropriatePromoSound"
+			],
+			[
+				"playa",
+				"playAppropriateKillSound"
+			],
+			[
+				"turn",
+				"turnYoutubeURLIntoYoutubeCode"
+			],
+			[
+				"youtub",
+				"youtubeCode"
+			],
+			[
+				"youtube",
+				"youtubeCodeEndPosition"
+			],
+			[
+				"data",
+				"data\t.data()"
+			],
+			[
+				"dailies",
+				"dailiesGlobalData"
+			],
+			[
+				"addPr",
+				"AddProspectBox"
+			],
+			[
+				"leader",
+				"Leader"
+			],
+			[
+				"daili",
+				"dailiesGlobalData"
+			],
+			[
+				"unjudged",
+				"unjudgedClipCounter"
+			],
+			[
+				"und",
+				"unjudgedClipCounter"
+			],
+			[
+				"unjud",
+				"unjudgedClipCounter"
+			],
+			[
+				"first",
+				"firstSlug"
+			],
+			[
+				"inser",
+				"insertionSuccess"
+			],
+			[
+				"wp_regis",
+				"wp_register_script"
+			],
+			[
+				"userMana",
+				"userManagementPageID"
+			],
+			[
+				"align",
+				"align-items\tproperty"
+			],
+			[
+				"ta",
+				"ta-l\ttext-align: left;"
+			],
+			[
+				"wp_enqueue",
+				"wp_enqueue_script"
+			],
+			[
+				"userManga",
+				"userManagementData"
+			],
+			[
+				"seedTimeCorrect",
+				"seedTimeCorrectZoneNumeric"
+			],
+			[
+				"localTime",
+				"localTimezoneOffsetMilliseconds"
+			],
+			[
+				"guest",
+				"guestBubble"
+			],
+			[
+				"twitchUser",
+				"twitchUsersDB"
+			],
+			[
+				"each",
+				"each\t$.each()"
+			],
+			[
+				"jqu",
+				"jQuery.each\tjQuery.each"
+			],
+			[
+				"array_key",
+				"array_key_exists"
+			],
+			[
+				"title",
+				"titleBox"
+			],
+			[
+				"index",
+				"indexOf"
+			],
+			[
+				"vote",
+				"voteledger"
+			],
+			[
+				"test",
+				"teststring"
+			],
+			[
+				"input",
+				"inputListener"
+			],
+			[
+				"newPro",
+				"newProspectTitle"
+			],
+			[
+				"youtubeC",
+				"youtubeCodePosition"
+			],
+			[
+				"youtu",
+				"youtubeCodePosition"
+			],
+			[
+				"youtubeCo",
+				"youtubeCodeposition"
+			],
+			[
+				"new_prospec",
+				"new_prospect_title"
+			],
+			[
+				"id",
+				"id"
+			],
+			[
+				"light",
+				"lightboxOverlayElement"
+			],
+			[
+				"Qua",
+				"qualifiers"
+			],
+			[
+				"update_user",
+				"update_user_meta"
+			],
+			[
+				"active",
+				"activeStageFilter"
+			],
+			[
+				"StageFilt",
+				"StageFilterButton"
+			],
+			[
+				"currentState",
+				"currentStateString"
+			],
+			[
+				"local",
+				"localGuestList"
+			],
+			[
+				"build",
+				"buildPostDataObject"
+			],
+			[
+				"bigQuery",
+				"bigQueryPosts"
+			],
+			[
+				"bp800",
+				"bp800"
+			],
+			[
+				"channelChanger",
+				"channelChangerWidth"
+			],
+			[
 				"dail",
 				"dailiesGlobalData"
 			],
@@ -48,10 +256,6 @@
 				"page_template_dropdown"
 			],
 			[
-				"for",
-				"for\tfor (…) {…}"
-			],
-			[
 				"Arcv",
 				"ArchiveHeader"
 			],
@@ -74,10 +278,6 @@
 			[
 				"repVotes",
 				"repVotesCount"
-			],
-			[
-				"id",
-				"id"
 			],
 			[
 				"JSON",
@@ -122,10 +322,6 @@
 			[
 				"get_current",
 				"get_current_user_id"
-			],
-			[
-				"wp_enqueue",
-				"wp_enqueue_style"
 			],
 			[
 				"get_template_directo",
@@ -208,73 +404,38 @@
 	"buffers":
 	[
 		{
-			"file": "/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/schedule.php",
+			"file": "schedule.php",
 			"settings":
 			{
-				"buffer_size": 8293,
+				"buffer_size": 15952,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "Styles/live.scss",
+			"file": "webpack.config.js",
 			"settings":
 			{
-				"buffer_size": 3506,
+				"buffer_size": 2029,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "Components/LittleThing.jsx",
+			"file": "/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-2/client-information.php",
 			"settings":
 			{
-				"buffer_size": 5766,
+				"buffer_size": 2409,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "Components/Thing.jsx",
+			"file": "Functions/scriptSetup.php",
 			"settings":
 			{
-				"buffer_size": 6035,
+				"buffer_size": 6771,
 				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "Components/ThingHeader.jsx",
-			"settings":
-			{
-				"buffer_size": 467,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "Components/ChannelChanger.jsx",
-			"settings":
-			{
-				"buffer_size": 744,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "--Everything needs doing--\n\nMake Thing lateral instead of vertical on very wide screens\n\nMake TitleBox universal. Takes Title, Link, and Score. Presents them as two elements. Use CSS to make them a flexbox, reverse order when inside LittleThing\nMove Vote functions up in the hierarchy so you don't need to duplicate state in thing/littlething/seedling\n\nMake userbox login links into images\n\nFix stepBackDate\n\n404 page\nSearch Page\nRules Page\n\nBuild post objects for every post\nOrganize components folder\nDRY out code\nSSL certificate\nExplore React Transitions\n\n\n\n\nComponent Map\nThings\n=Thing\n--In: ThingData\n=LittleThing\n--In: ThingData\n=Titlebox\n--In: Title, optional score\n=VoteButton\n--In: Voteledger, guestlist\n=AttributionPair\n--In: Logo, Taxonomy, Slug, Name\n=EditButton\n--In: PostID\n=TagBar\n--In: Skills, Tags\n=PostTrasher\n--In: PostID\n\nSecretGarden\n=Garden\n--In: ClipDatas\n=Seedling\n--In: ClipData, canPublish\n=SeedlingControls\n--In: userID, canPublish\n=LoadMore\n--In: queryCursor objects\n\nPageHeaders\n=ArchiveHeader\n--In: headerData\n=UserBox\n--In: userData, loginLinks\n=DayContainer\n--In: Date, ThingDatas\n=SortBar\n--In: QueryVars\n\nTopLevel\n=Homepage\n=Archive\n=SecretGarden\n=Live\n=Single",
-			"file": "Everything needs doing",
-			"file_size": 901,
-			"file_write_time": 131452353801578296,
-			"settings":
-			{
-				"buffer_size": 1194,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "Components/SeedlingEmbedBox.jsx",
-			"settings":
-			{
-				"buffer_size": 959,
 				"line_ending": "Windows"
 			}
 		}
@@ -320,155 +481,169 @@
 	[
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/page-templates",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/js",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/page-templates",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/SASS",
-		"/F/XAMP/htdocs/alecsimone/wp-content/themes/asc",
-		"/F/XAMP/htdocs/alecsimone/wp-content/themes/asc/js"
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Functions",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-2",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-2/People",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-2/Things",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-2/Voting",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/mu-plugins"
 	],
 	"file_history":
 	[
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Seedling.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/main.scss",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/secret-garden.scss",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/SeedlingContent.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/EmbedBox.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/LittleThingEmbedder.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/ContentBox.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/header.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Titlebox.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/LittleThing.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/schedule.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/vars.scss",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/schedule.scss",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/live.scss",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/global.scss",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/AddStreamBox.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/HomeTop.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/page-live.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Everything needs doing",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/functions.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Thing.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/AdminControls.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/LiveAdminControls.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/SecretGarden.jsx",
-		"/F/XAMP/htdocs/alecsimone/wp-content/themes/asc/js/Controls.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/GardenHeader.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Live.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/CoHostsPanel.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/CoHostButton.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/ArchiveHeader.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Garden.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Votebox.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/functions.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/LivePostsLoop.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/DayContainer.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Homepage.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/ChannelChanger.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/SortButton.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/ChannelChangerButton.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Userbox.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/AttributionBox.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/footer.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/thing.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-2/Voting/voting.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-2/crons.php",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/single.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Single.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/page-templates/live-template.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/StarBox.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/LittleThing2.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-rep-and-voting/dailies-rep-and-voting.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Archive.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/archive.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/index.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/header.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/SASS/new-stylesheet.scss",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/AuthorBubble.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/SeedlingControls.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/SeedlingMeta.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/page-templates/schedule-template.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/schedule.php",
-		"/F/XAMP/htdocs/alecsimone/wp-content/themes/asc/js/Dice.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/LIve.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Scripts/live.js",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/page-secret-garden.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Scripts/secret-garden.js",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/ClipCounter.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/LoadMore.jsx",
-		"/F/XAMP/htdocs/alecsimone/wp-content/themes/asc/js/Features.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/.gitignore",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/js/secret_garden.js",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-2/Docs/Scout.md",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-2/.git/MERGE_MSG",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-people-and-things/voting.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Functions/liveOperations.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-2/dailies-2.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-2/client-information.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Weed.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-2/Things/pull-clips.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-2/Things/thing-management.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Functions/dataGenerators.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Functions/scriptSetup.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-2/Docs/Overview.md",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-weeding/slug-management.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Dailies2.sublime-project",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-2/Things/submissions.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Functions/postDataObj.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-2/Things/comments.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-weeding/comment-management.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-2/rest-endpoints.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-2/Things/hopefuls.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/ClipPlayer.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/mu-plugins/helpers.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-2/privateData.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-2/.gitignore",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Hopefuls.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-people-and-things/people-management.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-cron.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-weeding/dailies-weeding.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/AddProspectForm.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/page-templates/chipstack-template.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Scripts/privateData.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/.gitignore",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-2/People/people.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-2/helpers.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Functions/restModifications.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Functions/postManagement.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-2/People/people-databases-setup.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-2/Voting/vote-databases-setup.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-people-and-things/dailies-people-and-things.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-2/Things/thing-databases-setup.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/TopFive.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Leader.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Pleb.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Live.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Functions/helpers.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/page-templates/weed-template.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/WeedComments.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/weed.scss",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/hopefuls.scss",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Functions/gardenOperations.php",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/KeepBar.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Scripts/sounds.js",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Scripts/global.js",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/page-templates/secret-garden-template.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/SeedlingEmbedBox.jsx",
-		"/F/XAMP/htdocs/alecsimone/wp-content/themes/asc/js/CharSheet.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/node_modules/micromatch/index.js",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/AddRLButton.jsx",
-		"/F/XAMP/htdocs/alecsimone/wp-content/themes/asc/functions.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Streamlist.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/page-schedule.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/single.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/schedule.js",
-		"/C/Program Files (x86)/Steam/steamapps/common/Dark Souls Prepare to Die Edition/DATA/DSfix.ini",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Scripts/main.js",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/archive.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/archive-header.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Tagbox.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/SortBar.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-rep-and-voting/dailies-ajax-vote.js",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Archive.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/userbox.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/index.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/WinnerBanner.jsx",
-		"/F/XAMP/htdocs/alecsimone/wp-content/themes/asc/js/SkillsCapabilities.jsx",
-		"/F/XAMP/htdocs/alecsimone/wp-content/themes/asc/js/Spells.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/ThingHeader.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/componentMap.txt",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-custom-taxonomies/dailies-custom-taxonomies.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/userbox.php",
-		"/F/XAMP/htdocs/alecsimone/wp-content/themes/asc/js/charSheetHead.jsx",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/webpack.config.js",
-		"/F/XAMP/htdocs/alecsimone/wp-content/themes/asc/webpack.config.js",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/package.json",
-		"/F/XAMP/htdocs/alecsimone/wp-content/themes/asc/package.json",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/searchform.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-menu-bar/dailies-menu-bar.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-menu-bar/dailies-menu-bar.js",
+		"/F/XAMP/htdocs/dailieslocal/index.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/global.scss",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/secret-garden.scss",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Scripts/test.js",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/WeedMeta.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Functions/userProfileModifications.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/index.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/page-templates/submit-template.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Functions/votenumberOperations.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/schedule.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/vars.scss",
+		"/F/XAMP/htdocs/dailieslocal/.htaccess",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/main.scss",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/dailieschat.scss",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/css/global.css",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/page-templates/viewers-template.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/VoterInfoBox.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/UserRow.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/UserManagement.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Thing.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/SubmissionMeta.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/SubmissionSeedling.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/SecretGarden.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/ContentBox.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/LivePostsLoop.jsx",
+		"/C/Users/hitme_000/Desktop/htaccess",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/WeedBallot.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Entries/hopefuls-entry.js",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Scripts/hopefuls.js",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/SeedlingContent.jsx",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Entries/global-entry.js",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/all.scss",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Entries/secret-garden-entry.js",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Entries/schedule-entry.js",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Entries/main-entry.js",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/page-templates/hopefuls-template.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/functions.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/WeedComment.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/UserAddRep.jsx",
 		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Entries/live-entry.js",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Scripts/schedule.js",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/style.scss",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Bundles/global-bundle.js",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/style.css",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/footer.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies-rocket-child/functions.php",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/Entries/main-entry.js",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/Pieces/global.js",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/Pieces/main.js",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/webpack.config.js",
-		"/F/XAMP/htdocs/alecsimone/wp-content/themes/asc/js/app.js",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/bundles/main-bundle.js",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/package.json",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/Pieces/allSizeThings.scss",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/Pieces/global.scss",
-		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/Pieces/live.scss"
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Entries/secret-garden-entry.js",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/page-templates/leaderboard-template.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Garden.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Seedling.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/SeedlingMeta.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Functions/voting.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Scripts/weed.js",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Entries/weed-entry.js",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/LittleThing.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Votebox.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/UserTable.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Archive.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/page-templates/your-votes-template.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/ArchiveHeader.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Userbox.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/page-templates/contender-voteboard-template.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/page-templates/votenumber-template.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Single.jsx",
+		"/E/Dropbox/Rocket Dailies/Code/Backups/production-db-backup-180819.sql",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/LiveAdminControls.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-rep-and-voting/dailies-rep-and-voting.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-rep-and-voting/dailies-ajax-vote.js",
+		"/F/XAMP/htdocs/dailieslocal/wp-includes/wp-db.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Streamlist.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/page-templates/user-management-template.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/userbox.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/UserRoleDropdown.jsx",
+		"/F/XAMP/php/php.ini",
+		"/E/Dropbox/Rocket Dailies/Code/chunker.js",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Styles/live.scss",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/UserLinker.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Entries/user-management-entry.js",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Scripts/user-management.js",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/page-templates/secret-garden-template.php",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/GardenHeader.jsx",
+		"/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies2/Components/Tagbox.jsx"
 	],
 	"find":
 	{
-		"height": 50.0
+		"height": 55.0
 	},
 	"find_in_files":
 	{
-		"height": 142.0,
+		"height": 169.0,
 		"where_history":
 		[
+			"F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\plugins\\dailies-2,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Components,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Scripts,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\page-templates,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Functions,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\plugins\\dailies-people-and-things,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\plugins\\dailies-weeding,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\mu-plugins",
+			"F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\plugins\\dailies-2,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Components,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Scripts,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\page-templates,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Functions,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\plugins\\dailies-people-and-things,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\plugins\\dailies-weeding",
+			"F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\plugins\\dailies-2,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Components,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Scripts,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\page-templates,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Functions",
+			"",
+			"F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Functions,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Components,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\page-templates,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Scripts,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Styles,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\plugins\\dailies-people-and-things,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\mu-plugins,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\plugins\\dailies-weeding,-*.min.js,,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\plugins\\dailies-2",
+			"F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Functions,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Components,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\page-templates,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Scripts,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Styles,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\plugins\\dailies-people-and-things,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\mu-plugins,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\plugins\\dailies-weeding,-*.min.js,",
+			"F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Functions,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Components,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\page-templates,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Scripts,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Styles,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\plugins\\dailies-people-and-things,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\mu-plugins,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\plugins\\dailies-weeding",
+			"F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Functions,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Components,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\page-templates,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Scripts,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Styles,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\plugins\\dailies-people-and-things,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\mu-plugins",
+			"F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Functions,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Components,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\page-templates,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Scripts,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Styles",
+			"F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Functions,F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Components",
+			"F:\\XAMP\\htdocs\\dailieslocal\\wp-content\\themes\\Dailies2\\Functions",
+			"-*bundle.js,-*.js.map",
+			"-*bundle.js",
+			"-bundle.js",
+			""
 		]
 	},
 	"find_state":
@@ -476,141 +651,143 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"reactdom",
-			"india",
-			"vapour",
-			"propaganda",
-			"propa",
-			"liveAdminControls",
-			"return",
-			"littleThingBottom",
-			"isotope",
-			"starSourceLink",
-			"drop",
-			"dataDrop",
-			"garden",
-			"littleThing",
-			"seedling",
-			"black",
-			"votebox",
-			"gold",
-			"Thing",
-			"thing",
-			"little-thing",
-			"-time",
-			" edt",
-			"edt",
-			"get_post_meta",
-			"8em",
-			"state",
-			"time",
-			"schedule-entry-twit",
-			"schedule-entry",
-			"&euro;",
-			"&pound;",
-			"this.state.user",
-			"user",
-			"reptime",
-			"live",
-			"console",
-			"replace",
-			"thisTime",
-			"data-time",
-			"cutslug",
-			"nukehandler",
-			"embed",
-			"this",
-			"thisVODBase",
-			"data-vodbase",
-			"cut",
-			"$lighterblueTrans: hsla(210, 90%, 90%, 0.2);",
-			"seedling-title-input",
-			"input",
-			"content",
-			"seedlingData",
-			"dailies",
-			"rlu",
-			"{\n",
-			"userid",
-			"old_vo",
-			"userrep",
-			"inarray",
-			"inArray",
-			"homepageapp",
-			"box-shadow: 0 0 6px rgba(0,0,0,.25);",
-			"://",
-			"thing",
-			"translight3",
-			"updatesheet",
-			"client_ip",
-			"update_postmeta",
-			"h3 ",
-			"propbox",
-			"thing",
-			"userbox",
-			"propaganda",
-			"userbox",
-			"propaganda",
-			"h3",
+			"lastclipupdatetime",
+			"judge_slug",
+			"checkForRepIncrease",
+			"checkforrepincrease",
+			"changevotecount",
+			"addvotetohistory",
+			"handle_vote",
+			"clipTime",
+			"totalclips",
+			"convertTwitchTime",
+			"converttwitchtime",
+			"hockey",
+			"scriptsetup",
+			"generateWeedData",
+			"store_pulled_clips",
+			"judge_slug",
+			"judgeclip",
+			"judgeslug",
+			"getpicbyuser",
+			"getCommentsForSlug",
+			"hopefuls_cutter",
+			"ecc",
+			"\t\n",
+			"getuserdb",
+			"doing_wp_cron",
+			"rlpc",
+			"gussy",
+			"istwitch",
+			"street",
+			"texas",
+			"getPicByUser",
+			"checkifstring",
+			"getPersonInDB",
+			"getpersonvoteids",
+			"strtolower",
+			"admin",
+			"admincheck",
+			"turnGfycatURLIntoGfycode",
+			"false",
+			"function cliptypedetector",
+			"submitclip",
+			"submit",
+			"judgeclip",
+			"judge",
+			"suggest",
+			"deleteslugfrom",
+			"submitclip",
+			"show_admin",
+			"pulling",
+			"getHopefuls",
+			"gethopefuls",
+			"weedervic",
+			"function absorb_votes",
+			"absorb_votes",
+			"nukeslug",
+			"get_dupe_clips",
+			"getvalidrep",
+			"getvalid",
+			"keepSlug",
+			"play",
+			"keepbar",
+			"keepbox",
+			"keepbar",
+			"keepslug",
+			"istwitch",
+			"turnTwitterURLIntoTweetID",
+			"addpros",
+			"cliptypedetector",
+			"isyoutube",
+			"gussy",
+			"killajax",
+			"that clip",
+			"newseedling",
+			"mp4",
+			"giant",
+			"plant",
+			"keep",
+			"newseedlingurl",
+			"addslugtodb",
+			"age",
+			"converttwitchtimetotimestamp",
+			"cliptypedetector",
+			"submitclip",
+			"judgeclip",
+			"judge",
+			"unjudgedclipcounter",
+			"getvotersforslug",
+			"getelementbyid",
+			"query",
+			"queryhours",
+			"contender_url",
+			"fancy",
+			"ecc",
+			"nukeslug",
+			"judgeclip",
+			"sortedclips",
+			"firstslug",
+			"unjud",
 			"votecount",
-			"titlebox",
-			"daytitle",
-			".thing",
-			"votebar",
-			"attribution source",
-			"contentbox",
-			"propbox",
-			".thing",
-			"contentcontainer",
-			"little-thing",
-			"userbox",
-			"mind",
-			".thing",
-			"p.attribution",
-			"daytitle",
-			":before",
-			"contentcontainer",
-			":before",
-			"p.attribution",
-			"daytitle",
-			":before",
-			"thing",
-			";\n",
-			"daytitle",
-			":before",
-			".thing",
-			"h3",
-			".thing",
-			":before",
-			".storybox",
-			".tagbox",
-			".thing",
-			"h3",
-			".thing",
-			"titlebox",
-			"titlebox a",
-			"before",
-			"propbox",
-			"nukeandnext",
-			"hover",
-			"heightLocker",
-			"twitchRepla",
-			"votecount",
-			"score",
-			".score",
-			"onboard",
-			"channel-changer-button",
-			"little-thing",
-			"p.attribution a",
-			"propbox",
-			"spellslot"
+			"wejudged",
+			"sortclips",
+			"nukeslug",
+			"sortclips",
+			"nukebutton",
+			"nukeslug",
+			"sortclips",
+			"removeseenslugs",
+			"findalldupes",
+			"checkmoment",
+			"checkmomentfreshness",
+			"lds-",
+			"sortclips",
+			"nuked",
+			"nukeslug",
+			"getcomments",
+			"setstate",
+			"this.firstslug",
+			"increa",
+			"turnvodlinkintomomentobject",
+			"vodmoment",
+			"sortscore",
+			"vapou",
+			"madc",
+			"http:",
+			"default_pic",
+			"defaultpic",
+			"editpersonindb",
+			"resetadd"
 		],
 		"highlight": true,
 		"in_selection": false,
 		"preserve_case": false,
-		"regex": false,
+		"regex": true,
 		"replace_history":
 		[
+			"\\n",
+			"EST",
 			"",
 			"€",
 			"£"
@@ -629,179 +806,29 @@
 			[
 				{
 					"buffer": 0,
-					"file": "/F/XAMP/htdocs/dailieslocal/wp-content/themes/Dailies/schedule.php",
+					"file": "schedule.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8293,
+						"buffer_size": 15952,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3831,
-								3831
+								13503,
+								13503
 							]
 						],
 						"settings":
 						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Agila Monokai Extended (SL).tmTheme",
 							"syntax": "Packages/PHP/PHP.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2106.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "Styles/live.scss",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3506,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1273,
-								1273
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Agila Monokai Extended (SL).tmTheme",
-							"syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 2132.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "Components/LittleThing.jsx",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5766,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								259,
-								259
-							],
-							[
-								276,
-								276
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Agila Monokai Extended (SL).tmTheme",
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 5733.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "Components/Thing.jsx",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 6035,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5230,
-								5230
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Agila Monokai Extended (SL).tmTheme",
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "Components/ThingHeader.jsx",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 467,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								467,
-								467
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "Components/ChannelChanger.jsx",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 744,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								470,
-								470
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 13123.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
@@ -810,30 +837,88 @@
 			]
 		},
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
-					"buffer": 6,
-					"file": "Everything needs doing",
+					"buffer": 1,
+					"file": "webpack.config.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1194,
+						"buffer_size": 2029,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								351,
-								351
+								218,
+								218
 							]
 						],
 						"settings":
 						{
 							"color_scheme": "Packages/User/Color Highlighter/themes/Agila Monokai Extended (SL).tmTheme",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/JavaScriptNext - ES6 Syntax/JavaScriptNext.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/F/XAMP/htdocs/dailieslocal/wp-content/plugins/dailies-2/client-information.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2409,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								569,
+								569
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 970.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "Functions/scriptSetup.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6771,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								102,
+								102
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -841,47 +926,17 @@
 					},
 					"stack_index": 3,
 					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "Components/SeedlingEmbedBox.jsx",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 959,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								929,
-								929
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Agila Monokai Extended (SL).tmTheme",
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 644.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
 				}
 			]
 		}
 	],
 	"incremental_find":
 	{
-		"height": 46.0
+		"height": 52.0
 	},
 	"input":
 	{
-		"height": 51.0
+		"height": 114.0
 	},
 	"layout":
 	{
@@ -903,7 +958,7 @@
 		"cols":
 		[
 			0.0,
-			0.62728081887,
+			0.622403888643,
 			1.0
 		],
 		"rows":
@@ -925,7 +980,7 @@
 	"project": "Dailies2.sublime-project",
 	"replace":
 	{
-		"height": 96.0
+		"height": 100.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -955,7 +1010,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 0,
+	"selected_group": 1,
 	"settings":
 	{
 	},
@@ -963,7 +1018,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 313.0,
+	"side_bar_width": 297.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

@@ -1,0 +1,95 @@
+@import '../Styles/vars.scss';
+
+body.page-template-contender-voteboard-template {
+	text-align: right;
+}
+
+#Voteboard, #ContenderVoteboard {
+	background: url('https://dailies.gg/wp-content/uploads/2018/07/voteboard.jpg') center / cover;	
+	border-radius: 4px;
+}
+#contenderVoteboardApp {
+	display: flex;
+	justify-content: flex-end;
+	align-items: flex-end;
+	height: 800px;
+}
+
+#Voteboard {
+	display: flex;
+	flex-wrap: wrap;
+	width: 261px;
+	margin: auto;
+	padding: 10px 0;
+	border-radius: 4px;
+	color: $white;
+}
+
+#voteboardTop, #voteboardBot {
+	width: 100%;
+}
+.votetotal {
+	display: inline-flex;
+	align-items: center;
+	justify-content: space-around;
+	width: 100px;
+	padding: 10px;
+	border-bottom: 1px solid black;
+	&:first-of-type {
+		border-right: 1px solid black;
+	}
+}
+.votebadge {
+	width: 24px;
+	height: 24px;
+}
+.percentage {
+	width: 40%;
+}
+
+#voteboardBot {
+	display: flex;
+	justify-content: center;
+}
+.voterlist {
+	padding: 10px 0;
+	width: 120px;
+	overflow: hidden;
+	&:first-of-type {
+		border-right: 1px solid black;
+	}
+}
+.noRep {
+	text-decoration: line-through;
+}
+
+#ContenderVoteboard {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    padding: 6px;
+    text-align: center;
+}
+
+.voterBoxContainer {
+	color: $white;
+	border-right: 1px solid black;
+	display: inline-flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	&:last-of-type {
+		border-right: none;
+	}
+	& .VoterInfoBox {
+    	border-top: none;
+    	margin-top: 0;
+    	flex-wrap: wrap;
+    	justify-content: center;
+    	width: 46px;
+    	height: auto;
+    	padding: 3px;
+    }
+}
+.voterBoxHeader {
+	border-top: 1px solid black;
+	font-size: 30px;
+}

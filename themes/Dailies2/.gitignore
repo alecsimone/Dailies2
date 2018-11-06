@@ -1,0 +1,5 @@
+Bundles/
+node_modules/
+Scripts/privateData.jsx
+*.sublime-project
+*.sublime-workspace

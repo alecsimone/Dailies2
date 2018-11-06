@@ -12,7 +12,7 @@ export default class Single extends React.Component{
 		};
 	}
 	render() {
-		var parsedThingData = JSON.parse(this.state.postData);
+		var parsedThingData = this.state.postData;
 		var voteData = this.state.voteData[parsedThingData.id];
 		return(
 			<Thing thingData={parsedThingData} userData={this.state.user} voteData={voteData} key={parsedThingData.id}/>
